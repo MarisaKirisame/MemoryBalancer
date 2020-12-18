@@ -1,0 +1,1 @@
+/usr/bin/c++  -std=c++17 -pthread -DV8_COMPRESS_POINTERS CMakeFiles/MemoryBalancer.dir/main.cpp.o -o MemoryBalancer   -L/home/marisa/Work/MemoryBalancer/../v8/out.gn/x64.release.sample/obj  -Wl,-rpath,/home/marisa/Work/MemoryBalancer/../v8/out.gn/x64.release.sample/obj -lv8_monolith 
