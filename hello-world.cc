@@ -12,8 +12,8 @@
 #include <boost/accumulators/statistics/variance.hpp>
 #include <boost/math/statistics/anderson_darling.hpp>
 #include <nlohmann/json.hpp>
-#include "include/libplatform/libplatform.h"
-#include "include/v8.h"
+#include <libplatform/libplatform.h>
+#include <v8.h>
 #include <chrono>
 #include <random>
 #include <future>
