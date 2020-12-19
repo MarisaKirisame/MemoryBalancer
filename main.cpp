@@ -336,6 +336,7 @@ struct SimulatedRuntimeNode : RuntimeNode {
     --work_;
     current_memory_ += garbage_rate_;
     if (work_ == 0) {
+      current_memory_ = 0;
       done();
     }
   }
@@ -352,7 +353,7 @@ enum class RuntimeStatus {
 
 double median(const std::vector<double>& vec) {
   assert(vec.size() > 0);
-  return (vec[vec.size() / 2] + vec[(vec.size() + 1) / 2]) / 2;
+  return (vec[(vec.size() - 1) / 2] + vec[vec.size() / 2]) / 2;
 }
 // The controller has two stage: the memory rich mode and the memory hungry mode.
 // In the memory rich mode, all memory allocation is permitted, and the Controller does nothing.
@@ -417,6 +418,7 @@ struct BalanceControllerNode : ControllerNode {
       if (status == RuntimeStatus::Stay) {
         return false;
       } else if (status == RuntimeStatus::ShouldFree) {
+        std::cout << "shrinking" << std::endl;
         used_memory -= r->max_memory();
         r->shrink_max_memory();
         used_memory += r->max_memory();
@@ -443,7 +445,9 @@ struct BalanceControllerNode : ControllerNode {
       RuntimeStatus status = judge(current_score, runtime->memory_score());
       if (status == RuntimeStatus::ShouldFree) {
         std::cout << "memory shrinked" << std::endl;
+        used_memory -= runtime->max_memory();
         runtime->shrink_max_memory();
+        used_memory += runtime->max_memory();
       }
     }
   }
@@ -508,17 +512,23 @@ void parallel_experiment() {
   std::cout << "total_time = " << total_time << std::endl;
 }
 
+// todo: noise (have number fluctuate)
+// todo: regime change (a program is a sequence of program)
+// see how close stuff get to optimal split
 void run_simulated_experiment(const Controller& c) {
-  c->set_max_memory(40);
+  c->set_max_memory(6);
   std::vector<std::shared_ptr<SimulatedRuntimeNode>> runtimes;
-  runtimes.push_back(std::make_shared<SimulatedRuntimeNode>(/*working_memory_=*/5, /*garbage_rate_=*/1, /*gc_time_=*/2, /*work_=*/20));
-  runtimes.push_back(std::make_shared<SimulatedRuntimeNode>(/*working_memory_=*/10, /*garbage_rate_=*/1, /*gc_time_=*/2, /*work_=*/20));
+  runtimes.push_back(std::make_shared<SimulatedRuntimeNode>(/*working_memory_=*/0, /*garbage_rate_=*/1, /*gc_time_=*/5, /*work_=*/20));
+  runtimes.push_back(std::make_shared<SimulatedRuntimeNode>(/*working_memory_=*/0, /*garbage_rate_=*/1, /*gc_time_=*/2, /*work_=*/20));
   for (const auto& r: runtimes) {
     c->add_runtime(r);
   }
   size_t i = 0;
   for (bool has_work=true; has_work; ++i) {
     has_work=false;
+    for (const auto&r : runtimes) {
+      std::cout << r->current_memory_ << std::endl;
+    }
     for (const auto&r : runtimes) {
       if (!r->is_done()) {
         r->tick();
