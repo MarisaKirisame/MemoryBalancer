@@ -1,3 +1,12 @@
+#include "util.h"
+#include <boost/accumulators/accumulators.hpp>
+#include <boost/accumulators/statistics/stats.hpp>
+#include <boost/accumulators/statistics/mean.hpp>
+#include <boost/accumulators/statistics/variance.hpp>
+#include <boost/math/statistics/anderson_darling.hpp>
+#include <random>
+#include <fstream>
+
 namespace tag = boost::accumulators::tag;
 using boost::accumulators::accumulator_set;
 using boost::accumulators::stats;
@@ -41,12 +50,14 @@ v8::Local<v8::String> fromFile(v8::Isolate* isolate, const std::string& path) {
   return v8::String::NewFromUtf8(isolate, str.data()).ToLocalChecked();
 }
 
-constexpr size_t min_heap_size = 2359296;
-constexpr size_t max_heap_size = 4e9; // Beyond 4gb ConfigureDefaults start acting funny.
-
 size_t random_heap_size() {
   static std::random_device rd;
   static std::mt19937 gen(rd());
   static std::uniform_real_distribution<> dist(log(min_heap_size), log(max_heap_size));
   return exp(dist(rd));
+}
+
+double median(const std::vector<double>& vec) {
+  assert(vec.size() > 0);
+  return (vec[(vec.size() - 1) / 2] + vec[vec.size() / 2]) / 2;
 }
