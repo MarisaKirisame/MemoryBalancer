@@ -19,51 +19,15 @@
 #include <future>
 #include <thread>
 #include <set>
+#include "util.h"
+#include "controller.h"
+#include "runtime.h"
 
 using namespace nlohmann;
-using boost::accumulators::accumulator_set;
-namespace tag = boost::accumulators::tag;
-using boost::accumulators::stats;
 using time_point = std::chrono::steady_clock::time_point;
 using std::chrono::steady_clock;
 using std::chrono::duration_cast;
 using milliseconds = std::chrono::milliseconds;
-double mean(const std::vector<double>& v) {
-  accumulator_set<double, stats<tag::variance>> acc;
-  for (double d: v) {
-    acc(d);
-  }
-  return boost::accumulators::extract::mean(acc);
-}
-
-double sd(const std::vector<double>& v) {
-  accumulator_set<double, stats<tag::variance>> acc;
-  for (double d: v) {
-    acc(d);
-  }
-  return sqrt(boost::accumulators::extract::variance(acc));
-}
-
-double normality(const std::vector<double>& v) {
-  return boost::math::statistics::anderson_darling_normality_statistic(v);
-}
-
-v8::Local<v8::String> fromFile(v8::Isolate* isolate, const std::string& path) {
-  std::ifstream t(path);
-  std::string str((std::istreambuf_iterator<char>(t)),
-                  std::istreambuf_iterator<char>());
-  return v8::String::NewFromUtf8(isolate, str.data()).ToLocalChecked();
-}
-
-constexpr size_t min_heap_size = 2359296;
-constexpr size_t max_heap_size = 4e9; // Beyond 4gb ConfigureDefaults start acting funny.
-
-size_t random_heap_size() {
-  static std::random_device rd;
-  static std::mt19937 gen(rd());
-  static std::uniform_real_distribution<> dist(log(min_heap_size), log(max_heap_size));
-  return exp(dist(rd));
-}
 
 struct Input {
   size_t heap_size;
@@ -171,18 +135,6 @@ Output run(const Input& i, std::mutex* m) {
   return o;
 }
 
-std::string get_time() {
-  std::time_t t = std::time(nullptr);
-  std::tm* tm = std::localtime(&t);
-  return
-    std::to_string(1900+tm->tm_year) + "-" +
-    std::to_string(1+tm->tm_mon) + "-" +
-    std::to_string(tm->tm_mday) + "-" +
-    std::to_string(tm->tm_hour) + "-" +
-    std::to_string(tm->tm_min) + "-" +
-    std::to_string(tm->tm_sec);
-}
-
 void log_json(const json& j) {
   std::ofstream f("logs/" + get_time());
   f << j;
@@ -205,102 +157,15 @@ void read_write() {
   log_json(j);
 }
 
-double memory_score(size_t working_memory, size_t max_memory, double garbage_rate, size_t gc_time) {
-  assert(garbage_rate != 0);
-  assert(gc_time != 0);
-  size_t extra_memory = max_memory - working_memory;
-  double ret = extra_memory / garbage_rate * extra_memory / gc_time;
-  return ret;
-}
-
-// In order to avoid cycle, Runtime has strong pointer to controller and Controller has weak pointer to runtime.
-struct ControllerNode;
-struct RuntimeNode : std::enable_shared_from_this<RuntimeNode> {
-  friend ControllerNode;
-protected:
-  std::shared_ptr<ControllerNode> controller;
-  bool done_ = false;
-public:
-  void done();
-  bool is_done() {
-    return done_;
-  }
-  virtual ~RuntimeNode() {
-    done();
-  }
-  virtual size_t working_memory() = 0;
-  virtual size_t max_memory() = 0;
-  virtual double garbage_rate() = 0;
-  virtual size_t gc_time() = 0; // we assume each gc clear all garbage: for generational gc only full gc 'count'
-  virtual void allow_more_memory(size_t extra) = 0;
-  virtual void shrink_max_memory() = 0;
-  double memory_score() {
-    return ::memory_score(working_memory(), max_memory(), garbage_rate(), gc_time());
-  }
-};
-using Runtime = std::shared_ptr<RuntimeNode>;
-
-struct ControllerNode : std::enable_shared_from_this<ControllerNode> {
-protected:
-  // this look like weak_ptr, but the content should always be here:
-  // whenever a runtimenode gone out of life it will notify the controller.
-  std::set<std::weak_ptr<RuntimeNode>, std::owner_less<std::weak_ptr<RuntimeNode>>> runtimes_;
-  size_t max_memory_ = 0;
-public:
-  virtual ~ControllerNode() = default;
-  virtual bool request(const Runtime& r, size_t extra) = 0; // todo: use shared_from_this?
-  virtual void optimize() = 0;
-  // the name of the controller, for debugging and reporting purpose.
-  virtual std::string name() = 0;
-  void add_runtime(const Runtime& r) {
-    assert(runtimes_.count(r) == 0);
-    assert(!r->controller);
-    r->controller = shared_from_this();
-    runtimes_.insert(r);
-    add_runtime_aux(r);
-  }
-  void remove_runtime(const Runtime& r) {
-    assert(runtimes_.count(r) == 1);
-    runtimes_.erase(r);
-    remove_runtime_aux(r);
-  }
-  std::vector<Runtime> runtimes() {
-    std::vector<Runtime> ret;
-    for (const auto& r: runtimes_) {
-      auto sp = r.lock();
-      assert(sp);
-      ret.push_back(sp);
-    }
-    return ret;
-  }
-  void set_max_memory(size_t max_memory_) {
-    this->max_memory_ = max_memory_;
-    set_max_memory_aux(max_memory_);
-  }
-  size_t max_memory() {
-    return max_memory_;
-  }
-  virtual void set_max_memory_aux(size_t max_memory_) { }
-  virtual void add_runtime_aux(const Runtime& r) { }
-  virtual void remove_runtime_aux(const Runtime& r) { }
-};
-
-void RuntimeNode::done() {
-  if (!done_) {
-    done_ = true;
-    if (controller) {
-      controller->remove_runtime(shared_from_this());
-    }
-  }
-}
-using Controller = std::shared_ptr<ControllerNode>;
-
 struct SimulatedRuntimeNode : RuntimeNode {
   size_t working_memory_;
   size_t working_memory() override {
     return working_memory_;
   }
   size_t current_memory_;
+  size_t current_memory() override {
+    return current_memory_;
+  }
   size_t max_memory_ = 0;
   size_t max_memory() override {
     return max_memory_;
@@ -346,7 +211,27 @@ struct SimulatedRuntimeNode : RuntimeNode {
     assert(work_ != 0);
   }
 };
-
+void ControllerNode::remove_runtime(const Runtime& r) {
+  assert(runtimes_.count(r) == 1);
+  runtimes_.erase(r);
+  remove_runtime_aux(r);
+}
+void ControllerNode::add_runtime(const Runtime& r) {
+  assert(runtimes_.count(r) == 0);
+  assert(!r->controller);
+  r->controller = shared_from_this();
+  runtimes_.insert(r);
+  add_runtime_aux(r);
+}
+std::vector<Runtime> ControllerNode::runtimes() {
+    std::vector<Runtime> ret;
+    for (const auto& r: runtimes_) {
+      auto sp = r.lock();
+      assert(sp);
+      ret.push_back(sp);
+    }
+    return ret;
+  }
 enum class RuntimeStatus {
   CanAllocate, Stay, ShouldFree
 };
@@ -362,7 +247,10 @@ double median(const std::vector<double>& vec) {
 // Maybe we should add some way to get back to memory-rich mode?
 struct BalanceControllerNode : ControllerNode {
   size_t used_memory = 0;
+  // a positive number. allow deviation of this much in balancing.
   double tolerance = 0.2;
+  // a number between [0, 1]. only when that proportion of memory is used, go into pressure mode, and restrict allocation
+  double pressure_threshold = 0.9;
   RuntimeStatus judge(double current_balance, double runtime_balance) {
     std::cout << "current_balance: " << current_balance << " runtime_balance: " << runtime_balance << std::endl;
     if (current_balance * (1 + tolerance) < runtime_balance) {
@@ -391,7 +279,6 @@ struct BalanceControllerNode : ControllerNode {
     }
     return aggregate_score(score);
   }
-  bool memory_rich = true;
   void allow_request(const Runtime& r, size_t extra) {
     used_memory += extra;
     r->allow_more_memory(extra);
@@ -404,38 +291,40 @@ struct BalanceControllerNode : ControllerNode {
       return false;
     }
   }
-  bool request(const Runtime& r, size_t extra) override {
-    if (memory_rich) {
+  bool request_balance(const Runtime& r, size_t extra) {
+    double current_score = score();
+    RuntimeStatus status = judge(current_score, r->memory_score());
+    if (status == RuntimeStatus::Stay) {
+      return false;
+    } else if (status == RuntimeStatus::ShouldFree) {
+      std::cout << "shrinking" << std::endl;
+      used_memory -= r->max_memory();
+      r->shrink_max_memory();
+      used_memory += r->max_memory();
+      return false;
+    } else {
+      assert(status == RuntimeStatus::CanAllocate);
       if (process_request(r, extra)) {
         return true;
       } else {
-        memory_rich = false;
-        return request(r, extra);
-      }
-    } else {
-      double current_score = score();
-      RuntimeStatus status = judge(current_score, r->memory_score());
-      if (status == RuntimeStatus::Stay) {
-        return false;
-      } else if (status == RuntimeStatus::ShouldFree) {
-        std::cout << "shrinking" << std::endl;
-        used_memory -= r->max_memory();
-        r->shrink_max_memory();
-        used_memory += r->max_memory();
-        return false;
-      } else {
-        assert(status == RuntimeStatus::CanAllocate);
+        optimize();
         if (process_request(r, extra)) {
           return true;
         } else {
-          optimize();
-          if (process_request(r, extra)) {
-            return true;
-          } else {
-            return false;
-          }
+          return false;
         }
       }
+    }
+  }
+  bool request(const Runtime& r, size_t extra) override {
+    if (used_memory < pressure_threshold * max_memory_) {
+      if (process_request(r, extra)) {
+        return true;
+      } else {
+        return request_balance(r, extra);
+      }
+    } else {
+      return request_balance(r, extra);
     }
   }
   void optimize() override {
@@ -453,6 +342,25 @@ struct BalanceControllerNode : ControllerNode {
   }
   std::string name() override {
     return "BalanceController";
+  }
+};
+
+// a first-come first-serve strategy.
+// useful as a baseline in simulation.
+struct FirstComeFirstServeControllerNode : ControllerNode {
+  size_t used_memory = 0;
+  void optimize() override { }
+  bool request(const Runtime& r, size_t extra) override {
+    if (used_memory + extra <= max_memory_) {
+      r->allow_more_memory(extra);
+     used_memory += extra;
+      return true;
+    } else {
+      return false;
+    }
+  }
+  std::string name() {
+    return "FirstComeFirstServeController";
   }
 };
 
@@ -560,7 +468,8 @@ struct FixedControllerNode : ControllerNode {
 };
 
 void simulated_experiment() {
-  run_simulated_experiment(std::make_shared<BalanceControllerNode>());
+  //run_simulated_experiment(std::make_shared<BalanceControllerNode>());
+  run_simulated_experiment(std::make_shared<FirstComeFirstServeControllerNode>());
   //run_simulated_experiment(std::make_shared<FixedControllerNode>());
 }
 
