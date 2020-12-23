@@ -3,9 +3,9 @@
 #include <boost/accumulators/statistics/stats.hpp>
 #include <boost/accumulators/statistics/mean.hpp>
 #include <boost/accumulators/statistics/variance.hpp>
-#include <boost/math/statistics/anderson_darling.hpp>
 #include <random>
 #include <fstream>
+#include <ctime>
 
 namespace tag = boost::accumulators::tag;
 using boost::accumulators::accumulator_set;
@@ -37,10 +37,6 @@ double sd(const std::vector<double>& v) {
     acc(d);
   }
   return sqrt(boost::accumulators::extract::variance(acc));
-}
-
-double normality(const std::vector<double>& v) {
-  return boost::math::statistics::anderson_darling_normality_statistic(v);
 }
 
 v8::Local<v8::String> fromFile(v8::Isolate* isolate, const std::string& path) {
