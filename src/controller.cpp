@@ -4,6 +4,16 @@
 #include <vector>
 #include <algorithm>
 
+bool ControllerNode::request(const Runtime& r, size_t request) {
+  if (request_impl(r, request)) {
+    used_memory_ += request;
+    r->allow_more_memory(request);
+    return true;
+  } else {
+    return false;
+  }
+}
+
 void ControllerNode::remove_runtime(const Runtime& r) {
   assert(runtimes_.count(r) == 1);
   runtimes_.erase(r);
@@ -39,27 +49,17 @@ bool BalanceControllerNode::request_balance(const Runtime& r, size_t extra) {
     return false;
   } else {
     assert(status == RuntimeStatus::CanAllocate);
-    if (process_request(r, extra)) {
+    if (enough_memory(extra)) {
       return true;
     } else {
       optimize();
-      if (process_request(r, extra)) {
-        return true;
-      } else {
-        return false;
-      }
+      return enough_memory(extra);
     }
   }
 }
 
-bool FirstComeFirstServeControllerNode::request(const Runtime& r, size_t extra) {
-  if (used_memory + extra <= max_memory_) {
-    r->allow_more_memory(extra);
-    used_memory += extra;
-    return true;
-  } else {
-    return false;
-  }
+bool FirstComeFirstServeControllerNode::request_impl(const Runtime& r, size_t extra) {
+  return used_memory_ + extra <= max_memory_;
 }
 
 void BalanceControllerNode::optimize() {
@@ -88,9 +88,4 @@ double BalanceControllerNode::score() {
     return 0; // score doesnt matter without runtime anymore.
   }
   return aggregate_score(score);
-}
-
-void BalanceControllerNode::allow_request(const Runtime& r, size_t extra) {
-  used_memory += extra;
-  r->allow_more_memory(extra);
 }

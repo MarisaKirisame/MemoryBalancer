@@ -19,6 +19,9 @@ void RuntimeNode::done() {
 }
 
 void SimulatedRuntimeNode::shrink_max_memory() {
+  if (!in_gc) {
+    gc();
+  }
   shrink_memory_pending = true;
 }
 
@@ -29,11 +32,11 @@ void SimulatedRuntimeNode::tick() {
     ++time_in_gc;
     if (time_in_gc == gc_time_) {
       in_gc = false;
-      current_memory_ = working_memory_;
+      current_memory_ = std::min(current_memory_, max_working_memory_);
       if (shrink_memory_pending) {
         shrink_memory_pending = false;
         size_t old_max_memory = max_memory_;
-        max_memory_ = std::min(working_memory_, max_memory_);
+        max_memory_ = current_memory_;
         controller->free_max_memory(old_max_memory - max_memory_);
       }
     }
@@ -42,8 +45,7 @@ void SimulatedRuntimeNode::tick() {
       assert (! need_gc());
       mutator_tick();
     } else {
-      in_gc = true;
-      time_in_gc = 0;
+      gc();
       tick();
     }
   } else {

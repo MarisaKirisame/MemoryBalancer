@@ -199,9 +199,9 @@ void run_simulated_experiment(const Controller& c) {
   SimulatedExperimentResult ret;
   c->set_max_memory(20);
   std::vector<std::shared_ptr<SimulatedRuntimeNode>> runtimes;
-  runtimes.push_back(std::make_shared<SimulatedRuntimeNode>(/*working_memory_=*/0, /*garbage_rate_=*/1, /*gc_time_=*/5, /*work_=*/30));
-  runtimes.push_back(std::make_shared<SimulatedRuntimeNode>(/*working_memory_=*/0, /*garbage_rate_=*/1, /*gc_time_=*/3, /*work_=*/30));
-  runtimes.push_back(std::make_shared<SimulatedRuntimeNode>(/*working_memory_=*/0, /*garbage_rate_=*/1, /*gc_time_=*/2, /*work_=*/30));
+  runtimes.push_back(std::make_shared<SimulatedRuntimeNode>(/*max_working_memory_=*/0, /*garbage_rate_=*/1, /*gc_time_=*/5, /*work_=*/30));
+  runtimes.push_back(std::make_shared<SimulatedRuntimeNode>(/*max_working_memory_=*/0, /*garbage_rate_=*/1, /*gc_time_=*/3, /*work_=*/30));
+  runtimes.push_back(std::make_shared<SimulatedRuntimeNode>(/*max_working_memory_=*/0, /*garbage_rate_=*/1, /*gc_time_=*/2, /*work_=*/30));
   for (const auto& r: runtimes) {
     c->add_runtime(r);
   }

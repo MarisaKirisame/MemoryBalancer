@@ -11,8 +11,8 @@ double memory_score(size_t working_memory, size_t max_memory, double garbage_rat
 struct ControllerNode;
 struct RuntimeNode : std::enable_shared_from_this<RuntimeNode> {
   friend ControllerNode;
-protected:
   std::map<std::string, std::any> metadata;
+protected:
   std::shared_ptr<ControllerNode> controller;
   bool done_ = false;
 public:
@@ -37,11 +37,11 @@ public:
 using Runtime = std::shared_ptr<RuntimeNode>;
 
 struct SimulatedRuntimeNode : RuntimeNode {
-  size_t working_memory_;
+  size_t max_working_memory_;
   size_t working_memory() override {
-    return working_memory_;
+    return std::min(current_memory_, max_working_memory_);
   }
-  size_t current_memory_;
+  size_t current_memory_ = 0;
   size_t current_memory() override {
     return current_memory_;
   }
@@ -74,6 +74,10 @@ struct SimulatedRuntimeNode : RuntimeNode {
     }
     return 0;
   }
+  void gc() {
+    in_gc = true;
+    time_in_gc = 0;
+  }
   void mutator_tick() {
     --work_;
     current_memory_ += garbage_rate_;
@@ -83,8 +87,8 @@ struct SimulatedRuntimeNode : RuntimeNode {
     }
   }
   void tick();
-  SimulatedRuntimeNode(size_t working_memory_, size_t garbage_rate_, size_t gc_time_, size_t work_) :
-    working_memory_(working_memory_), current_memory_(working_memory_), garbage_rate_(garbage_rate_), gc_time_(gc_time_), work_(work_) {
+  SimulatedRuntimeNode(size_t max_working_memory_, size_t garbage_rate_, size_t gc_time_, size_t work_) :
+    max_working_memory_(max_working_memory_), garbage_rate_(garbage_rate_), gc_time_(gc_time_), work_(work_) {
     assert(work_ != 0);
   }
 };
