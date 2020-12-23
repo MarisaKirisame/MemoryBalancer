@@ -1,8 +1,8 @@
-#include "controller.h"
-#include "runtime.h"
+#include "controller.hpp"
+#include "runtime.hpp"
+#include "util.hpp"
 #include <vector>
 #include <algorithm>
-#include "util.h"
 
 void ControllerNode::remove_runtime(const Runtime& r) {
   assert(runtimes_.count(r) == 1);
@@ -35,9 +35,7 @@ bool BalanceControllerNode::request_balance(const Runtime& r, size_t extra) {
     return false;
   } else if (status == RuntimeStatus::ShouldFree) {
     std::cout << "shrinking" << std::endl;
-    used_memory -= r->max_memory();
     r->shrink_max_memory();
-    used_memory += r->max_memory();
     return false;
   } else {
     assert(status == RuntimeStatus::CanAllocate);
@@ -71,9 +69,7 @@ void BalanceControllerNode::optimize() {
     RuntimeStatus status = judge(current_score, runtime->memory_score());
     if (status == RuntimeStatus::ShouldFree) {
       std::cout << "memory shrinked" << std::endl;
-      used_memory -= runtime->max_memory();
       runtime->shrink_max_memory();
-      used_memory += runtime->max_memory();
     }
   }
 }

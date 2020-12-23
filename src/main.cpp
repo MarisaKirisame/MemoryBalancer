@@ -2,6 +2,10 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+#include "util.hpp"
+#include "controller.hpp"
+#include "runtime.hpp"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -12,9 +16,6 @@
 #include <thread>
 #include <set>
 #include <unistd.h>
-#include "util.h"
-#include "controller.h"
-#include "runtime.h"
 
 using namespace nlohmann;
 using time_point = std::chrono::steady_clock::time_point;
@@ -150,29 +151,6 @@ void read_write() {
   log_json(j);
 }
 
-
-void SimulatedRuntimeNode::tick() {
-  assert (!done_);
-  if (in_gc) {
-    ++time_in_gc;
-    if (time_in_gc == gc_time_) {
-      in_gc = false;
-      current_memory_ = working_memory_;
-    }
-  } else if (need_gc()) {
-    if (controller->request(shared_from_this(), needed_memory())) {
-      assert (! need_gc());
-      mutator_tick();
-    } else {
-      in_gc = true;
-      time_in_gc = 0;
-      tick();
-    }
-  } else {
-    mutator_tick();
-  }
-}
-
 void parallel_experiment() {
   std::mutex m;
   m.lock();
@@ -219,10 +197,11 @@ using SimulatedExperimentResult = std::vector<std::vector<RuntimeStat>>;
 // see how close stuff get to optimal split
 void run_simulated_experiment(const Controller& c) {
   SimulatedExperimentResult ret;
-  c->set_max_memory(6);
+  c->set_max_memory(20);
   std::vector<std::shared_ptr<SimulatedRuntimeNode>> runtimes;
-  runtimes.push_back(std::make_shared<SimulatedRuntimeNode>(/*working_memory_=*/0, /*garbage_rate_=*/1, /*gc_time_=*/5, /*work_=*/20));
-  runtimes.push_back(std::make_shared<SimulatedRuntimeNode>(/*working_memory_=*/0, /*garbage_rate_=*/1, /*gc_time_=*/2, /*work_=*/20));
+  runtimes.push_back(std::make_shared<SimulatedRuntimeNode>(/*working_memory_=*/0, /*garbage_rate_=*/1, /*gc_time_=*/5, /*work_=*/30));
+  runtimes.push_back(std::make_shared<SimulatedRuntimeNode>(/*working_memory_=*/0, /*garbage_rate_=*/1, /*gc_time_=*/3, /*work_=*/30));
+  runtimes.push_back(std::make_shared<SimulatedRuntimeNode>(/*working_memory_=*/0, /*garbage_rate_=*/1, /*gc_time_=*/2, /*work_=*/30));
   for (const auto& r: runtimes) {
     c->add_runtime(r);
   }
@@ -231,6 +210,7 @@ void run_simulated_experiment(const Controller& c) {
     std::vector<RuntimeStat> slice;
     has_work=false;
     for (const auto&r : runtimes) {
+      std::cout << r->max_memory() << " " << r->current_memory() << std::endl;
       slice.push_back({/*max_memory=*/r->max_memory(), /*current_memory=*/r->current_memory()});
     }
     ret.push_back(slice);
@@ -245,8 +225,8 @@ void run_simulated_experiment(const Controller& c) {
 }
 
 void simulated_experiment() {
-  //run_simulated_experiment(std::make_shared<BalanceControllerNode>());
-  run_simulated_experiment(std::make_shared<FirstComeFirstServeControllerNode>());
+  run_simulated_experiment(std::make_shared<BalanceControllerNode>());
+  //run_simulated_experiment(std::make_shared<FirstComeFirstServeControllerNode>());
   //run_simulated_experiment(std::make_shared<FixedControllerNode>());
 }
 

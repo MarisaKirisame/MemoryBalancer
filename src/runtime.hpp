@@ -2,6 +2,8 @@
 #include <cstddef>
 #include <memory>
 #include <cassert>
+#include <map>
+#include <any>
 
 double memory_score(size_t working_memory, size_t max_memory, double garbage_rate, size_t gc_time);
 
@@ -10,6 +12,7 @@ struct ControllerNode;
 struct RuntimeNode : std::enable_shared_from_this<RuntimeNode> {
   friend ControllerNode;
 protected:
+  std::map<std::string, std::any> metadata;
   std::shared_ptr<ControllerNode> controller;
   bool done_ = false;
 public:
@@ -58,11 +61,9 @@ struct SimulatedRuntimeNode : RuntimeNode {
   void allow_more_memory(size_t extra) override {
     max_memory_ += extra;
   }
-  void shrink_max_memory() override {
-    // need to do a gc to shrink memory.
-    max_memory_ = std::min(working_memory_, max_memory_);
-  }
+  void shrink_max_memory() override;
   bool in_gc = false;
+  bool shrink_memory_pending = false;
   size_t time_in_gc = 0;
   bool need_gc() {
     return current_memory_ + garbage_rate_ > max_memory_;

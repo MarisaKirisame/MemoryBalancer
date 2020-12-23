@@ -1,5 +1,6 @@
-#include "runtime.h"
-#include "controller.h"
+#include "runtime.hpp"
+#include "controller.hpp"
+
 double memory_score(size_t working_memory, size_t max_memory, double garbage_rate, size_t gc_time) {
   assert(garbage_rate != 0);
   assert(gc_time != 0);
@@ -14,5 +15,38 @@ void RuntimeNode::done() {
     if (controller) {
       controller->remove_runtime(shared_from_this());
     }
+  }
+}
+
+void SimulatedRuntimeNode::shrink_max_memory() {
+  shrink_memory_pending = true;
+}
+
+void SimulatedRuntimeNode::tick() {
+  assert(current_memory_ <= max_memory_);
+  assert(!done_);
+  if (in_gc) {
+    ++time_in_gc;
+    if (time_in_gc == gc_time_) {
+      in_gc = false;
+      current_memory_ = working_memory_;
+      if (shrink_memory_pending) {
+        shrink_memory_pending = false;
+        size_t old_max_memory = max_memory_;
+        max_memory_ = std::min(working_memory_, max_memory_);
+        controller->free_max_memory(old_max_memory - max_memory_);
+      }
+    }
+  } else if (need_gc()) {
+    if (controller->request(shared_from_this(), needed_memory())) {
+      assert (! need_gc());
+      mutator_tick();
+    } else {
+      in_gc = true;
+      time_in_gc = 0;
+      tick();
+    }
+  } else {
+    mutator_tick();
   }
 }

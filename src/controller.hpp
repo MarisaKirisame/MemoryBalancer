@@ -29,6 +29,7 @@ public:
   size_t max_memory() {
     return max_memory_;
   }
+  virtual void free_max_memory(size_t memory_freed) { }
   virtual void set_max_memory_aux(size_t max_memory_) { }
   virtual void add_runtime_aux(const Runtime& r) { }
   virtual void remove_runtime_aux(const Runtime& r) { }
@@ -58,6 +59,9 @@ struct BalanceControllerNode : ControllerNode {
     } else {
       return RuntimeStatus::Stay;
     }
+  }
+  void free_max_memory(size_t memory_freed) override {
+    used_memory -= memory_freed;
   }
   // Score is sorted in ascending order.
   // We are using median for now.
