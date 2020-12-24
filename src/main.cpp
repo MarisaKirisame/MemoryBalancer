@@ -199,9 +199,9 @@ void run_simulated_experiment(const Controller& c) {
   SimulatedExperimentResult ret;
   c->set_max_memory(20);
   std::vector<std::shared_ptr<SimulatedRuntimeNode>> runtimes;
-  runtimes.push_back(std::make_shared<SimulatedRuntimeNode>(/*max_working_memory_=*/0, /*garbage_rate_=*/1, /*gc_time_=*/5, /*work_=*/30));
-  runtimes.push_back(std::make_shared<SimulatedRuntimeNode>(/*max_working_memory_=*/0, /*garbage_rate_=*/1, /*gc_time_=*/3, /*work_=*/30));
-  runtimes.push_back(std::make_shared<SimulatedRuntimeNode>(/*max_working_memory_=*/0, /*garbage_rate_=*/1, /*gc_time_=*/2, /*work_=*/30));
+  runtimes.push_back(std::make_shared<SimulatedRuntimeNode>(/*max_working_memory_=*/0, /*garbage_rate_=*/1, /*gc_time_=*/5, /*work_=*/100));
+  runtimes.push_back(std::make_shared<SimulatedRuntimeNode>(/*max_working_memory_=*/0, /*garbage_rate_=*/1, /*gc_time_=*/3, /*work_=*/100));
+  runtimes.push_back(std::make_shared<SimulatedRuntimeNode>(/*max_working_memory_=*/0, /*garbage_rate_=*/1, /*gc_time_=*/2, /*work_=*/100));
   for (const auto& r: runtimes) {
     c->add_runtime(r);
   }
@@ -221,12 +221,13 @@ void run_simulated_experiment(const Controller& c) {
       }
     }
   }
+  std::cout << "time_taken: " << i << std::endl;
   log_json(ret);
 }
 
 void simulated_experiment() {
-  run_simulated_experiment(std::make_shared<BalanceControllerNode>());
-  //run_simulated_experiment(std::make_shared<FirstComeFirstServeControllerNode>());
+  //run_simulated_experiment(std::make_shared<BalanceControllerNode>());
+  run_simulated_experiment(std::make_shared<FirstComeFirstServeControllerNode>());
   //run_simulated_experiment(std::make_shared<FixedControllerNode>());
 }
 

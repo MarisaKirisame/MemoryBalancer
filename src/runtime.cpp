@@ -15,6 +15,7 @@ void RuntimeNode::done() {
     if (controller) {
       controller->remove_runtime(shared_from_this());
     }
+    done_aux();
   }
 }
 

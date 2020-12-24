@@ -17,6 +17,7 @@ protected:
   bool done_ = false;
 public:
   void done();
+  virtual void done_aux() { }
   bool is_done() {
     return done_;
   }
@@ -48,6 +49,10 @@ struct SimulatedRuntimeNode : RuntimeNode {
   size_t max_memory_ = 0;
   size_t max_memory() override {
     return max_memory_;
+  }
+  void done_aux() {
+    current_memory_ = 0;
+    max_memory_ = 0;
   }
   size_t garbage_rate_;
   double garbage_rate() override {

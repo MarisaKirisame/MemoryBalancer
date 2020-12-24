@@ -17,6 +17,7 @@ bool ControllerNode::request(const Runtime& r, size_t request) {
 void ControllerNode::remove_runtime(const Runtime& r) {
   assert(runtimes_.count(r) == 1);
   runtimes_.erase(r);
+  free_max_memory(r->max_memory());
   remove_runtime_aux(r);
 }
 
@@ -38,13 +39,12 @@ std::vector<Runtime> ControllerNode::runtimes() {
   return ret;
 }
 
-bool BalanceControllerNode::request_balance(const Runtime& r, size_t extra) {
+bool BalanceControllerNode::request_impl(const Runtime& r, size_t extra) {
   double current_score = score();
   RuntimeStatus status = judge(current_score, r->memory_score());
   if (status == RuntimeStatus::Stay) {
     return false;
   } else if (status == RuntimeStatus::ShouldFree) {
-    std::cout << "shrinking" << std::endl;
     r->shrink_max_memory();
     return false;
   } else {
@@ -63,12 +63,10 @@ bool FirstComeFirstServeControllerNode::request_impl(const Runtime& r, size_t ex
 }
 
 void BalanceControllerNode::optimize() {
-  std::cout << "optimizing" << std::endl;
   double current_score = score();
   for (const Runtime& runtime: runtimes()) {
     RuntimeStatus status = judge(current_score, runtime->memory_score());
     if (status == RuntimeStatus::ShouldFree) {
-      std::cout << "memory shrinked" << std::endl;
       runtime->shrink_max_memory();
     }
   }

@@ -53,15 +53,14 @@ enum class RuntimeStatus {
 // Once we enter the memory-hungry mode (by using up all physical memory) we stay there.
 // Maybe we should add some way to get back to memory-rich mode?
 struct BalanceControllerNode : ControllerNode {
-  // a positive number. allow deviation of this much in balancing.
-  double tolerance = 0.2;
-  // a number between [0, 1]. only when that proportion of memory is used, go into pressure mode, and restrict allocation
-  double pressure_threshold = 0.9;
+  // a positive number.
+  double tolerance = 0.3;
   RuntimeStatus judge(double current_balance, double runtime_balance) {
-    if (current_balance * (1 + tolerance) < runtime_balance) {
-      return RuntimeStatus::ShouldFree;
-    } else if (runtime_balance * (1 + tolerance) < current_balance) {
+    double portion_memory_used = double(used_memory_) / double(max_memory_);
+    if (portion_memory_used * runtime_balance <= current_balance) {
       return RuntimeStatus::CanAllocate;
+    } else if (current_balance * (1 + tolerance) <= portion_memory_used * runtime_balance) {
+      return RuntimeStatus::ShouldFree;
     } else {
       return RuntimeStatus::Stay;
     }
@@ -75,18 +74,7 @@ struct BalanceControllerNode : ControllerNode {
   bool enough_memory(size_t extra) {
     return used_memory_ + extra <= max_memory_;
   }
-  bool request_balance(const Runtime& r, size_t extra);
-  bool request_impl(const Runtime& r, size_t extra) override {
-    if (used_memory_ < pressure_threshold * max_memory_) {
-      if (enough_memory(extra)) {
-        return true;
-      } else {
-        return request_balance(r, extra);
-      }
-    } else {
-      return request_balance(r, extra);
-    }
-  }
+  bool request_impl(const Runtime& r, size_t extra) override;
   void optimize() override;
   std::string name() override {
     return "BalanceController";
