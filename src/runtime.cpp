@@ -13,7 +13,7 @@ void RuntimeNode::done() {
   if (!done_) {
     done_ = true;
     if (controller) {
-      controller->remove_runtime(shared_from_this());
+      controller->remove_runtime(shared_from_this(), controller->lock());
     }
     done_aux();
   }
@@ -38,11 +38,11 @@ void SimulatedRuntimeNode::tick() {
         shrink_memory_pending = false;
         size_t old_max_memory = max_memory_;
         max_memory_ = current_memory_;
-        controller->free_max_memory(old_max_memory - max_memory_);
+        controller->free_max_memory(old_max_memory - max_memory_, controller->lock());
       }
     }
   } else if (need_gc()) {
-    if (controller->request(shared_from_this(), needed_memory())) {
+    if (controller->request(shared_from_this(), needed_memory(), controller->lock())) {
       assert (! need_gc());
       mutator_tick();
     } else {

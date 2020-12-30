@@ -5,15 +5,16 @@
 #include <map>
 #include <any>
 
+#include "forward-decl.hpp"
+
 double memory_score(size_t working_memory, size_t max_memory, double garbage_rate, size_t gc_time);
 
 // In order to avoid cycle, Runtime has strong pointer to controller and Controller has weak pointer to runtime.
-struct ControllerNode;
 struct RuntimeNode : std::enable_shared_from_this<RuntimeNode> {
   friend ControllerNode;
   std::map<std::string, std::any> metadata;
 protected:
-  std::shared_ptr<ControllerNode> controller;
+  Controller controller;
   bool done_ = false;
 public:
   void done();
@@ -35,7 +36,6 @@ public:
     return ::memory_score(working_memory(), max_memory(), garbage_rate(), gc_time());
   }
 };
-using Runtime = std::shared_ptr<RuntimeNode>;
 
 struct SimulatedRuntimeNode : RuntimeNode {
   size_t max_working_memory_;

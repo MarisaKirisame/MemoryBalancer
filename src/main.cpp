@@ -197,13 +197,13 @@ using SimulatedExperimentResult = std::vector<std::vector<RuntimeStat>>;
 // see how close stuff get to optimal split
 void run_simulated_experiment(const Controller& c) {
   SimulatedExperimentResult ret;
-  c->set_max_memory(20);
+  c->set_max_memory(20, c->lock());
   std::vector<std::shared_ptr<SimulatedRuntimeNode>> runtimes;
   runtimes.push_back(std::make_shared<SimulatedRuntimeNode>(/*max_working_memory_=*/0, /*garbage_rate_=*/1, /*gc_time_=*/5, /*work_=*/100));
   runtimes.push_back(std::make_shared<SimulatedRuntimeNode>(/*max_working_memory_=*/0, /*garbage_rate_=*/1, /*gc_time_=*/3, /*work_=*/100));
   runtimes.push_back(std::make_shared<SimulatedRuntimeNode>(/*max_working_memory_=*/0, /*garbage_rate_=*/1, /*gc_time_=*/2, /*work_=*/100));
   for (const auto& r: runtimes) {
-    c->add_runtime(r);
+    c->add_runtime(r, c->lock());
   }
   size_t i = 0;
   for (bool has_work=true; has_work; ++i) {
