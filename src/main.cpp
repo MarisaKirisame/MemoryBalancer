@@ -226,6 +226,7 @@ void run_simulated_experiment(const Controller& c) {
 }
 
 void run_logged_experiment() {
+  std::vector<Log> logs;
   return;
   struct Segment {
     clock_t start_time;
