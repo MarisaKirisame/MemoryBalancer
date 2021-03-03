@@ -199,9 +199,9 @@ void run_simulated_experiment(const Controller& c) {
   SimulatedExperimentResult ret;
   c->set_max_memory(20, c->lock());
   std::vector<std::shared_ptr<SimulatedRuntimeNode>> runtimes;
-  runtimes.push_back(std::make_shared<SimulatedRuntimeNode>(/*max_working_memory_=*/0, /*garbage_rate_=*/1, /*gc_time_=*/5, /*work_=*/100));
-  runtimes.push_back(std::make_shared<SimulatedRuntimeNode>(/*max_working_memory_=*/0, /*garbage_rate_=*/1, /*gc_time_=*/3, /*work_=*/100));
-  runtimes.push_back(std::make_shared<SimulatedRuntimeNode>(/*max_working_memory_=*/0, /*garbage_rate_=*/1, /*gc_time_=*/2, /*work_=*/100));
+  runtimes.push_back(std::make_shared<SimpleSimulatedRuntimeNode>(/*max_working_memory_=*/0, /*garbage_rate_=*/1, /*gc_time_=*/5, /*work_=*/100));
+  runtimes.push_back(std::make_shared<SimpleSimulatedRuntimeNode>(/*max_working_memory_=*/0, /*garbage_rate_=*/1, /*gc_time_=*/3, /*work_=*/100));
+  runtimes.push_back(std::make_shared<SimpleSimulatedRuntimeNode>(/*max_working_memory_=*/0, /*garbage_rate_=*/1, /*gc_time_=*/2, /*work_=*/100));
   for (const auto& r: runtimes) {
     c->add_runtime(r, c->lock());
   }
@@ -225,9 +225,24 @@ void run_simulated_experiment(const Controller& c) {
   log_json(ret);
 }
 
+void run_logged_experiment() {
+  return;
+  struct Segment {
+    clock_t start_time;
+    double gc_velocity;
+  };
+  using SimulationData = std::vector<Segment>;
+  std::vector<SimulationData> data;
+  size_t time_step = 1000;
+  // a time step is how often we simulate a step.
+  // the smaller it is the more fine grained the simulation become,
+  // so it is more accurate
+  // but the simulation cost(cpu cycles) will become higher.
+  std::make_shared<LoggedRuntimeNode>(logs[0], time_step);
+}
 void simulated_experiment() {
   //run_simulated_experiment(std::make_shared<BalanceControllerNode>());
-  run_simulated_experiment(std::make_shared<FirstComeFirstServeControllerNode>());
+  //run_simulated_experiment(std::make_shared<FirstComeFirstServeControllerNode>());
   //run_simulated_experiment(std::make_shared<FixedControllerNode>());
 }
 
@@ -239,7 +254,7 @@ int main(int argc, char* argv[]) {
   v8::V8::InitializePlatform(platform.get());
   v8::V8::Initialize();
 
-  simulated_experiment();
+  run_logged_experiment();
 
   // Dispose the isolate and tear down V8.
   v8::V8::Dispose();

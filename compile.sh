@@ -1,10 +1,10 @@
 #!/bin/sh
-cd ../
 set -e
-
-cd v8
-ninja -C out.gn/x64.release.sample v8_monolith
 cd ../
+
+cd v8/src
+ninja -C out.gn/x64.release.sample v8_monolith
+cd ../../
 
 cd MemoryBalancer
 mkdir -p build

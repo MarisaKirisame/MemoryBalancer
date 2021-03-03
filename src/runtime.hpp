@@ -4,6 +4,7 @@
 #include <cassert>
 #include <map>
 #include <any>
+#include <v8.h>
 
 #include "forward-decl.hpp"
 
@@ -38,6 +39,7 @@ public:
 };
 
 struct SimulatedRuntimeNode : RuntimeNode {
+  virtual void tick() = 0;
   size_t max_working_memory_;
   size_t working_memory() override {
     return std::min(current_memory_, max_working_memory_);
@@ -59,7 +61,6 @@ struct SimulatedRuntimeNode : RuntimeNode {
     return garbage_rate_;
   }
   size_t gc_time_;
-  size_t work_;
   size_t gc_time() override {
     return gc_time_;
   }
@@ -83,6 +84,13 @@ struct SimulatedRuntimeNode : RuntimeNode {
     in_gc = true;
     time_in_gc = 0;
   }
+  SimulatedRuntimeNode(size_t max_working_memory_, size_t garbage_rate_, size_t gc_time_) :
+    max_working_memory_(max_working_memory_), garbage_rate_(garbage_rate_), gc_time_(gc_time_) { }
+};
+
+struct SimpleSimulatedRuntimeNode : SimulatedRuntimeNode {
+  void tick() override;
+  size_t work_;
   void mutator_tick() {
     --work_;
     current_memory_ += garbage_rate_;
@@ -91,9 +99,15 @@ struct SimulatedRuntimeNode : RuntimeNode {
       done();
     }
   }
-  void tick();
-  SimulatedRuntimeNode(size_t max_working_memory_, size_t garbage_rate_, size_t gc_time_, size_t work_) :
-    max_working_memory_(max_working_memory_), garbage_rate_(garbage_rate_), gc_time_(gc_time_), work_(work_) {
+  SimpleSimulatedRuntimeNode(size_t max_working_memory_, size_t garbage_rate_, size_t gc_time_, size_t work_) :
+    SimulatedRuntimeNode(max_working_memory_, garbage_rate_, gc_time_), work_(work_) {
     assert(work_ != 0);
   }
+};
+
+using Log = std::vector<v8::GCRecord>;
+
+struct LoggedRuntimeNode : SimulatedRuntimeNode {
+  LoggedRuntimeNode(size_t max_working_memory_, const Log&, size_t time_step);
+  void tick() override;
 };

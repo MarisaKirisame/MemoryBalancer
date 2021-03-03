@@ -13,7 +13,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17")
 
 target_link_libraries(MemoryBalancer PRIVATE v8_monolith)
-target_link_directories(MemoryBalancer PRIVATE ../v8/out.gn/x64.release.sample/obj/)
+target_link_directories(MemoryBalancer PRIVATE ../v8/src/out.gn/x64.release.sample/obj/)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread -DV8_COMPRESS_POINTERS")
 
@@ -21,4 +21,4 @@ set(JSON_BuildTests OFF CACHE INTERNAL "")
 add_subdirectory(third_party/json)
 target_link_libraries(MemoryBalancer PRIVATE nlohmann_json::nlohmann_json)
 
-include_directories(../v8/include)
+include_directories(../v8/src/include)

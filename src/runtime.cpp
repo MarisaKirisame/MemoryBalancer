@@ -26,7 +26,7 @@ void SimulatedRuntimeNode::shrink_max_memory() {
   shrink_memory_pending = true;
 }
 
-void SimulatedRuntimeNode::tick() {
+void SimpleSimulatedRuntimeNode::tick() {
   assert(current_memory_ <= max_memory_);
   assert(!done_);
   if (in_gc) {
