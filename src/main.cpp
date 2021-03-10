@@ -199,9 +199,10 @@ void run_simulated_experiment(const Controller& c) {
   SimulatedExperimentResult ret;
   c->set_max_memory(20, c->lock());
   std::vector<std::shared_ptr<SimulatedRuntimeNode>> runtimes;
-  runtimes.push_back(std::make_shared<SimpleSimulatedRuntimeNode>(/*max_working_memory_=*/0, /*garbage_rate_=*/1, /*gc_time_=*/5, /*work_=*/100));
-  runtimes.push_back(std::make_shared<SimpleSimulatedRuntimeNode>(/*max_working_memory_=*/0, /*garbage_rate_=*/1, /*gc_time_=*/3, /*work_=*/100));
-  runtimes.push_back(std::make_shared<SimpleSimulatedRuntimeNode>(/*max_working_memory_=*/0, /*garbage_rate_=*/1, /*gc_time_=*/2, /*work_=*/100));
+  auto make_const = [](size_t i){ return std::function<size_t(size_t)>([=](size_t){ return i; }); };
+  runtimes.push_back(std::make_shared<SimulatedRuntimeNode>(/*max_working_memory_=*/0, /*work_=*/100, /*garbage_rate_=*/make_const(1), /*gc_time_=*/make_const(5)));
+  runtimes.push_back(std::make_shared<SimulatedRuntimeNode>(/*max_working_memory_=*/0, /*work_=*/100, /*garbage_rate_=*/make_const(1), /*gc_time_=*/make_const(3)));
+  runtimes.push_back(std::make_shared<SimulatedRuntimeNode>(/*max_working_memory_=*/0, /*work_=*/100, /*garbage_rate_=*/make_const(1), /*gc_time_=*/make_const(2)));
   for (const auto& r: runtimes) {
     c->add_runtime(r, c->lock());
   }
@@ -225,21 +226,46 @@ void run_simulated_experiment(const Controller& c) {
   log_json(ret);
 }
 
+using Log = std::vector<v8::GCRecord>;
+struct Segment {
+  clock_t begin, end; // [). todo: make sure it is [).
+  size_t garbage_rate, gc_duration, working_memory;
+};
+
 void run_logged_experiment() {
-  std::vector<Log> logs;
-  return;
-  struct Segment {
-    clock_t start_time;
-    double gc_velocity;
+  struct Finder {
+    std::vector<Segment> data;
+    size_t idx;
+    const Segment& get_segment(clock_t time) {
+      size_t seen_begin = idx, seen_end = idx;
+      // may infinite loop at bad data... bad. todo: add some check.
+      while (idx < data.size()) {
+        assert(!(seen_begin <= idx && idx < seen_end));
+        seen_begin = std::min(idx, seen_begin);
+        seen_end = std::max(idx+1, seen_end);
+        const Segment& g = data[idx];
+        if (g.begin <= time && time < g.end) {
+          return g;
+        } else if (!(g.begin <= time)) {
+          assert(idx > 0);
+          --idx;
+        } else {
+          assert(!(time < g.end));
+          ++idx;
+        }
+      }
+      assert(idx < data.size());
+    }
   };
-  using SimulationData = std::vector<Segment>;
-  std::vector<SimulationData> data;
-  size_t time_step = 1000;
+  Log log;
+  std::vector<Segment> data;
+  clock_t init_time;
+  clock_t time_step = 1000;
   // a time step is how often we simulate a step.
   // the smaller it is the more fine grained the simulation become,
   // so it is more accurate
   // but the simulation cost(cpu cycles) will become higher.
-  std::make_shared<LoggedRuntimeNode>(logs[0], time_step);
+  //std::make_shared<LoggedRuntimeNode>(logs[0], time_step);
 }
 void simulated_experiment() {
   //run_simulated_experiment(std::make_shared<BalanceControllerNode>());

@@ -26,12 +26,12 @@ void SimulatedRuntimeNode::shrink_max_memory() {
   shrink_memory_pending = true;
 }
 
-void SimpleSimulatedRuntimeNode::tick() {
+void SimulatedRuntimeNode::tick() {
   assert(current_memory_ <= max_memory_);
   assert(!done_);
   if (in_gc) {
     ++time_in_gc;
-    if (time_in_gc == gc_time_) {
+    if (time_in_gc == gc_duration()) {
       in_gc = false;
       current_memory_ = std::min(current_memory_, max_working_memory_);
       if (shrink_memory_pending) {
@@ -51,13 +51,5 @@ void SimpleSimulatedRuntimeNode::tick() {
     }
   } else {
     mutator_tick();
-  }
-}
-
-void LoggedRuntimeNode::tick() {
-  size_t next_time = current_time + time_step;
-  size_t next_index = current_index;
-  while (next_index + 1 < next_time) {
-    
   }
 }
