@@ -228,7 +228,8 @@ void run_simulated_experiment(const Controller& c) {
 
 using Log = std::vector<v8::GCRecord>;
 struct Segment {
-  clock_t begin, end; // [). todo: make sure it is [).
+  clock_t begin;
+  size_t duration;
   size_t garbage_rate, gc_duration, working_memory;
 };
 
@@ -243,25 +244,40 @@ void run_logged_experiment() {
         seen_begin = std::min(idx, seen_begin);
         seen_end = std::max(idx+1, seen_end);
         const Segment& g = data[idx];
-        if (g.begin <= time && time < g.end) {
+        if (g.begin <= time && time < g.begin + g.duration) {
           return g;
         } else if (!(g.begin <= time)) {
           assert(idx > 0);
           --idx;
         } else {
-          assert(!(time < g.end));
+          assert(!(time < g.begin + g.duration));
           ++idx;
         }
       }
       assert(idx < data.size());
     }
   };
-  Log log;
+  Log log, log_major_gc;
   std::vector<Segment> data;
-  clock_t init_time, end_time;
+  for (const auto& l: log) {
+    if (l.is_major_gc) {
+      log_major_gc.push_back(l);
+    }
+  }
+  clock_t mutator_time = 0;
   clock_t time_step = 1000;
-  assert(log.size() > 0);
-  init_time = log[0].a;
+  assert(log_major_gc.size() > 0);
+  for (size_t i = 1; i < data.size(); ++i) {
+    Segment s;
+    s.begin = mutator_time;
+    s.duration = log_major_gc[i].before_time - log_major_gc[i-1].after_time;
+    mutator_time += s.duration;
+    // todo: interpolate between the two gc?
+    s.garbage_rate = (log_major_gc[i].before_memory - log_major_gc[i-1].after_memory) / (s.end - s.begin);
+    s.gc_duration = log_major_gc[i-1].after_time - log_major_gc[i-1].before_time;
+    s.working_memory = log_major_gc[i-1].after_memory;
+    data.push_back(s);
+  }
   // a time step is how often we simulate a step.
   // the smaller it is the more fine grained the simulation become,
   // so it is more accurate
