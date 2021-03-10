@@ -238,7 +238,6 @@ void run_logged_experiment() {
     size_t idx;
     const Segment& get_segment(clock_t time) {
       size_t seen_begin = idx, seen_end = idx;
-      // may infinite loop at bad data... bad. todo: add some check.
       while (idx < data.size()) {
         assert(!(seen_begin <= idx && idx < seen_end));
         seen_begin = std::min(idx, seen_begin);
@@ -259,8 +258,10 @@ void run_logged_experiment() {
   };
   Log log;
   std::vector<Segment> data;
-  clock_t init_time;
+  clock_t init_time, end_time;
   clock_t time_step = 1000;
+  assert(log.size() > 0);
+  init_time = log[0].a;
   // a time step is how often we simulate a step.
   // the smaller it is the more fine grained the simulation become,
   // so it is more accurate
