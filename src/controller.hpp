@@ -126,6 +126,7 @@ struct FixedControllerNode : ControllerNode {
     
   }
   bool request_impl(const Runtime& r, size_t extra, const Lock& l) override {
-    
+    throw;
+    return true;
   }
 };

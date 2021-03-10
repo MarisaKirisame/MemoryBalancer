@@ -112,11 +112,11 @@ struct LoggedRuntimeNode : SimulatedRuntimeNode {
   size_t current_index = 0;
 
   size_t current_time;
-  size_t time_step = 0;
+  size_t time_step;
 
   size_t leftover_gc_tick = 0;
   size_t leftover_mutator_tick = 0;
-  
+
   LoggedRuntimeNode(const Log&, size_t time_step);
   void tick() override;
 };

@@ -53,3 +53,11 @@ void SimpleSimulatedRuntimeNode::tick() {
     mutator_tick();
   }
 }
+
+void LoggedRuntimeNode::tick() {
+  size_t next_time = current_time + time_step;
+  size_t next_index = current_index;
+  while (next_index + 1 < next_time) {
+    
+  }
+}
