@@ -19,6 +19,6 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread -DV8_COMPRESS_POINTERS")
 
 set(JSON_BuildTests OFF CACHE INTERNAL "")
 add_subdirectory(third_party/json)
-target_link_libraries(MemoryBalancer PRIVATE nlohmann_json::nlohmann_json)
+target_link_libraries(MemoryBalancer PRIVATE nlohmann_json::nlohmann_json boost_filesystem)
 
 include_directories(../v8/src/include)

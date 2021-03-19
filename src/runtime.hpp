@@ -33,7 +33,9 @@ public:
   virtual void allow_more_memory(size_t extra) = 0;
   virtual void shrink_max_memory() = 0;
   double memory_score() {
-    return ::memory_score(working_memory(), max_memory(), garbage_rate(), gc_duration());
+    auto ret = ::memory_score(working_memory(), max_memory(), garbage_rate(), gc_duration());
+    assert(!std::isinf(ret));
+    return ret;
   }
 };
 
@@ -43,13 +45,24 @@ struct SimulatedRuntimeNode : RuntimeNode {
   size_t working_memory() override {
     return std::min(current_memory_, max_working_memory_);
   }
+  void check_invariant() {
+    assert(current_memory_ <= max_memory_);
+  }
   size_t current_memory_ = 0;
   size_t current_memory() override {
     return current_memory_;
   }
+  void set_current_memory(size_t val) {
+    current_memory_ = val;
+    check_invariant();
+  }
   size_t max_memory_ = 0;
   size_t max_memory() override {
     return max_memory_;
+  }
+  void set_max_memory(size_t val) {
+    max_memory_ = val;
+    check_invariant();
   }
   void done_aux() {
     current_memory_ = 0;
@@ -59,7 +72,6 @@ struct SimulatedRuntimeNode : RuntimeNode {
   mutator_clock mutator_time = 0, work_amount;
   std::function<size_t(mutator_clock)> garbage_rate_;
   std::function<size_t(mutator_clock)> gc_duration_;
-
   double garbage_rate() override {
     return garbage_rate_(mutator_time);
   }
@@ -68,6 +80,7 @@ struct SimulatedRuntimeNode : RuntimeNode {
   }
   void allow_more_memory(size_t extra) override {
     max_memory_ += extra;
+    check_invariant();
   }
   void shrink_max_memory() override;
   bool in_gc = false;
@@ -87,12 +100,14 @@ struct SimulatedRuntimeNode : RuntimeNode {
     time_in_gc = 0;
   }
   void mutator_tick() {
-    ++mutator_time;
+    check_invariant();
     current_memory_ += garbage_rate();
     if (mutator_time == work_amount) {
       current_memory_ = 0;
       done();
     }
+    ++mutator_time;
+    check_invariant();
   }
 
   SimulatedRuntimeNode(size_t max_working_memory_,

@@ -2,8 +2,9 @@
 #include "controller.hpp"
 
 double memory_score(size_t working_memory, size_t max_memory, double garbage_rate, size_t gc_time) {
-  assert(garbage_rate != 0);
-  assert(gc_time != 0);
+  if (garbage_rate == 0 || gc_time == 0) {
+    return std::numeric_limits<double>::max();
+  }
   size_t extra_memory = max_memory - working_memory;
   double ret = extra_memory / garbage_rate * extra_memory / gc_time;
   return ret;
@@ -20,14 +21,16 @@ void RuntimeNode::done() {
 }
 
 void SimulatedRuntimeNode::shrink_max_memory() {
+  check_invariant();
   if (!in_gc) {
     gc();
   }
   shrink_memory_pending = true;
+  check_invariant();
 }
 
 void SimulatedRuntimeNode::tick() {
-  assert(current_memory_ <= max_memory_);
+  check_invariant();
   assert(!done_);
   if (in_gc) {
     ++time_in_gc;
@@ -42,7 +45,8 @@ void SimulatedRuntimeNode::tick() {
       }
     }
   } else if (need_gc()) {
-    if (controller->request(shared_from_this(), needed_memory(), controller->lock())) {
+    auto nm = needed_memory();
+    if (controller->request(shared_from_this(), nm, controller->lock())) {
       assert (! need_gc());
       mutator_tick();
     } else {
@@ -52,4 +56,5 @@ void SimulatedRuntimeNode::tick() {
   } else {
     mutator_tick();
   }
+  check_invariant();
 }

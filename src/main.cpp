@@ -5,7 +5,9 @@
 #include "util.hpp"
 #include "controller.hpp"
 #include "runtime.hpp"
+#include "boost/filesystem.hpp"
 
+#include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -192,29 +194,44 @@ struct RuntimeStat {
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(RuntimeStat, max_memory, current_memory)
 
 using SimulatedExperimentResult = std::vector<std::vector<RuntimeStat>>;
-// todo: noise (have number fluctuate)
-// todo: regime change (a program is a sequence of program)
-// see how close stuff get to optimal split
-void run_simulated_experiment(const Controller& c) {
-  SimulatedExperimentResult ret;
-  c->set_max_memory(20, c->lock());
-  std::vector<std::shared_ptr<SimulatedRuntimeNode>> runtimes;
-  auto make_const = [](size_t i){ return std::function<size_t(size_t)>([=](size_t){ return i; }); };
-  runtimes.push_back(std::make_shared<SimulatedRuntimeNode>(/*max_working_memory_=*/0, /*work_=*/100, /*garbage_rate_=*/make_const(1), /*gc_time_=*/make_const(5)));
-  runtimes.push_back(std::make_shared<SimulatedRuntimeNode>(/*max_working_memory_=*/0, /*work_=*/100, /*garbage_rate_=*/make_const(1), /*gc_time_=*/make_const(3)));
-  runtimes.push_back(std::make_shared<SimulatedRuntimeNode>(/*max_working_memory_=*/0, /*work_=*/100, /*garbage_rate_=*/make_const(1), /*gc_time_=*/make_const(2)));
+using SimulatedRuntime = std::shared_ptr<SimulatedRuntimeNode>;
+using SimulatedRuntimes = std::vector<SimulatedRuntime>;
+
+void run_simulated_experiment(const Controller& c, const SimulatedRuntimes& runtimes, size_t print_frequency, size_t log_frequency) {
   for (const auto& r: runtimes) {
     c->add_runtime(r, c->lock());
   }
+  SimulatedExperimentResult ret;
   size_t i = 0;
   for (bool has_work=true; has_work; ++i) {
     std::vector<RuntimeStat> slice;
     has_work=false;
+    size_t total_memory = 0, total_live_memory = 0;
+    size_t total_work = 0, total_work_done = 0;
     for (const auto&r : runtimes) {
-      std::cout << r->max_memory() << " " << r->current_memory() << std::endl;
       slice.push_back({/*max_memory=*/r->max_memory(), /*current_memory=*/r->current_memory()});
+      total_work += r->work_amount;
+      total_work_done += r->mutator_time;
+      total_memory += r->max_memory();
+      total_live_memory += r->current_memory();
     }
-    ret.push_back(slice);
+    assert(total_memory == c->used_memory(c->lock()));
+    if (i % print_frequency == 0) {
+      size_t max_memory = c->max_memory(c->lock());
+      std::cout <<
+        "iteration:" << i <<
+        ", work_done:" << total_work_done <<
+        ", work:" << total_work <<
+        ", %of work done:" << total_work_done * 100 / total_work <<
+        ", memoy alive:" << total_live_memory <<
+        ", memory used:" << total_memory <<
+        ", memory avilable:" << max_memory <<
+        ", live memory utilization:" << 100 * total_live_memory / max_memory << "%"
+        ", memory utilization:" << 100 * total_memory / max_memory << "%" << std::endl;
+    }
+    if (i % log_frequency == 0) {
+      ret.push_back(slice);
+    }
     for (const auto&r : runtimes) {
       if (!r->is_done()) {
         r->tick();
@@ -226,38 +243,68 @@ void run_simulated_experiment(const Controller& c) {
   log_json(ret);
 }
 
+// todo: noise (have number fluctuate)
+// todo: regime change (a program is a sequence of program)
+// see how close stuff get to optimal split
+void run_simulated_experiment_prepare(const Controller& c) {
+  c->set_max_memory(20, c->lock());
+  SimulatedRuntimes runtimes;
+  auto make_const = [](size_t i){ return std::function<size_t(size_t)>([=](size_t){ return i; }); };
+  runtimes.push_back(std::make_shared<SimulatedRuntimeNode>(/*max_working_memory_=*/0, /*work_=*/100, /*garbage_rate_=*/make_const(1), /*gc_duration_=*/make_const(5)));
+  runtimes.push_back(std::make_shared<SimulatedRuntimeNode>(/*max_working_memory_=*/0, /*work_=*/100, /*garbage_rate_=*/make_const(1), /*gc_duration_=*/make_const(3)));
+  runtimes.push_back(std::make_shared<SimulatedRuntimeNode>(/*max_working_memory_=*/0, /*work_=*/100, /*garbage_rate_=*/make_const(1), /*gc_duration_=*/make_const(2)));
+  run_simulated_experiment(c, runtimes, 1, 1);
+}
+
 using Log = std::vector<v8::GCRecord>;
 struct Segment {
   clock_t begin;
   size_t duration;
-  size_t garbage_rate, gc_duration, working_memory;
+  double garbage_rate;
+  size_t gc_duration, working_memory;
 };
 
-void run_logged_experiment() {
-  struct Finder {
-    std::vector<Segment> data;
-    size_t idx;
-    const Segment& get_segment(clock_t time) {
-      size_t seen_begin = idx, seen_end = idx;
-      while (idx < data.size()) {
-        assert(!(seen_begin <= idx && idx < seen_end));
-        seen_begin = std::min(idx, seen_begin);
-        seen_end = std::max(idx+1, seen_end);
-        const Segment& g = data[idx];
-        if (g.begin <= time && time < g.begin + g.duration) {
-          return g;
-        } else if (!(g.begin <= time)) {
-          assert(idx > 0);
-          --idx;
-        } else {
-          assert(!(time < g.begin + g.duration));
-          ++idx;
-        }
+struct Finder {
+  std::vector<Segment> data;
+  size_t idx = 0;
+  const Segment& get_segment(clock_t time) {
+    size_t seen_begin = idx, seen_end = idx;
+    while (idx < data.size()) {
+      assert(!(seen_begin <= idx && idx < seen_end));
+      seen_begin = std::min(idx, seen_begin);
+      seen_end = std::max(idx+1, seen_end);
+      const Segment& g = data[idx];
+      if (g.begin <= time && time < g.begin + g.duration) {
+        return g;
+      } else if (!(g.begin <= time)) {
+        assert(idx > 0);
+        --idx;
+      } else {
+        assert(!(time < g.begin + g.duration));
+        ++idx;
       }
-      assert(idx < data.size());
     }
-  };
-  Log log, log_major_gc;
+    std::cout << time << " not found" << std::endl;
+    assert(idx < data.size());
+    throw;
+  }
+  Finder(const std::vector<Segment>& data) : data(data) { }
+};
+
+Log parse_log(const std::string& path) {
+  Log log;
+  std::ifstream f(path);
+  std::string line;
+  while (std::getline(f, line)) {
+    std::istringstream iss(line);
+    json j;
+    iss >> j;
+    log.push_back(j.get<v8::GCRecord>());
+  }
+  return log;
+}
+SimulatedRuntime from_log(const Log& log) {
+  Log log_major_gc;
   std::vector<Segment> data;
   for (const auto& l: log) {
     if (l.is_major_gc) {
@@ -265,15 +312,14 @@ void run_logged_experiment() {
     }
   }
   clock_t mutator_time = 0;
-  clock_t time_step = 1000;
   assert(log_major_gc.size() > 0);
-  for (size_t i = 1; i < data.size(); ++i) {
+  for (size_t i = 1; i < log_major_gc.size(); ++i) {
     Segment s;
     s.begin = mutator_time;
     s.duration = log_major_gc[i].before_time - log_major_gc[i-1].after_time;
     mutator_time += s.duration;
     // todo: interpolate between the two gc?
-    s.garbage_rate = (log_major_gc[i].before_memory - log_major_gc[i-1].after_memory) / (s.end - s.begin);
+    s.garbage_rate = (log_major_gc[i].before_memory - log_major_gc[i-1].after_memory) / static_cast<double>(s.duration);
     s.gc_duration = log_major_gc[i-1].after_time - log_major_gc[i-1].before_time;
     s.working_memory = log_major_gc[i-1].after_memory;
     data.push_back(s);
@@ -282,8 +328,28 @@ void run_logged_experiment() {
   // the smaller it is the more fine grained the simulation become,
   // so it is more accurate
   // but the simulation cost(cpu cycles) will become higher.
-  //std::make_shared<LoggedRuntimeNode>(logs[0], time_step);
+  clock_t time_step = 10000;
+  auto f = std::make_shared<Finder>(data);
+  return std::make_shared<SimulatedRuntimeNode>(
+    /*max_working_memory_=*/0,
+    /*work_=*/mutator_time / time_step,
+    /*garbage_rate_=*/[=](size_t i){ return time_step * f->get_segment(i * time_step).garbage_rate; },
+    /*gc_duration_=*/[=](size_t i){ return f->get_segment(i * time_step).gc_duration; });
 }
+
+void run_logged_experiment() {
+  Controller c = std::make_shared<BalanceControllerNode>();
+  c->set_max_memory(2e9, c->lock());
+  SimulatedRuntimes rt;
+  for (boost::filesystem::recursive_directory_iterator end, dir(std::string(getenv("HOME")) + "/gc_log");
+       dir != end; ++dir ) {
+    if (boost::filesystem::is_regular_file(dir->path())) {
+      rt.push_back(from_log(parse_log(boost::filesystem::canonical(dir->path()).string())));
+    }
+  }
+  run_simulated_experiment(c, rt, 100, 1000);
+}
+
 void simulated_experiment() {
   //run_simulated_experiment(std::make_shared<BalanceControllerNode>());
   //run_simulated_experiment(std::make_shared<FirstComeFirstServeControllerNode>());

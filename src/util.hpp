@@ -1,5 +1,6 @@
 #pragma once
 #include <v8.h>
+#include <json.h>
 #include <libplatform/libplatform.h>
 
 std::string get_time();

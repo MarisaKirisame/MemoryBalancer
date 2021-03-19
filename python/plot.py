@@ -4,7 +4,7 @@ import numpy as np
 from optparse import OptionParser
 
 parser = OptionParser()
-parser.add_option("-l", "--log", dest="log", default="2020-12-22-13-11-27",
+parser.add_option("-l", "--log", dest="log",
                   help="filename of log", metavar="FILE")
 (options, args) = parser.parse_args()
 path = options.log

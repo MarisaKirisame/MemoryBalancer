@@ -46,7 +46,7 @@ public:
   void remove_runtime(const Runtime& r, const Lock&);
   std::vector<Runtime> runtimes(const Lock&);
   void set_max_memory(size_t max_memory_, const Lock& l) {
-    max_memory_ = max_memory_;
+    this->max_memory_ = max_memory_;
     set_max_memory_aux(max_memory_, l);
   }
   size_t max_memory(const Lock&) {
@@ -55,6 +55,9 @@ public:
   void free_max_memory(size_t memory_freed, const Lock& l) {
     used_memory_ -= memory_freed;
     free_max_memory_aux(memory_freed, l);
+  }
+  size_t used_memory(const Lock&) {
+    return used_memory_;
   }
   Lock lock() {
     return std::make_shared<LockNode>(shared_from_this());
@@ -73,11 +76,12 @@ enum class RuntimeStatus {
 struct BalanceControllerNode : ControllerNode {
   // a positive number.
   double tolerance = 0.3;
-  RuntimeStatus judge(double current_balance, double runtime_balance) {
+  RuntimeStatus judge(double current_score, double runtime_score) {
+    // todo: - both side with working memory if not working
     double portion_memory_used = double(used_memory_) / double(max_memory_);
-    if (portion_memory_used * runtime_balance <= current_balance) {
+    if (portion_memory_used * runtime_score <= current_score) {
       return RuntimeStatus::CanAllocate;
-    } else if (current_balance * (1 + tolerance) <= portion_memory_used * runtime_balance) {
+    } else if (current_score * (1 + tolerance) <= portion_memory_used * runtime_score) {
       return RuntimeStatus::ShouldFree;
     } else {
       return RuntimeStatus::Stay;
