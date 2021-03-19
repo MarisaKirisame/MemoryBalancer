@@ -21,7 +21,7 @@ def listadd(l, r):
     assert len(l) == len(r)
     return [l[i] + r[i] for i in range(len(l))]
 
-with open("logs/" + path) as f:
+with open(path) as f:
     data = json.load(f)
     def get_property(name):
         ret = None
