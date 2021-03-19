@@ -4,6 +4,7 @@
 #include <assert.h>
 #include <vector>
 #include <iostream>
+#include <mutex>
 #include "forward-decl.hpp"
 
 // Since the controller is to be used by multiple runtime,
