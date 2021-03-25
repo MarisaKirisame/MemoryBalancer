@@ -41,7 +41,7 @@ std::vector<Runtime> ControllerNode::runtimes(const Lock& l) {
 
 bool BalanceControllerNode::request_impl(const Runtime& r, size_t extra, const Lock& l) {
   double current_score = score(l);
-  RuntimeStatus status = judge(current_score, r->memory_score());
+  RuntimeStatus status = judge(r->memory_score(), current_score);
   if (status == RuntimeStatus::Stay) {
     return false;
   } else if (status == RuntimeStatus::ShouldFree) {
@@ -65,7 +65,7 @@ bool FirstComeFirstServeControllerNode::request_impl(const Runtime& r, size_t ex
 void BalanceControllerNode::optimize(const Lock& l) {
   double current_score = score(l);
   for (const Runtime& runtime: runtimes(l)) {
-    RuntimeStatus status = judge(current_score, runtime->memory_score());
+    RuntimeStatus status = judge(runtime->memory_score(), current_score);
     if (status == RuntimeStatus::ShouldFree) {
       runtime->shrink_max_memory();
     }
@@ -87,3 +87,16 @@ double BalanceControllerNode::score(const Lock& l) {
   }
   return aggregate_score(score);
 }
+
+RuntimeStatus BalanceControllerNode::judge(double judged_score, double runtime_score) {
+  assert(0 <= runtime_score);
+  // todo: - both side with working memory if not working
+  double portion_memory_used = double(used_memory_) / double(max_memory_);
+  if (portion_memory_used * judged_score <= runtime_score) {
+    return RuntimeStatus::CanAllocate;
+  } else if (runtime_score * (1 + tolerance) <= portion_memory_used * judged_score) {
+    return RuntimeStatus::ShouldFree;
+  } else {
+    return RuntimeStatus::Stay;
+  }
+ }

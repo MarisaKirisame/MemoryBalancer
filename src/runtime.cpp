@@ -36,7 +36,7 @@ void SimulatedRuntimeNode::tick() {
     ++time_in_gc;
     if (time_in_gc == gc_duration()) {
       in_gc = false;
-      current_memory_ = std::min(current_memory_, max_working_memory_);
+      current_memory_ = working_memory();
       if (shrink_memory_pending) {
         shrink_memory_pending = false;
         size_t old_max_memory = max_memory_;

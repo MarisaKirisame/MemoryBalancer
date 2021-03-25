@@ -7,6 +7,7 @@
 
 #include "forward-decl.hpp"
 
+// higher score mean need less memory
 double memory_score(size_t working_memory, size_t max_memory, double garbage_rate, size_t gc_duration);
 
 // In order to avoid cycle, Runtime has strong pointer to controller and Controller has weak pointer to runtime.
@@ -40,10 +41,18 @@ public:
 };
 
 struct SimulatedRuntimeNode : RuntimeNode {
+  using mutator_clock = size_t;
+  mutator_clock mutator_time = 0, work_amount;
+  // note: the current logged simulated runtime report working memory in interval, while the simulator may run in finer grain mode.
+  // this mean that the simulated runime will have working memory 'jump', and it is possible that a jump get working memory > current memory.
+  // to combat this we take the min of input working memory and current memory as the working memory.
+  // there will also be warning whenever this happend.
   void tick();
-  size_t max_working_memory_;
+  std::function<size_t(mutator_clock)> max_working_memory_;
   size_t working_memory() override {
-    return std::min(current_memory_, max_working_memory_);
+    auto m = max_working_memory_(mutator_time);
+    //assert(m >= current_memory_);
+    return std::min(current_memory_, m);
   }
   void check_invariant() {
     assert(current_memory_ <= max_memory_);
@@ -68,8 +77,6 @@ struct SimulatedRuntimeNode : RuntimeNode {
     current_memory_ = 0;
     max_memory_ = 0;
   }
-  using mutator_clock = size_t;
-  mutator_clock mutator_time = 0, work_amount;
   std::function<size_t(mutator_clock)> garbage_rate_;
   std::function<size_t(mutator_clock)> gc_duration_;
   double garbage_rate() override {
@@ -110,12 +117,12 @@ struct SimulatedRuntimeNode : RuntimeNode {
     check_invariant();
   }
 
-  SimulatedRuntimeNode(size_t max_working_memory_,
-                       mutator_clock work_amount,
+  SimulatedRuntimeNode(mutator_clock work_amount,
+                       const std::function<size_t(mutator_clock)> &max_working_memory_,
                        const std::function<size_t(mutator_clock)> &garbage_rate_,
                        const std::function<size_t(mutator_clock)> &gc_duration_) :
-    max_working_memory_(max_working_memory_),
     work_amount(work_amount),
+    max_working_memory_(max_working_memory_),
     garbage_rate_(garbage_rate_),
     gc_duration_(gc_duration_) { }
 };

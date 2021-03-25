@@ -77,18 +77,8 @@ enum class RuntimeStatus {
 struct BalanceControllerNode : ControllerNode {
   // a positive number.
   double tolerance = 0.3;
-  RuntimeStatus judge(double current_score, double runtime_score) {
-    // todo: - both side with working memory if not working
-    double portion_memory_used = double(used_memory_) / double(max_memory_);
-    if (portion_memory_used * runtime_score <= current_score) {
-      return RuntimeStatus::CanAllocate;
-    } else if (current_score * (1 + tolerance) <= portion_memory_used * runtime_score) {
-      return RuntimeStatus::ShouldFree;
-    } else {
-      return RuntimeStatus::Stay;
-    }
-  }
-  // Score is sorted in ascending order.
+  RuntimeStatus judge(double judged_score, double runtime_score);
+  // Score is sorted in ascending order.-
   // We are using median for now.
   // The other obvious choice is mean, and it may have a problem when data is imbalance:
   // only too few runtime will be freeing or allocating memory.
