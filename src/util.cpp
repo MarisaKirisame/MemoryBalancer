@@ -40,13 +40,6 @@ double sd(const std::vector<double>& v) {
   return sqrt(boost::accumulators::extract::variance(acc));
 }
 
-v8::Local<v8::String> fromFile(v8::Isolate* isolate, const std::string& path) {
-  std::ifstream t(path);
-  std::string str((std::istreambuf_iterator<char>(t)),
-                  std::istreambuf_iterator<char>());
-  return v8::String::NewFromUtf8(isolate, str.data()).ToLocalChecked();
-}
-
 size_t random_heap_size() {
   static std::random_device rd;
   static std::mt19937 gen(rd());

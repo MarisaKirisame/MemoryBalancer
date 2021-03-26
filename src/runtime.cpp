@@ -33,8 +33,9 @@ void SimulatedRuntimeNode::tick() {
   check_invariant();
   assert(!done_);
   if (in_gc) {
-    ++time_in_gc;
-    if (time_in_gc == gc_duration()) {
+    auto gcd = gc_duration();
+    assert(gcd > 0);
+    if (time_in_gc == gcd) {
       in_gc = false;
       current_memory_ = working_memory();
       if (shrink_memory_pending) {
@@ -43,6 +44,9 @@ void SimulatedRuntimeNode::tick() {
         max_memory_ = current_memory_;
         controller->free_max_memory(old_max_memory - max_memory_, controller->lock());
       }
+      tick();
+    } else {
+      ++time_in_gc;
     }
   } else if (need_gc()) {
     auto nm = needed_memory();

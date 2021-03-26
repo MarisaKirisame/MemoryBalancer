@@ -90,8 +90,12 @@ double BalanceControllerNode::score(const Lock& l) {
 
 RuntimeStatus BalanceControllerNode::judge(double judged_score, double runtime_score) {
   assert(0 <= runtime_score);
+  size_t working_memory = 0;
+  for (const Runtime& runtime: runtimes(lock())) {
+    working_memory += runtime->working_memory();
+  }
   // todo: - both side with working memory if not working
-  double portion_memory_used = double(used_memory_) / double(max_memory_);
+  double portion_memory_used = double(used_memory_ - working_memory) / double(max_memory_ - working_memory);
   if (portion_memory_used * judged_score <= runtime_score) {
     return RuntimeStatus::CanAllocate;
   } else if (runtime_score * (1 + tolerance) <= portion_memory_used * judged_score) {

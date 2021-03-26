@@ -30,7 +30,7 @@ protected:
   std::set<std::weak_ptr<RuntimeNode>, std::owner_less<std::weak_ptr<RuntimeNode>>> runtimes_;
   size_t max_memory_ = 0;
   size_t used_memory_ = 0;
-  std::mutex m;
+  std::recursive_mutex m;
   virtual void free_max_memory_aux(size_t memory_freed, const Lock&) { }
   virtual void set_max_memory_aux(size_t max_memory_, const Lock&) { }
   virtual void add_runtime_aux(const Runtime& r, const Lock&) { }
@@ -76,7 +76,7 @@ enum class RuntimeStatus {
 // Maybe we should add some way to get back to memory-rich mode?
 struct BalanceControllerNode : ControllerNode {
   // a positive number.
-  double tolerance = 0.3;
+  double tolerance = 0.5;
   RuntimeStatus judge(double judged_score, double runtime_score);
   // Score is sorted in ascending order.-
   // We are using median for now.

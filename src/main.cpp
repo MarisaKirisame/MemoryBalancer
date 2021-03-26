@@ -2,6 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+// todo: deal with copyright
+
 #include "util.hpp"
 #include "controller.hpp"
 #include "runtime.hpp"
@@ -18,6 +20,10 @@
 #include <thread>
 #include <set>
 #include <unistd.h>
+
+#ifdef USE_V8
+#include "v8_util.hpp"
+#endif
 
 using namespace nlohmann;
 using time_point = std::chrono::steady_clock::time_point;
@@ -48,6 +54,8 @@ void add_to_json(const Output& o, json& j) {
   j["version"] = o.version;
   j["time_taken"] = o.time_taken;
 }
+
+#ifdef USE_V8
 
 Output run(const Input& i, std::mutex* m) {
   std::cout << "running " << i.code_path << std::endl;
@@ -131,11 +139,6 @@ Output run(const Input& i, std::mutex* m) {
   return o;
 }
 
-void log_json(const json& j) {
-  std::ofstream f("logs/" + get_time());
-  f << j;
-}
-
 void read_write() {
   std::mutex m;
   m.lock();
@@ -185,6 +188,12 @@ void parallel_experiment() {
 
   std::cout << "total_time = " << total_time << std::endl;
 }
+#endif
+
+void log_json(const json& j) {
+  std::ofstream f("logs/" + get_time());
+  f << j;
+}
 
 struct RuntimeStat {
   size_t max_memory;
@@ -203,8 +212,11 @@ void run_simulated_experiment(const Controller& c, const SimulatedRuntimes& runt
   }
   SimulatedExperimentResult ret;
   size_t i = 0;
-  size_t time_since_print = 0;
-  size_t time_in_gc_since_print = 0;
+
+  size_t tick = 0;
+  size_t tick_in_gc = 0;
+  size_t tick_since_print = 0;
+  size_t tick_in_gc_since_print = 0;
   for (bool has_work=true; has_work; ++i) {
     std::vector<RuntimeStat> slice;
     has_work=false;
@@ -217,9 +229,11 @@ void run_simulated_experiment(const Controller& c, const SimulatedRuntimes& runt
       total_memory += r->max_memory();
       total_live_memory += r->current_memory();
       if (!r->is_done()) {
-        time_since_print++;
+        tick++;
+        tick_since_print++;
         if (r->in_gc) {
-          time_in_gc_since_print++;
+          tick_in_gc++;
+          tick_in_gc_since_print++;
         }
       }
     }
@@ -228,15 +242,17 @@ void run_simulated_experiment(const Controller& c, const SimulatedRuntimes& runt
       size_t max_memory = c->max_memory(c->lock());
       std::cout <<
         "iteration:" << i <<
+        ", total work done: " << total_work_done <<
         ", work done:" << total_work_done * 100 / total_work << "%" <<
         ", live memory utilization:" << 100 * total_live_memory / max_memory << "%"
         ", memory utilization:" << 100 * total_memory / max_memory << "%" <<
-        ", time spent gcing:" << 100 * time_in_gc_since_print / time_since_print << "%" << std::endl;
-      time_since_print = 0;
-      time_in_gc_since_print = 0;
+        ", gc rate:" << 100 * tick_in_gc_since_print / tick_since_print << "%" << std::endl;
+      tick_since_print = 0;
+      tick_in_gc_since_print = 0;
     }
     if (i % log_frequency == 0) {
       ret.push_back(slice);
+      size_t max_memory = c->max_memory(c->lock());
     }
     for (const auto&r : runtimes) {
       if (!r->is_done()) {
@@ -245,7 +261,11 @@ void run_simulated_experiment(const Controller& c, const SimulatedRuntimes& runt
       }
     }
   }
-  std::cout << "time_taken: " << i << std::endl;
+  std::cout <<
+    "time_taken: " << i <<
+    ", total ticks taken: " << tick <<
+    ", total ticks spent gcing: " << tick_in_gc <<
+    ", gc rate: " << 100 * tick_in_gc / tick << "%" << std::endl << std::endl;
   log_json(ret);
 }
 
@@ -338,9 +358,9 @@ SimulatedRuntime from_log(const Log& log) {
   auto f = std::make_shared<Finder>(data);
   return std::make_shared<SimulatedRuntimeNode>(
     /*work_=*/mutator_time / time_step,
-    /*max_working_memory_=*/[=](size_t i){ return f->get_segment(i * time_step).working_memory; },
-    /*garbage_rate_=*/[=](size_t i){ return time_step * f->get_segment(i * time_step).garbage_rate; },
-    /*gc_duration_=*/[=](size_t i){
+    /*max_working_memory_=*/[=](size_t i) { return f->get_segment(i * time_step).working_memory; },
+    /*garbage_rate_=*/[=](size_t i) { return time_step * f->get_segment(i * time_step).garbage_rate; },
+    /*gc_duration_=*/[=](size_t i) {
                        auto gcd = f->get_segment(i * time_step).gc_duration;
                        assert(gcd >= time_step);
                        return gcd / time_step;
@@ -350,10 +370,10 @@ SimulatedRuntime from_log(const Log& log) {
 void run_logged_experiment() {
   //Controller c = std::make_shared<BalanceControllerNode>();
   Controller c = std::make_shared<FirstComeFirstServeControllerNode>();
-  c->set_max_memory(2e8, c->lock());
+  c->set_max_memory(1.9e8, c->lock());
   SimulatedRuntimes rt;
   for (boost::filesystem::recursive_directory_iterator end, dir(std::string(getenv("HOME")) + "/gc_log");
-       dir != end; ++dir ) {
+       dir != end; ++dir) {
     if (boost::filesystem::is_regular_file(dir->path())) {
       rt.push_back(from_log(parse_log(boost::filesystem::canonical(dir->path()).string())));
     }
@@ -368,17 +388,22 @@ void simulated_experiment() {
 }
 
 int main(int argc, char* argv[]) {
+#ifdef USE_V8
   // Initialize V8.
   v8::V8::InitializeICUDefaultLocation(argv[0]);
   v8::V8::InitializeExternalStartupData(argv[0]);
   std::unique_ptr<v8::Platform> platform = std::make_unique<RestrictedPlatform>(v8::platform::NewDefaultPlatform());
   v8::V8::InitializePlatform(platform.get());
   v8::V8::Initialize();
+#endif
 
   run_logged_experiment();
 
+#ifdef USE_V8
   // Dispose the isolate and tear down V8.
   v8::V8::Dispose();
   v8::V8::ShutdownPlatform();
   return 0;
+  aaa
+#endif
 }
