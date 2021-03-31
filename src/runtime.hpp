@@ -4,6 +4,7 @@
 #include <cassert>
 #include <map>
 #include <any>
+#include <functional>
 
 #include "forward-decl.hpp"
 

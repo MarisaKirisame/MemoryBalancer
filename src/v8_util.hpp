@@ -1,7 +1,7 @@
 #pragma once
 #include <v8.h>
+#include <v8-json.h>
 #include <libplatform/libplatform.h>
-#include <json.h>
 
 // does this do anything? not really. should ask v8 ppl about OnCriticalMemoryPressure usage.
 struct RestrictedPlatform : v8::Platform {

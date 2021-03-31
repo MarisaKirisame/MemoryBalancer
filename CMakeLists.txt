@@ -23,7 +23,7 @@ if (USE_V8)
   add_custom_command(
     TARGET MemoryBalancer
     PRE_BUILD
-    COMMAND aaa sh ../scripts/compile_v8.sh
+    COMMAND sh ../scripts/compile_v8.sh
     )
   target_compile_definitions(MemoryBalancer PUBLIC USE_V8)
 else()
@@ -31,7 +31,6 @@ endif ()
 
 set(JSON_BuildTests OFF CACHE INTERNAL "")
 add_subdirectory(third_party/json)
-include_directories(third_party/json/include)
 target_link_libraries(MemoryBalancer PRIVATE nlohmann_json::nlohmann_json)
 
 # the project must need v8 as header to build. we dont necessarily need to link it, unless we want simulator.

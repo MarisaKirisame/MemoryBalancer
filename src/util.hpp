@@ -1,6 +1,6 @@
 #pragma once
 #include <v8.h>
-#include <json.h>
+#include <v8-json.h>
 
 #ifdef USE_V8
 #include "v8_util.hpp"

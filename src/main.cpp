@@ -44,6 +44,11 @@ Input read_from_json(const json& j) {
   return Input {heap_size, code_path};
 }
 
+void log_json(const json& j) {
+  std::ofstream f("logs/" + get_time());
+  f << j;
+}
+
 struct Output {
   std::string version;
   size_t time_taken;
@@ -188,11 +193,6 @@ void parallel_experiment() {
   std::cout << "total_time = " << total_time << std::endl;
 }
 #endif
-
-void log_json(const json& j) {
-  std::ofstream f("logs/" + get_time());
-  f << j;
-}
 
 struct RuntimeStat {
   size_t max_memory;
@@ -403,6 +403,5 @@ int main(int argc, char* argv[]) {
   v8::V8::Dispose();
   v8::V8::ShutdownPlatform();
   return 0;
-  aaa
 #endif
 }

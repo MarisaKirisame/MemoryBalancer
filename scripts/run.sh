@@ -1,1 +1,1 @@
-make && ./build/MemoryBalancer
+./compile.sh && ../build/MemoryBalancer

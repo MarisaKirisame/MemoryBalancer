@@ -1,1 +1,1 @@
-make && gdb -ex=r ./build/MemoryBalancer
+./compile.sh && gdb -ex=r ../build/MemoryBalancer
