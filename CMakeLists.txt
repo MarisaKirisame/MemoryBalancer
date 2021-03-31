@@ -12,7 +12,10 @@ add_executable(MemoryBalancer ${SOURCES})
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(CMAKE_CXX_STANDARD 17)
 # somehow this does not work. add flag manually
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -L /usr/local/Cellar/boost/1.75.0_2/lib -g")
+
+include_directories(/usr/local/Cellar/boost/1.75.0_2/include)
+include_directories(/Users/pavpan/Dropbox/Work/MemoryBalancer/third_party/json/nlohmann/include)
 
 target_link_libraries(MemoryBalancer PRIVATE boost_filesystem)
 
@@ -35,3 +38,4 @@ target_link_libraries(MemoryBalancer PRIVATE nlohmann_json::nlohmann_json)
 
 # the project must need v8 as header to build. we dont necessarily need to link it, unless we want simulator.
 include_directories(../v8/src/include)
+include_directories(/Users/pavpan/src/v8/src/include)
