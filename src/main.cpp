@@ -45,7 +45,7 @@ Input read_from_json(const json& j) {
 }
 
 void log_json(const json& j) {
-  std::ofstream f("logs/" + get_time());
+  std::ofstream f("../logs/" + get_time());
   f << j;
 }
 
@@ -201,7 +201,13 @@ struct RuntimeStat {
 
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(RuntimeStat, max_memory, current_memory)
 
+struct RuntimeTrace {
+  size_t start;
+  std::vector<RuntimeStat> stats;
+};
 using SimulatedExperimentResult = std::vector<std::vector<RuntimeStat>>;
+using NewSimulatedExperimentResult = std::vector<RuntimeTrace>;
+
 using SimulatedRuntime = std::shared_ptr<SimulatedRuntimeNode>;
 using SimulatedRuntimes = std::vector<SimulatedRuntime>;
 
@@ -216,11 +222,16 @@ void run_simulated_experiment(const Controller& c, const SimulatedRuntimes& runt
   size_t tick_in_gc = 0;
   size_t tick_since_print = 0;
   size_t tick_in_gc_since_print = 0;
+  struct RuntimeGCTick {
+    size_t tick = 0;
+    size_t tick_in_gc = 0;
+  };
   for (bool has_work=true; has_work; ++i) {
     std::vector<RuntimeStat> slice;
     has_work=false;
     size_t total_memory = 0, total_live_memory = 0;
     size_t total_work = 0, total_work_done = 0;
+    size_t working_process = 0;
     for (const auto&r : runtimes) {
       slice.push_back({r->max_memory(), r->current_memory()});
       total_work += r->work_amount;
@@ -228,6 +239,7 @@ void run_simulated_experiment(const Controller& c, const SimulatedRuntimes& runt
       total_memory += r->max_memory();
       total_live_memory += r->current_memory();
       if (!r->is_done()) {
+        working_process++;
         tick++;
         tick_since_print++;
         if (r->in_gc) {
@@ -245,7 +257,8 @@ void run_simulated_experiment(const Controller& c, const SimulatedRuntimes& runt
         ", work done:" << total_work_done * 100 / total_work << "%" <<
         ", live memory utilization:" << 100 * total_live_memory / max_memory << "%"
         ", memory utilization:" << 100 * total_memory / max_memory << "%" <<
-        ", gc rate:" << 100 * tick_in_gc_since_print / tick_since_print << "%" << std::endl;
+        ", gc rate:" << 100 * tick_in_gc_since_print / tick_since_print << "%" <<
+        ", working process:" << working_process << std::endl;
       tick_since_print = 0;
       tick_in_gc_since_print = 0;
     }
@@ -328,6 +341,7 @@ Log parse_log(const std::string& path) {
   }
   return log;
 }
+
 SimulatedRuntime from_log(const Log& log) {
   Log log_major_gc;
   std::vector<Segment> data;
@@ -344,7 +358,7 @@ SimulatedRuntime from_log(const Log& log) {
     s.duration = log_major_gc[i].before_time - log_major_gc[i-1].after_time;
     mutator_time += s.duration;
     // todo: interpolate between the two gc?
-    s.garbage_rate = (log_major_gc[i].before_memory - log_major_gc[i-1].after_memory) / static_cast<double>(s.duration);
+    s.garbage_rate = (static_cast<double>(log_major_gc[i].before_memory) - static_cast<double>(log_major_gc[i-1].after_memory)) / static_cast<double>(s.duration);
     s.gc_duration = log_major_gc[i-1].after_time - log_major_gc[i-1].before_time;
     s.working_memory = log_major_gc[i-1].after_memory;
     data.push_back(s);
@@ -367,9 +381,9 @@ SimulatedRuntime from_log(const Log& log) {
 }
 
 void run_logged_experiment() {
-  //Controller c = std::make_shared<BalanceControllerNode>();
-  Controller c = std::make_shared<FirstComeFirstServeControllerNode>();
-  c->set_max_memory(1.9e8, c->lock());
+  Controller c = std::make_shared<BalanceControllerNode>();
+  //Controller c = std::make_shared<FirstComeFirstServeControllerNode>();
+  c->set_max_memory(3.1e8, c->lock());
   SimulatedRuntimes rt;
   for (boost::filesystem::recursive_directory_iterator end, dir(std::string(getenv("HOME")) + "/gc_log");
        dir != end; ++dir) {
@@ -386,22 +400,27 @@ void simulated_experiment() {
   //run_simulated_experiment(std::make_shared<FixedControllerNode>());
 }
 
+struct V8RAII {
+  std::unique_ptr<v8::Platform> platform;
+  V8RAII(const std::string& exec_location) {
+    // Initialize V8.
+    v8::V8::InitializeICUDefaultLocation(exec_location.c_str());
+    v8::V8::InitializeExternalStartupData(exec_location.c_str());
+    platform = std::make_unique<RestrictedPlatform>(v8::platform::NewDefaultPlatform());
+    v8::V8::InitializePlatform(platform.get());
+    v8::V8::Initialize();
+  }
+  ~V8RAII() {
+    // Dispose the isolate and tear down V8.
+    v8::V8::Dispose();
+    v8::V8::ShutdownPlatform();
+  }
+};
+
 int main(int argc, char* argv[]) {
 #ifdef USE_V8
-  // Initialize V8.
-  v8::V8::InitializeICUDefaultLocation(argv[0]);
-  v8::V8::InitializeExternalStartupData(argv[0]);
-  std::unique_ptr<v8::Platform> platform = std::make_unique<RestrictedPlatform>(v8::platform::NewDefaultPlatform());
-  v8::V8::InitializePlatform(platform.get());
-  v8::V8::Initialize();
+  V8RAII v8(argv[0]);
 #endif
-
   run_logged_experiment();
-
-#ifdef USE_V8
-  // Dispose the isolate and tear down V8.
-  v8::V8::Dispose();
-  v8::V8::ShutdownPlatform();
   return 0;
-#endif
 }

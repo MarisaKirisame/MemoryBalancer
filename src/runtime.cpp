@@ -2,7 +2,7 @@
 #include "controller.hpp"
 
 double memory_score(size_t working_memory, size_t max_memory, double garbage_rate, size_t gc_time) {
-  if (garbage_rate == 0 || gc_time == 0) {
+  if (garbage_rate <= 0 || gc_time == 0) {
     return std::numeric_limits<double>::max();
   }
   size_t extra_memory = max_memory - working_memory;
@@ -27,6 +27,15 @@ void SimulatedRuntimeNode::shrink_max_memory() {
   }
   shrink_memory_pending = true;
   check_invariant();
+}
+
+size_t SimulatedRuntimeNode::needed_memory() {
+  if (need_gc()) {
+    auto gr = garbage_rate();
+    assert(gr > 0);
+    return current_memory_ + gr - max_memory_;
+  }
+  return 0;
 }
 
 void SimulatedRuntimeNode::tick() {

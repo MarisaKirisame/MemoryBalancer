@@ -78,7 +78,7 @@ struct SimulatedRuntimeNode : RuntimeNode {
     current_memory_ = 0;
     max_memory_ = 0;
   }
-  std::function<size_t(mutator_clock)> garbage_rate_;
+  std::function<ptrdiff_t(mutator_clock)> garbage_rate_;
   std::function<size_t(mutator_clock)> gc_duration_;
   double garbage_rate() override {
     return garbage_rate_(mutator_time);
@@ -95,21 +95,18 @@ struct SimulatedRuntimeNode : RuntimeNode {
   bool shrink_memory_pending = false;
   size_t time_in_gc = 0;
   bool need_gc() {
-    return current_memory_ + garbage_rate() > max_memory_;
+    auto gr = garbage_rate();
+    return gr > 0 && current_memory_ + gr > max_memory_;
   }
-  size_t needed_memory() {
-    if (need_gc()) {
-      return current_memory_ + garbage_rate() - max_memory_;
-    }
-    return 0;
-  }
+  size_t needed_memory();
   void gc() {
     in_gc = true;
     time_in_gc = 0;
   }
   void mutator_tick() {
     check_invariant();
-    current_memory_ += garbage_rate();
+    current_memory_ = std::max(static_cast<ptrdiff_t>(0),
+                               static_cast<ptrdiff_t>(current_memory_) + static_cast<ptrdiff_t>(garbage_rate()));
     if (mutator_time == work_amount) {
       current_memory_ = 0;
       done();
@@ -120,7 +117,7 @@ struct SimulatedRuntimeNode : RuntimeNode {
 
   SimulatedRuntimeNode(mutator_clock work_amount,
                        const std::function<size_t(mutator_clock)> &max_working_memory_,
-                       const std::function<size_t(mutator_clock)> &garbage_rate_,
+                       const std::function<ptrdiff_t(mutator_clock)> &garbage_rate_,
                        const std::function<size_t(mutator_clock)> &gc_duration_) :
     work_amount(work_amount),
     max_working_memory_(max_working_memory_),

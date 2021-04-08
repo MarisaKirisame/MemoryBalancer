@@ -77,7 +77,8 @@ enum class RuntimeStatus {
 struct BalanceControllerNode : ControllerNode {
   // a positive number.
   double tolerance = 0.5;
-  RuntimeStatus judge(double judged_score, double runtime_score);
+  RuntimeStatus judge(double judged_score, double runtime_score, const Lock& l);
+  size_t working_memory(const Lock& l);
   // Score is sorted in ascending order.-
   // We are using median for now.
   // The other obvious choice is mean, and it may have a problem when data is imbalance:
