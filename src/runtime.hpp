@@ -6,7 +6,7 @@
 #include <any>
 #include <functional>
 
-#include "forward-decl.hpp"
+#include "controller.hpp"
 
 // higher score mean need less memory
 double memory_score(size_t working_memory, size_t max_memory, double garbage_rate, size_t gc_duration);
@@ -18,6 +18,10 @@ struct RuntimeNode : std::enable_shared_from_this<RuntimeNode> {
 protected:
   Controller controller;
   bool done_ = false;
+  ControllerNode::Lock lock() {
+    assert(controller);
+    return controller->lock();
+  }
 public:
   void done();
   virtual void done_aux() { }

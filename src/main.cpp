@@ -204,73 +204,108 @@ NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(RuntimeStat, max_memory, current_memory)
 struct RuntimeTrace {
   size_t start;
   std::vector<RuntimeStat> stats;
+  RuntimeTrace(size_t start) : start(start) { }
 };
-using SimulatedExperimentResult = std::vector<std::vector<RuntimeStat>>;
-using NewSimulatedExperimentResult = std::vector<RuntimeTrace>;
+
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(RuntimeTrace, start, stats)
+
+using SimulatedExperimentResult = std::vector<RuntimeTrace>;
 
 using SimulatedRuntime = std::shared_ptr<SimulatedRuntimeNode>;
 using SimulatedRuntimes = std::vector<SimulatedRuntime>;
 
-void run_simulated_experiment(const Controller& c, const SimulatedRuntimes& runtimes, size_t print_frequency, size_t log_frequency) {
+struct SimulatedExperimentConfig {
+  // none for no print
+  std::optional<size_t> print_frequency;
+  // none for no log
+  std::optional<size_t> log_frequency;
+  // none for no restriction
+  std::optional<size_t> num_of_cores;
+};
+
+void run_simulated_experiment(const Controller& c, const SimulatedRuntimes& runtimes, const SimulatedExperimentConfig& cfg) {
+  struct Process {
+    SimulatedRuntime r;
+    RuntimeTrace t;
+  };
+
+  auto l = c->lock();
+  SimulatedRuntimes unstarted_runtimes;
+  std::vector<RuntimeTrace> finished_traces;
+  std::vector<Process> running_processes;
+
+  size_t total_work = 0;
   for (const auto& r: runtimes) {
-    c->add_runtime(r, c->lock());
+    unstarted_runtimes.push_back(r);
+    total_work += r->work_amount;
   }
-  SimulatedExperimentResult ret;
+
   size_t i = 0;
 
   size_t tick = 0;
   size_t tick_in_gc = 0;
   size_t tick_since_print = 0;
   size_t tick_in_gc_since_print = 0;
-  struct RuntimeGCTick {
-    size_t tick = 0;
-    size_t tick_in_gc = 0;
-  };
+
+  while((!cfg.num_of_cores || running_processes.size() < *cfg.num_of_cores) && !unstarted_runtimes.empty()) {
+    SimulatedRuntime r = unstarted_runtimes.back();
+    unstarted_runtimes.pop_back();
+    assert(!r->is_done());
+    c->add_runtime(r, l);
+    running_processes.push_back({r, RuntimeTrace(0)});
+  }
+  assert(!cfg.num_of_cores || *cfg.num_of_cores > 0);
   for (bool has_work=true; has_work; ++i) {
-    std::vector<RuntimeStat> slice;
     has_work=false;
     size_t total_memory = 0, total_live_memory = 0;
-    size_t total_work = 0, total_work_done = 0;
-    size_t working_process = 0;
-    for (const auto&r : runtimes) {
-      slice.push_back({r->max_memory(), r->current_memory()});
-      total_work += r->work_amount;
-      total_work_done += r->mutator_time;
+    for (auto& p : running_processes) {
+      auto& r = p.r;
+      if (cfg.log_frequency && i % *cfg.log_frequency == 0) {
+        p.t.stats.push_back({r->max_memory(), r->current_memory()});
+      }
       total_memory += r->max_memory();
       total_live_memory += r->current_memory();
+    }
+    assert(total_memory == c->used_memory(l));
+    size_t remaining_processes = running_processes.size() + unstarted_runtimes.size();
+    for (size_t j = 0; j < running_processes.size();) {
+      auto& p = running_processes[j];
+      auto& r = p.r;
       if (!r->is_done()) {
-        working_process++;
+        has_work=true;
+        r->tick();
         tick++;
         tick_since_print++;
         if (r->in_gc) {
           tick_in_gc++;
           tick_in_gc_since_print++;
         }
+        ++j;
+      } else {
+        std::swap(p, running_processes.back());
+        finished_traces.push_back(running_processes.back().t);
+        running_processes.pop_back();
+        if (!unstarted_runtimes.empty()) {
+          SimulatedRuntime r = unstarted_runtimes.back();
+          unstarted_runtimes.pop_back();
+          assert(!r->is_done());
+          c->add_runtime(r, l);
+          running_processes.push_back({r, RuntimeTrace(cfg.log_frequency ? i / *cfg.log_frequency : 0)});
+        }
       }
     }
-    assert(total_memory == c->used_memory(c->lock()));
-    if (i % print_frequency == 0) {
-      size_t max_memory = c->max_memory(c->lock());
+    if (cfg.print_frequency && i % *cfg.print_frequency == 0) {
+      size_t max_memory = c->max_memory(l);
       std::cout <<
         "iteration:" << i <<
-        ", total work done: " << total_work_done <<
-        ", work done:" << total_work_done * 100 / total_work << "%" <<
+        ", total work done: " << (tick - tick_in_gc) <<
+        ", work done:" << (tick - tick_in_gc) * 100 / total_work << "%" <<
         ", live memory utilization:" << 100 * total_live_memory / max_memory << "%"
         ", memory utilization:" << 100 * total_memory / max_memory << "%" <<
         ", gc rate:" << 100 * tick_in_gc_since_print / tick_since_print << "%" <<
-        ", working process:" << working_process << std::endl;
+        ", remaining process:" << remaining_processes << std::endl;
       tick_since_print = 0;
       tick_in_gc_since_print = 0;
-    }
-    if (i % log_frequency == 0) {
-      ret.push_back(slice);
-      size_t max_memory = c->max_memory(c->lock());
-    }
-    for (const auto&r : runtimes) {
-      if (!r->is_done()) {
-        r->tick();
-        has_work=true;
-      }
     }
   }
   std::cout <<
@@ -278,7 +313,9 @@ void run_simulated_experiment(const Controller& c, const SimulatedRuntimes& runt
     ", total ticks taken: " << tick <<
     ", total ticks spent gcing: " << tick_in_gc <<
     ", gc rate: " << 100 * tick_in_gc / tick << "%" << std::endl << std::endl;
-  log_json(ret);
+  if (cfg.log_frequency) {
+    log_json(finished_traces);
+  }
 }
 
 // todo: noise (have number fluctuate)
@@ -291,7 +328,10 @@ void run_simulated_experiment_prepare(const Controller& c) {
   runtimes.push_back(std::make_shared<SimulatedRuntimeNode>(/*work_=*/100, /*max_working_memory_=*/make_const(0), /*garbage_rate_=*/make_const(1), /*gc_duration_=*/make_const(5)));
   runtimes.push_back(std::make_shared<SimulatedRuntimeNode>(/*work_=*/100, /*max_working_memory_=*/make_const(0), /*garbage_rate_=*/make_const(1), /*gc_duration_=*/make_const(3)));
   runtimes.push_back(std::make_shared<SimulatedRuntimeNode>(/*work_=*/100, /*max_working_memory_=*/make_const(0), /*garbage_rate_=*/make_const(1), /*gc_duration_=*/make_const(2)));
-  run_simulated_experiment(c, runtimes, 1, 1);
+  SimulatedExperimentConfig cfg;
+  cfg.print_frequency = 1;
+  cfg.log_frequency = 1;
+  run_simulated_experiment(c, runtimes, cfg);
 }
 
 using Log = std::vector<v8::GCRecord>;
@@ -381,9 +421,9 @@ SimulatedRuntime from_log(const Log& log) {
 }
 
 void run_logged_experiment() {
-  Controller c = std::make_shared<BalanceControllerNode>();
-  //Controller c = std::make_shared<FirstComeFirstServeControllerNode>();
-  c->set_max_memory(3.1e8, c->lock());
+  //Controller c = std::make_shared<BalanceControllerNode>();
+  Controller c = std::make_shared<FirstComeFirstServeControllerNode>();
+  c->set_max_memory(1.2e8, c->lock());
   SimulatedRuntimes rt;
   for (boost::filesystem::recursive_directory_iterator end, dir(std::string(getenv("HOME")) + "/gc_log");
        dir != end; ++dir) {
@@ -391,7 +431,11 @@ void run_logged_experiment() {
       rt.push_back(from_log(parse_log(boost::filesystem::canonical(dir->path()).string())));
     }
   }
-  run_simulated_experiment(c, rt, 1000, 10000);
+  SimulatedExperimentConfig cfg;
+  cfg.print_frequency = 1000;
+  cfg.log_frequency = 10000;
+  cfg.num_of_cores = 4;
+  run_simulated_experiment(c, rt, cfg);
 }
 
 void simulated_experiment() {

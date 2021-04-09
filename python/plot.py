@@ -23,18 +23,15 @@ def listadd(l, r):
 
 with open(path) as f:
     data = json.load(f)
+    def get_endtime(d):
+        return d['start'] + len(d['stats'])
+    endtime = max([get_endtime(d) for d in data])
     def get_property(name):
-        ret = None
-        for data_slice in data:
-            ret_slice = []
-            for point in data_slice:
-                ret_slice.append(point[name])
-            if not ret:
-                ret = []
-                for i in range(len(ret_slice)):
-                    ret.append([])
-            for i in range(len(data_slice)):
-                ret[i].append(ret_slice[i])
+        ret = []
+        for d in data:
+            x = d['start'] * [0] + [s[name] for s in d['stats']]
+            x = x + (endtime + 1 - len(x)) * [0]
+            ret.append(x)
         return ret
     max_memory = get_property("max_memory")
     current_memory = get_property("current_memory")
