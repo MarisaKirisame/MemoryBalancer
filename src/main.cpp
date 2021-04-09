@@ -209,11 +209,13 @@ struct RuntimeTrace {
 
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(RuntimeTrace, start, stats)
 
+// todo: make this a member of Result
 using SimulatedExperimentResult = std::vector<RuntimeTrace>;
 
 using SimulatedRuntime = std::shared_ptr<SimulatedRuntimeNode>;
 using SimulatedRuntimes = std::vector<SimulatedRuntime>;
 
+using proportion = double;
 struct SimulatedExperimentConfig {
   // none for no print
   std::optional<size_t> print_frequency;
@@ -221,9 +223,29 @@ struct SimulatedExperimentConfig {
   std::optional<size_t> log_frequency;
   // none for no restriction
   std::optional<size_t> num_of_cores;
+  proportion timeout_gc_proportion = 0.5;
 };
 
-void run_simulated_experiment(const Controller& c, const SimulatedRuntimes& runtimes, const SimulatedExperimentConfig& cfg) {
+struct SimulatedExperimentOKReport {
+  size_t time_taken;
+  size_t ticks_taken;
+  size_t ticks_in_gc;
+};
+
+using SimulatedExperimentReport = std::optional<SimulatedExperimentOKReport>;
+void report(const SimulatedExperimentReport& r) {
+  if (r) {
+    std::cout <<
+      "time_taken: " << r->time_taken <<
+      ", total ticks taken: " << r->ticks_taken <<
+      ", total ticks spent gcing: " << r->ticks_in_gc <<
+      ", gc rate: " << 100 * r->ticks_in_gc / r->ticks_taken << "%" << std::endl << std::endl;
+  } else {
+    std::cout << "timeout!" << std::endl;
+  }
+}
+
+SimulatedExperimentReport run_simulated_experiment(const Controller& c, const SimulatedRuntimes& runtimes, const SimulatedExperimentConfig& cfg) {
   struct Process {
     SimulatedRuntime r;
     RuntimeTrace t;
@@ -307,15 +329,14 @@ void run_simulated_experiment(const Controller& c, const SimulatedRuntimes& runt
       tick_since_print = 0;
       tick_in_gc_since_print = 0;
     }
+    if (tick * cfg.timeout_gc_proportion <= tick_in_gc) {
+      return SimulatedExperimentReport();
+    }
   }
-  std::cout <<
-    "time_taken: " << i <<
-    ", total ticks taken: " << tick <<
-    ", total ticks spent gcing: " << tick_in_gc <<
-    ", gc rate: " << 100 * tick_in_gc / tick << "%" << std::endl << std::endl;
   if (cfg.log_frequency) {
     log_json(finished_traces);
   }
+  return SimulatedExperimentOKReport({i, tick, tick_in_gc});
 }
 
 // todo: noise (have number fluctuate)
@@ -331,7 +352,7 @@ void run_simulated_experiment_prepare(const Controller& c) {
   SimulatedExperimentConfig cfg;
   cfg.print_frequency = 1;
   cfg.log_frequency = 1;
-  run_simulated_experiment(c, runtimes, cfg);
+  report(run_simulated_experiment(c, runtimes, cfg));
 }
 
 using Log = std::vector<v8::GCRecord>;
@@ -423,7 +444,7 @@ SimulatedRuntime from_log(const Log& log) {
 void run_logged_experiment() {
   //Controller c = std::make_shared<BalanceControllerNode>();
   Controller c = std::make_shared<FirstComeFirstServeControllerNode>();
-  c->set_max_memory(1.2e8, c->lock());
+  c->set_max_memory(1e8, c->lock());
   SimulatedRuntimes rt;
   for (boost::filesystem::recursive_directory_iterator end, dir(std::string(getenv("HOME")) + "/gc_log");
        dir != end; ++dir) {
@@ -435,7 +456,7 @@ void run_logged_experiment() {
   cfg.print_frequency = 1000;
   cfg.log_frequency = 10000;
   cfg.num_of_cores = 4;
-  run_simulated_experiment(c, rt, cfg);
+  report(run_simulated_experiment(c, rt, cfg));
 }
 
 void simulated_experiment() {
