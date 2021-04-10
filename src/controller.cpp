@@ -14,10 +14,11 @@ bool ControllerNode::request(const Runtime& r, size_t request, const Lock& l) {
   }
 }
 
-void ControllerNode::remove_runtime(const Runtime& r, const Lock& l) {
-  assert(runtimes_.count(r) == 1);
-  runtimes_.erase(r);
-  free_max_memory(r->max_memory(), l);
+void ControllerNode::remove_runtime(RuntimeNode& r, const Lock& l) {
+  auto w = r.weak_from_this();
+  assert(runtimes_.count(w) == 1);
+  runtimes_.erase(w);
+  free_max_memory(r.max_memory(), l);
   remove_runtime_aux(r, l);
 }
 
@@ -97,6 +98,7 @@ size_t BalanceControllerNode::working_memory(const Lock& l) {
   }
   return ret;
 }
+
 RuntimeStatus BalanceControllerNode::judge(double judged_score, double runtime_score, const Lock& l) {
   assert(0 <= runtime_score);
   size_t working_memory_ = working_memory(l);

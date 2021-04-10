@@ -29,7 +29,7 @@ public:
     return done_;
   }
   virtual ~RuntimeNode() {
-    done();
+    assert(is_done());
   }
   virtual size_t working_memory() = 0;
   virtual size_t current_memory() = 0;
@@ -127,4 +127,7 @@ struct SimulatedRuntimeNode : RuntimeNode {
     max_working_memory_(max_working_memory_),
     garbage_rate_(garbage_rate_),
     gc_duration_(gc_duration_) { }
+  ~SimulatedRuntimeNode() {
+    done();
+  }
 };

@@ -14,10 +14,7 @@ void RuntimeNode::done() {
   if (!done_) {
     done_ = true;
     if (controller) {
-      std::cout << "trying" << std::endl;
-      shared_from_this();
-      std::cout << "ok" << std::endl;
-      controller->remove_runtime(shared_from_this(), lock());
+      controller->remove_runtime(*this, lock());
     }
     done_aux();
   }
