@@ -34,7 +34,7 @@ protected:
   virtual void free_max_memory_aux(size_t memory_freed, const Lock&) { }
   virtual void set_max_memory_aux(size_t max_memory_, const Lock&) { }
   virtual void add_runtime_aux(const Runtime& r, const Lock&) { }
-  virtual void remove_runtime_aux(const Runtime& r, const Lock&) { }
+  virtual void remove_runtime_aux(const RuntimeNode& r, const Lock&) { }
   virtual bool request_impl(const Runtime& r, size_t request, const Lock&) = 0;
 public:
   virtual ~ControllerNode() = default;
@@ -44,7 +44,7 @@ public:
   bool request(const Runtime& r, size_t request, const Lock&);
   virtual void optimize(const Lock&) { }
   void add_runtime(const Runtime& r, const Lock&);
-  void remove_runtime(const Runtime& r, const Lock&);
+  void remove_runtime(const RuntimeNode& r, const Lock&);
   std::vector<Runtime> runtimes(const Lock&);
   void set_max_memory(size_t max_memory_, const Lock& l) {
     this->max_memory_ = max_memory_;

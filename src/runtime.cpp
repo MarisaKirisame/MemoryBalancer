@@ -14,10 +14,7 @@ void RuntimeNode::done() {
   if (!done_) {
     done_ = true;
     if (controller) {
-      std::cout << "trying" << std::endl;
-      shared_from_this();
-      std::cout << "ok" << std::endl;
-      controller->remove_runtime(shared_from_this(), lock());
+      controller->remove_runtime(*this, lock());
     }
     done_aux();
   }
@@ -45,7 +42,9 @@ void SimulatedRuntimeNode::tick() {
   assert(controller);
   check_invariant();
   assert(!done_);
-  if (in_gc) {
+  if (mutator_time == work_amount) {
+    done();
+  } else if (in_gc) {
     auto gcd = gc_duration();
     assert(gcd > 0);
     if (time_in_gc == gcd) {

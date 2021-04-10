@@ -29,13 +29,13 @@ public:
     return done_;
   }
   virtual ~RuntimeNode() {
-    done();
+    assert(is_done());
   }
-  virtual size_t working_memory() = 0;
-  virtual size_t current_memory() = 0;
-  virtual size_t max_memory() = 0;
-  virtual double garbage_rate() = 0;
-  virtual size_t gc_duration() = 0; // we assume each gc clear all garbage: for generational gc only full gc 'count'
+  virtual size_t working_memory() const = 0;
+  virtual size_t current_memory() const = 0;
+  virtual size_t max_memory() const = 0;
+  virtual double garbage_rate() const = 0;
+  virtual size_t gc_duration() const = 0; // we assume each gc clear all garbage: for generational gc only full gc 'count'
   virtual void allow_more_memory(size_t extra) = 0;
   virtual void shrink_max_memory() = 0;
   double memory_score() {
@@ -46,6 +46,9 @@ public:
 };
 
 struct SimulatedRuntimeNode : RuntimeNode {
+  ~SimulatedRuntimeNode() {
+    done();
+  }
   using mutator_clock = size_t;
   mutator_clock mutator_time = 0, work_amount;
   // note: the current logged simulated runtime report working memory in interval, while the simulator may run in finer grain mode.
@@ -54,7 +57,7 @@ struct SimulatedRuntimeNode : RuntimeNode {
   // there will also be warning whenever this happend.
   void tick();
   std::function<size_t(mutator_clock)> max_working_memory_;
-  size_t working_memory() override {
+  size_t working_memory() const override {
     auto m = max_working_memory_(mutator_time);
     //assert(m >= current_memory_);
     return std::min(current_memory_, m);
@@ -63,7 +66,7 @@ struct SimulatedRuntimeNode : RuntimeNode {
     assert(current_memory_ <= max_memory_);
   }
   size_t current_memory_ = 0;
-  size_t current_memory() override {
+  size_t current_memory() const override {
     return current_memory_;
   }
   void set_current_memory(size_t val) {
@@ -71,7 +74,7 @@ struct SimulatedRuntimeNode : RuntimeNode {
     check_invariant();
   }
   size_t max_memory_ = 0;
-  size_t max_memory() override {
+  size_t max_memory() const override {
     return max_memory_;
   }
   void set_max_memory(size_t val) {
@@ -84,10 +87,10 @@ struct SimulatedRuntimeNode : RuntimeNode {
   }
   std::function<ptrdiff_t(mutator_clock)> garbage_rate_;
   std::function<size_t(mutator_clock)> gc_duration_;
-  double garbage_rate() override {
+  double garbage_rate() const override {
     return garbage_rate_(mutator_time);
   }
-  size_t gc_duration() override {
+  size_t gc_duration() const override {
     return gc_duration_(mutator_time);
   }
   void allow_more_memory(size_t extra) override {
@@ -111,10 +114,7 @@ struct SimulatedRuntimeNode : RuntimeNode {
     check_invariant();
     current_memory_ = std::max(static_cast<ptrdiff_t>(0),
                                static_cast<ptrdiff_t>(current_memory_) + static_cast<ptrdiff_t>(garbage_rate()));
-    if (mutator_time == work_amount) {
-      current_memory_ = 0;
-      done();
-    }
+    assert(mutator_time != work_amount);
     ++mutator_time;
     check_invariant();
   }

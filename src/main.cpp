@@ -442,9 +442,9 @@ SimulatedRuntime from_log(const Log& log) {
 }
 
 void run_logged_experiment() {
-  //Controller c = std::make_shared<BalanceControllerNode>();
-  Controller c = std::make_shared<FirstComeFirstServeControllerNode>();
-  c->set_max_memory(1e8, c->lock());
+  Controller c = std::make_shared<BalanceControllerNode>();
+  //Controller c = std::make_shared<FirstComeFirstServeControllerNode>();
+  c->set_max_memory(1.3e8, c->lock());
   SimulatedRuntimes rt;
   for (boost::filesystem::recursive_directory_iterator end, dir(std::string(getenv("HOME")) + "/gc_log");
        dir != end; ++dir) {
@@ -455,7 +455,7 @@ void run_logged_experiment() {
   SimulatedExperimentConfig cfg;
   cfg.print_frequency = 1000;
   cfg.log_frequency = 10000;
-  cfg.num_of_cores = 4;
+  cfg.num_of_cores = 1;
   report(run_simulated_experiment(c, rt, cfg));
 }
 
