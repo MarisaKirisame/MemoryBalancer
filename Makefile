@@ -7,9 +7,8 @@ compile:
 	(cd build && cmake .. && make)
 
 run: compile
-	build/MemoryBalancer gc_log
+	(cd build && MemoryBalancer ../gc_log)
 
-debug: compile
-	gdb -ex=r ../build/MemoryBalancer gc_log
-
-nightly: run
+nightly:
+	make run
+	python3 python/plot.py logs
