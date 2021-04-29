@@ -516,6 +516,7 @@ void simulated_experiment() {
   //run_simulated_experiment(std::make_shared<FixedControllerNode>());
 }
 
+#ifdef USE_V8
 struct V8RAII {
   std::unique_ptr<v8::Platform> platform;
   V8RAII(const std::string& exec_location) {
@@ -532,6 +533,7 @@ struct V8RAII {
     v8::V8::ShutdownPlatform();
   }
 };
+#endif
 
 int main(int argc, char* argv[]) {
 #ifdef USE_V8
