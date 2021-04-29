@@ -12,16 +12,21 @@ namespace tag = boost::accumulators::tag;
 using boost::accumulators::accumulator_set;
 using boost::accumulators::stats;
 
+std::string pad_string(const std::string& str, char pad, size_t length) {
+  assert(length >= str.length());
+  return std::string(length - str.length(), pad) + str;
+}
+
 std::string get_time() {
   std::time_t t = std::time(nullptr);
   std::tm* tm = std::localtime(&t);
   return
-    std::to_string(1900+tm->tm_year) + "-" +
-    std::to_string(1+tm->tm_mon) + "-" +
-    std::to_string(tm->tm_mday) + "-" +
-    std::to_string(tm->tm_hour) + "-" +
-    std::to_string(tm->tm_min) + "-" +
-    std::to_string(tm->tm_sec);
+    pad_string(std::to_string(1900+tm->tm_year), '0', 4) + "-" +
+    pad_string(std::to_string(1+tm->tm_mon), '0', 2) + "-" +
+    pad_string(std::to_string(tm->tm_mday), '0', 2) + "-" +
+    pad_string(std::to_string(tm->tm_hour), '0', 2) + "-" +
+    pad_string(std::to_string(tm->tm_min), '0', 2) + "-" +
+    pad_string(std::to_string(tm->tm_sec), '0', 2);
 }
 
 double mean(const std::vector<double>& v) {

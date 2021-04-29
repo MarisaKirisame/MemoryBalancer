@@ -539,6 +539,6 @@ int main(int argc, char* argv[]) {
 #ifdef USE_V8
   V8RAII v8(argv[0]);
 #endif
-  pareto_curve(argc > 1 ? argv[1] : ".");
+  pareto_curve(argc > 1 ? argv[1] : "../gc_log");
   return 0;
 }
