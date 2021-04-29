@@ -461,9 +461,9 @@ SimulatedRuntime from_log(const Log& log) {
                      });
 }
 
-SimulatedExperimentReport run_logged_experiment(Controller &c) {
+SimulatedExperimentReport run_logged_experiment(Controller &c, const char *where) {
   SimulatedRuntimes rt;
-  for (boost::filesystem::recursive_directory_iterator end, dir(std::string(getenv("HOME")) + "/gc_log");
+  for (boost::filesystem::recursive_directory_iterator end, dir(where);
        dir != end; ++dir) {
     if (boost::filesystem::is_regular_file(dir->path())) {
       rt.push_back(from_log(parse_log(boost::filesystem::canonical(dir->path()).string())));
@@ -489,7 +489,7 @@ struct ParetoCurveResult {
 
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(ParetoCurveResult, points)
 
-void pareto_curve() {
+void pareto_curve(const char *where) {
   size_t start = 1e8;
   size_t end = 1e9;
   size_t sample = 100;
@@ -500,11 +500,11 @@ void pareto_curve() {
     std::cout << "running balance controller on memory " << point << std::endl;
     Controller bc = std::make_shared<BalanceControllerNode>();
     bc->set_max_memory(point, bc->lock());
-    auto bc_ser = run_logged_experiment(bc);
+    auto bc_ser = run_logged_experiment(bc, where);
     std::cout << "running fcfs controller on memory " << point << std::endl;
     Controller fc = std::make_shared<FirstComeFirstServeControllerNode>();
     fc->set_max_memory(point, fc->lock());
-    auto fc_ser = run_logged_experiment(fc);
+    auto fc_ser = run_logged_experiment(fc, where);
     pcr.points.push_back({point, bc_ser, fc_ser});
   }
   log_json(pcr, "simulated experiment(pareto curve)");
@@ -539,6 +539,6 @@ int main(int argc, char* argv[]) {
 #ifdef USE_V8
   V8RAII v8(argv[0]);
 #endif
-  pareto_curve();
+  pareto_curve(argc > 1 ? argv[1] : ".");
   return 0;
 }
