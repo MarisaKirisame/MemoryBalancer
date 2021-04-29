@@ -1,0 +1,9 @@
+{"after_memory":10695956,"after_time":3848203,"before_memory":10695956,"before_time":3841666,"is_major_gc":false}
+{"after_memory":7791552,"after_time":4644614,"before_memory":10795284,"before_time":4540525,"is_major_gc":true}
+{"after_memory":7772280,"after_time":4857392,"before_memory":7946464,"before_time":4754440,"is_major_gc":true}
+{"after_memory":7813352,"after_time":5253510,"before_memory":8162092,"before_time":5161827,"is_major_gc":true}
+{"after_memory":7488064,"after_time":5454156,"before_memory":7813352,"before_time":5325509,"is_major_gc":true}
+{"after_memory":6801096,"after_time":6139639,"before_memory":7894856,"before_time":5874868,"is_major_gc":true}
+{"after_memory":6770400,"after_time":6626427,"before_memory":7102960,"before_time":6526450,"is_major_gc":true}
+{"after_memory":6767832,"after_time":7170959,"before_memory":6976904,"before_time":7074235,"is_major_gc":true}
+{"after_memory":6763916,"after_time":7654666,"before_memory":7094744,"before_time":7568936,"is_major_gc":true}
