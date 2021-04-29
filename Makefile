@@ -11,4 +11,4 @@ run: compile
 
 nightly:
 	make run
-	sh python/upload.sh
+	sh python/upload.sh logs
