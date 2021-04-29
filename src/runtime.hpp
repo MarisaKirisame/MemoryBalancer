@@ -107,17 +107,7 @@ struct SimulatedRuntimeNode : RuntimeNode {
     in_gc = true;
     time_in_gc = 0;
   }
-  void mutator_tick() {
-    check_invariant();
-    current_memory_ = std::max(static_cast<ptrdiff_t>(0),
-                               static_cast<ptrdiff_t>(current_memory_) + static_cast<ptrdiff_t>(garbage_rate()));
-    if (mutator_time == work_amount) {
-      current_memory_ = 0;
-      done();
-    }
-    ++mutator_time;
-    check_invariant();
-  }
+  void mutator_tick();
 
   SimulatedRuntimeNode(mutator_clock work_amount,
                        const std::function<size_t(mutator_clock)> &max_working_memory_,

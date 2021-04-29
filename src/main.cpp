@@ -24,7 +24,33 @@
 #include "v8_util.hpp"
 #endif
 
+namespace nlohmann {
+
+	template <class T>
+	void to_json(nlohmann::json& j, const std::optional<T>& v)
+	{
+		if (v.has_value()) {
+			j["tag"] = "Some";
+      j["value"] = *v;
+    }
+		else {
+      j["tag"] = "None";
+    }
+	}
+
+	template <class T>
+	void from_json(const nlohmann::json& j, std::optional<T>& v)
+	{
+		if (j["tag"] == "Some") {
+      j.at("value").get_to(*v);
+    } else {
+      v = std::nullopt;
+    }
+	}
+} // namespace nlohmann
+
 using namespace nlohmann;
+
 using time_point = std::chrono::steady_clock::time_point;
 using std::chrono::steady_clock;
 using std::chrono::duration_cast;
@@ -44,26 +70,19 @@ Input read_from_json(const json& j) {
   return Input {heap_size, code_path};
 }
 
-void log_json(const json& j) {
+void log_json(const json& j, const std::string& type) {
   std::ofstream f("../logs/" + get_time());
-  f << j;
-}
-
-struct Output {
-  std::string version;
-  size_t time_taken;
-};
-
-void add_to_json(const Output& o, json& j) {
-  j["version"] = o.version;
-  j["time_taken"] = o.time_taken;
+  json output;
+  output["version"] = "2020-4-23";
+  output["type"] = type;
+  output["data"] = j;
+  f << output;
 }
 
 #ifdef USE_V8
 
-Output run(const Input& i, std::mutex* m) {
+size_t run(const Input& i, std::mutex* m) {
   std::cout << "running " << i.code_path << std::endl;
-  Output o;
   // Create a new Isolate and make it the current one.
   v8::Isolate::CreateParams create_params;
   //create_params.constraints.ConfigureDefaults(heap_size, 0);
@@ -73,6 +92,7 @@ Output run(const Input& i, std::mutex* m) {
   //std::cout << old << " " << young << " " << old + young << std::endl;
   create_params.array_buffer_allocator =
       v8::ArrayBuffer::Allocator::NewDefaultAllocator();
+  size_t run_time_taken;
   v8::Isolate* isolate = v8::Isolate::New(create_params);
   isolate->SetMaxPhysicalMemoryOfDevice(0.9e9);
   {
@@ -98,7 +118,7 @@ Output run(const Input& i, std::mutex* m) {
       v8::Local<v8::Value> result;
       result = script->Run(context).ToLocalChecked();
       time_point end = steady_clock::now();
-      o.time_taken = duration_cast<milliseconds>(end - begin).count();
+      run_time_taken = duration_cast<milliseconds>(end - begin).count();
       // Convert the result to an UTF8 string and print it.
       v8::String::Utf8Value utf8(isolate, result);
       printf("%s\n", *utf8);
@@ -139,8 +159,7 @@ Output run(const Input& i, std::mutex* m) {
   }
   isolate->Dispose();
   delete create_params.array_buffer_allocator;
-  o.version = "2020-11-20";
-  return o;
+  return run_time_taken;
 }
 
 void read_write() {
@@ -152,12 +171,12 @@ void read_write() {
   t >> j;
 
   Input i = read_from_json(j);
-  std::future<Output> o = std::async(std::launch::async, run, i, &m);
+  std::future<size_t> o = std::async(std::launch::async, run, i, &m);
 
   m.unlock();
-  add_to_json(o.get(), j);
+  j["time_taken"] = o.get();
 
-  log_json(j);
+  log_json(j, "v8-experiment");
 }
 
 void parallel_experiment() {
@@ -178,7 +197,7 @@ void parallel_experiment() {
     inputs.push_back(pdfjs_input);
   }
 
-  std::vector<std::future<Output>> futures;
+  std::vector<std::future<size_t>> futures;
   for (const Input& input : inputs) {
     futures.push_back(std::async(std::launch::async, run, input, &m));
   }
@@ -186,8 +205,8 @@ void parallel_experiment() {
   m.unlock();
 
   size_t total_time = 0;
-  for (std::future<Output>& future : futures) {
-    total_time += future.get().time_taken;
+  for (std::future<size_t>& future : futures) {
+    total_time += future.get();
   }
 
   std::cout << "total_time = " << total_time << std::endl;
@@ -231,6 +250,7 @@ struct SimulatedExperimentOKReport {
   size_t ticks_taken;
   size_t ticks_in_gc;
 };
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(SimulatedExperimentOKReport, time_taken, ticks_taken, ticks_in_gc)
 
 using SimulatedExperimentReport = std::optional<SimulatedExperimentOKReport>;
 void report(const SimulatedExperimentReport& r) {
@@ -239,7 +259,7 @@ void report(const SimulatedExperimentReport& r) {
       "time_taken: " << r->time_taken <<
       ", total ticks taken: " << r->ticks_taken <<
       ", total ticks spent gcing: " << r->ticks_in_gc <<
-      ", gc rate: " << 100 * r->ticks_in_gc / r->ticks_taken << "%" << std::endl << std::endl;
+      ", gc rate: " << 100 * r->ticks_in_gc / r->ticks_taken << "%" << std::endl;
   } else {
     std::cout << "timeout!" << std::endl;
   }
@@ -334,7 +354,7 @@ SimulatedExperimentReport run_simulated_experiment(const Controller& c, const Si
     }
   }
   if (cfg.log_frequency) {
-    log_json(finished_traces);
+    log_json(finished_traces, "simulated experiment(single run)");
   }
   return SimulatedExperimentOKReport({i, tick, tick_in_gc});
 }
@@ -441,10 +461,7 @@ SimulatedRuntime from_log(const Log& log) {
                      });
 }
 
-void run_logged_experiment() {
-  Controller c = std::make_shared<BalanceControllerNode>();
-  //Controller c = std::make_shared<FirstComeFirstServeControllerNode>();
-  c->set_max_memory(1.2e8, c->lock());
+SimulatedExperimentReport run_logged_experiment(Controller &c) {
   SimulatedRuntimes rt;
   for (boost::filesystem::recursive_directory_iterator end, dir(std::string(getenv("HOME")) + "/gc_log");
        dir != end; ++dir) {
@@ -453,10 +470,44 @@ void run_logged_experiment() {
     }
   }
   SimulatedExperimentConfig cfg;
-  cfg.print_frequency = 1000;
-  cfg.log_frequency = 10000;
-  cfg.num_of_cores = 4;
-  report(run_simulated_experiment(c, rt, cfg));
+  cfg.num_of_cores = 100;
+  auto ret = run_simulated_experiment(c, rt, cfg);
+  report(ret);
+  return ret;
+}
+
+struct ParetoCurvePoint {
+  size_t memory;
+  SimulatedExperimentReport balance_controller, fcfs_controller;
+};
+
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(ParetoCurvePoint, memory, balance_controller, fcfs_controller)
+
+struct ParetoCurveResult {
+  std::vector<ParetoCurvePoint> points;
+};
+
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(ParetoCurveResult, points)
+
+void pareto_curve() {
+  size_t start = 1e8;
+  size_t end = 1e9;
+  size_t sample = 100;
+  assert(sample >= 2);
+  ParetoCurveResult pcr;
+  for (size_t i = 0; i < sample; ++i) {
+    size_t point = start + (end - start) * i / (sample - 1);
+    std::cout << "running balance controller on memory " << point << std::endl;
+    Controller bc = std::make_shared<BalanceControllerNode>();
+    bc->set_max_memory(point, bc->lock());
+    auto bc_ser = run_logged_experiment(bc);
+    std::cout << "running fcfs controller on memory " << point << std::endl;
+    Controller fc = std::make_shared<FirstComeFirstServeControllerNode>();
+    fc->set_max_memory(point, fc->lock());
+    auto fc_ser = run_logged_experiment(fc);
+    pcr.points.push_back({point, bc_ser, fc_ser});
+  }
+  log_json(pcr, "simulated experiment(pareto curve)");
 }
 
 void simulated_experiment() {
@@ -486,6 +537,6 @@ int main(int argc, char* argv[]) {
 #ifdef USE_V8
   V8RAII v8(argv[0]);
 #endif
-  run_logged_experiment();
+  pareto_curve();
   return 0;
 }

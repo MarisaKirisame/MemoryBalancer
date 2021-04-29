@@ -42,7 +42,9 @@ void SimulatedRuntimeNode::tick() {
   assert(controller);
   check_invariant();
   assert(!done_);
-  if (in_gc) {
+  if (mutator_time == work_amount) {
+    done();
+  } else if (in_gc) {
     auto gcd = gc_duration();
     assert(gcd > 0);
     if (time_in_gc == gcd) {
@@ -70,5 +72,15 @@ void SimulatedRuntimeNode::tick() {
   } else {
     mutator_tick();
   }
+  check_invariant();
+}
+
+void SimulatedRuntimeNode::mutator_tick() {
+  check_invariant();
+  controller->change_working_memory(-working_memory(), lock());
+  current_memory_ = std::max(static_cast<ptrdiff_t>(0),
+                             static_cast<ptrdiff_t>(current_memory_) + static_cast<ptrdiff_t>(garbage_rate()));
+  ++mutator_time;
+  controller->change_working_memory(working_memory(), lock());
   check_invariant();
 }

@@ -30,11 +30,13 @@ protected:
   std::set<std::weak_ptr<RuntimeNode>, std::owner_less<std::weak_ptr<RuntimeNode>>> runtimes_;
   size_t max_memory_ = 0;
   size_t used_memory_ = 0;
+  size_t working_memory_ = 0;
   std::recursive_mutex m;
   virtual void free_max_memory_aux(size_t memory_freed, const Lock&) { }
   virtual void set_max_memory_aux(size_t max_memory_, const Lock&) { }
   virtual void add_runtime_aux(const Runtime& r, const Lock&) { }
   virtual void remove_runtime_aux(RuntimeNode& r, const Lock&) { }
+  virtual void change_working_memory_aux(ptrdiff_t working_memory_delta, const Lock&) { }
   virtual bool request_impl(const Runtime& r, size_t request, const Lock&) = 0;
 public:
   virtual ~ControllerNode() = default;
@@ -50,6 +52,10 @@ public:
     this->max_memory_ = max_memory_;
     set_max_memory_aux(max_memory_, l);
   }
+  void change_working_memory(ptrdiff_t working_memory_delta, const Lock& l) {
+    working_memory_ += working_memory_delta;
+    change_working_memory_aux(working_memory_delta, l);
+  }
   size_t max_memory(const Lock&) {
     return max_memory_;
   }
@@ -63,6 +69,7 @@ public:
   Lock lock() {
     return std::make_shared<LockNode>(shared_from_this());
   }
+  size_t working_memory(const Lock& l);
 };
 
 enum class RuntimeStatus {
@@ -78,7 +85,6 @@ struct BalanceControllerNode : ControllerNode {
   // a positive number.
   double tolerance = 0.5;
   RuntimeStatus judge(double judged_score, double runtime_score, const Lock& l);
-  size_t working_memory(const Lock& l);
   // Score is sorted in ascending order.-
   // We are using median for now.
   // The other obvious choice is mean, and it may have a problem when data is imbalance:

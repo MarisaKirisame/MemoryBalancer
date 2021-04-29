@@ -1,13 +1,9 @@
 import json
 import matplotlib.pyplot as plt
 import numpy as np
-from optparse import OptionParser
+import sys
 
-parser = OptionParser()
-parser.add_option("-l", "--log", dest="log",
-                  help="filename of log", metavar="FILE")
-(options, args) = parser.parse_args()
-path = options.log
+path = sys.argv[1]
 class ListAdder:
     def __init__(self):
         self.data = None
@@ -21,8 +17,7 @@ def listadd(l, r):
     assert len(l) == len(r)
     return [l[i] + r[i] for i in range(len(l))]
 
-with open(path) as f:
-    data = json.load(f)
+def draw_simulated_single_point(data):
     def get_endtime(d):
         return d['start'] + len(d['stats'])
     endtime = max([get_endtime(d) for d in data])
@@ -46,3 +41,27 @@ with open(path) as f:
         plt.plot(listadd(bottom.data, d), color="black")
         bottom.add(max_memory[i])
     plt.savefig("plot.png")
+
+def draw_simulated_pareto_curve(data):
+    bc_time = []
+    bc_memory = []
+    fc_time = []
+    fc_memory = []
+    def process(point, used_memory, time, memory):
+        if (point["tag"] == "Some"):
+            v = point["value"]
+            time.append(v["ticks_in_gc"])
+            memory.append(used_memory)
+    for point in data["points"]:
+        process(point["balance_controller"], point["memory"], bc_time, bc_memory)
+        process(point["fcfs_controller"], point["memory"], fc_time, fc_memory)
+    plt.plot(bc_memory, bc_time)
+    plt.plot(fc_memory, fc_time)
+    plt.savefig("plot.png")
+
+with open(path) as f:
+    data = json.load(f)
+    if data["type"] == "simulated experiment(pareto curve)":
+        draw_simulated_pareto_curve(data["data"])
+    else:
+        raise

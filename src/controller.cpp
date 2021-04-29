@@ -19,6 +19,7 @@ void ControllerNode::remove_runtime(RuntimeNode& r, const Lock& l) {
   assert(runtimes_.count(w) == 1);
   runtimes_.erase(w);
   free_max_memory(r.max_memory(), l);
+  change_working_memory(-r.working_memory(), l);
   remove_runtime_aux(r, l);
 }
 
@@ -91,12 +92,8 @@ double BalanceControllerNode::score(const Lock& l) {
   return aggregate_score(score);
 }
 
-size_t BalanceControllerNode::working_memory(const Lock& l) {
-  size_t ret = 0;
-  for (const Runtime& runtime: runtimes(lock())) {
-    ret += runtime->working_memory();
-  }
-  return ret;
+size_t ControllerNode::working_memory(const Lock& l) {
+  return working_memory_;
 }
 
 RuntimeStatus BalanceControllerNode::judge(double judged_score, double runtime_score, const Lock& l) {
