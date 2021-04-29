@@ -11,4 +11,4 @@ run: compile
 
 nightly:
 	make run
-	python3 python/plot.py logs
+	sh python/upload.sh
