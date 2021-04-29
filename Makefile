@@ -7,7 +7,7 @@ compile:
 	(cd build && cmake .. && make)
 
 run: compile
-	(cd build && MemoryBalancer ../gc_log)
+	(cd build && ./MemoryBalancer ../gc_log)
 
 nightly:
 	make run
