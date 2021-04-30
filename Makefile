@@ -1,12 +1,17 @@
-.PHONY: compile v8 run nightly
+.PHONY: all compile v8 run nightly
+
+all: compile
 
 v8:
 	(cd ../v8/src && ninja -C out.gn/x64.release.sample v8_monolith)
 
-compile:
+build/MemoryBalancer:
+	mkdir -p build
 	(cd build && cmake .. && make)
 
-run: compile
+compile: build/MemoryBalancer
+
+run: build/MemoryBalancer
 	(cd build && ./MemoryBalancer ../gc_log)
 
 nightly:
