@@ -15,5 +15,8 @@ run: build/MemoryBalancer
 	(cd build && ./MemoryBalancer ../gc_log)
 
 nightly:
+	git submodule init
+	git submodule update
+	git submodule sync
 	make run
 	sh python/upload.sh logs
