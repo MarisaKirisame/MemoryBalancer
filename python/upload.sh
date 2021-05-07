@@ -1,5 +1,5 @@
 #!/bin/sh
-set -o errexit -o xtrace -o pipefail
+set -o errexit -o xtrace
 
 DIR=$1
 TIME=$(date +%s)
