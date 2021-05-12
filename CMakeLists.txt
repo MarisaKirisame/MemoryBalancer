@@ -24,11 +24,11 @@ if (USE_V8)
   target_link_libraries(MemoryBalancer PRIVATE v8_monolith)
   target_link_directories(MemoryBalancer PRIVATE ../v8/src/out.gn/x64.release.sample/obj/)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread -DV8_COMPRESS_POINTERS")
-  add_custom_command(
-    TARGET MemoryBalancer
-    PRE_BUILD
-    COMMAND sh ../scripts/compile_v8.sh
-    )
+  #add_custom_command(
+  #  TARGET MemoryBalancer
+  #  PRE_BUILD
+  #  COMMAND sh ../scripts/compile_v8.sh
+  #  )
   target_compile_definitions(MemoryBalancer PUBLIC USE_V8)
 else()
 endif ()

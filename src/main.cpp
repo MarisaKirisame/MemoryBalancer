@@ -19,6 +19,7 @@
 #include <thread>
 #include <set>
 #include <unistd.h>
+#include <random>
 
 #ifdef USE_V8
 #include "v8_util.hpp"
@@ -243,6 +244,8 @@ struct SimulatedExperimentConfig {
   // none for no restriction
   std::optional<size_t> num_of_cores;
   proportion timeout_gc_proportion = 0.5;
+  // do not use 0 as a seed - in glibc that's the same as seed 1. just start from 1 and go up.
+  unsigned int seed = 1;
 };
 
 struct SimulatedExperimentOKReport {
@@ -265,7 +268,9 @@ void report(const SimulatedExperimentReport& r) {
   }
 }
 
-SimulatedExperimentReport run_simulated_experiment(const Controller& c, const SimulatedRuntimes& runtimes, const SimulatedExperimentConfig& cfg) {
+SimulatedExperimentReport run_simulated_experiment(const Controller& c, SimulatedRuntimes runtimes, const SimulatedExperimentConfig& cfg) {
+  std::shuffle(runtimes.begin(), runtimes.end(), std::default_random_engine(cfg.seed));
+
   struct Process {
     SimulatedRuntime r;
     RuntimeTrace t;
@@ -461,7 +466,7 @@ SimulatedRuntime from_log(const Log& log) {
                      });
 }
 
-SimulatedExperimentReport run_logged_experiment(Controller &c, const char *where) {
+SimulatedExperimentReport run_logged_experiment(Controller &c, const std::string& where) {
   SimulatedRuntimes rt;
   for (boost::filesystem::recursive_directory_iterator end, dir(where);
        dir != end; ++dir) {
@@ -470,7 +475,8 @@ SimulatedExperimentReport run_logged_experiment(Controller &c, const char *where
     }
   }
   SimulatedExperimentConfig cfg;
-  cfg.num_of_cores = 100;
+  cfg.num_of_cores = 16;
+  cfg.seed = 2;
   auto ret = run_simulated_experiment(c, rt, cfg);
   report(ret);
   return ret;
@@ -489,10 +495,10 @@ struct ParetoCurveResult {
 
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(ParetoCurveResult, points)
 
-void pareto_curve(const char *where) {
+void pareto_curve(const std::string& where) {
   size_t start = 1e8;
   size_t end = 1e9;
-  size_t sample = 100;
+  size_t sample = 50;
   assert(sample >= 2);
   ParetoCurveResult pcr;
   for (size_t i = 0; i < sample; ++i) {
@@ -508,6 +514,10 @@ void pareto_curve(const char *where) {
     pcr.points.push_back({point, bc_ser, fc_ser});
   }
   log_json(pcr, "simulated experiment(pareto curve)");
+}
+
+void multiple_pareto_curve() {
+  
 }
 
 void simulated_experiment() {
@@ -539,6 +549,22 @@ int main(int argc, char* argv[]) {
 #ifdef USE_V8
   V8RAII v8(argv[0]);
 #endif
-  pareto_curve(argc > 1 ? argv[1] : "../gc_log");
+  assert(argc == 1);
+  pareto_curve("../gc_log");
+  return 0;
+  {
+    Controller c = std::make_shared<BalanceControllerNode>();
+    c->set_max_memory(1e10, c->lock());
+    SimulatedRuntimes rt;
+    for (boost::filesystem::recursive_directory_iterator end, dir("../gc_log");
+         dir != end; ++dir) {
+      if (boost::filesystem::is_regular_file(dir->path())) {
+        rt.push_back(from_log(parse_log(boost::filesystem::canonical(dir->path()).string())));
+      }
+    }
+    SimulatedExperimentConfig cfg;
+    cfg.log_frequency = 1000;
+    run_simulated_experiment(c, rt, cfg);
+  }
   return 0;
 }

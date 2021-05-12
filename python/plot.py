@@ -55,13 +55,19 @@ def draw_simulated_pareto_curve(data):
     for point in data["points"]:
         process(point["balance_controller"], point["memory"], bc_time, bc_memory)
         process(point["fcfs_controller"], point["memory"], fc_time, fc_memory)
-    plt.plot(bc_memory, bc_time)
-    plt.plot(fc_memory, fc_time)
+    plt.ylim(bottom=0, top=max([max(bc_time), max(fc_time)]))
+    plt.plot(bc_memory, bc_time, color="blue")
+    plt.axvline(x=min(bc_memory), color="blue")
+    plt.plot(fc_memory, fc_time, color="orange")
+    plt.axvline(x=min(fc_memory), color="orange")
     plt.savefig("plot.png")
 
 with open(path) as f:
     data = json.load(f)
     if data["type"] == "simulated experiment(pareto curve)":
         draw_simulated_pareto_curve(data["data"])
+    elif data["type"] == "simulated experiment(single run)":
+        draw_simulated_single_point(data["data"])
     else:
+        print(data["type"])
         raise
