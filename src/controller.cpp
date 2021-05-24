@@ -42,23 +42,31 @@ std::vector<Runtime> ControllerNode::runtimes(const Lock& l) {
 }
 
 bool BalanceControllerNode::request_impl(const Runtime& r, size_t extra, const Lock& l) {
-  double current_score = score(l);
-  RuntimeStatus status = judge(r->memory_score(), current_score, l);
-  size_t working_memory_ = working_memory(l);
-  double portion_memory_used = double(used_memory_ - working_memory_) / double(max_memory_ - working_memory_);
-  if (status == RuntimeStatus::Stay) {
-    return false;
-  } else if (status == RuntimeStatus::ShouldFree) {
-    r->shrink_max_memory();
-    return false;
-  } else {
-    assert(status == RuntimeStatus::CanAllocate);
-    if (enough_memory(extra)) {
-      return true;
+  auto try_allocate =
+    [&]() {
+      if (enough_memory(extra)) {
+        return true;
+      } else {
+        optimize(l);
+        return enough_memory(extra);
+      }
+    };
+  if (balance_allocation) {
+    double current_score = score(l);
+    RuntimeStatus status = judge(r->memory_score(hc), current_score, l);
+    size_t working_memory_ = working_memory(l);
+    if (status == RuntimeStatus::Stay) {
+      return false;
+    } else if (status == RuntimeStatus::ShouldFree) {
+      r->shrink_max_memory();
+      return false;
     } else {
-      optimize(l);
-      return enough_memory(extra);
+      assert(status == RuntimeStatus::CanAllocate);
+      return try_allocate();
     }
+  }
+  else {
+    return try_allocate();
   }
 }
 
@@ -69,7 +77,7 @@ bool FirstComeFirstServeControllerNode::request_impl(const Runtime& r, size_t ex
 void BalanceControllerNode::optimize(const Lock& l) {
   double current_score = score(l);
   for (const Runtime& runtime: runtimes(l)) {
-    RuntimeStatus status = judge(runtime->memory_score(), current_score, l);
+    RuntimeStatus status = judge(runtime->memory_score(hc), current_score, l);
     if (status == RuntimeStatus::ShouldFree) {
       runtime->shrink_max_memory();
     }
@@ -83,7 +91,7 @@ double BalanceControllerNode::aggregate_score(const std::vector<double>& score) 
 double BalanceControllerNode::score(const Lock& l) {
   std::vector<double> score;
   for (const Runtime& runtime: runtimes(l)) {
-    score.push_back(runtime->memory_score());
+    score.push_back(runtime->memory_score(hc));
   }
   std::sort(score.begin(), score.end());
   if (score.empty()) {
@@ -107,4 +115,4 @@ RuntimeStatus BalanceControllerNode::judge(double judged_score, double runtime_s
   } else {
     return RuntimeStatus::Stay;
   }
- }
+}

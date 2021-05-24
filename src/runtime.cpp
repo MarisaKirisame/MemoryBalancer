@@ -1,12 +1,24 @@
 #include "runtime.hpp"
 #include "controller.hpp"
 
-double memory_score(size_t working_memory, size_t max_memory, double garbage_rate, size_t gc_time) {
+double memory_score(size_t working_memory, size_t max_memory, double garbage_rate, size_t gc_time, size_t work_left, const HeuristicConfig& hc) {
   if (garbage_rate <= 0 || gc_time == 0) {
     return std::numeric_limits<double>::max();
   }
   size_t extra_memory = max_memory - working_memory;
-  double ret = extra_memory / garbage_rate * extra_memory / gc_time;
+  double ret;
+  if (hc.opt == OptimizeFor::throughput) {
+    double gc_tick_per_tick = garbage_rate * gc_time;
+    double tmp = extra_memory + gc_tick_per_tick;
+    std::cout << extra_memory << ", " << gc_tick_per_tick << std::endl;
+    ret = (tmp * tmp) / gc_tick_per_tick;
+  } else {
+    assert(hc.opt == OptimizeFor::time);
+    ret = extra_memory * extra_memory / (garbage_rate * gc_time);
+  }
+  if (hc.weight_work_left) {
+    ret *= work_left;
+  }
   return ret;
 }
 
@@ -77,10 +89,12 @@ void SimulatedRuntimeNode::tick() {
 
 void SimulatedRuntimeNode::mutator_tick() {
   check_invariant();
+  std::cout << working_memory() << "," << garbage_rate() << std::endl;
   controller->change_working_memory(-working_memory(), lock());
   current_memory_ = std::max(static_cast<ptrdiff_t>(0),
                              static_cast<ptrdiff_t>(current_memory_) + static_cast<ptrdiff_t>(garbage_rate()));
   ++mutator_time;
   controller->change_working_memory(working_memory(), lock());
+  std::cout << working_memory() << "," << garbage_rate() << std::endl;
   check_invariant();
 }

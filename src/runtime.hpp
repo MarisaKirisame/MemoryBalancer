@@ -9,7 +9,7 @@
 #include "controller.hpp"
 
 // higher score mean need less memory
-double memory_score(size_t working_memory, size_t max_memory, double garbage_rate, size_t gc_duration);
+double memory_score(size_t working_memory, size_t max_memory, double garbage_rate, size_t gc_duration, size_t work_left, const HeuristicConfig& hc);
 
 // In order to avoid cycle, Runtime has strong pointer to controller and Controller has weak pointer to runtime.
 struct RuntimeNode : std::enable_shared_from_this<RuntimeNode> {
@@ -38,8 +38,9 @@ public:
   virtual size_t gc_duration() = 0; // we assume each gc clear all garbage: for generational gc only full gc 'count'
   virtual void allow_more_memory(size_t extra) = 0;
   virtual void shrink_max_memory() = 0;
-  double memory_score() {
-    auto ret = ::memory_score(working_memory(), max_memory(), garbage_rate(), gc_duration());
+  virtual size_t work_left() = 0;
+  double memory_score(const HeuristicConfig& hc) {
+    auto ret = ::memory_score(working_memory(), max_memory(), garbage_rate(), gc_duration(), work_left(), hc);
     assert(!std::isinf(ret));
     return ret;
   }
@@ -56,11 +57,12 @@ struct SimulatedRuntimeNode : RuntimeNode {
   std::function<size_t(mutator_clock)> max_working_memory_;
   size_t working_memory() override {
     auto m = max_working_memory_(mutator_time);
-    //assert(m >= current_memory_);
+    assert(m <= current_memory_);
     return std::min(current_memory_, m);
   }
   void check_invariant() {
     assert(current_memory_ <= max_memory_);
+    assert(max_working_memory_(mutator_time) <= current_memory_);
   }
   size_t current_memory_ = 0;
   size_t current_memory() override {
@@ -89,6 +91,9 @@ struct SimulatedRuntimeNode : RuntimeNode {
   }
   size_t gc_duration() override {
     return gc_duration_(mutator_time);
+  }
+  size_t work_left() override {
+    return work_amount - mutator_time;
   }
   void allow_more_memory(size_t extra) override {
     max_memory_ += extra;

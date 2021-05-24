@@ -16,6 +16,9 @@ compile: build/MemoryBalancer
 run: build/MemoryBalancer
 	(cd build && ./MemoryBalancer)
 
+debug: build/MemoryBalancer
+	(cd build && gdb ./MemoryBalancer)
+
 nightly:
 	git submodule init
 	git submodule update

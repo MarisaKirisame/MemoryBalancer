@@ -42,24 +42,32 @@ def draw_simulated_single_point(data):
         bottom.add(max_memory[i])
     plt.savefig("plot.png")
 
+color = ["red", "green", "blue"]
+
 def draw_simulated_pareto_curve(data):
-    bc_time = []
-    bc_memory = []
-    fc_time = []
-    fc_memory = []
+    class ControllerData:
+        def __init__(self):
+            self.time = []
+            self.memory = []
+    cd = {}
     def process(point, used_memory, time, memory):
         if (point["tag"] == "Some"):
             v = point["value"]
             time.append(v["ticks_in_gc"])
             memory.append(used_memory)
     for point in data["points"]:
-        process(point["balance_controller"], point["memory"], bc_time, bc_memory)
-        process(point["fcfs_controller"], point["memory"], fc_time, fc_memory)
-    plt.ylim(bottom=0, top=max([max(bc_time), max(fc_time)]))
-    plt.plot(bc_memory, bc_time, color="blue")
-    plt.axvline(x=min(bc_memory), color="blue")
-    plt.plot(fc_memory, fc_time, color="orange")
-    plt.axvline(x=min(fc_memory), color="orange")
+        for x in point["controllers"]:
+            y = point["controllers"][x]
+            if (y["tag"] == "Some"):
+                v = y["value"]
+                if x not in cd:
+                    cd[x] = ControllerData()
+                cd[x].time.append(v["ticks_in_gc"])
+                cd[x].memory.append(point["memory"])
+    plt.ylim(bottom=0, top=max([max(cd[x].time) for x in cd]))
+    for i, x in enumerate(cd):
+        plt.plot(cd[x].memory, cd[x].time, color=color[i])
+        plt.axvline(x=min(cd[x].memory), color=color[i])
     plt.savefig("plot.png")
 
 with open(path) as f:

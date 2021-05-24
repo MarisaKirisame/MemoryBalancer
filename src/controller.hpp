@@ -84,6 +84,9 @@ enum class RuntimeStatus {
 struct BalanceControllerNode : ControllerNode {
   // a positive number.
   double tolerance = 0.5;
+  static constexpr bool balance_allocation = false;
+  HeuristicConfig hc;
+  BalanceControllerNode(const HeuristicConfig& hc) : hc(hc) { }
   RuntimeStatus judge(double judged_score, double runtime_score, const Lock& l);
   // Score is sorted in ascending order.-
   // We are using median for now.

@@ -20,6 +20,7 @@
 #include <set>
 #include <unistd.h>
 #include <random>
+#include <unordered_map>
 
 #ifdef USE_V8
 #include "v8_util.hpp"
@@ -445,6 +446,7 @@ SimulatedRuntime from_log(const Log& log) {
     mutator_time += s.duration;
     // todo: interpolate between the two gc?
     s.garbage_rate = (static_cast<double>(log_major_gc[i].before_memory) - static_cast<double>(log_major_gc[i-1].after_memory)) / static_cast<double>(s.duration);
+    // garbage rate may be < 0 with minor gc / external resource
     s.gc_duration = log_major_gc[i-1].after_time - log_major_gc[i-1].before_time;
     s.working_memory = log_major_gc[i-1].after_memory;
     data.push_back(s);
@@ -475,8 +477,8 @@ SimulatedExperimentReport run_logged_experiment(Controller &c, const std::string
     }
   }
   SimulatedExperimentConfig cfg;
-  cfg.num_of_cores = 16;
-  cfg.seed = 2;
+  cfg.num_of_cores = 8;
+  cfg.seed = 1;
   auto ret = run_simulated_experiment(c, rt, cfg);
   report(ret);
   return ret;
@@ -484,10 +486,10 @@ SimulatedExperimentReport run_logged_experiment(Controller &c, const std::string
 
 struct ParetoCurvePoint {
   size_t memory;
-  SimulatedExperimentReport balance_controller, fcfs_controller;
+  std::unordered_map<std::string, SimulatedExperimentReport> controllers;
 };
 
-NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(ParetoCurvePoint, memory, balance_controller, fcfs_controller)
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(ParetoCurvePoint, memory, controllers)
 
 struct ParetoCurveResult {
   std::vector<ParetoCurvePoint> points;
@@ -497,21 +499,25 @@ NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(ParetoCurveResult, points)
 
 void pareto_curve(const std::string& where) {
   size_t start = 1e8;
-  size_t end = 1e9;
+  size_t end = 10e8;
   size_t sample = 50;
   assert(sample >= 2);
   ParetoCurveResult pcr;
   for (size_t i = 0; i < sample; ++i) {
+    std::unordered_map<std::string, SimulatedExperimentReport> controllers;
     size_t point = start + (end - start) * i / (sample - 1);
-    std::cout << "running balance controller on memory " << point << std::endl;
-    Controller bc = std::make_shared<BalanceControllerNode>();
-    bc->set_max_memory(point, bc->lock());
-    auto bc_ser = run_logged_experiment(bc, where);
-    std::cout << "running fcfs controller on memory " << point << std::endl;
-    Controller fc = std::make_shared<FirstComeFirstServeControllerNode>();
-    fc->set_max_memory(point, fc->lock());
-    auto fc_ser = run_logged_experiment(fc, where);
-    pcr.points.push_back({point, bc_ser, fc_ser});
+    auto run =
+      [&](const std::string& name, Controller c) {
+        c->set_max_memory(point, c->lock());
+        std::cout << "running " << name << " controller on memory " << point << std::endl;
+        auto ser = run_logged_experiment(c, where);
+        controllers.insert({name, ser});
+      };
+    run("fcfs", std::make_shared<FirstComeFirstServeControllerNode>());
+    run("balance(no-weight)", std::make_shared<BalanceControllerNode>(HeuristicConfig {false, OptimizeFor::time}));
+    run("balance(weighted)", std::make_shared<BalanceControllerNode>(HeuristicConfig {true, OptimizeFor::time}));
+    run("balance(throughput)", std::make_shared<BalanceControllerNode>(HeuristicConfig {false, OptimizeFor::throughput}));
+    pcr.points.push_back({point, controllers});
   }
   log_json(pcr, "simulated experiment(pareto curve)");
 }
@@ -553,7 +559,7 @@ int main(int argc, char* argv[]) {
   pareto_curve("../gc_log");
   return 0;
   {
-    Controller c = std::make_shared<BalanceControllerNode>();
+    Controller c = std::make_shared<BalanceControllerNode>(HeuristicConfig {false, OptimizeFor::time});
     c->set_max_memory(1e10, c->lock());
     SimulatedRuntimes rt;
     for (boost::filesystem::recursive_directory_iterator end, dir("../gc_log");
