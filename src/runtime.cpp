@@ -6,15 +6,15 @@ double memory_score(size_t working_memory, size_t max_memory, double garbage_rat
     return std::numeric_limits<double>::max();
   }
   size_t extra_memory = max_memory - working_memory;
+  double gc_tick_per_tick = garbage_rate * gc_time;
   double ret;
   if (hc.opt == OptimizeFor::throughput) {
-    double gc_tick_per_tick = garbage_rate * gc_time;
     double tmp = extra_memory + gc_tick_per_tick;
-    std::cout << extra_memory << ", " << gc_tick_per_tick << std::endl;
+    //std::cout << extra_memory << ", " << gc_tick_per_tick << std::endl;
     ret = (tmp * tmp) / gc_tick_per_tick;
   } else {
     assert(hc.opt == OptimizeFor::time);
-    ret = extra_memory * extra_memory / (garbage_rate * gc_time);
+    ret = extra_memory * extra_memory / gc_tick_per_tick;
   }
   if (hc.weight_work_left) {
     ret *= work_left;
@@ -41,11 +41,15 @@ void SimulatedRuntimeNode::shrink_max_memory() {
   check_invariant();
 }
 
+ptrdiff_t SimulatedRuntimeNode::current_memory_delta() {
+  return ptrdiff_t(next_current_memory()) - ptrdiff_t(current_memory());
+}
+
 size_t SimulatedRuntimeNode::needed_memory() {
   if (need_gc()) {
-    auto gr = garbage_rate();
-    assert(gr > 0);
-    return current_memory_ + gr - max_memory_;
+    auto delta = current_memory_delta();
+    assert(delta > 0);
+    return delta;
   }
   return 0;
 }
@@ -84,17 +88,13 @@ void SimulatedRuntimeNode::tick() {
   } else {
     mutator_tick();
   }
-  check_invariant();
 }
 
 void SimulatedRuntimeNode::mutator_tick() {
   check_invariant();
-  std::cout << working_memory() << "," << garbage_rate() << std::endl;
   controller->change_working_memory(-working_memory(), lock());
-  current_memory_ = std::max(static_cast<ptrdiff_t>(0),
-                             static_cast<ptrdiff_t>(current_memory_) + static_cast<ptrdiff_t>(garbage_rate()));
+  current_memory_ = next_current_memory();
   ++mutator_time;
   controller->change_working_memory(working_memory(), lock());
-  std::cout << working_memory() << "," << garbage_rate() << std::endl;
   check_invariant();
 }

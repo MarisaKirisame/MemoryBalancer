@@ -46,6 +46,10 @@ public:
   }
 };
 
+// Note: we will increase allocation to make current_memory > working_memory.
+// there should be two place where we need this hotfix.
+// 0: at the beginning of the code, the current_memory is 0 while working_memory is not. lets do a bump.
+// 1: the code do rounding and interpolation. we may have to bump by 1 sometimes to avoid rounding error.
 struct SimulatedRuntimeNode : RuntimeNode {
   using mutator_clock = size_t;
   mutator_clock mutator_time = 0, work_amount;
@@ -54,20 +58,25 @@ struct SimulatedRuntimeNode : RuntimeNode {
   // to combat this we take the min of input working memory and current memory as the working memory.
   // there will also be warning whenever this happend.
   void tick();
-  std::function<size_t(mutator_clock)> max_working_memory_;
+  std::function<size_t(mutator_clock)> working_memory_;
   size_t working_memory() override {
-    auto m = max_working_memory_(mutator_time);
-    assert(m <= current_memory_);
-    return std::min(current_memory_, m);
+    auto wm = working_memory_(mutator_time);
+    return std::min(current_memory_, wm);
   }
   void check_invariant() {
     assert(current_memory_ <= max_memory_);
-    assert(max_working_memory_(mutator_time) <= current_memory_);
+    if (mutator_time > 0) {
+      assert(working_memory_(mutator_time) <= current_memory_);
+    }
   }
   size_t current_memory_ = 0;
   size_t current_memory() override {
     return current_memory_;
   }
+  size_t next_current_memory() {
+    return std::max<ptrdiff_t>(working_memory_(mutator_time+1), ptrdiff_t(current_memory_) + garbage_rate_(mutator_time));
+  }
+  ptrdiff_t current_memory_delta();
   void set_current_memory(size_t val) {
     current_memory_ = val;
     check_invariant();
@@ -104,8 +113,14 @@ struct SimulatedRuntimeNode : RuntimeNode {
   bool shrink_memory_pending = false;
   size_t time_in_gc = 0;
   bool need_gc() {
-    auto gr = garbage_rate();
-    return gr > 0 && current_memory_ + gr > max_memory_;
+    assert(current_memory() <= max_memory_);
+    if (next_current_memory() > max_memory_) {
+      assert(next_current_memory() > current_memory());
+      assert(current_memory_delta() > 0);
+      return true;
+    } else {
+      return false;
+    }
   }
   size_t needed_memory();
   void gc() {
@@ -115,11 +130,11 @@ struct SimulatedRuntimeNode : RuntimeNode {
   void mutator_tick();
 
   SimulatedRuntimeNode(mutator_clock work_amount,
-                       const std::function<size_t(mutator_clock)> &max_working_memory_,
+                       const std::function<size_t(mutator_clock)> &working_memory_,
                        const std::function<ptrdiff_t(mutator_clock)> &garbage_rate_,
                        const std::function<size_t(mutator_clock)> &gc_duration_) :
     work_amount(work_amount),
-    max_working_memory_(max_working_memory_),
+    working_memory_(working_memory_),
     garbage_rate_(garbage_rate_),
     gc_duration_(gc_duration_) { }
   ~SimulatedRuntimeNode() {

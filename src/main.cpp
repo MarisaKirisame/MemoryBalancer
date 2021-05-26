@@ -372,9 +372,9 @@ void run_simulated_experiment_prepare(const Controller& c) {
   c->set_max_memory(20, c->lock());
   SimulatedRuntimes runtimes;
   auto make_const = [](size_t i){ return std::function<size_t(size_t)>([=](size_t){ return i; }); };
-  runtimes.push_back(std::make_shared<SimulatedRuntimeNode>(/*work_=*/100, /*max_working_memory_=*/make_const(0), /*garbage_rate_=*/make_const(1), /*gc_duration_=*/make_const(5)));
-  runtimes.push_back(std::make_shared<SimulatedRuntimeNode>(/*work_=*/100, /*max_working_memory_=*/make_const(0), /*garbage_rate_=*/make_const(1), /*gc_duration_=*/make_const(3)));
-  runtimes.push_back(std::make_shared<SimulatedRuntimeNode>(/*work_=*/100, /*max_working_memory_=*/make_const(0), /*garbage_rate_=*/make_const(1), /*gc_duration_=*/make_const(2)));
+  runtimes.push_back(std::make_shared<SimulatedRuntimeNode>(/*work_=*/100, /*working_memory_=*/make_const(0), /*garbage_rate_=*/make_const(1), /*gc_duration_=*/make_const(5)));
+  runtimes.push_back(std::make_shared<SimulatedRuntimeNode>(/*work_=*/100, /*working_memory_=*/make_const(0), /*garbage_rate_=*/make_const(1), /*gc_duration_=*/make_const(3)));
+  runtimes.push_back(std::make_shared<SimulatedRuntimeNode>(/*work_=*/100, /*working_memory_=*/make_const(0), /*garbage_rate_=*/make_const(1), /*gc_duration_=*/make_const(2)));
   SimulatedExperimentConfig cfg;
   cfg.print_frequency = 1;
   cfg.log_frequency = 1;
@@ -386,13 +386,26 @@ struct Segment {
   clock_t begin;
   size_t duration;
   double garbage_rate;
-  size_t gc_duration, working_memory;
+  size_t gc_duration;
+  size_t start_working_memory, end_working_memory;
 };
+
+// there might be some rounding error breaking invariant in the extreme case?
+template<typename T>
+T interpolate(const T& a, const T& b, double a_ratio) {
+  return T(a * a_ratio + b * (1 - a_ratio));
+}
+
+// interpolate(a, b, uninterpolate(a, b, c)) = c modulo floating point error
+template<typename T>
+double uninterpolate(const T& a, const T& b, const T& c) {
+  return double(c - b) / double(a - b);
+}
 
 struct Finder {
   std::vector<Segment> data;
   size_t idx = 0;
-  const Segment& get_segment(clock_t time) {
+  std::tuple<const Segment&, double/*progress*/> get_segment(clock_t time) {
     size_t seen_begin = idx, seen_end = idx;
     while (idx < data.size()) {
       assert(!(seen_begin <= idx && idx < seen_end));
@@ -400,7 +413,8 @@ struct Finder {
       seen_end = std::max(idx+1, seen_end);
       const Segment& g = data[idx];
       if (g.begin <= time && time < g.begin + g.duration) {
-        return g;
+        // we are returning progress, so 1 when at the end of the segment
+        return {g, uninterpolate<size_t>(g.begin + g.duration, g.begin, time)};
       } else if (!(g.begin <= time)) {
         assert(idx > 0);
         --idx;
@@ -412,6 +426,12 @@ struct Finder {
     std::cout << time << " not found" << std::endl;
     assert(idx < data.size());
     throw;
+  }
+  const Segment& get_segment_data(clock_t time) {
+    return std::get<0>(get_segment(time));
+  }
+  double get_segment_progress(clock_t time) {
+    return std::get<1>(get_segment(time));
   }
   Finder(const std::vector<Segment>& data) : data(data) { }
 };
@@ -439,7 +459,12 @@ SimulatedRuntime from_log(const Log& log) {
   }
   clock_t mutator_time = 0;
   assert(log_major_gc.size() > 0);
+  // WEIRD: I didnt record the start time of the program...
+  // this mean i dont know the duration between the start of the program and the zeroth gc.
+  // rn lets just start the whole thing from the zeroth gc.
   for (size_t i = 1; i < log_major_gc.size(); ++i) {
+    // may be false!
+    // assert(log_major_gc[i].before_memory >= log_major_gc[i].after_memory);
     Segment s;
     s.begin = mutator_time;
     s.duration = log_major_gc[i].before_time - log_major_gc[i-1].after_time;
@@ -447,8 +472,9 @@ SimulatedRuntime from_log(const Log& log) {
     // todo: interpolate between the two gc?
     s.garbage_rate = (static_cast<double>(log_major_gc[i].before_memory) - static_cast<double>(log_major_gc[i-1].after_memory)) / static_cast<double>(s.duration);
     // garbage rate may be < 0 with minor gc / external resource
-    s.gc_duration = log_major_gc[i-1].after_time - log_major_gc[i-1].before_time;
-    s.working_memory = log_major_gc[i-1].after_memory;
+    s.gc_duration = log_major_gc[i].after_time - log_major_gc[i].before_time;
+    s.start_working_memory = log_major_gc[i-1].after_memory;
+    s.end_working_memory = log_major_gc[i].after_memory;
     data.push_back(s);
   }
   // a time step is how often we simulate a step.
@@ -457,15 +483,32 @@ SimulatedRuntime from_log(const Log& log) {
   // but the simulation cost(cpu cycles) will become higher.
   clock_t time_step = 1000;
   auto f = std::make_shared<Finder>(data);
-  return std::make_shared<SimulatedRuntimeNode>(
+  auto ret = std::make_shared<SimulatedRuntimeNode>(
     /*work_=*/mutator_time / time_step,
-    /*max_working_memory_=*/[=](size_t i) { return f->get_segment(i * time_step).working_memory; },
-    /*garbage_rate_=*/[=](size_t i) { return time_step * f->get_segment(i * time_step).garbage_rate; },
+    // we have to interpolate the working memory to keep invariant. or else the delta of working memory will > the delta of current memory!
+    /*working_memory_=*/[=](size_t i) {
+                          auto tup = f->get_segment(i * time_step);
+                          auto seg = std::get<0>(tup);
+                          auto progress = std::get<1>(tup);
+                          return interpolate(seg.end_working_memory, seg.start_working_memory, progress);
+                        },
+    /*garbage_rate_=*/[=](size_t i) {
+                        return time_step * f->get_segment_data(i * time_step).garbage_rate;
+                      },
     /*gc_duration_=*/[=](size_t i) {
-                       auto gcd = f->get_segment(i * time_step).gc_duration;
+                       auto gcd = f->get_segment_data(i * time_step).gc_duration;
+                       // gc should at least take 1 tick
                        assert(gcd >= time_step);
                        return gcd / time_step;
                      });
+  for (size_t i = 1; i < ret->work_amount; ++i) {
+    auto gr = ret->garbage_rate_(i);
+    auto wmd = ptrdiff_t(ret->working_memory_(i)) - ptrdiff_t(ret->working_memory_(i-1));
+    // false due to floating point inaccuracy...
+    // std::cout << "garbage_rate: " << gr << " working_memory delta: " << wmd << std::endl;
+    // assert(gr >= wmd);
+  }
+  return ret;
 }
 
 SimulatedExperimentReport run_logged_experiment(Controller &c, const std::string& where) {
