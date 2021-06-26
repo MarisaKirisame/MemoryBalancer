@@ -7,6 +7,7 @@
 #include "util.hpp"
 #include "controller.hpp"
 #include "runtime.hpp"
+#include "server.hpp"
 #include "boost/filesystem.hpp"
 
 #include <iostream>
@@ -237,6 +238,9 @@ using SimulatedRuntime = std::shared_ptr<SimulatedRuntimeNode>;
 using SimulatedRuntimes = std::vector<SimulatedRuntime>;
 
 using proportion = double;
+
+enum class RuntimeWrapType { Local, Thread, Process };
+
 struct SimulatedExperimentConfig {
   // none for no print
   std::optional<size_t> print_frequency;
@@ -247,6 +251,7 @@ struct SimulatedExperimentConfig {
   proportion timeout_gc_proportion = 0.5;
   // do not use 0 as a seed - in glibc that's the same as seed 1. just start from 1 and go up.
   unsigned int seed = 1;
+  RuntimeWrapType rwt = RuntimeWrapType::Local;
 };
 
 struct SimulatedExperimentOKReport {
@@ -511,6 +516,24 @@ SimulatedRuntime from_log(const Log& log) {
   return ret;
 }
 
+Runtime wrap(const Runtime& rt, const RuntimeWrapType& rwt) {
+  switch (rwt) {
+    case RuntimeWrapType::Local: {
+      return rt;
+    }
+    case RuntimeWrapType::Thread: {
+      std::thread t([](){});
+      t.detach();
+      return std::make_shared<RemoteRuntimeNode>(rt);
+      throw;
+    }
+    default: {
+      throw;
+    }
+  }
+}
+
+// todo: modify this, and allow wrapping of from_log into remote_runtime, living on another thread.
 SimulatedExperimentReport run_logged_experiment(Controller &c, const std::string& where) {
   SimulatedRuntimes rt;
   for (boost::filesystem::recursive_directory_iterator end, dir(where);
