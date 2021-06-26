@@ -48,6 +48,7 @@ bool BalanceControllerNode::request_impl(const Runtime& r, size_t extra, const L
         return true;
       } else {
         optimize(l);
+        // todo: look like this always return false. is it true?
         return enough_memory(extra);
       }
     };
@@ -70,8 +71,8 @@ bool BalanceControllerNode::request_impl(const Runtime& r, size_t extra, const L
   }
 }
 
-bool FirstComeFirstServeControllerNode::request_impl(const Runtime& r, size_t extra, const Lock& l) {
-  return used_memory_ + extra <= max_memory_;
+bool FirstComeFirstServeControllerNode::request_impl(const Runtime& r, size_t request, const Lock& l) {
+  return used_memory_ + request <= max_memory_;
 }
 
 void BalanceControllerNode::optimize(const Lock& l) {
@@ -114,5 +115,16 @@ RuntimeStatus BalanceControllerNode::judge(double judged_score, double runtime_s
     return RuntimeStatus::ShouldFree;
   } else {
     return RuntimeStatus::Stay;
+  }
+}
+
+bool BingBangControllerNode::request_impl(const Runtime& r, size_t request, const Lock& l) {
+  if (used_memory_ + request <= max_memory_) {
+    return true;
+  } else {
+    for (const Runtime& runtime: runtimes(l)) {
+      runtime->shrink_max_memory();
+    }
+    return false;
   }
 }

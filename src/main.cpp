@@ -579,6 +579,7 @@ void pareto_curve(const std::string& where) {
         controllers.insert({name, ser});
       };
     run("fcfs", std::make_shared<FirstComeFirstServeControllerNode>());
+    run("bingbang", std::make_shared<BingBangControllerNode>());
     run("balance(no-weight)", std::make_shared<BalanceControllerNode>(HeuristicConfig {false, OptimizeFor::time}));
     run("balance(weighted)", std::make_shared<BalanceControllerNode>(HeuristicConfig {true, OptimizeFor::time}));
     run("balance(throughput)", std::make_shared<BalanceControllerNode>(HeuristicConfig {false, OptimizeFor::throughput}));

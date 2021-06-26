@@ -114,6 +114,15 @@ struct FirstComeFirstServeControllerNode : ControllerNode {
   }
 };
 
+// allow everyone to allocate, then release all memory at once.
+struct BingBangControllerNode : ControllerNode {
+  void optimize(const Lock& l) override { }
+  bool request_impl(const Runtime& r, size_t request, const Lock& l) override;
+  std::string name() {
+    return "BingBangController";
+  }
+};
+
 static std::string requirement = "requirement";
 // Give each runtime a fixed amount of memory.
 // The runtime can either specify that amount itself,
