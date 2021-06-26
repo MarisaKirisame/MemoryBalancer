@@ -525,7 +525,6 @@ Runtime wrap(const Runtime& rt, const RuntimeWrapType& rwt) {
       std::thread t([](){});
       t.detach();
       return std::make_shared<RemoteRuntimeNode>(rt);
-      throw;
     }
     default: {
       throw;
