@@ -1,4 +1,5 @@
 #pragma once
+#include <atomic>
 #include <cstddef>
 #include <memory>
 #include <cassert>
@@ -58,7 +59,7 @@ struct VirtualSimulatedRuntimeNode : VirtualRuntimeNode {
 // there should be two place where we need this hotfix.
 // 0: at the beginning of the code, the current_memory is 0 while working_memory is not. lets do a bump.
 // 1: the code do rounding and interpolation. we may have to bump by 1 sometimes to avoid rounding error.
-struct SimulatedRuntimeNode : RuntimeNode, VirtualRuntimeNode {
+struct SimulatedRuntimeNode : RuntimeNode, VirtualSimulatedRuntimeNode {
   using mutator_clock = size_t;
   mutator_clock mutator_time = 0, work_amount;
   // note: the current logged simulated runtime report working memory in interval, while the simulator may run in finer grain mode.
@@ -182,8 +183,6 @@ struct RemoteRuntimeNode : virtual RuntimeNode {
     throw;
   }
   void shrink_max_memory() override {
-    
+    throw;
   }
 };
-
-struct RemoteSimulatedRuntimeNode: 
