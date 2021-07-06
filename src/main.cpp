@@ -563,8 +563,8 @@ struct ParetoCurveResult {
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(ParetoCurveResult, points)
 
 void pareto_curve(const std::string& where) {
-  size_t start = 1e8;
-  size_t end = 10e8;
+  size_t start = 3e8;
+  size_t end = 5e8;
   size_t sample = 50;
   assert(sample >= 2);
   ParetoCurveResult pcr;

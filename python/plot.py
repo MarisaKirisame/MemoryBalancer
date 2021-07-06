@@ -42,7 +42,7 @@ def draw_simulated_single_point(data):
         bottom.add(max_memory[i])
     plt.savefig("plot.png")
 
-color = ["red", "green", "blue"]
+color = ["red", "green", "blue", "pink"]
 
 def draw_simulated_pareto_curve(data):
     class ControllerData:

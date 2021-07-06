@@ -7,10 +7,10 @@ double memory_score(size_t working_memory, size_t max_memory, double garbage_rat
   }
   size_t extra_memory = max_memory - working_memory;
   double gc_tick_per_tick = garbage_rate * gc_time;
+  //std::cout << extra_memory << ", " << gc_tick_per_tick << std::endl;
   double ret;
   if (hc.opt == OptimizeFor::throughput) {
     double tmp = extra_memory + gc_tick_per_tick;
-    //std::cout << extra_memory << ", " << gc_tick_per_tick << std::endl;
     ret = (tmp * tmp) / gc_tick_per_tick;
   } else {
     assert(hc.opt == OptimizeFor::time);
