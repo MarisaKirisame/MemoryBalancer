@@ -7,7 +7,6 @@
 #include "util.hpp"
 #include "controller.hpp"
 #include "runtime.hpp"
-#include "server.hpp"
 #include "boost/filesystem.hpp"
 
 #include <iostream>
