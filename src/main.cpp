@@ -631,7 +631,7 @@ struct V8RAII {
 
 void ipc_experiment() {
   std::string socket_path = "membalancer_socket";
-
+  sockaddr_un local;
 }
 
 int main(int argc, char* argv[]) {
