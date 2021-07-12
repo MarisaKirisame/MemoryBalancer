@@ -22,6 +22,10 @@
 #include <random>
 #include <unordered_map>
 
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <sys/un.h>
+
 #ifdef USE_V8
 #include "v8_util.hpp"
 #endif
@@ -588,13 +592,22 @@ void pareto_curve(const std::string& where) {
 }
 
 void multiple_pareto_curve() {
-  
+  //todo: implement me
+  throw;
 }
 
-void simulated_experiment() {
-  //run_simulated_experiment(std::make_shared<BalanceControllerNode>());
-  //run_simulated_experiment(std::make_shared<FirstComeFirstServeControllerNode>());
-  //run_simulated_experiment(std::make_shared<FixedControllerNode>());
+void simulated_experiment(const Controller& c, const std::string& path) {
+  c->set_max_memory(1e10, c->lock());
+  SimulatedRuntimes rt;
+  for (boost::filesystem::recursive_directory_iterator end, dir(path);
+       dir != end; ++dir) {
+    if (boost::filesystem::is_regular_file(dir->path())) {
+      rt.push_back(from_log(parse_log(boost::filesystem::canonical(dir->path()).string())));
+    }
+  }
+  SimulatedExperimentConfig cfg;
+  cfg.log_frequency = 1000;
+  run_simulated_experiment(c, rt, cfg);
 }
 
 #ifdef USE_V8
@@ -616,26 +629,16 @@ struct V8RAII {
 };
 #endif
 
+void ipc_experiment() {
+  std::string socket_path = "membalancer_socket";
+
+}
+
 int main(int argc, char* argv[]) {
 #ifdef USE_V8
   V8RAII v8(argv[0]);
 #endif
   assert(argc == 1);
-  pareto_curve("../gc_log");
-  return 0;
-  {
-    Controller c = std::make_shared<BalanceControllerNode>(HeuristicConfig {false, OptimizeFor::time});
-    c->set_max_memory(1e10, c->lock());
-    SimulatedRuntimes rt;
-    for (boost::filesystem::recursive_directory_iterator end, dir("../gc_log");
-         dir != end; ++dir) {
-      if (boost::filesystem::is_regular_file(dir->path())) {
-        rt.push_back(from_log(parse_log(boost::filesystem::canonical(dir->path()).string())));
-      }
-    }
-    SimulatedExperimentConfig cfg;
-    cfg.log_frequency = 1000;
-    run_simulated_experiment(c, rt, cfg);
-  }
+  ipc_experiment();
   return 0;
 }
