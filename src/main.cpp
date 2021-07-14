@@ -651,10 +651,25 @@ struct ExperimentSocket : std::enable_shared_from_this<ExperimentSocket> {
   void run() {
     auto sfd = shared_from_this();
     std::thread reader([sfd](){
-                         
+                         while (true) {
+                           char buf[100];
+                           size_t n = read(sfd->sockfd, buf, sizeof buf);
+                           if (n == 0) {
+                             break;
+                           } else if (n < 0) {
+                             throw;
+                           } else {
+                             std::string str(buf, n);
+                             std::cout << "recieved data from client: " << str << std::endl;
+                           }
+                         }
                        });
     std::thread writer([sfd](){
-                         
+                         while (true) {
+                           std::this_thread::sleep_for(std::chrono::seconds(10));
+                           char buf[] = "GC";
+                           write(sfd->sockfd, buf, sizeof buf);
+                         }
                        });
   }
 };
