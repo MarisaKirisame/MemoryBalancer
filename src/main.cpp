@@ -619,6 +619,8 @@ struct V8RAII {
     platform = std::make_unique<RestrictedPlatform>(v8::platform::NewDefaultPlatform());
     v8::V8::InitializePlatform(platform.get());
     v8::V8::Initialize();
+    // todo: weird, errno is nonzero when executed to here.
+    errno = 0;
   }
   ~V8RAII() {
     v8::V8::Dispose();
@@ -637,7 +639,10 @@ struct ExperimentSocket : std::enable_shared_from_this<ExperimentSocket> {
   ExperimentSocket(int listen_sockfd) {
     slen = sizeof(remote);
     sockfd = accept(listen_sockfd, reinterpret_cast<sockaddr*>(&remote), &slen);
-    assert(sockfd != -1);
+    if (sockfd == -1) {
+      std::cout << __LINE__ << " " << strerror(errno) << std::endl;
+      throw;
+    }
   }
   // close
   ~ExperimentSocket() {
@@ -686,6 +691,15 @@ void ipc_experiment() {
   sockaddr_un local = { .sun_family = AF_UNIX };
   int s = socket(AF_UNIX, SOCK_STREAM, 0);
   assert(s != -1);
+  strcpy(local.sun_path, socket_path.c_str());
+  unlink(local.sun_path);
+  if (bind(s, reinterpret_cast<sockaddr*>(&local), strlen(local.sun_path) + sizeof(local.sun_family)) == -1) {
+    std::cout << __LINE__ << " " << strerror(errno) << std::endl;
+    throw;
+  }
+  if (listen(s, 10) == -1) {
+    throw;
+  }
   ipc_experiment_server(s);
   close(s);
 }
