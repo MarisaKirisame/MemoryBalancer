@@ -614,7 +614,6 @@ void simulated_experiment(const Controller& c, const std::string& path) {
 struct V8RAII {
   std::unique_ptr<v8::Platform> platform;
   V8RAII(const std::string& exec_location) {
-    // Initialize V8.
     v8::V8::InitializeICUDefaultLocation(exec_location.c_str());
     v8::V8::InitializeExternalStartupData(exec_location.c_str());
     platform = std::make_unique<RestrictedPlatform>(v8::platform::NewDefaultPlatform());
@@ -622,22 +621,62 @@ struct V8RAII {
     v8::V8::Initialize();
   }
   ~V8RAII() {
-    // Dispose the isolate and tear down V8.
     v8::V8::Dispose();
     v8::V8::ShutdownPlatform();
   }
 };
+#else
+struct V8RAII { V8RAII(const std::string&) };
 #endif
+
+struct ExperimentSocket : std::enable_shared_from_this<ExperimentSocket> {
+  sockaddr_un remote;
+  socklen_t slen;
+  int sockfd;
+  // accept
+  ExperimentSocket(int listen_sockfd) {
+    slen = sizeof(remote);
+    sockfd = accept(listen_sockfd, reinterpret_cast<sockaddr*>(&remote), &slen);
+    assert(sockfd != -1);
+  }
+  // close
+  ~ExperimentSocket() {
+    close(sockfd);
+  }
+  // non blocking.
+  // the client will send info to the server,
+  // and the server will send gc-and-free request to the client.
+  // note that these two streams of data is orthgonal to each other,
+  // so there need to be two thread at each side (one read, one write).
+  void run() {
+    auto sfd = shared_from_this();
+    std::thread reader([sfd](){
+                         
+                       });
+    std::thread writer([sfd](){
+                         
+                       });
+  }
+};
+
+void ipc_experiment_server(int sockfd) {
+  // todo: what is the exit condition in the actual server?
+  while (true) {
+    std::make_shared<ExperimentSocket>(sockfd)->run();
+  }
+}
 
 void ipc_experiment() {
   std::string socket_path = "membalancer_socket";
-  sockaddr_un local;
+  sockaddr_un local = { .sun_family = AF_UNIX };
+  int s = socket(AF_UNIX, SOCK_STREAM, 0);
+  assert(s != -1);
+  ipc_experiment_server(s);
+  close(s);
 }
 
 int main(int argc, char* argv[]) {
-#ifdef USE_V8
   V8RAII v8(argv[0]);
-#endif
   assert(argc == 1);
   ipc_experiment();
   return 0;
