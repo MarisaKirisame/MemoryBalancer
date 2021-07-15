@@ -628,7 +628,7 @@ struct V8RAII {
   }
 };
 #else
-struct V8RAII { V8RAII(const std::string&) };
+struct V8RAII { V8RAII(const std::string&) { } };
 #endif
 
 struct ExperimentSocket : std::enable_shared_from_this<ExperimentSocket> {
