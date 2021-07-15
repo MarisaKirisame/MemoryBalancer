@@ -30,6 +30,8 @@
 #include "v8_util.hpp"
 #endif
 
+#define ERROR_STREAM std::cout << __LINE__ << " "
+
 namespace nlohmann {
 
 	template <class T>
@@ -113,6 +115,10 @@ size_t run(const Input& i, std::mutex* m) {
     {
       // Create a string containing the JavaScript source code.
       v8::Local<v8::String> source = fromFile(isolate, i.code_path);
+      if (!source.IsEmpty()) {
+        ERROR_STREAM << "file " << i.code_path << " do not exists" << std::endl;
+        throw;
+      }
 
       // Compile the source code.
       v8::Local<v8::Script> script =
@@ -640,7 +646,7 @@ struct ExperimentSocket : std::enable_shared_from_this<ExperimentSocket> {
     slen = sizeof(remote);
     sockfd = accept(listen_sockfd, reinterpret_cast<sockaddr*>(&remote), &slen);
     if (sockfd == -1) {
-      std::cout << __LINE__ << " " << strerror(errno) << std::endl;
+      ERROR_STREAM << strerror(errno) << std::endl;
       throw;
     }
   }
@@ -662,6 +668,7 @@ struct ExperimentSocket : std::enable_shared_from_this<ExperimentSocket> {
                            if (n == 0) {
                              break;
                            } else if (n < 0) {
+                             ERROR_STREAM << strerror(errno) << std::endl;
                              throw;
                            } else {
                              std::string str(buf, n);
@@ -694,13 +701,15 @@ void ipc_experiment() {
   strcpy(local.sun_path, socket_path.c_str());
   unlink(local.sun_path);
   if (bind(s, reinterpret_cast<sockaddr*>(&local), strlen(local.sun_path) + sizeof(local.sun_family)) == -1) {
-    std::cout << __LINE__ << " " << strerror(errno) << std::endl;
+    ERROR_STREAM << strerror(errno) << std::endl;
     throw;
   }
   if (listen(s, 10) == -1) {
+    ERROR_STREAM << strerror(errno) << std::endl;
     throw;
   }
-  ipc_experiment_server(s);
+  std::thread server([&](){ipc_experiment_server(s);});
+  parallel_experiment();
   close(s);
 }
 
