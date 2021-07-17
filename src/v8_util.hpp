@@ -2,6 +2,7 @@
 #include <v8.h>
 #include <v8-json.h>
 #include <libplatform/libplatform.h>
+#include <filesystem>
 
 // does this do anything? not really. should ask v8 ppl about OnCriticalMemoryPressure usage.
 struct RestrictedPlatform : v8::Platform {
@@ -74,6 +75,7 @@ struct RestrictedPlatform : v8::Platform {
 };
 
 inline v8::Local<v8::String> fromFile(v8::Isolate* isolate, const std::string& path) {
+  assert(std::filesystem::exists(path));
   std::ifstream t(path);
   std::string str((std::istreambuf_iterator<char>(t)),
                   std::istreambuf_iterator<char>());

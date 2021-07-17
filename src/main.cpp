@@ -115,10 +115,6 @@ size_t run(const Input& i, std::mutex* m) {
     {
       // Create a string containing the JavaScript source code.
       v8::Local<v8::String> source = fromFile(isolate, i.code_path);
-      if (!source.IsEmpty()) {
-        ERROR_STREAM << "file " << i.code_path << " do not exists" << std::endl;
-        throw;
-      }
 
       // Compile the source code.
       v8::Local<v8::Script> script =
@@ -195,9 +191,10 @@ void parallel_experiment() {
   std::mutex m;
   m.lock();
 
+  std::string octane_path = "../../WebKit/Websites/browserbench.org/JetStream2.0/Octane/";
   Input splay_input;
   splay_input.heap_size = 0;//300*1e6;
-  splay_input.code_path = "splay.js";
+  splay_input.code_path = octane_path + "splay.js";
 
   Input pdfjs_input;
   pdfjs_input.heap_size = 0;//700*1e6;
@@ -206,7 +203,7 @@ void parallel_experiment() {
   std::vector<Input> inputs;
   for (int i = 0; i < 2; ++i) {
     inputs.push_back(splay_input);
-    inputs.push_back(pdfjs_input);
+    //inputs.push_back(pdfjs_input);
   }
 
   std::vector<std::future<size_t>> futures;
