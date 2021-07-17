@@ -191,7 +191,7 @@ void parallel_experiment() {
   std::mutex m;
   m.lock();
 
-  std::string octane_path = "../../WebKit/Websites/browserbench.org/JetStream2.0/Octane/";
+  std::string octane_path = "../";
   Input splay_input;
   splay_input.heap_size = 0;//300*1e6;
   splay_input.code_path = octane_path + "splay.js";
@@ -658,11 +658,12 @@ struct ExperimentSocket : std::enable_shared_from_this<ExperimentSocket> {
   // so there need to be two thread at each side (one read, one write).
   void run() {
     auto sfd = shared_from_this();
-    std::thread reader([sfd](){
+    std::thread reader([sfd]() {
                          while (true) {
                            char buf[100];
                            size_t n = read(sfd->sockfd, buf, sizeof buf);
                            if (n == 0) {
+                             std::cout << "breaking" << std::endl;
                              break;
                            } else if (n < 0) {
                              ERROR_STREAM << strerror(errno) << std::endl;
@@ -675,7 +676,7 @@ struct ExperimentSocket : std::enable_shared_from_this<ExperimentSocket> {
                        });
     std::thread writer([sfd](){
                          while (true) {
-                           std::this_thread::sleep_for(std::chrono::seconds(10));
+                           std::this_thread::sleep_for(std::chrono::milliseconds(10));
                            char buf[] = "GC";
                            write(sfd->sockfd, buf, sizeof buf);
                          }
