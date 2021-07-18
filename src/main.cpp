@@ -634,14 +634,47 @@ struct V8RAII {
 struct V8RAII { V8RAII(const std::string&) { } };
 #endif
 
-struct ExperimentSocket : std::enable_shared_from_this<ExperimentSocket> {
+struct ExperimentSocket {
+  ExperimentSocket() = delete;
+  ExperimentSocket(const ExperimentSocket&) = delete;
+  ExperimentSocket(ExperimentSocket&&) = default;
   sockaddr_un remote;
   socklen_t slen;
   int sockfd;
-  // accept
-  ExperimentSocket(int listen_sockfd) {
-    slen = sizeof(remote);
-    sockfd = accept(listen_sockfd, reinterpret_cast<sockaddr*>(&remote), &slen);
+  std::thread reader;
+  std::thread writer;
+  // non blocking.
+  // the client will send info to the server,
+  // and the server will send gc-and-free request to the client.
+  // note that these two streams of data is orthgonal to each other,
+  // so there need to be two thread at each side (one read, one write).
+  ExperimentSocket(int listen_sockfd) :
+    slen(sizeof remote),
+    sockfd(accept(listen_sockfd, reinterpret_cast<sockaddr*>(&remote), &slen)),
+    reader([this](){
+             while (true) {
+               char buf[100];
+               size_t n = read(sockfd, buf, sizeof buf);
+               if (n == 0) {
+                 std::cout << "breaking" << std::endl;
+                 break;
+               } else if (n < 0) {
+                 ERROR_STREAM << strerror(errno) << std::endl;
+                 throw;
+               } else {
+                 std::string str(buf, n);
+                 std::cout << "recieved data from client: " << str << std::endl;
+               }
+             }
+           }),
+    writer([this](){
+             while (true) {
+               std::this_thread::sleep_for(std::chrono::milliseconds(10));
+               char buf[] = "GC";
+               write(sockfd, buf, sizeof buf);
+             }
+           })
+  {
     if (sockfd == -1) {
       ERROR_STREAM << strerror(errno) << std::endl;
       throw;
@@ -649,45 +682,17 @@ struct ExperimentSocket : std::enable_shared_from_this<ExperimentSocket> {
   }
   // close
   ~ExperimentSocket() {
+    reader.join();
+    writer.join();
     close(sockfd);
-  }
-  // non blocking.
-  // the client will send info to the server,
-  // and the server will send gc-and-free request to the client.
-  // note that these two streams of data is orthgonal to each other,
-  // so there need to be two thread at each side (one read, one write).
-  void run() {
-    auto sfd = shared_from_this();
-    std::thread reader([sfd]() {
-                         while (true) {
-                           char buf[100];
-                           size_t n = read(sfd->sockfd, buf, sizeof buf);
-                           if (n == 0) {
-                             std::cout << "breaking" << std::endl;
-                             break;
-                           } else if (n < 0) {
-                             ERROR_STREAM << strerror(errno) << std::endl;
-                             throw;
-                           } else {
-                             std::string str(buf, n);
-                             std::cout << "recieved data from client: " << str << std::endl;
-                           }
-                         }
-                       });
-    std::thread writer([sfd](){
-                         while (true) {
-                           std::this_thread::sleep_for(std::chrono::milliseconds(10));
-                           char buf[] = "GC";
-                           write(sfd->sockfd, buf, sizeof buf);
-                         }
-                       });
   }
 };
 
 void ipc_experiment_server(int sockfd) {
   // todo: what is the exit condition in the actual server?
+  std::vector<ExperimentSocket> es;
   while (true) {
-    std::make_shared<ExperimentSocket>(sockfd)->run();
+    es.emplace_back(sockfd);
   }
 }
 
