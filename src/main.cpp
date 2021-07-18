@@ -634,46 +634,16 @@ struct V8RAII {
 struct V8RAII { V8RAII(const std::string&) { } };
 #endif
 
-struct ExperimentSocket {
+struct ExperimentSocket : std::enable_shared_from_this<ExperimentSocket> {
   ExperimentSocket() = delete;
   ExperimentSocket(const ExperimentSocket&) = delete;
   ExperimentSocket(ExperimentSocket&&) = default;
   sockaddr_un remote;
   socklen_t slen;
   int sockfd;
-  std::thread reader;
-  std::thread writer;
-  // non blocking.
-  // the client will send info to the server,
-  // and the server will send gc-and-free request to the client.
-  // note that these two streams of data is orthgonal to each other,
-  // so there need to be two thread at each side (one read, one write).
   ExperimentSocket(int listen_sockfd) :
     slen(sizeof remote),
-    sockfd(accept(listen_sockfd, reinterpret_cast<sockaddr*>(&remote), &slen)),
-    reader([this](){
-             while (true) {
-               char buf[100];
-               size_t n = read(sockfd, buf, sizeof buf);
-               if (n == 0) {
-                 std::cout << "breaking" << std::endl;
-                 break;
-               } else if (n < 0) {
-                 ERROR_STREAM << strerror(errno) << std::endl;
-                 throw;
-               } else {
-                 std::string str(buf, n);
-                 std::cout << "recieved data from client: " << str << std::endl;
-               }
-             }
-           }),
-    writer([this](){
-             while (true) {
-               std::this_thread::sleep_for(std::chrono::milliseconds(10));
-               char buf[] = "GC";
-               write(sockfd, buf, sizeof buf);
-             }
-           })
+    sockfd(accept(listen_sockfd, reinterpret_cast<sockaddr*>(&remote), &slen))
   {
     if (sockfd == -1) {
       ERROR_STREAM << strerror(errno) << std::endl;
@@ -682,17 +652,51 @@ struct ExperimentSocket {
   }
   // close
   ~ExperimentSocket() {
-    reader.join();
-    writer.join();
+    std::cout << "destructor of experimentsocket" << std::endl;
     close(sockfd);
+  }
+  // non blocking.
+  // the client will send info to the server,
+  // and the server will send gc-and-free request to the client.
+  // note that these two streams of data is orthgonal to each other,
+  // so there need to be two thread at each side (one read, one write).
+  void run() {
+    auto sfd = shared_from_this();
+    std::thread reader([sfd](){
+                         while (true) {
+                           char buf[100];
+                           size_t n = recv(sfd->sockfd, buf, sizeof buf, 0);
+                           if (n == 0) {
+                             std::cout << "breaking" << std::endl;
+                             break;
+                           } else if (n < 0) {
+                             ERROR_STREAM << strerror(errno) << std::endl;
+                             throw;
+                           } else {
+                             std::string str(buf, n);
+                             std::cout << "recieved data from client: " << str << std::endl;
+                           }
+                         }
+                       });
+    reader.detach();
+    std::thread writer([sfd](){
+                         while (true) {
+                           std::this_thread::sleep_for(std::chrono::milliseconds(10));
+                           char buf[] = "GC";
+                           if (send(sfd->sockfd, buf, sizeof buf, 0) != sizeof buf) {
+                             ERROR_STREAM << strerror(errno) << std::endl;
+                             throw;
+                           }
+                         }
+                       });
+    writer.detach();
   }
 };
 
 void ipc_experiment_server(int sockfd) {
   // todo: what is the exit condition in the actual server?
-  std::vector<ExperimentSocket> es;
   while (true) {
-    es.emplace_back(sockfd);
+    std::make_shared<ExperimentSocket>(sockfd)->run();
   }
 }
 
@@ -713,6 +717,7 @@ void ipc_experiment() {
   }
   std::thread server([&](){ipc_experiment_server(s);});
   parallel_experiment();
+  std::cout << "ipc_experiment finished" << std::endl;
   close(s);
 }
 
