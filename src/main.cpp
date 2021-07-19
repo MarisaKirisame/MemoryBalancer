@@ -634,6 +634,17 @@ struct V8RAII {
 struct V8RAII { V8RAII(const std::string&) { } };
 #endif
 
+std::pair<std::vector<std::string>, std::string> split_string(const std::string& str) {
+  std::vector<std::string> strings;
+  std::string::size_type pos = 0;
+  std::string::size_type prev = 0;
+  while ((pos = str.find('\n', prev)) != std::string::npos) {
+    strings.push_back(str.substr(prev, pos - prev));
+    prev = pos + 1;
+  }
+  return {strings, str.substr(prev)};
+}
+
 struct ExperimentSocket : std::enable_shared_from_this<ExperimentSocket> {
   ExperimentSocket() = delete;
   ExperimentSocket(const ExperimentSocket&) = delete;
@@ -643,8 +654,7 @@ struct ExperimentSocket : std::enable_shared_from_this<ExperimentSocket> {
   int sockfd;
   ExperimentSocket(int listen_sockfd) :
     slen(sizeof remote),
-    sockfd(accept(listen_sockfd, reinterpret_cast<sockaddr*>(&remote), &slen))
-  {
+    sockfd(accept(listen_sockfd, reinterpret_cast<sockaddr*>(&remote), &slen)) {
     if (sockfd == -1) {
       ERROR_STREAM << strerror(errno) << std::endl;
       throw;
@@ -663,6 +673,7 @@ struct ExperimentSocket : std::enable_shared_from_this<ExperimentSocket> {
   void run() {
     auto sfd = shared_from_this();
     std::thread reader([sfd](){
+                         std::string unprocessed;
                          while (true) {
                            char buf[100];
                            size_t n = recv(sfd->sockfd, buf, sizeof buf, 0);
@@ -673,8 +684,12 @@ struct ExperimentSocket : std::enable_shared_from_this<ExperimentSocket> {
                              ERROR_STREAM << strerror(errno) << std::endl;
                              throw;
                            } else {
-                             std::string str(buf, n);
-                             std::cout << "recieved data from client: " << str << std::endl;
+                             unprocessed += std::string(buf, n);
+                             auto p = split_string(unprocessed);
+                             for (const auto& str: p.first) {
+                               std::cout << "recieved data from client: " << str << std::endl;
+                             }
+                             unprocessed = p.second;
                            }
                          }
                        });
