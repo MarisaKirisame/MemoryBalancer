@@ -663,7 +663,7 @@ struct ExperimentSocket : std::enable_shared_from_this<ExperimentSocket> {
   // close
   ~ExperimentSocket() {
     std::cout << "destructor of experimentsocket" << std::endl;
-    close(sockfd);
+    shutdown(sockfd, SHUT_RDWR);
   }
   // non blocking.
   // the client will send info to the server,
@@ -678,7 +678,7 @@ struct ExperimentSocket : std::enable_shared_from_this<ExperimentSocket> {
                            char buf[100];
                            size_t n = recv(sfd->sockfd, buf, sizeof buf, 0);
                            if (n == 0) {
-                             std::cout << "breaking" << std::endl;
+                             std::cout << "socket closed. exiting normally" << std::endl;
                              break;
                            } else if (n < 0) {
                              ERROR_STREAM << strerror(errno) << std::endl;
@@ -695,8 +695,9 @@ struct ExperimentSocket : std::enable_shared_from_this<ExperimentSocket> {
                        });
     reader.detach();
     std::thread writer([sfd](){
+                         return; // lets skip the writer thread. the code still work, but we want it to actually do stuff.
                          while (true) {
-                           std::this_thread::sleep_for(std::chrono::milliseconds(10));
+                           std::this_thread::sleep_for(std::chrono::milliseconds(100));
                            char buf[] = "GC";
                            if (send(sfd->sockfd, buf, sizeof buf, 0) != sizeof buf) {
                              ERROR_STREAM << strerror(errno) << std::endl;
@@ -733,7 +734,7 @@ void ipc_experiment() {
   std::thread server([&](){ipc_experiment_server(s);});
   parallel_experiment();
   std::cout << "ipc_experiment finished" << std::endl;
-  close(s);
+  shutdown(s, SHUT_RDWR);
 }
 
 int main(int argc, char* argv[]) {
