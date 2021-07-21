@@ -87,9 +87,8 @@ void log_json(const json& j, const std::string& type) {
   f << output;
 }
 
-#ifdef USE_V8
-
 size_t run(const Input& i, std::mutex* m) {
+#ifdef USE_V8
   std::cout << "running " << i.code_path << std::endl;
   // Create a new Isolate and make it the current one.
   v8::Isolate::CreateParams create_params;
@@ -168,9 +167,13 @@ size_t run(const Input& i, std::mutex* m) {
   isolate->Dispose();
   delete create_params.array_buffer_allocator;
   return run_time_taken;
+#else
+  return 0;
+#endif
 }
 
 void read_write() {
+#ifdef USE_V8
   std::mutex m;
   m.lock();
 
@@ -185,9 +188,11 @@ void read_write() {
   j["time_taken"] = o.get();
 
   log_json(j, "v8-experiment");
+#endif
 }
 
 void parallel_experiment() {
+#ifdef USE_V8
   std::mutex m;
   m.lock();
 
@@ -219,8 +224,8 @@ void parallel_experiment() {
   }
 
   std::cout << "total_time = " << total_time << std::endl;
-}
 #endif
+}
 
 struct RuntimeStat {
   size_t max_memory;
@@ -747,6 +752,10 @@ void ipc_experiment() {
 int main(int argc, char* argv[]) {
   V8RAII v8(argv[0]);
   assert(argc == 1);
+#if USE_V8
   ipc_experiment();
+#else
+  pareto_curve("../gc_log")
+#endif
   return 0;
 }
