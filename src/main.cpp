@@ -652,14 +652,7 @@ struct ExperimentSocket : std::enable_shared_from_this<ExperimentSocket> {
   sockaddr_un remote;
   socklen_t slen;
   int sockfd;
-  ExperimentSocket(int listen_sockfd) :
-    slen(sizeof remote),
-    sockfd(accept(listen_sockfd, reinterpret_cast<sockaddr*>(&remote), &slen)) {
-    if (sockfd == -1) {
-      ERROR_STREAM << strerror(errno) << std::endl;
-      throw;
-    }
-  }
+  ExperimentSocket(const sockaddr_un& remote, socklen_t slen, int sockfd) : remote(remote), slen(slen), sockfd(sockfd) { }
   // close
   ~ExperimentSocket() {
     std::cout << "destructor of experimentsocket" << std::endl;
@@ -679,7 +672,7 @@ struct ExperimentSocket : std::enable_shared_from_this<ExperimentSocket> {
                            size_t n = recv(sfd->sockfd, buf, sizeof buf, 0);
                            if (n == 0) {
                              std::cout << "socket closed. exiting normally" << std::endl;
-                             break;
+                             return;
                            } else if (n < 0) {
                              ERROR_STREAM << strerror(errno) << std::endl;
                              throw;
@@ -712,7 +705,20 @@ struct ExperimentSocket : std::enable_shared_from_this<ExperimentSocket> {
 void ipc_experiment_server(int sockfd) {
   // todo: what is the exit condition in the actual server?
   while (true) {
-    std::make_shared<ExperimentSocket>(sockfd)->run();
+    sockaddr_un remote;
+    socklen_t slen = sizeof remote;
+    int accept_sockfd = accept(sockfd, reinterpret_cast<sockaddr*>(&remote), &slen);
+    if (accept_sockfd == -1) {
+      // when sockfd is closed...
+      // todo: may contain other error. should remove the failure and use timeout + shared boolean flag.
+      if (errno == EINVAL) {
+        return;
+      } else {
+        ERROR_STREAM << strerror(errno) << std::endl;
+        throw;
+      }
+    }
+    std::make_shared<ExperimentSocket>(remote, slen, accept_sockfd)->run();
   }
 }
 
@@ -733,8 +739,9 @@ void ipc_experiment() {
   }
   std::thread server([&](){ipc_experiment_server(s);});
   parallel_experiment();
-  std::cout << "ipc_experiment finished" << std::endl;
   shutdown(s, SHUT_RDWR);
+  server.join();
+  std::cout << "ipc_experiment finished" << std::endl;
 }
 
 int main(int argc, char* argv[]) {
