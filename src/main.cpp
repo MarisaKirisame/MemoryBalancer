@@ -755,7 +755,7 @@ int main(int argc, char* argv[]) {
 #if USE_V8
   ipc_experiment();
 #else
-  pareto_curve("../gc_log")
+  pareto_curve("../gc_log");
 #endif
   return 0;
 }
