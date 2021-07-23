@@ -196,7 +196,7 @@ void parallel_experiment() {
   std::mutex m;
   m.lock();
 
-  std::string octane_path = "../";
+  std::string octane_path = "../js";
   Input splay_input;
   splay_input.heap_size = 0;//300*1e6;
   splay_input.code_path = octane_path + "splay.js";
@@ -250,8 +250,6 @@ using SimulatedRuntimes = std::vector<SimulatedRuntime>;
 
 using proportion = double;
 
-enum class RuntimeWrapType { Local, Thread, Process };
-
 struct SimulatedExperimentConfig {
   // none for no print
   std::optional<size_t> print_frequency;
@@ -262,7 +260,6 @@ struct SimulatedExperimentConfig {
   proportion timeout_gc_proportion = 0.5;
   // do not use 0 as a seed - in glibc that's the same as seed 1. just start from 1 and go up.
   unsigned int seed = 1;
-  RuntimeWrapType rwt = RuntimeWrapType::Local;
 };
 
 struct SimulatedExperimentOKReport {
@@ -525,22 +522,6 @@ SimulatedRuntime from_log(const Log& log) {
     // assert(gr >= wmd);
   }
   return ret;
-}
-
-Runtime wrap(const Runtime& rt, const RuntimeWrapType& rwt) {
-  switch (rwt) {
-    case RuntimeWrapType::Local: {
-      return rt;
-    }
-    case RuntimeWrapType::Thread: {
-      std::thread t([](){});
-      t.detach();
-      return std::make_shared<RemoteRuntimeNode>(rt);
-    }
-    default: {
-      throw;
-    }
-  }
 }
 
 // todo: modify this, and allow wrapping of from_log into remote_runtime, living on another thread.

@@ -7,6 +7,8 @@
 #include <mutex>
 #include "forward-decl.hpp"
 
+// todo: refactor & redesign
+// todo: comment seems stale
 // Since the controller is to be used by multiple runtime,
 // there are basically three flavor of methods on this class:
 // 0: the unsync_xxx function that does not lock. this is the implementation of the code.

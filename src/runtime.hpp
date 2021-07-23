@@ -150,39 +150,3 @@ struct SimulatedRuntimeNode : RuntimeNode, VirtualSimulatedRuntimeNode {
     done();
   }
 };
-
-// A RuntimeRemoteController has a runtime inside. it read from/write to unix stream socket to do IPC to the controller.
-// If the runtime is simulated it will also manage the stepping.
-struct RuntimeRemoteController {
-};
-
-// A remoteruntime represent a runtime being remotely managed.
-// In a multi-process setting the controller manage a bunch of remoteruntime, which communicate to RuntimeRemoteController via socket.
-struct RemoteRuntimeNode : virtual RuntimeNode {
-  Runtime rt;
-  RemoteRuntimeNode(const Runtime& rt) : rt(rt) { }
-  double garbage_rate() override {
-    throw;
-  }
-  size_t gc_duration() override {
-    throw;
-  }
-  size_t work_left() override {
-    throw;
-  }
-  size_t working_memory() override {
-    throw;
-  }
-  size_t current_memory() override {
-    throw;
-  }
-  size_t max_memory() override {
-    throw;
-  }
-  void allow_more_memory(size_t extra) override {
-    throw;
-  }
-  void shrink_max_memory() override {
-    throw;
-  }
-};
