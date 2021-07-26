@@ -196,7 +196,7 @@ void parallel_experiment() {
   std::mutex m;
   m.lock();
 
-  std::string octane_path = "../js";
+  std::string octane_path = "../js/";
   Input splay_input;
   splay_input.heap_size = 0;//300*1e6;
   splay_input.code_path = octane_path + "splay.js";
