@@ -12,20 +12,19 @@
 // higher score mean need less memory
 double memory_score(size_t working_memory, size_t max_memory, double garbage_rate, size_t gc_duration, size_t work_left, const HeuristicConfig& hc);
 
-struct VirtualRuntimeNode {
-  virtual ~VirtualRuntimeNode() { }
-  virtual size_t working_memory() = 0;
-  virtual size_t current_memory() = 0;
-  virtual size_t max_memory() = 0;
-  virtual double garbage_rate() = 0;
-  virtual size_t gc_duration() = 0; // we assume each gc clear all garbage: for generational gc only full gc 'count'
-  virtual void allow_more_memory(size_t extra) = 0;
-  virtual void shrink_max_memory() = 0;
-  virtual size_t work_left() = 0;
+struct RemoteRuntimeNode {
+  int sockfd;
+  std::mutex m; // there will be concurrent write to remoteruntimenode.
+  RemoteRuntimeNode(int sockfd) : sockfd(sockfd) { }
+  size_t working_memory;
+  size_t max_memory;
+  double garbage_rate;
+  size_t gc_duration;
+  bool ready = false;
 };
 
 // In order to avoid cycle, Runtime has strong pointer to controller and Controller has weak pointer to runtime.
-struct RuntimeNode : VirtualRuntimeNode, std::enable_shared_from_this<RuntimeNode> {
+struct RuntimeNode : std::enable_shared_from_this<RuntimeNode> {
   friend ControllerNode;
   std::map<std::string, std::any> metadata;
 protected:
@@ -44,6 +43,15 @@ public:
   virtual ~RuntimeNode() {
     assert(is_done());
   }
+  virtual size_t working_memory() = 0;
+  virtual size_t current_memory() = 0;
+  virtual size_t max_memory() = 0;
+  virtual double garbage_rate() = 0;
+  virtual size_t gc_duration() = 0;
+  virtual size_t work_left() = 0;
+  virtual void allow_more_memory(size_t extra) = 0;
+  virtual void shrink_max_memory() = 0;
+
   double memory_score(const HeuristicConfig& hc) {
     auto ret = ::memory_score(working_memory(), max_memory(), garbage_rate(), gc_duration(), work_left(), hc);
     assert(!std::isinf(ret));
@@ -51,22 +59,18 @@ public:
   }
 };
 
-struct VirtualSimulatedRuntimeNode : VirtualRuntimeNode {
-  virtual void tick() = 0;
-};
-
 // Note: we will increase allocation to make current_memory > working_memory.
 // there should be two place where we need this hotfix.
 // 0: at the beginning of the code, the current_memory is 0 while working_memory is not. lets do a bump.
 // 1: the code do rounding and interpolation. we may have to bump by 1 sometimes to avoid rounding error.
-struct SimulatedRuntimeNode : RuntimeNode, VirtualSimulatedRuntimeNode {
+struct SimulatedRuntimeNode : RuntimeNode {
   using mutator_clock = size_t;
   mutator_clock mutator_time = 0, work_amount;
   // note: the current logged simulated runtime report working memory in interval, while the simulator may run in finer grain mode.
   // this mean that the simulated runime will have working memory 'jump', and it is possible that a jump get working memory > current memory.
   // to combat this we take the min of input working memory and current memory as the working memory.
   // there will also be warning whenever this happend.
-  void tick() override;
+  void tick();
   std::function<size_t(mutator_clock)> working_memory_;
   size_t working_memory() override {
     auto wm = working_memory_(mutator_time);
