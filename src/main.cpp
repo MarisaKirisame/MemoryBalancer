@@ -689,7 +689,7 @@ struct ExperimentSocket : std::enable_shared_from_this<ExperimentSocket> {
 };
 
 void ipc_experiment_server(int sockfd) {
-  // todo: what is the exit condition in the actual server?
+  std::vector<std::shared_ptr<RemoteRuntimeNode>> vec;
   while (true) {
     sockaddr_un remote;
     socklen_t slen = sizeof remote;
