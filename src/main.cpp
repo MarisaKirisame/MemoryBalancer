@@ -69,6 +69,7 @@ struct Input {
   std::string code_path;
 };
 
+// todo: use the generic json-serializer/deserializerinstead
 // I'd love to use the name from_json and to_json, but unfortunately it seems like the two name is used.
 Input read_from_json(const json& j) {
   assert(j.count("heap_size") == 1);
@@ -674,6 +675,10 @@ struct ExperimentSocket : std::enable_shared_from_this<ExperimentSocket> {
                              unprocessed += std::string(buf, n);
                              auto p = split_string(unprocessed);
                              for (const auto& str: p.first) {
+                               std::istringstream iss(str);
+                               json j;
+                               iss >> j;
+                               v8::GCRecord rec = j.get<v8::GCRecord>();
                                std::cout << "recieved data from client: " << str << std::endl;
                              }
                              unprocessed = p.second;
