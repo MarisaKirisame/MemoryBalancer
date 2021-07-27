@@ -525,7 +525,7 @@ SimulatedRuntime from_log(const Log& log) {
 }
 
 // todo: modify this, and allow wrapping of from_log into remote_runtime, living on another thread.
-SimulatedExperimentReport run_logged_experiment(Controller &c, const std::string& where) {
+SimulatedExperimentReport run_logged_experiment(Controller& c, const std::string& where) {
   SimulatedRuntimes rt;
   for (boost::filesystem::recursive_directory_iterator end, dir(where);
        dir != end; ++dir) {
@@ -631,14 +631,22 @@ std::pair<std::vector<std::string>, std::string> split_string(const std::string&
   return {strings, str.substr(prev)};
 }
 
+// todo: move to right places
+using RemoteRuntime = std::shared_ptr<RemoteRuntimeNode>;
+
 struct ExperimentSocket : std::enable_shared_from_this<ExperimentSocket> {
   ExperimentSocket() = delete;
   ExperimentSocket(const ExperimentSocket&) = delete;
   ExperimentSocket(ExperimentSocket&&) = default;
   sockaddr_un remote;
   socklen_t slen;
+  RemoteRuntime remote_runtime;
   int sockfd;
-  ExperimentSocket(const sockaddr_un& remote, socklen_t slen, int sockfd) : remote(remote), slen(slen), sockfd(sockfd) { }
+  ExperimentSocket(const sockaddr_un& remote, socklen_t slen, const RemoteRuntime& remote_runtime) :
+    remote(remote),
+    slen(slen),
+    remote_runtime(remote_runtime),
+    sockfd(remote_runtime->sockfd) { }
   // close
   ~ExperimentSocket() {
     std::cout << "destructor of experimentsocket" << std::endl;
@@ -704,7 +712,9 @@ void ipc_experiment_server(int sockfd) {
         throw;
       }
     }
-    std::make_shared<ExperimentSocket>(remote, slen, accept_sockfd)->run();
+    auto remote_runtime = std::make_shared<RemoteRuntimeNode>(accept_sockfd);
+    vec.push_back(remote_runtime);
+    std::make_shared<ExperimentSocket>(remote, slen, remote_runtime)->run();
   }
 }
 
