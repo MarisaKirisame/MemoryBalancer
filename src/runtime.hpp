@@ -16,13 +16,14 @@ double memory_score(size_t working_memory, size_t max_memory, double garbage_rat
 struct RemoteRuntimeNode {
   int sockfd;
   std::mutex m; // there will be concurrent write to remoteruntimenode.
-  RemoteRuntimeNode(int sockfd) : sockfd(sockfd) { }
-  void update(const v8::GCRecord& rec);
   size_t working_memory;
   size_t max_memory;
   double garbage_rate;
   size_t gc_duration;
   bool ready = false;
+  RemoteRuntimeNode(int sockfd) : sockfd(sockfd) { }
+  void update(const v8::GCRecord& rec);
+  double memory_score();
 };
 
 // In order to avoid cycle, Runtime has strong pointer to controller and Controller has weak pointer to runtime.
@@ -53,7 +54,6 @@ public:
   virtual size_t work_left() = 0;
   virtual void allow_more_memory(size_t extra) = 0;
   virtual void shrink_max_memory() = 0;
-
   double memory_score(const HeuristicConfig& hc) {
     auto ret = ::memory_score(working_memory(), max_memory(), garbage_rate(), gc_duration(), work_left(), hc);
     assert(!std::isinf(ret));

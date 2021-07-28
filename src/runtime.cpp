@@ -108,3 +108,10 @@ void RemoteRuntimeNode::update(const v8::GCRecord& rec) {
   garbage_rate = static_cast<double>(rec.after_memory - rec.before_memory) / static_cast<double>(gc_duration);
   ready = true;
 }
+
+double RemoteRuntimeNode::memory_score() {
+  assert(gc_duration > 0);
+  assert(garbage_rate >= 0);
+  double extra_memory = static_cast<double>(max_memory - working_memory);
+  return extra_memory * extra_memory / (gc_duration * garbage_rate);
+}

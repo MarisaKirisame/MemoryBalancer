@@ -654,40 +654,58 @@ struct ExperimentSocket : std::enable_shared_from_this<ExperimentSocket> {
                          }
                        });
     reader.detach();
-    std::thread writer([sfd]() {
-                         return; // lets skip the writer thread. the code still work, but we want it to actually do stuff.
-                         while (true) {
-                           std::this_thread::sleep_for(std::chrono::milliseconds(100));
-                           char buf[] = "GC";
-                           if (send(sfd->sockfd, buf, sizeof buf, 0) != sizeof buf) {
-                             ERROR_STREAM << strerror(errno) << std::endl;
-                             throw;
-                           }
-                         }
-                       });
-    writer.detach();
   }
 };
 
 void ipc_experiment_server(int sockfd) {
-  std::vector<std::shared_ptr<RemoteRuntimeNode>> vec;
+  std::vector<RemoteRuntime> vec;
   while (true) {
-    sockaddr_un remote;
-    socklen_t slen = sizeof remote;
-    int accept_sockfd = accept(sockfd, reinterpret_cast<sockaddr*>(&remote), &slen);
-    if (accept_sockfd == -1) {
-      // when sockfd is closed...
-      // todo: may contain other error. should remove the failure and use timeout + shared boolean flag.
-      if (errno == EINVAL) {
-        return;
-      } else {
-        ERROR_STREAM << strerror(errno) << std::endl;
-        throw;
+    // todo: figure out when to optimize memory
+    if (false) {
+      // todo: not threadsafe. make it raii
+      for (const RemoteRuntime& rr: vec) {
+        rr->m.lock();
       }
+      std::vector<double> scores;
+      for (const RemoteRuntime& rr: vec) {
+        if (rr->ready) {
+          scores.push_back(rr->memory_score());
+        }
+      }
+      std::sort(scores.begin(), scores.end());
+      double median_score = median(scores);
+      for (const RemoteRuntime& rr: vec) {
+        if (rr->ready) {
+          if (rr->memory_score() > median_score) {
+            char buf[] = "GC";
+            if (send(rr->sockfd, buf, sizeof buf, 0) != sizeof buf) {
+              ERROR_STREAM << strerror(errno) << std::endl;
+              throw;
+            }
+          }
+        }
+      }
+      for (const RemoteRuntime& rr: vec) {
+        rr->m.unlock();
+      }
+    } else {
+      sockaddr_un remote;
+      socklen_t slen = sizeof remote;
+      int accept_sockfd = accept(sockfd, reinterpret_cast<sockaddr*>(&remote), &slen);
+      if (accept_sockfd == -1) {
+        // when sockfd is closed...
+        // todo: may contain other error. should remove the failure and use timeout + shared boolean flag.
+        if (errno == EINVAL) {
+          return;
+        } else {
+          ERROR_STREAM << strerror(errno) << std::endl;
+          throw;
+        }
+      }
+      auto remote_runtime = std::make_shared<RemoteRuntimeNode>(accept_sockfd);
+      vec.push_back(remote_runtime);
+      std::make_shared<ExperimentSocket>(remote, slen, remote_runtime)->run();
     }
-    auto remote_runtime = std::make_shared<RemoteRuntimeNode>(accept_sockfd);
-    vec.push_back(remote_runtime);
-    std::make_shared<ExperimentSocket>(remote, slen, remote_runtime)->run();
   }
 }
 
