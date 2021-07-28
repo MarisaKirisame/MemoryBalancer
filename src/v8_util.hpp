@@ -81,3 +81,24 @@ inline v8::Local<v8::String> fromFile(v8::Isolate* isolate, const std::string& p
                   std::istreambuf_iterator<char>());
   return v8::String::NewFromUtf8(isolate, str.data()).ToLocalChecked();
 }
+
+#ifdef USE_V8
+struct V8RAII {
+  std::unique_ptr<v8::Platform> platform;
+  V8RAII(const std::string& exec_location) {
+    v8::V8::InitializeICUDefaultLocation(exec_location.c_str());
+    v8::V8::InitializeExternalStartupData(exec_location.c_str());
+    platform = std::make_unique<RestrictedPlatform>(v8::platform::NewDefaultPlatform());
+    v8::V8::InitializePlatform(platform.get());
+    v8::V8::Initialize();
+    // todo: weird, errno is nonzero when executed to here.
+    errno = 0;
+  }
+  ~V8RAII() {
+    v8::V8::Dispose();
+    v8::V8::ShutdownPlatform();
+  }
+};
+#else
+struct V8RAII { V8RAII(const std::string&) { } };
+#endif

@@ -56,3 +56,14 @@ double median(const std::vector<double>& vec) {
   assert(vec.size() > 0);
   return (vec[(vec.size() - 1) / 2] + vec[vec.size() / 2]) / 2;
 }
+
+std::pair<std::vector<std::string>, std::string> split_string(const std::string& str) {
+  std::vector<std::string> strings;
+  std::string::size_type pos = 0;
+  std::string::size_type prev = 0;
+  while ((pos = str.find('\n', prev)) != std::string::npos) {
+    strings.push_back(str.substr(prev, pos - prev));
+    prev = pos + 1;
+  }
+  return {strings, str.substr(prev)};
+}

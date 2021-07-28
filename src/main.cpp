@@ -600,38 +600,6 @@ void simulated_experiment(const Controller& c, const std::string& path) {
   run_simulated_experiment(c, rt, cfg);
 }
 
-#ifdef USE_V8
-struct V8RAII {
-  std::unique_ptr<v8::Platform> platform;
-  V8RAII(const std::string& exec_location) {
-    v8::V8::InitializeICUDefaultLocation(exec_location.c_str());
-    v8::V8::InitializeExternalStartupData(exec_location.c_str());
-    platform = std::make_unique<RestrictedPlatform>(v8::platform::NewDefaultPlatform());
-    v8::V8::InitializePlatform(platform.get());
-    v8::V8::Initialize();
-    // todo: weird, errno is nonzero when executed to here.
-    errno = 0;
-  }
-  ~V8RAII() {
-    v8::V8::Dispose();
-    v8::V8::ShutdownPlatform();
-  }
-};
-#else
-struct V8RAII { V8RAII(const std::string&) { } };
-#endif
-
-std::pair<std::vector<std::string>, std::string> split_string(const std::string& str) {
-  std::vector<std::string> strings;
-  std::string::size_type pos = 0;
-  std::string::size_type prev = 0;
-  while ((pos = str.find('\n', prev)) != std::string::npos) {
-    strings.push_back(str.substr(prev, pos - prev));
-    prev = pos + 1;
-  }
-  return {strings, str.substr(prev)};
-}
-
 // todo: move to right places
 using RemoteRuntime = std::shared_ptr<RemoteRuntimeNode>;
 
