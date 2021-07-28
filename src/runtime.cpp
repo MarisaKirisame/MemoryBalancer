@@ -98,3 +98,13 @@ void SimulatedRuntimeNode::mutator_tick() {
   controller->change_working_memory(working_memory(), lock());
   check_invariant();
 }
+
+// todo: skip minor gc?
+void RemoteRuntimeNode::update(const v8::GCRecord& rec) {
+  std::lock_guard<std::mutex> guard(m);
+  working_memory = rec.after_memory;
+  max_memory = rec.max_memory;
+  gc_duration = rec.after_time - rec.before_time;
+  garbage_rate = static_cast<double>(rec.after_memory - rec.before_memory) / static_cast<double>(gc_duration);
+  ready = true;
+}

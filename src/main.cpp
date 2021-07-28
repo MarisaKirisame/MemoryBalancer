@@ -628,7 +628,7 @@ struct ExperimentSocket : std::enable_shared_from_this<ExperimentSocket> {
   // so there need to be two thread at each side (one read, one write).
   void run() {
     auto sfd = shared_from_this();
-    std::thread reader([sfd](){
+    std::thread reader([sfd]() {
                          std::string unprocessed;
                          while (true) {
                            char buf[100];
@@ -647,14 +647,14 @@ struct ExperimentSocket : std::enable_shared_from_this<ExperimentSocket> {
                                json j;
                                iss >> j;
                                v8::GCRecord rec = j.get<v8::GCRecord>();
-                               std::cout << "recieved data from client: " << str << std::endl;
+                               sfd->remote_runtime->update(rec);
                              }
                              unprocessed = p.second;
                            }
                          }
                        });
     reader.detach();
-    std::thread writer([sfd](){
+    std::thread writer([sfd]() {
                          return; // lets skip the writer thread. the code still work, but we want it to actually do stuff.
                          while (true) {
                            std::this_thread::sleep_for(std::chrono::milliseconds(100));

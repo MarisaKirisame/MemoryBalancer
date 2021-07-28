@@ -6,6 +6,7 @@
 #include <map>
 #include <any>
 #include <functional>
+#include <v8.h>
 
 #include "controller.hpp"
 
@@ -16,6 +17,7 @@ struct RemoteRuntimeNode {
   int sockfd;
   std::mutex m; // there will be concurrent write to remoteruntimenode.
   RemoteRuntimeNode(int sockfd) : sockfd(sockfd) { }
+  void update(const v8::GCRecord& rec);
   size_t working_memory;
   size_t max_memory;
   double garbage_rate;
