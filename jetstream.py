@@ -2,10 +2,11 @@ import pyppeteer
 import asyncio
 import sys
 import subprocess
+import os
 
 USE_MEMBALANCER_CHROME = False
 
-DEBUG = False
+DEBUG = True
 
 def hang():
     while True:
@@ -16,6 +17,15 @@ async def get_browser():
                       "args":["--no-sandbox"]}
     if USE_MEMBALANCER_CHROME:
         browseroptions["executablePath"] = "/home/marisa/Work/chromium/src/out/Default/chrome"
+
+    # we need the environment variable for headless:False, because it include stuff such for graphics such as DISPLAY.
+    # todo: isolate them instead of passing the whole env var?
+    env = os.environ.copy()
+    if USE_MEMBALANCER_CHROME:
+        env["USE_MEMBALANCER"] = "1"
+
+    browseroptions["env"] = env
+
     if DEBUG:
         browseroptions["dumpio"] = True
     return await pyppeteer.launch(browseroptions)
@@ -35,10 +45,9 @@ async def worker():
     pages = await browser.pages()
     assert(len(pages) == 1)
     score = await run_jetstream(pages[0])
-    await browser.close()
     return score
 
-NUM_JETSTREAM = 3
+NUM_JETSTREAM = 1
 async def main(filename):
     f = open(filename, "w")
 
@@ -54,7 +63,7 @@ async def main(filename):
     f.write(str(score / NUM_JETSTREAM))
     f.close()
 
-balancer = subprocess.Popen()
+balancer = subprocess.Popen("/home/marisa/Work/MemoryBalancer/build/MemoryBalancer")
 
 assert(len(sys.argv) == 2)
 asyncio.get_event_loop().run_until_complete(main(sys.argv[1]))

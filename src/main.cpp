@@ -616,9 +616,7 @@ struct ExperimentSocket : std::enable_shared_from_this<ExperimentSocket> {
     slen(slen),
     remote_runtime(remote_runtime),
     sockfd(remote_runtime->sockfd) { }
-  // close
   ~ExperimentSocket() {
-    std::cout << "destructor of experimentsocket" << std::endl;
     shutdown(sockfd, SHUT_RDWR);
   }
   // non blocking.
@@ -634,7 +632,6 @@ struct ExperimentSocket : std::enable_shared_from_this<ExperimentSocket> {
                            char buf[100];
                            size_t n = recv(sfd->sockfd, buf, sizeof buf, 0);
                            if (n == 0) {
-                             std::cout << "socket closed. exiting normally" << std::endl;
                              return;
                            } else if (n < 0) {
                              ERROR_STREAM << strerror(errno) << std::endl;
@@ -745,6 +742,7 @@ void daemon() {
     ERROR_STREAM << strerror(errno) << std::endl;
     throw;
   }
+  std::cout << "daemon listening!!!" << std::endl;
   ipc_experiment_server(s);
 }
 
