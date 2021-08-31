@@ -1,6 +1,7 @@
 import pyppeteer
 import asyncio
 import sys
+import subprocess
 
 USE_MEMBALANCER_CHROME = False
 
@@ -53,5 +54,9 @@ async def main(filename):
     f.write(str(score / NUM_JETSTREAM))
     f.close()
 
+balancer = subprocess.Popen()
+
 assert(len(sys.argv) == 2)
 asyncio.get_event_loop().run_until_complete(main(sys.argv[1]))
+
+balancer.terminate()

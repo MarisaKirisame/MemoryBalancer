@@ -709,8 +709,8 @@ void ipc_experiment_server(int sockfd) {
   }
 }
 
+std::string socket_path = "/tmp/membalancer_socket";
 void ipc_experiment() {
-  std::string socket_path = "membalancer_socket";
   sockaddr_un local = { .sun_family = AF_UNIX };
   int s = socket(AF_UNIX, SOCK_STREAM, 0);
   assert(s != -1);
@@ -731,8 +731,27 @@ void ipc_experiment() {
   std::cout << "ipc_experiment finished" << std::endl;
 }
 
+void daemon() {
+  sockaddr_un local = { .sun_family = AF_UNIX };
+  int s = socket(AF_UNIX, SOCK_STREAM, 0);
+  assert(s != -1);
+  strcpy(local.sun_path, socket_path.c_str());
+  unlink(local.sun_path);
+  if (bind(s, reinterpret_cast<sockaddr*>(&local), strlen(local.sun_path) + sizeof(local.sun_family)) == -1) {
+    ERROR_STREAM << strerror(errno) << std::endl;
+    throw;
+  }
+  if (listen(s, 10) == -1) {
+    ERROR_STREAM << strerror(errno) << std::endl;
+    throw;
+  }
+  ipc_experiment_server(s);
+}
+
 int main(int argc, char* argv[]) {
   V8RAII v8(argv[0]);
+  daemon();
+  return 0;
   assert(argc == 1);
 #if USE_V8
   ipc_experiment();
