@@ -1,0 +1,2 @@
+#/bin/sh
+sudo cgcreate -a $USER -t $USER -g memory:MemBalancer
