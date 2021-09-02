@@ -99,14 +99,16 @@ void SimulatedRuntimeNode::mutator_tick() {
   check_invariant();
 }
 
+// todo: move lock here
 // todo: skip minor gc?
 void RemoteRuntimeNode::update(const v8::GCRecord& rec) {
-  std::lock_guard<std::mutex> guard(m);
-  working_memory = rec.after_memory;
-  max_memory = rec.max_memory;
-  gc_duration = rec.after_time - rec.before_time;
-  garbage_rate = static_cast<double>(rec.after_memory - rec.before_memory) / static_cast<double>(gc_duration);
-  ready = true;
+  if (rec.is_major_gc) {
+    working_memory = rec.after_memory;
+    max_memory = rec.max_memory;
+    gc_duration = rec.after_time - rec.before_time;
+    garbage_rate = static_cast<double>(rec.after_memory - rec.before_memory) / static_cast<double>(gc_duration);
+    ready_ = true;
+  }
 }
 
 double RemoteRuntimeNode::memory_score() {

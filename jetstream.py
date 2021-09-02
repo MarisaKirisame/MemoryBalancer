@@ -4,7 +4,7 @@ import sys
 import subprocess
 import os
 
-USE_MEMBALANCER_CHROME = False
+USE_MEMBALANCER_CHROME = True
 
 DEBUG = True
 
@@ -47,14 +47,14 @@ async def worker():
     score = await run_jetstream(pages[0])
     return score
 
-NUM_JETSTREAM = 1
+NUM_JETSTREAM = 3
 async def main(filename):
     f = open(filename, "w")
 
     tasks = []
     for _ in range(NUM_JETSTREAM):
         tasks.append(asyncio.create_task(worker()))
-        await asyncio.sleep(10)
+        await asyncio.sleep(60)
 
     score = 0
     for t in tasks:

@@ -21,6 +21,7 @@
 #include <unistd.h>
 #include <random>
 #include <unordered_map>
+#include <shared_mutex>
 
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -611,13 +612,17 @@ struct ExperimentSocket : std::enable_shared_from_this<ExperimentSocket> {
   socklen_t slen;
   RemoteRuntime remote_runtime;
   int sockfd;
-  ExperimentSocket(const sockaddr_un& remote, socklen_t slen, const RemoteRuntime& remote_runtime) :
+  std::mutex* m;
+  ExperimentSocket(const sockaddr_un& remote, socklen_t slen, const RemoteRuntime& remote_runtime, std::mutex* m) :
     remote(remote),
     slen(slen),
     remote_runtime(remote_runtime),
-    sockfd(remote_runtime->sockfd) { }
+    sockfd(remote_runtime->sockfd),
+    m(m) { }
   ~ExperimentSocket() {
     shutdown(sockfd, SHUT_RDWR);
+    close(sockfd);
+    std::cout << "shutdown() connection!" << std::endl;
   }
   // non blocking.
   // the client will send info to the server,
@@ -632,6 +637,9 @@ struct ExperimentSocket : std::enable_shared_from_this<ExperimentSocket> {
                            char buf[100];
                            size_t n = recv(sfd->sockfd, buf, sizeof buf, 0);
                            if (n == 0) {
+                             std::cout << "peer closed!" << std::endl;
+                             std::lock_guard<std::mutex> lock(*sfd->m);
+                             sfd->remote_runtime->done();
                              return;
                            } else if (n < 0) {
                              ERROR_STREAM << strerror(errno) << std::endl;
@@ -644,6 +652,7 @@ struct ExperimentSocket : std::enable_shared_from_this<ExperimentSocket> {
                                json j;
                                iss >> j;
                                v8::GCRecord rec = j.get<v8::GCRecord>();
+                               std::lock_guard<std::mutex> lock(*sfd->m);
                                sfd->remote_runtime->update(rec);
                              }
                              unprocessed = p.second;
@@ -656,53 +665,75 @@ struct ExperimentSocket : std::enable_shared_from_this<ExperimentSocket> {
 
 void ipc_experiment_server(int sockfd) {
   std::vector<RemoteRuntime> vec;
+  // unique lock when balancing, or when got new connection.
+  // shared lock when thread update individual value.
+  std::mutex m;
+  std::thread balancer([&](){
+                          while (true) {
+                            std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+                            // todo: detect swap from os and only balance when needed
+                            std::lock_guard<std::mutex> lock(m);
+
+                            for (size_t i = 0; i < vec.size();) {
+                              if (vec[i]->done_) {
+                                if (vec[i]->ready_) {
+                                  std::cout << "closed finished conection" << std::endl;
+                                } else {
+                                  std::cout << "closed finished phantom conection" << std::endl;
+                                }
+                                std::swap(vec[i], vec.back());
+                                vec.pop_back();
+                              } else {
+                                ++i;
+                              }
+                            }
+                            std::vector<double> scores;
+                            for (const RemoteRuntime& rr: vec) {
+                              if (rr->ready_) {
+                                scores.push_back(rr->memory_score());
+                              }
+                            }
+                            std::cout << "balancing " << scores.size() << " heap" << std::endl;
+                            if (!scores.empty()) {
+                              std::sort(scores.begin(), scores.end());
+                              double median_score = median(scores);
+                              for (const RemoteRuntime& rr: vec) {
+                                if (rr->ready_) {
+                                  if (rr->memory_score() > median_score) {
+                                    char buf[] = "GC";
+                                    if (send(rr->sockfd, buf, sizeof buf, 0) != sizeof buf) {
+                                      ERROR_STREAM << strerror(errno) << std::endl;
+                                      throw;
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        });
   while (true) {
     // todo: figure out when to optimize memory
-    if (false) {
-      // todo: not threadsafe. make it raii
-      for (const RemoteRuntime& rr: vec) {
-        rr->m.lock();
+    sockaddr_un remote;
+    socklen_t slen = sizeof remote;
+    int accept_sockfd = accept(sockfd, reinterpret_cast<sockaddr*>(&remote), &slen);
+    if (accept_sockfd == -1) {
+      // when sockfd is closed...
+      // todo: may contain other error. should remove the failure and use timeout + shared boolean flag.
+      if (errno == EINVAL) {
+        std::cout << strerror(errno) << ", daemon closing!" << std::endl;
+        return;
+      } else {
+        ERROR_STREAM << strerror(errno) << std::endl;
+        throw;
       }
-      std::vector<double> scores;
-      for (const RemoteRuntime& rr: vec) {
-        if (rr->ready) {
-          scores.push_back(rr->memory_score());
-        }
-      }
-      std::sort(scores.begin(), scores.end());
-      double median_score = median(scores);
-      for (const RemoteRuntime& rr: vec) {
-        if (rr->ready) {
-          if (rr->memory_score() > median_score) {
-            char buf[] = "GC";
-            if (send(rr->sockfd, buf, sizeof buf, 0) != sizeof buf) {
-              ERROR_STREAM << strerror(errno) << std::endl;
-              throw;
-            }
-          }
-        }
-      }
-      for (const RemoteRuntime& rr: vec) {
-        rr->m.unlock();
-      }
-    } else {
-      sockaddr_un remote;
-      socklen_t slen = sizeof remote;
-      int accept_sockfd = accept(sockfd, reinterpret_cast<sockaddr*>(&remote), &slen);
-      if (accept_sockfd == -1) {
-        // when sockfd is closed...
-        // todo: may contain other error. should remove the failure and use timeout + shared boolean flag.
-        if (errno == EINVAL) {
-          return;
-        } else {
-          ERROR_STREAM << strerror(errno) << std::endl;
-          throw;
-        }
-      }
-      auto remote_runtime = std::make_shared<RemoteRuntimeNode>(accept_sockfd);
-      vec.push_back(remote_runtime);
-      std::make_shared<ExperimentSocket>(remote, slen, remote_runtime)->run();
     }
+    std::cout << "new connection!" << std::endl;
+    auto remote_runtime = std::make_shared<RemoteRuntimeNode>(accept_sockfd);
+    {
+      std::lock_guard<std::mutex> lock(m);
+      vec.push_back(remote_runtime);
+    }
+    std::make_shared<ExperimentSocket>(remote, slen, remote_runtime, &m)->run();
   }
 }
 
@@ -717,7 +748,7 @@ void ipc_experiment() {
     ERROR_STREAM << strerror(errno) << std::endl;
     throw;
   }
-  if (listen(s, 10) == -1) {
+  if (listen(s, 100) == -1) {
     ERROR_STREAM << strerror(errno) << std::endl;
     throw;
   }
@@ -738,7 +769,7 @@ void daemon() {
     ERROR_STREAM << strerror(errno) << std::endl;
     throw;
   }
-  if (listen(s, 10) == -1) {
+  if (listen(s, 100) == -1) {
     ERROR_STREAM << strerror(errno) << std::endl;
     throw;
   }

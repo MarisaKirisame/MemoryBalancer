@@ -15,14 +15,17 @@ double memory_score(size_t working_memory, size_t max_memory, double garbage_rat
 
 struct RemoteRuntimeNode {
   int sockfd;
-  std::mutex m; // there will be concurrent write to remoteruntimenode.
   size_t working_memory;
   size_t max_memory;
   double garbage_rate;
   size_t gc_duration;
-  bool ready = false;
+  bool ready_ = false;
+  bool done_ = false;
   RemoteRuntimeNode(int sockfd) : sockfd(sockfd) { }
   void update(const v8::GCRecord& rec);
+  void done() {
+    done_ = true;
+  }
   double memory_score();
 };
 
