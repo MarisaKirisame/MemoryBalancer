@@ -1,2 +1,3 @@
 #/bin/sh
-sudo cgcreate -a $USER -t $USER -g memory:MemBalancer
+sudo cgcreate -a $USER:$USER -t $USER:$USER -g memory:MemBalancer
+sudo chown -R marisa /sys/fs/cgroup/memory/MemBalancer/

@@ -635,7 +635,7 @@ struct ExperimentSocket : std::enable_shared_from_this<ExperimentSocket> {
                          std::string unprocessed;
                          while (true) {
                            char buf[100];
-                           size_t n = recv(sfd->sockfd, buf, sizeof buf, 0);
+                           int n = recv(sfd->sockfd, buf, sizeof buf, 0);
                            if (n == 0) {
                              std::cout << "peer closed!" << std::endl;
                              std::lock_guard<std::mutex> lock(*sfd->m);
@@ -665,52 +665,50 @@ struct ExperimentSocket : std::enable_shared_from_this<ExperimentSocket> {
 
 void ipc_experiment_server(int sockfd) {
   std::vector<RemoteRuntime> vec;
-  // unique lock when balancing, or when got new connection.
-  // shared lock when thread update individual value.
+  // C++ shared mutex will starve. stay away.
   std::mutex m;
   std::thread balancer([&](){
-                          while (true) {
-                            std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-                            // todo: detect swap from os and only balance when needed
-                            std::lock_guard<std::mutex> lock(m);
-
-                            for (size_t i = 0; i < vec.size();) {
-                              if (vec[i]->done_) {
-                                if (vec[i]->ready_) {
-                                  std::cout << "closed finished conection" << std::endl;
-                                } else {
-                                  std::cout << "closed finished phantom conection" << std::endl;
-                                }
-                                std::swap(vec[i], vec.back());
-                                vec.pop_back();
-                              } else {
-                                ++i;
-                              }
-                            }
-                            std::vector<double> scores;
-                            for (const RemoteRuntime& rr: vec) {
-                              if (rr->ready_) {
-                                scores.push_back(rr->memory_score());
-                              }
-                            }
-                            std::cout << "balancing " << scores.size() << " heap" << std::endl;
-                            if (!scores.empty()) {
-                              std::sort(scores.begin(), scores.end());
-                              double median_score = median(scores);
-                              for (const RemoteRuntime& rr: vec) {
-                                if (rr->ready_) {
-                                  if (rr->memory_score() > median_score) {
-                                    char buf[] = "GC";
-                                    if (send(rr->sockfd, buf, sizeof buf, 0) != sizeof buf) {
-                                      ERROR_STREAM << strerror(errno) << std::endl;
-                                      throw;
-                                    }
-                                  }
-                                }
-                              }
-                            }
-                          }
-                        });
+                         while (true) {
+                           std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+                           // todo: detect swap from os and only balance when needed
+                           std::lock_guard<std::mutex> lock(m);
+                           for (size_t i = 0; i < vec.size();) {
+                             if (vec[i]->done_) {
+                               if (vec[i]->ready_) {
+                                 std::cout << "closed finished conection" << std::endl;
+                               } else {
+                                 std::cout << "closed finished phantom conection" << std::endl;
+                               }
+                               std::swap(vec[i], vec.back());
+                               vec.pop_back();
+                             } else {
+                               ++i;
+                             }
+                           }
+                           std::vector<double> scores;
+                           for (const RemoteRuntime& rr: vec) {
+                             if (rr->ready_) {
+                               scores.push_back(rr->memory_score());
+                             }
+                           }
+                           std::cout << "balancing " << scores.size() << " heap, waiting for " << vec.size() - scores.size() << " heap" << std::endl;
+                           if (!scores.empty()) {
+                             std::sort(scores.begin(), scores.end());
+                             double median_score = median(scores);
+                             for (const RemoteRuntime& rr: vec) {
+                               if (rr->ready_) {
+                                 if (rr->memory_score() > median_score) {
+                                   char buf[] = "GC";
+                                   if (send(rr->sockfd, buf, sizeof buf, 0) != sizeof buf) {
+                                     ERROR_STREAM << strerror(errno) << std::endl;
+                                     throw;
+                                   }
+                                 }
+                               }
+                             }
+                           }
+                         }
+                       });
   while (true) {
     // todo: figure out when to optimize memory
     sockaddr_un remote;
@@ -727,7 +725,6 @@ void ipc_experiment_server(int sockfd) {
         throw;
       }
     }
-    std::cout << "new connection!" << std::endl;
     auto remote_runtime = std::make_shared<RemoteRuntimeNode>(accept_sockfd);
     {
       std::lock_guard<std::mutex> lock(m);

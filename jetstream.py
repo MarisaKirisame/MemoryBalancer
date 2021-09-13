@@ -6,7 +6,13 @@ import os
 
 USE_MEMBALANCER_CHROME = True
 
+USE_MEMBALANCER = True
+
 DEBUG = True
+
+def check_config():
+    if USE_MEMBALANCER:
+        assert(USE_MEMBALANCER_CHROME)
 
 def hang():
     while True:
@@ -15,13 +21,14 @@ def hang():
 async def get_browser():
     browseroptions = {"headless":False,
                       "args":["--no-sandbox"]}
+
     if USE_MEMBALANCER_CHROME:
         browseroptions["executablePath"] = "/home/marisa/Work/chromium/src/out/Default/chrome"
 
     # we need the environment variable for headless:False, because it include stuff such for graphics such as DISPLAY.
     # todo: isolate them instead of passing the whole env var?
     env = os.environ.copy()
-    if USE_MEMBALANCER_CHROME:
+    if USE_MEMBALANCER:
         env["USE_MEMBALANCER"] = "1"
 
     browseroptions["env"] = env
@@ -60,12 +67,16 @@ async def main(filename):
     for t in tasks:
         score += await t
 
+    print("async done, score: " + str(score / NUM_JETSTREAM))
     f.write(str(score / NUM_JETSTREAM))
     f.close()
+
+check_config()
 
 balancer = subprocess.Popen("/home/marisa/Work/MemoryBalancer/build/MemoryBalancer")
 
 assert(len(sys.argv) == 2)
 asyncio.get_event_loop().run_until_complete(main(sys.argv[1]))
 
+print("kill balancer")
 balancer.terminate()
