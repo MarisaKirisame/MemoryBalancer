@@ -4,9 +4,9 @@ import sys
 import subprocess
 import os
 
-USE_MEMBALANCER_CHROME = False
+USE_MEMBALANCER_CHROME = True
 
-USE_MEMBALANCER = False
+USE_MEMBALANCER = True
 
 BENCHMARK_NAME = "JETSTREAM"
 
@@ -67,7 +67,7 @@ async def worker():
     score = await BENCHMARK[BENCHMARK_NAME](pages[0])
     return score
 
-NUM_WORKER = 1
+NUM_WORKER = 5
 async def main(filename):
     f = open(filename, "w")
 
