@@ -19,6 +19,8 @@ struct RemoteRuntimeNode {
   size_t max_memory;
   double garbage_rate;
   size_t gc_duration;
+  size_t last_gc_time;
+  bool has_one_record_ = false;
   bool ready_ = false;
   bool done_ = false;
   RemoteRuntimeNode(int sockfd) : sockfd(sockfd) { }

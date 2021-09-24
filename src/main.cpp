@@ -22,6 +22,7 @@
 #include <random>
 #include <unordered_map>
 #include <shared_mutex>
+#include <poll.h>
 
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -604,7 +605,7 @@ void simulated_experiment(const Controller& c, const std::string& path) {
 // todo: move to right places
 using RemoteRuntime = std::shared_ptr<RemoteRuntimeNode>;
 
-struct ExperimentSocket : std::enable_shared_from_this<ExperimentSocket> {
+/*struct ExperimentSocket : std::enable_shared_from_this<ExperimentSocket> {
   ExperimentSocket() = delete;
   ExperimentSocket(const ExperimentSocket&) = delete;
   ExperimentSocket(ExperimentSocket&&) = default;
@@ -661,7 +662,7 @@ struct ExperimentSocket : std::enable_shared_from_this<ExperimentSocket> {
                        });
     reader.detach();
   }
-};
+  };
 
 void ipc_experiment_server(int sockfd) {
   std::vector<RemoteRuntime> vec;
@@ -732,31 +733,27 @@ void ipc_experiment_server(int sockfd) {
     }
     std::make_shared<ExperimentSocket>(remote, slen, remote_runtime, &m)->run();
   }
-}
-
-std::string socket_path = "/tmp/membalancer_socket";
-void ipc_experiment() {
-  sockaddr_un local = { .sun_family = AF_UNIX };
-  int s = socket(AF_UNIX, SOCK_STREAM, 0);
-  assert(s != -1);
-  strcpy(local.sun_path, socket_path.c_str());
-  unlink(local.sun_path);
-  if (bind(s, reinterpret_cast<sockaddr*>(&local), strlen(local.sun_path) + sizeof(local.sun_family)) == -1) {
-    ERROR_STREAM << strerror(errno) << std::endl;
-    throw;
   }
-  if (listen(s, 100) == -1) {
-    ERROR_STREAM << strerror(errno) << std::endl;
-    throw;
-  }
+  void ipc_experiment() {
+  int s = get_listener();
   std::thread server([&](){ipc_experiment_server(s);});
   parallel_experiment();
   shutdown(s, SHUT_RDWR);
   server.join();
   std::cout << "ipc_experiment finished" << std::endl;
-}
+  }
 
-void daemon() {
+  void daemon() {
+  int s = get_listener();
+  std::cout << "daemon listening!!!" << std::endl;
+  ipc_experiment_server(s);
+  }
+
+*/
+
+std::string socket_path = "/tmp/membalancer_socket";
+
+int get_listener() {
   sockaddr_un local = { .sun_family = AF_UNIX };
   int s = socket(AF_UNIX, SOCK_STREAM, 0);
   assert(s != -1);
@@ -770,19 +767,115 @@ void daemon() {
     ERROR_STREAM << strerror(errno) << std::endl;
     throw;
   }
-  std::cout << "daemon listening!!!" << std::endl;
-  ipc_experiment_server(s);
+  return s;
+}
+
+using socket_t = int;
+
+void balance(const std::vector<RemoteRuntime>& vec) {
+  std::vector<double> scores;
+  for (const RemoteRuntime& rr: vec) {
+    if (rr->ready_) {
+      scores.push_back(rr->memory_score());
+    }
+  }
+  std::cout << "balancing " << scores.size() << " heap, waiting for " << vec.size() - scores.size() << " heap" << std::endl;
+  if (!scores.empty()) {
+    std::sort(scores.begin(), scores.end());
+    double median_score = median(scores);
+    for (const RemoteRuntime& rr: vec) {
+      if (rr->ready_) {
+        if (rr->memory_score() > median_score) {
+          char buf[] = "GC";
+          if (send(rr->sockfd, buf, sizeof buf, 0) != sizeof buf) {
+            ERROR_STREAM << strerror(errno) << std::endl;
+            throw;
+          }
+        }
+      }
+    }
+  }
+}
+
+void poll_daemon() {
+  socket_t s = get_listener();
+  std::vector<pollfd> pfds;
+  std::unordered_map<socket_t, RemoteRuntime> map;
+  pfds.push_back({s, POLLIN});
+  while (true) {
+    int num_events = poll(pfds.data(), pfds.size(), 1000 /*miliseconds*/);
+    if (num_events != 0) {
+      for (size_t i = 0; i < pfds.size();) {
+        if (pfds[i].revents & POLLIN) {
+          if (pfds[i].fd == s) {
+            sockaddr_un remote;
+            socklen_t addrlen = sizeof remote;
+            int newsocket = accept(s,
+                                   (struct sockaddr *)&remote,
+                                   &addrlen);
+            if (newsocket == -1) {
+              ERROR_STREAM << strerror(errno) << std::endl;
+              throw;
+            }
+            pfds.push_back({newsocket, POLLIN});
+            map.insert({newsocket, std::make_shared<RemoteRuntimeNode>(newsocket)});
+            ++i;
+          } else {
+            std::string unprocessed;
+            char buf[1000];
+            int n = recv(pfds[i].fd, buf, sizeof buf, 0);
+            if (n == 0) {
+              std::cout << "peer closed!" << std::endl;
+              map.erase(pfds[i].fd);
+              pfds[i] = pfds.back();
+              pfds.pop_back();
+            } else if (n < 0) {
+              ERROR_STREAM << strerror(errno) << std::endl;
+              throw;
+            } else {
+              std::cout << "get message!" << std::endl;
+              unprocessed += std::string(buf, n);
+              auto p = split_string(unprocessed);
+              for (const auto& str: p.first) {
+                std::istringstream iss(str);
+                json j;
+                iss >> j;
+                v8::GCRecord rec = j.get<v8::GCRecord>();
+                map.at(pfds[i].fd)->update(rec);
+              }
+              unprocessed = p.second;
+              if (unprocessed.size() != 0) {
+                std::cout << unprocessed << std::endl;
+              }
+              assert(unprocessed.size() == 0);
+              ++i;
+            }
+          }
+        } else {
+          ++i;
+        }
+      }
+    } else {
+      assert(num_events == 0);
+      std::cout << "timeout, looping..." << std::endl;
+      std::vector<RemoteRuntime> vec;
+      for (const auto& p : map) {
+        vec.push_back(p.second);
+      }
+      balance(vec);
+    }
+  }
 }
 
 int main(int argc, char* argv[]) {
-  V8RAII v8(argv[0]);
-  daemon();
-  return 0;
   assert(argc == 1);
-#if USE_V8
+  V8RAII v8(argv[0]);
+  poll_daemon();
+  return 0;
+  /*#if USE_V8
   ipc_experiment();
 #else
   pareto_curve("../gc_log");
 #endif
-  return 0;
+return 0;*/
 }
