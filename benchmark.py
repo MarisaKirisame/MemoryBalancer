@@ -67,7 +67,7 @@ async def worker():
     score = await BENCHMARK[BENCHMARK_NAME](pages[0])
     return score
 
-NUM_WORKER = 5
+NUM_WORKER = 3
 async def main(filename):
     f = open(filename, "w")
 

@@ -797,10 +797,13 @@ void balance(const std::vector<RemoteRuntime>& vec) {
   }
 }
 
+constexpr auto balance_frequency = milliseconds(10000);
 void poll_daemon() {
+  size_t update_count = 0;
   socket_t s = get_listener();
   std::vector<pollfd> pfds;
   std::unordered_map<socket_t, RemoteRuntime> map;
+  auto last_balance = steady_clock::now();
   pfds.push_back({s, POLLIN});
   while (true) {
     int num_events = poll(pfds.data(), pfds.size(), 1000 /*miliseconds*/);
@@ -842,6 +845,7 @@ void poll_daemon() {
                 iss >> j;
                 v8::GCRecord rec = j.get<v8::GCRecord>();
                 map.at(pfds[i].fd)->update(rec);
+                ++update_count;
               }
               unprocessed = p.second;
               if (unprocessed.size() != 0) {
@@ -857,7 +861,9 @@ void poll_daemon() {
       }
     } else {
       assert(num_events == 0);
-      std::cout << "timeout, looping..." << std::endl;
+    }
+    if (steady_clock::now() - last_balance > balance_frequency) {
+      last_balance = steady_clock::now();
       std::vector<RemoteRuntime> vec;
       for (const auto& p : map) {
         vec.push_back(p.second);
