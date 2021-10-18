@@ -3,10 +3,14 @@ import asyncio
 import sys
 import subprocess
 import os
+import json
+from pathlib import Path
 
 USE_MEMBALANCER_CHROME = True
 
 USE_MEMBALANCER = True
+
+LOG_GC = True
 
 BENCHMARK_NAME = "JETSTREAM"
 
@@ -14,6 +18,8 @@ DEBUG = True
 
 def check_config():
     if USE_MEMBALANCER:
+        assert(USE_MEMBALANCER_CHROME)
+    if LOG_GC:
         assert(USE_MEMBALANCER_CHROME)
 
 def hang():
@@ -32,6 +38,8 @@ async def get_browser():
     env = os.environ.copy()
     if USE_MEMBALANCER:
         env["USE_MEMBALANCER"] = "1"
+    if LOG_GC:
+        env["LOG_GC"] = "1"
 
     browseroptions["env"] = env
 
@@ -68,8 +76,8 @@ async def worker():
     return score
 
 NUM_WORKER = 3
-async def main(filename):
-    f = open(filename, "w")
+async def async_main(result_directory):
+    f = open(result_directory + "log", "w")
 
     tasks = []
     for _ in range(NUM_WORKER):
@@ -84,14 +92,24 @@ async def main(filename):
     f.write(str(score / NUM_WORKER))
     f.close()
 
-check_config()
+def main():
+    assert(len(sys.argv) == 2)
+    result_directory = sys.argv[1]
+    Path(result_directory).mkdir()
 
-if USE_MEMBALANCER:
-    balancer = subprocess.Popen("/home/marisa/Work/MemoryBalancer/build/MemoryBalancer")
+    check_config()
 
-assert(len(sys.argv) == 2)
-asyncio.get_event_loop().run_until_complete(main(sys.argv[1]))
+    if USE_MEMBALANCER:
+        balancer = subprocess.Popen("/home/marisa/Work/MemoryBalancer/build/MemoryBalancer")
 
-if USE_MEMBALANCER:
-    print("kill balancer")
-    balancer.terminate()
+    asyncio.get_event_loop().run_until_complete(async_main(sys.argv[1]))
+
+    if USE_MEMBALANCER:
+        print("kill balancer")
+        balancer.terminate()
+
+    for filename in os.listdir(os.getcwd()):
+        if (filename.endswith(".gc.log")):
+            Path(filename).rename(result_directory + filename)
+
+main()

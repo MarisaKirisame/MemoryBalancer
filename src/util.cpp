@@ -67,3 +67,12 @@ std::pair<std::vector<std::string>, std::string> split_string(const std::string&
   }
   return {strings, str.substr(prev)};
 }
+
+void log_json(const json& j, const std::string& type) {
+  std::ofstream f("../logs/" + get_time());
+  json output;
+  output["version"] = "2020-4-23";
+  output["type"] = type;
+  output["data"] = j;
+  f << output;
+}

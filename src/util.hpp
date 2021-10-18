@@ -22,3 +22,32 @@ size_t random_heap_size();
 double median(const std::vector<double>& vec);
 
 std::pair<std::vector<std::string>, std::string> split_string(const std::string& str);
+
+namespace nlohmann {
+
+	template <class T>
+	void to_json(nlohmann::json& j, const std::optional<T>& v)
+	{
+		if (v.has_value()) {
+			j["tag"] = "Some";
+      j["value"] = *v;
+    }
+		else {
+      j["tag"] = "None";
+    }
+	}
+
+	template <class T>
+	void from_json(const nlohmann::json& j, std::optional<T>& v)
+	{
+		if (j["tag"] == "Some") {
+      j.at("value").get_to(*v);
+    } else {
+      v = std::nullopt;
+    }
+	}
+} // namespace nlohmann
+
+using namespace nlohmann;
+
+void log_json(const json& j, const std::string& type);

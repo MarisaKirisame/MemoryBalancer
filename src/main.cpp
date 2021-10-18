@@ -7,6 +7,7 @@
 #include "util.hpp"
 #include "controller.hpp"
 #include "runtime.hpp"
+#include "simulator.hpp"
 #include "boost/filesystem.hpp"
 
 #include <iostream>
@@ -34,33 +35,6 @@
 
 #define ERROR_STREAM std::cout << __LINE__ << " "
 
-namespace nlohmann {
-
-	template <class T>
-	void to_json(nlohmann::json& j, const std::optional<T>& v)
-	{
-		if (v.has_value()) {
-			j["tag"] = "Some";
-      j["value"] = *v;
-    }
-		else {
-      j["tag"] = "None";
-    }
-	}
-
-	template <class T>
-	void from_json(const nlohmann::json& j, std::optional<T>& v)
-	{
-		if (j["tag"] == "Some") {
-      j.at("value").get_to(*v);
-    } else {
-      v = std::nullopt;
-    }
-	}
-} // namespace nlohmann
-
-using namespace nlohmann;
-
 using time_point = std::chrono::steady_clock::time_point;
 using std::chrono::steady_clock;
 using std::chrono::duration_cast;
@@ -79,15 +53,6 @@ Input read_from_json(const json& j) {
   size_t heap_size = j.value("heap_size", 0);
   std::string code_path = j.value("code_path", "");
   return Input {heap_size, code_path};
-}
-
-void log_json(const json& j, const std::string& type) {
-  std::ofstream f("../logs/" + get_time());
-  json output;
-  output["version"] = "2020-4-23";
-  output["type"] = type;
-  output["data"] = j;
-  f << output;
 }
 
 size_t run(const Input& i, std::mutex* m) {
@@ -230,526 +195,8 @@ void parallel_experiment() {
 #endif
 }
 
-struct RuntimeStat {
-  size_t max_memory;
-  size_t current_memory;
-};
-
-NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(RuntimeStat, max_memory, current_memory)
-
-struct RuntimeTrace {
-  size_t start;
-  std::vector<RuntimeStat> stats;
-  RuntimeTrace(size_t start) : start(start) { }
-};
-
-NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(RuntimeTrace, start, stats)
-
-// todo: make this a member of Result
-using SimulatedExperimentResult = std::vector<RuntimeTrace>;
-
-using SimulatedRuntime = std::shared_ptr<SimulatedRuntimeNode>;
-using SimulatedRuntimes = std::vector<SimulatedRuntime>;
-
-using proportion = double;
-
-struct SimulatedExperimentConfig {
-  // none for no print
-  std::optional<size_t> print_frequency;
-  // none for no log
-  std::optional<size_t> log_frequency;
-  // none for no restriction
-  std::optional<size_t> num_of_cores;
-  proportion timeout_gc_proportion = 0.5;
-  // do not use 0 as a seed - in glibc that's the same as seed 1. just start from 1 and go up.
-  unsigned int seed = 1;
-};
-
-struct SimulatedExperimentOKReport {
-  size_t time_taken;
-  size_t ticks_taken;
-  size_t ticks_in_gc;
-};
-NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(SimulatedExperimentOKReport, time_taken, ticks_taken, ticks_in_gc)
-
-using SimulatedExperimentReport = std::optional<SimulatedExperimentOKReport>;
-void report(const SimulatedExperimentReport& r) {
-  if (r) {
-    std::cout <<
-      "time_taken: " << r->time_taken <<
-      ", total ticks taken: " << r->ticks_taken <<
-      ", total ticks spent gcing: " << r->ticks_in_gc <<
-      ", gc rate: " << 100 * r->ticks_in_gc / r->ticks_taken << "%" << std::endl;
-  } else {
-    std::cout << "timeout!" << std::endl;
-  }
-}
-
-SimulatedExperimentReport run_simulated_experiment(const Controller& c, SimulatedRuntimes runtimes, const SimulatedExperimentConfig& cfg) {
-  std::shuffle(runtimes.begin(), runtimes.end(), std::default_random_engine(cfg.seed));
-
-  struct Process {
-    SimulatedRuntime r;
-    RuntimeTrace t;
-  };
-
-  auto l = c->lock();
-  SimulatedRuntimes unstarted_runtimes;
-  std::vector<RuntimeTrace> finished_traces;
-  std::vector<Process> running_processes;
-
-  size_t total_work = 0;
-  for (const auto& r: runtimes) {
-    unstarted_runtimes.push_back(r);
-    total_work += r->work_amount;
-  }
-
-  size_t i = 0;
-
-  size_t tick = 0;
-  size_t tick_in_gc = 0;
-  size_t tick_since_print = 0;
-  size_t tick_in_gc_since_print = 0;
-
-  while((!cfg.num_of_cores || running_processes.size() < *cfg.num_of_cores) && !unstarted_runtimes.empty()) {
-    SimulatedRuntime r = unstarted_runtimes.back();
-    unstarted_runtimes.pop_back();
-    assert(!r->is_done());
-    c->add_runtime(r, l);
-    running_processes.push_back({r, RuntimeTrace(0)});
-  }
-  assert(!cfg.num_of_cores || *cfg.num_of_cores > 0);
-  for (bool has_work=true; has_work; ++i) {
-    has_work=false;
-    size_t total_memory = 0, total_live_memory = 0;
-    for (auto& p : running_processes) {
-      auto& r = p.r;
-      if (cfg.log_frequency && i % *cfg.log_frequency == 0) {
-        p.t.stats.push_back({r->max_memory(), r->current_memory()});
-      }
-      total_memory += r->max_memory();
-      total_live_memory += r->current_memory();
-    }
-    assert(total_memory == c->used_memory(l));
-    size_t remaining_processes = running_processes.size() + unstarted_runtimes.size();
-    for (size_t j = 0; j < running_processes.size();) {
-      auto& p = running_processes[j];
-      auto& r = p.r;
-      if (!r->is_done()) {
-        has_work=true;
-        r->tick();
-        tick++;
-        tick_since_print++;
-        if (r->in_gc) {
-          tick_in_gc++;
-          tick_in_gc_since_print++;
-        }
-        ++j;
-      } else {
-        std::swap(p, running_processes.back());
-        finished_traces.push_back(running_processes.back().t);
-        running_processes.pop_back();
-        if (!unstarted_runtimes.empty()) {
-          SimulatedRuntime r = unstarted_runtimes.back();
-          unstarted_runtimes.pop_back();
-          assert(!r->is_done());
-          c->add_runtime(r, l);
-          running_processes.push_back({r, RuntimeTrace(cfg.log_frequency ? i / *cfg.log_frequency : 0)});
-        }
-      }
-    }
-    if (cfg.print_frequency && i % *cfg.print_frequency == 0) {
-      size_t max_memory = c->max_memory(l);
-      std::cout <<
-        "iteration:" << i <<
-        ", total work done: " << (tick - tick_in_gc) <<
-        ", work done:" << (tick - tick_in_gc) * 100 / total_work << "%" <<
-        ", live memory utilization:" << 100 * total_live_memory / max_memory << "%"
-        ", memory utilization:" << 100 * total_memory / max_memory << "%" <<
-        ", gc rate:" << 100 * tick_in_gc_since_print / tick_since_print << "%" <<
-        ", remaining process:" << remaining_processes << std::endl;
-      tick_since_print = 0;
-      tick_in_gc_since_print = 0;
-    }
-    if (tick * cfg.timeout_gc_proportion <= tick_in_gc) {
-      return SimulatedExperimentReport();
-    }
-  }
-  if (cfg.log_frequency) {
-    log_json(finished_traces, "simulated experiment(single run)");
-  }
-  return SimulatedExperimentOKReport({i, tick, tick_in_gc});
-}
-
-// todo: noise (have number fluctuate)
-// todo: regime change (a program is a sequence of program)
-// see how close stuff get to optimal split
-void run_simulated_experiment_prepare(const Controller& c) {
-  c->set_max_memory(20, c->lock());
-  SimulatedRuntimes runtimes;
-  auto make_const = [](size_t i){ return std::function<size_t(size_t)>([=](size_t){ return i; }); };
-  runtimes.push_back(std::make_shared<SimulatedRuntimeNode>(/*work_=*/100, /*working_memory_=*/make_const(0), /*garbage_rate_=*/make_const(1), /*gc_duration_=*/make_const(5)));
-  runtimes.push_back(std::make_shared<SimulatedRuntimeNode>(/*work_=*/100, /*working_memory_=*/make_const(0), /*garbage_rate_=*/make_const(1), /*gc_duration_=*/make_const(3)));
-  runtimes.push_back(std::make_shared<SimulatedRuntimeNode>(/*work_=*/100, /*working_memory_=*/make_const(0), /*garbage_rate_=*/make_const(1), /*gc_duration_=*/make_const(2)));
-  SimulatedExperimentConfig cfg;
-  cfg.print_frequency = 1;
-  cfg.log_frequency = 1;
-  report(run_simulated_experiment(c, runtimes, cfg));
-}
-
-using Log = std::vector<v8::GCRecord>;
-struct Segment {
-  clock_t begin;
-  size_t duration;
-  double garbage_rate;
-  size_t gc_duration;
-  size_t start_working_memory, end_working_memory;
-};
-
-// there might be some rounding error breaking invariant in the extreme case?
-template<typename T>
-T interpolate(const T& a, const T& b, double a_ratio) {
-  return T(a * a_ratio + b * (1 - a_ratio));
-}
-
-// interpolate(a, b, uninterpolate(a, b, c)) = c modulo floating point error
-template<typename T>
-double uninterpolate(const T& a, const T& b, const T& c) {
-  return double(c - b) / double(a - b);
-}
-
-struct Finder {
-  std::vector<Segment> data;
-  size_t idx = 0;
-  std::tuple<const Segment&, double/*progress*/> get_segment(clock_t time) {
-    size_t seen_begin = idx, seen_end = idx;
-    while (idx < data.size()) {
-      assert(!(seen_begin <= idx && idx < seen_end));
-      seen_begin = std::min(idx, seen_begin);
-      seen_end = std::max(idx+1, seen_end);
-      const Segment& g = data[idx];
-      if (g.begin <= time && time < g.begin + g.duration) {
-        // we are returning progress, so 1 when at the end of the segment
-        return {g, uninterpolate<size_t>(g.begin + g.duration, g.begin, time)};
-      } else if (!(g.begin <= time)) {
-        assert(idx > 0);
-        --idx;
-      } else {
-        assert(!(time < g.begin + g.duration));
-        ++idx;
-      }
-    }
-    std::cout << time << " not found" << std::endl;
-    assert(idx < data.size());
-    throw;
-  }
-  const Segment& get_segment_data(clock_t time) {
-    return std::get<0>(get_segment(time));
-  }
-  double get_segment_progress(clock_t time) {
-    return std::get<1>(get_segment(time));
-  }
-  Finder(const std::vector<Segment>& data) : data(data) { }
-};
-
-Log parse_log(const std::string& path) {
-  Log log;
-  std::ifstream f(path);
-  std::string line;
-  while (std::getline(f, line)) {
-    std::istringstream iss(line);
-    json j;
-    iss >> j;
-    log.push_back(j.get<v8::GCRecord>());
-  }
-  return log;
-}
-
-SimulatedRuntime from_log(const Log& log) {
-  Log log_major_gc;
-  std::vector<Segment> data;
-  for (const auto& l: log) {
-    if (l.is_major_gc) {
-      log_major_gc.push_back(l);
-    }
-  }
-  clock_t mutator_time = 0;
-  assert(log_major_gc.size() > 0);
-  // WEIRD: I didnt record the start time of the program...
-  // this mean i dont know the duration between the start of the program and the zeroth gc.
-  // rn lets just start the whole thing from the zeroth gc.
-  for (size_t i = 1; i < log_major_gc.size(); ++i) {
-    // may be false!
-    // assert(log_major_gc[i].before_memory >= log_major_gc[i].after_memory);
-    Segment s;
-    s.begin = mutator_time;
-    s.duration = log_major_gc[i].before_time - log_major_gc[i-1].after_time;
-    mutator_time += s.duration;
-    // todo: interpolate between the two gc?
-    s.garbage_rate = (static_cast<double>(log_major_gc[i].before_memory) - static_cast<double>(log_major_gc[i-1].after_memory)) / static_cast<double>(s.duration);
-    // garbage rate may be < 0 with minor gc / external resource
-    s.gc_duration = log_major_gc[i].after_time - log_major_gc[i].before_time;
-    s.start_working_memory = log_major_gc[i-1].after_memory;
-    s.end_working_memory = log_major_gc[i].after_memory;
-    data.push_back(s);
-  }
-  // a time step is how often we simulate a step.
-  // the smaller it is the more fine grained the simulation become,
-  // so it is more accurate
-  // but the simulation cost(cpu cycles) will become higher.
-  clock_t time_step = 1000;
-  auto f = std::make_shared<Finder>(data);
-  auto ret = std::make_shared<SimulatedRuntimeNode>(
-    /*work_=*/mutator_time / time_step,
-    // we have to interpolate the working memory to keep invariant. or else the delta of working memory will > the delta of current memory!
-    /*working_memory_=*/[=](size_t i) {
-                          auto tup = f->get_segment(i * time_step);
-                          auto seg = std::get<0>(tup);
-                          auto progress = std::get<1>(tup);
-                          return interpolate(seg.end_working_memory, seg.start_working_memory, progress);
-                        },
-    /*garbage_rate_=*/[=](size_t i) {
-                        return time_step * f->get_segment_data(i * time_step).garbage_rate;
-                      },
-    /*gc_duration_=*/[=](size_t i) {
-                       auto gcd = f->get_segment_data(i * time_step).gc_duration;
-                       // gc should at least take 1 tick
-                       assert(gcd >= time_step);
-                       return gcd / time_step;
-                     });
-  for (size_t i = 1; i < ret->work_amount; ++i) {
-    auto gr = ret->garbage_rate_(i);
-    auto wmd = ptrdiff_t(ret->working_memory_(i)) - ptrdiff_t(ret->working_memory_(i-1));
-    // false due to floating point inaccuracy...
-    // std::cout << "garbage_rate: " << gr << " working_memory delta: " << wmd << std::endl;
-    // assert(gr >= wmd);
-  }
-  return ret;
-}
-
-// todo: modify this, and allow wrapping of from_log into remote_runtime, living on another thread.
-SimulatedExperimentReport run_logged_experiment(Controller& c, const std::string& where) {
-  SimulatedRuntimes rt;
-  for (boost::filesystem::recursive_directory_iterator end, dir(where);
-       dir != end; ++dir) {
-    if (boost::filesystem::is_regular_file(dir->path())) {
-      rt.push_back(from_log(parse_log(boost::filesystem::canonical(dir->path()).string())));
-    }
-  }
-  SimulatedExperimentConfig cfg;
-  cfg.num_of_cores = 8;
-  cfg.seed = 1;
-  auto ret = run_simulated_experiment(c, rt, cfg);
-  report(ret);
-  return ret;
-}
-
-struct ParetoCurvePoint {
-  size_t memory;
-  std::unordered_map<std::string, SimulatedExperimentReport> controllers;
-};
-
-NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(ParetoCurvePoint, memory, controllers)
-
-struct ParetoCurveResult {
-  std::vector<ParetoCurvePoint> points;
-};
-
-NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(ParetoCurveResult, points)
-
-void pareto_curve(const std::string& where) {
-  size_t start = 3e8;
-  size_t end = 5e8;
-  size_t sample = 50;
-  assert(sample >= 2);
-  ParetoCurveResult pcr;
-  for (size_t i = 0; i < sample; ++i) {
-    std::unordered_map<std::string, SimulatedExperimentReport> controllers;
-    size_t point = start + (end - start) * i / (sample - 1);
-    auto run =
-      [&](const std::string& name, Controller c) {
-        c->set_max_memory(point, c->lock());
-        std::cout << "running " << name << " controller on memory " << point << std::endl;
-        auto ser = run_logged_experiment(c, where);
-        controllers.insert({name, ser});
-      };
-    run("fcfs", std::make_shared<FirstComeFirstServeControllerNode>());
-    run("bingbang", std::make_shared<BingBangControllerNode>());
-    run("balance(no-weight)", std::make_shared<BalanceControllerNode>(HeuristicConfig {false, OptimizeFor::time}));
-    run("balance(weighted)", std::make_shared<BalanceControllerNode>(HeuristicConfig {true, OptimizeFor::time}));
-    run("balance(throughput)", std::make_shared<BalanceControllerNode>(HeuristicConfig {false, OptimizeFor::throughput}));
-    pcr.points.push_back({point, controllers});
-  }
-  log_json(pcr, "simulated experiment(pareto curve)");
-}
-
-void multiple_pareto_curve() {
-  //todo: implement me
-  throw;
-}
-
-void simulated_experiment(const Controller& c, const std::string& path) {
-  c->set_max_memory(1e10, c->lock());
-  SimulatedRuntimes rt;
-  for (boost::filesystem::recursive_directory_iterator end, dir(path);
-       dir != end; ++dir) {
-    if (boost::filesystem::is_regular_file(dir->path())) {
-      rt.push_back(from_log(parse_log(boost::filesystem::canonical(dir->path()).string())));
-    }
-  }
-  SimulatedExperimentConfig cfg;
-  cfg.log_frequency = 1000;
-  run_simulated_experiment(c, rt, cfg);
-}
-
 // todo: move to right places
 using RemoteRuntime = std::shared_ptr<RemoteRuntimeNode>;
-
-/*struct ExperimentSocket : std::enable_shared_from_this<ExperimentSocket> {
-  ExperimentSocket() = delete;
-  ExperimentSocket(const ExperimentSocket&) = delete;
-  ExperimentSocket(ExperimentSocket&&) = default;
-  sockaddr_un remote;
-  socklen_t slen;
-  RemoteRuntime remote_runtime;
-  int sockfd;
-  std::mutex* m;
-  ExperimentSocket(const sockaddr_un& remote, socklen_t slen, const RemoteRuntime& remote_runtime, std::mutex* m) :
-    remote(remote),
-    slen(slen),
-    remote_runtime(remote_runtime),
-    sockfd(remote_runtime->sockfd),
-    m(m) { }
-  ~ExperimentSocket() {
-    shutdown(sockfd, SHUT_RDWR);
-    close(sockfd);
-    std::cout << "shutdown() connection!" << std::endl;
-  }
-  // non blocking.
-  // the client will send info to the server,
-  // and the server will send gc-and-free request to the client.
-  // note that these two streams of data is orthgonal to each other,
-  // so there need to be two thread at each side (one read, one write).
-  void run() {
-    auto sfd = shared_from_this();
-    std::thread reader([sfd]() {
-                         std::string unprocessed;
-                         while (true) {
-                           char buf[100];
-                           int n = recv(sfd->sockfd, buf, sizeof buf, 0);
-                           if (n == 0) {
-                             std::cout << "peer closed!" << std::endl;
-                             std::lock_guard<std::mutex> lock(*sfd->m);
-                             sfd->remote_runtime->done();
-                             return;
-                           } else if (n < 0) {
-                             ERROR_STREAM << strerror(errno) << std::endl;
-                             throw;
-                           } else {
-                             unprocessed += std::string(buf, n);
-                             auto p = split_string(unprocessed);
-                             for (const auto& str: p.first) {
-                               std::istringstream iss(str);
-                               json j;
-                               iss >> j;
-                               v8::GCRecord rec = j.get<v8::GCRecord>();
-                               std::lock_guard<std::mutex> lock(*sfd->m);
-                               sfd->remote_runtime->update(rec);
-                             }
-                             unprocessed = p.second;
-                           }
-                         }
-                       });
-    reader.detach();
-  }
-  };
-
-void ipc_experiment_server(int sockfd) {
-  std::vector<RemoteRuntime> vec;
-  // C++ shared mutex will starve. stay away.
-  std::mutex m;
-  std::thread balancer([&](){
-                         while (true) {
-                           std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-                           // todo: detect swap from os and only balance when needed
-                           std::lock_guard<std::mutex> lock(m);
-                           for (size_t i = 0; i < vec.size();) {
-                             if (vec[i]->done_) {
-                               if (vec[i]->ready_) {
-                                 std::cout << "closed finished conection" << std::endl;
-                               } else {
-                                 std::cout << "closed finished phantom conection" << std::endl;
-                               }
-                               std::swap(vec[i], vec.back());
-                               vec.pop_back();
-                             } else {
-                               ++i;
-                             }
-                           }
-                           std::vector<double> scores;
-                           for (const RemoteRuntime& rr: vec) {
-                             if (rr->ready_) {
-                               scores.push_back(rr->memory_score());
-                             }
-                           }
-                           std::cout << "balancing " << scores.size() << " heap, waiting for " << vec.size() - scores.size() << " heap" << std::endl;
-                           if (!scores.empty()) {
-                             std::sort(scores.begin(), scores.end());
-                             double median_score = median(scores);
-                             for (const RemoteRuntime& rr: vec) {
-                               if (rr->ready_) {
-                                 if (rr->memory_score() > median_score) {
-                                   char buf[] = "GC";
-                                   if (send(rr->sockfd, buf, sizeof buf, 0) != sizeof buf) {
-                                     ERROR_STREAM << strerror(errno) << std::endl;
-                                     throw;
-                                   }
-                                 }
-                               }
-                             }
-                           }
-                         }
-                       });
-  while (true) {
-    // todo: figure out when to optimize memory
-    sockaddr_un remote;
-    socklen_t slen = sizeof remote;
-    int accept_sockfd = accept(sockfd, reinterpret_cast<sockaddr*>(&remote), &slen);
-    if (accept_sockfd == -1) {
-      // when sockfd is closed...
-      // todo: may contain other error. should remove the failure and use timeout + shared boolean flag.
-      if (errno == EINVAL) {
-        std::cout << strerror(errno) << ", daemon closing!" << std::endl;
-        return;
-      } else {
-        ERROR_STREAM << strerror(errno) << std::endl;
-        throw;
-      }
-    }
-    auto remote_runtime = std::make_shared<RemoteRuntimeNode>(accept_sockfd);
-    {
-      std::lock_guard<std::mutex> lock(m);
-      vec.push_back(remote_runtime);
-    }
-    std::make_shared<ExperimentSocket>(remote, slen, remote_runtime, &m)->run();
-  }
-  }
-  void ipc_experiment() {
-  int s = get_listener();
-  std::thread server([&](){ipc_experiment_server(s);});
-  parallel_experiment();
-  shutdown(s, SHUT_RDWR);
-  server.join();
-  std::cout << "ipc_experiment finished" << std::endl;
-  }
-
-  void daemon() {
-  int s = get_listener();
-  std::cout << "daemon listening!!!" << std::endl;
-  ipc_experiment_server(s);
-  }
-
-*/
 
 std::string socket_path = "/tmp/membalancer_socket";
 
@@ -797,20 +244,48 @@ void balance(const std::vector<RemoteRuntime>& vec) {
   }
 }
 
+struct ConnectionState {
+  std::string unprocessed;
+  void accept(const std::string& str) {
+    unprocessed += str;
+    auto p = split_string(unprocessed);
+    for (const auto& str: p.first) {
+      //std::cout << str << std::endl;
+      //std::istringstream iss(str);
+      //json j;
+      //iss >> j;
+      //v8::GCRecord rec = j.get<v8::GCRecord>();
+      //++update_count;
+    }
+    unprocessed = p.second;
+  }
+};
+
 constexpr auto balance_frequency = milliseconds(10000);
 void poll_daemon() {
   size_t update_count = 0;
   socket_t s = get_listener();
   std::vector<pollfd> pfds;
-  std::unordered_map<socket_t, RemoteRuntime> map;
+  std::unordered_map<socket_t, ConnectionState> map;
   auto last_balance = steady_clock::now();
   pfds.push_back({s, POLLIN});
   while (true) {
     int num_events = poll(pfds.data(), pfds.size(), 1000 /*miliseconds*/);
     if (num_events != 0) {
+      std::cout << pfds.size() << " " << map.size() << std::endl;
+      auto close_connection = [&](size_t i) {
+                                std::cout << "peer closed!" << std::endl;
+                                close(pfds[i].fd);
+                                map.erase(pfds[i].fd);
+                                pfds[i] = pfds.back();
+                                pfds.pop_back();
+                              };
       for (size_t i = 0; i < pfds.size();) {
-        if (pfds[i].revents & POLLIN) {
-          if (pfds[i].fd == s) {
+        auto fd = pfds[i].fd;
+        auto revents = pfds[i].revents;
+        if (revents != 0) {
+          if (fd == s) {
+            assert(revents & POLLIN);
             sockaddr_un remote;
             socklen_t addrlen = sizeof remote;
             int newsocket = accept(s,
@@ -821,39 +296,25 @@ void poll_daemon() {
               throw;
             }
             pfds.push_back({newsocket, POLLIN});
-            map.insert({newsocket, std::make_shared<RemoteRuntimeNode>(newsocket)});
+            map.insert({newsocket, ConnectionState()});
             ++i;
-          } else {
-            std::string unprocessed;
+          } else if (revents & POLLIN) {
             char buf[1000];
-            int n = recv(pfds[i].fd, buf, sizeof buf, 0);
+            int n = recv(fd, buf, sizeof buf, 0);
             if (n == 0) {
-              std::cout << "peer closed!" << std::endl;
-              map.erase(pfds[i].fd);
-              pfds[i] = pfds.back();
-              pfds.pop_back();
+              close_connection(i);
             } else if (n < 0) {
               ERROR_STREAM << strerror(errno) << std::endl;
               throw;
             } else {
               std::cout << "get message!" << std::endl;
-              unprocessed += std::string(buf, n);
-              auto p = split_string(unprocessed);
-              for (const auto& str: p.first) {
-                std::istringstream iss(str);
-                json j;
-                iss >> j;
-                v8::GCRecord rec = j.get<v8::GCRecord>();
-                map.at(pfds[i].fd)->update(rec);
-                ++update_count;
-              }
-              unprocessed = p.second;
-              if (unprocessed.size() != 0) {
-                std::cout << unprocessed << std::endl;
-              }
-              assert(unprocessed.size() == 0);
+              map.at(pfds[i].fd).accept(std::string(buf, n));
               ++i;
             }
+          } else {
+            assert(revents & POLLHUP);
+            std::cout << "close from epoll!" << std::endl;
+            close_connection(i);
           }
         } else {
           ++i;
@@ -863,17 +324,20 @@ void poll_daemon() {
       assert(num_events == 0);
     }
     if (steady_clock::now() - last_balance > balance_frequency) {
-      last_balance = steady_clock::now();
-      std::vector<RemoteRuntime> vec;
-      for (const auto& p : map) {
-        vec.push_back(p.second);
-      }
-      balance(vec);
+      //last_balance = steady_clock::now();
+      //std::vector<RemoteRuntime> vec;
+      //for (const auto& p : map) {
+      //  vec.push_back(p.second);
+      //}
+      //balance(vec);
     }
   }
 }
 
 int main(int argc, char* argv[]) {
+  if (false) {
+    pareto_curve("../gc_log");
+  }
   assert(argc == 1);
   V8RAII v8(argv[0]);
   poll_daemon();
