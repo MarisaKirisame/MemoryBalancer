@@ -51,3 +51,8 @@ namespace nlohmann {
 using namespace nlohmann;
 
 void log_json(const json& j, const std::string& type);
+
+using time_point = std::chrono::steady_clock::time_point;
+using std::chrono::steady_clock;
+using std::chrono::duration_cast;
+using milliseconds = std::chrono::milliseconds;
