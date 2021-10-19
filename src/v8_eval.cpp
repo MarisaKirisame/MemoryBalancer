@@ -16,7 +16,30 @@ Input read_from_json(const json& j) {
   return Input {heap_size, code_path};
 }
 
-size_t run(const Input& i, std::mutex* m) {
+size_t run_v8_cleanroom(const std::string& str, Signal* s) {
+  v8::Isolate::CreateParams create_params;
+  create_params.array_buffer_allocator =
+    v8::ArrayBuffer::Allocator::NewDefaultAllocator();
+  v8::Isolate* isolate = v8::Isolate::New(create_params);
+  {
+    v8::Isolate::Scope isolate_scope(isolate);
+    v8::HandleScope handle_scope(isolate);
+    v8::Local<v8::Context> context = v8::Context::New(isolate);
+    v8::Context::Scope context_scope(context);
+    {
+      v8::Local<v8::String> source = fromString(isolate, str);
+      v8::Local<v8::Script> script =
+        v8::Script::Compile(context, source).ToLocalChecked();
+      s->wait();
+      time_point begin = steady_clock::now();
+      v8::Local<v8::Value> result = script->Run(context).ToLocalChecked();
+      time_point end = steady_clock::now();
+      return duration_cast<milliseconds>(end - begin).count();
+    }
+  }
+}
+
+size_t run_v8(const Input& i, std::mutex* m) {
 #ifdef USE_V8
   std::cout << "running " << i.code_path << std::endl;
   // Create a new Isolate and make it the current one.
@@ -42,11 +65,11 @@ size_t run(const Input& i, std::mutex* m) {
 
     {
       // Create a string containing the JavaScript source code.
-      v8::Local<v8::String> source = fromFile(isolate, i.code_path);
+      v8::Local<v8::String> source = fromString(isolate, read_file(i.code_path));
 
       // Compile the source code.
       v8::Local<v8::Script> script =
-          v8::Script::Compile(context, source).ToLocalChecked();
+        v8::Script::Compile(context, source).ToLocalChecked();
 
       m->lock();
       m->unlock(); // abusing mutex as signal - once the mutex is unlocked everyone get access.
@@ -111,7 +134,7 @@ void read_write() {
   t >> j;
 
   Input i = read_from_json(j);
-  std::future<size_t> o = std::async(std::launch::async, run, i, &m);
+  std::future<size_t> o = std::async(std::launch::async, run_v8, i, &m);
 
   m.unlock();
   j["time_taken"] = o.get();
@@ -142,7 +165,7 @@ void parallel_experiment() {
 
   std::vector<std::future<size_t>> futures;
   for (const Input& input : inputs) {
-    futures.push_back(std::async(std::launch::async, run, input, &m));
+    futures.push_back(std::async(std::launch::async, run_v8, input, &m));
   }
 
   m.unlock();
@@ -154,4 +177,17 @@ void parallel_experiment() {
 
   std::cout << "total_time = " << total_time << std::endl;
 #endif
+}
+
+void v8_experiment() {
+  std::string jetstream_path = "../WebKit/Websites/browserbench.org/";
+  std::string splay_path = jetstream_path + "JetStream2.0/Octane/pdfjs.js";
+
+  std::string header = "let performance = {now() { return 0; }};";
+  std::string footer = "for(i=1;i<=100;i++) { new Benchmark().runIteration(); } 42"; // weird - without the 42 it will segfault
+
+  Signal s;
+  std::thread t([&](){run_v8_cleanroom(header + read_file(splay_path) + footer, &s);});
+  s.signal();
+  t.join();
 }

@@ -74,11 +74,7 @@ struct RestrictedPlatform : v8::Platform {
   }
 };
 
-inline v8::Local<v8::String> fromFile(v8::Isolate* isolate, const std::string& path) {
-  assert(std::filesystem::exists(path));
-  std::ifstream t(path);
-  std::string str((std::istreambuf_iterator<char>(t)),
-                  std::istreambuf_iterator<char>());
+inline v8::Local<v8::String> fromString(v8::Isolate* isolate, const std::string& str) {
   return v8::String::NewFromUtf8(isolate, str.data()).ToLocalChecked();
 }
 

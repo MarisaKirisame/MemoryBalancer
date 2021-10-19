@@ -181,7 +181,8 @@ int main(int argc, char* argv[]) {
   }
   assert(argc == 1);
   V8RAII v8(argv[0]);
-  poll_daemon();
+  v8_experiment();
+  //poll_daemon();
   return 0;
   /*#if USE_V8
   ipc_experiment();

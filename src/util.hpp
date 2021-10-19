@@ -56,3 +56,10 @@ using time_point = std::chrono::steady_clock::time_point;
 using std::chrono::steady_clock;
 using std::chrono::duration_cast;
 using milliseconds = std::chrono::milliseconds;
+
+inline std::string read_file(const std::string& path) {
+  assert(std::filesystem::exists(path));
+  std::ifstream t(path);
+  return std::string((std::istreambuf_iterator<char>(t)),
+                     std::istreambuf_iterator<char>());
+}
