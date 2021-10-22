@@ -86,19 +86,58 @@ void balance(const std::vector<RemoteRuntime>& vec) {
 }
 
 struct ConnectionState {
+  socket_t fd;
+  ConnectionState(socket_t fd) : fd(fd) { }
   std::string unprocessed;
+  size_t working_memory;
+  size_t max_memory;
+  size_t gc_duration;
+  double garbage_rate;
+  bool has_major_gc = false;
+  bool has_allocation_rate = false;
   void accept(const std::string& str) {
     unprocessed += str;
     auto p = split_string(unprocessed);
     for (const auto& str: p.first) {
       //std::cout << str << std::endl;
-      //std::istringstream iss(str);
-      //json j;
-      //iss >> j;
-      //v8::GCRecord rec = j.get<v8::GCRecord>();
-      //++update_count;
+      std::istringstream iss(str);
+      json j;
+      iss >> j;
+      json type = j["type"];
+      json data = j["data"];
+      if (type == "major_gc") {
+        has_major_gc = true;
+        max_memory = data["max_memory"];
+        gc_duration = static_cast<double>(data["after_time"]) - static_cast<double>(data["before_time"]);
+        working_memory = data["after_memory"];
+      } else if (type == "allocation_rate") {
+        has_allocation_rate = true;
+        garbage_rate = data;
+      }
     }
     unprocessed = p.second;
+  }
+  bool ready() {
+    return has_major_gc && has_allocation_rate;
+  }
+  size_t extra_memory() {
+    return max_memory - working_memory;
+  }
+  double gt() {
+    return static_cast<double>(garbage_rate) * static_cast<double>(gc_duration);
+  }
+  double score() {
+    assert(ready());
+    size_t extra_memory_ = extra_memory();
+    return static_cast<double>(extra_memory_) * static_cast<double>(extra_memory_) / gt();
+  }
+  void report() {
+    assert(ready());
+    std::cout
+      << "extra_memory: " << extra_memory()
+      << ", garbage_rate: " << garbage_rate
+      << ", gc_duration: " << gc_duration
+      << ", score: " << score() << std::endl;
   }
 };
 
@@ -137,7 +176,7 @@ void poll_daemon() {
               throw;
             }
             pfds.push_back({newsocket, POLLIN});
-            map.insert({newsocket, ConnectionState()});
+            map.insert({newsocket, ConnectionState(newsocket)});
             ++i;
           } else if (revents & POLLIN) {
             char buf[1000];
@@ -148,7 +187,6 @@ void poll_daemon() {
               ERROR_STREAM << strerror(errno) << std::endl;
               throw;
             } else {
-              std::cout << "get message!" << std::endl;
               map.at(pfds[i].fd).accept(std::string(buf, n));
               ++i;
             }
@@ -165,12 +203,58 @@ void poll_daemon() {
       assert(num_events == 0);
     }
     if (steady_clock::now() - last_balance > balance_frequency) {
-      //last_balance = steady_clock::now();
-      //std::vector<RemoteRuntime> vec;
-      //for (const auto& p : map) {
-      //  vec.push_back(p.second);
-      //}
-      //balance(vec);
+      last_balance = steady_clock::now();
+      std::vector<ConnectionState*> vec;
+      for (auto& p : map) {
+        vec.push_back(&p.second);
+      }
+      std::vector<double> scores;
+      for (ConnectionState* rr: vec) {
+        if (rr->ready()) {
+          scores.push_back(rr->score());
+        }
+      }
+      std::cout << "balancing " << scores.size() << " heap, waiting for " << vec.size() - scores.size() << " heap" << std::endl;
+      std::sort(scores.begin(), scores.end());
+      if (!scores.empty()) {
+        double median_score = median(scores);
+        std::cout << "median_score: " << median_score << std::endl;
+        if (!scores.empty()) {
+          // stats calculation
+          double mse = 0;
+          size_t total_extra_memory = 0;
+          double gt_e = 0;
+          double gt_root = 0;
+          for (ConnectionState* rr: vec) {
+            if (rr->ready()) {
+              rr->report();
+              double diff = (rr->score() - median_score) / median_score;
+              mse += diff * diff;
+              total_extra_memory += rr->extra_memory();
+              gt_e += rr->gt() / rr->extra_memory();
+              gt_root += sqrt(rr->gt());
+            }
+          }
+          mse /= scores.size();
+          std::cout << "score mse: " << mse << std::endl;
+          std::cout << "total extra memory: " << total_extra_memory << std::endl;
+          std::cout << "efficiency: " << gt_e << " " << gt_root << " " << gt_e * total_extra_memory / gt_root / gt_root << std::endl;
+          std::cout << std::endl;
+
+          // sending msg back to v8
+          for (ConnectionState* rr: vec) {
+            if (rr->ready()) {
+              if (rr->score() > 2 * median_score) {
+                char buf[] = "GC";
+                if (send(rr->fd, buf, sizeof buf, 0) != sizeof buf) {
+                  ERROR_STREAM << strerror(errno) << std::endl;
+                  throw;
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 }
@@ -181,8 +265,8 @@ int main(int argc, char* argv[]) {
   }
   assert(argc == 1);
   V8RAII v8(argv[0]);
-  v8_experiment();
-  //poll_daemon();
+  //v8_experiment();
+  poll_daemon();
   return 0;
   /*#if USE_V8
   ipc_experiment();

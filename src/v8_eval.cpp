@@ -181,7 +181,13 @@ void parallel_experiment() {
 
 void v8_experiment() {
   std::string jetstream_path = "../WebKit/Websites/browserbench.org/";
-  std::string splay_path = jetstream_path + "JetStream2.0/Octane/pdfjs.js";
+  std::string splay_path = jetstream_path + "JetStream2.0/Octane/richards.js";
+  //std::string splay_path = jetstream_path + "JetStream2.0/Octane/earley-boyer.js";
+  //std::string splay_path = jetstream_path + "JetStream2.0/Octane/deltablue.js";
+  //std::string splay_path = jetstream_path + "JetStream2.0/Octane/typescript.js"; //typescript not ok!
+  //std::string splay_path = jetstream_path + "JetStream2.0/simple/hash-map.js";
+  //std::string splay_path = jetstream_path + "JetStream2.0/Octane/pdfjs.js";
+  //std::string splay_path = jetstream_path + "JetStream2.0/Octane/splay.js";
 
   std::string header = "let performance = {now() { return 0; }};";
   std::string footer = "for(i=1;i<=100;i++) { new Benchmark().runIteration(); } 42"; // weird - without the 42 it will segfault
