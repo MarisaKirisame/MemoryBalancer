@@ -99,14 +99,7 @@ def main():
 
     check_config()
 
-    if USE_MEMBALANCER:
-        balancer = subprocess.Popen("/home/marisa/Work/MemoryBalancer/build/MemoryBalancer")
-
     asyncio.get_event_loop().run_until_complete(async_main(sys.argv[1]))
-
-    if USE_MEMBALANCER:
-        print("kill balancer")
-        balancer.terminate()
 
     for filename in os.listdir(os.getcwd()):
         if (filename.endswith(".gc.log")):

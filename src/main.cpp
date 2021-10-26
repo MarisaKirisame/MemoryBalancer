@@ -25,14 +25,13 @@
 #include <unordered_map>
 #include <shared_mutex>
 #include <poll.h>
+#include <cxxopts.hpp>
 
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <sys/un.h>
 
-#ifdef USE_V8
 #include "v8_util.hpp"
-#endif
 
 #define ERROR_STREAM std::cout << __LINE__ << " "
 
@@ -99,7 +98,6 @@ struct ConnectionState {
     unprocessed += str;
     auto p = split_string(unprocessed);
     for (const auto& str: p.first) {
-      //std::cout << str << std::endl;
       std::istringstream iss(str);
       json j;
       iss >> j;
@@ -113,6 +111,11 @@ struct ConnectionState {
       } else if (type == "allocation_rate") {
         has_allocation_rate = true;
         garbage_rate = data;
+      } else if (type == "max_memory") {
+        max_memory = data;
+      } else {
+        std::cout << "unknown type: " << type << std::endl;
+        throw;
       }
     }
     unprocessed = p.second;
@@ -141,115 +144,138 @@ struct ConnectionState {
   }
 };
 
-constexpr auto balance_frequency = milliseconds(10000);
-void poll_daemon() {
+struct Balancer {
+  static constexpr auto balance_frequency = milliseconds(1000);
   size_t update_count = 0;
   socket_t s = get_listener();
-  std::vector<pollfd> pfds;
+  std::vector<pollfd> pfds {{s, POLLIN}};
   std::unordered_map<socket_t, ConnectionState> map;
-  auto last_balance = steady_clock::now();
-  pfds.push_back({s, POLLIN});
-  while (true) {
-    int num_events = poll(pfds.data(), pfds.size(), 1000 /*miliseconds*/);
-    if (num_events != 0) {
-      std::cout << pfds.size() << " " << map.size() << std::endl;
-      auto close_connection = [&](size_t i) {
-                                std::cout << "peer closed!" << std::endl;
-                                close(pfds[i].fd);
-                                map.erase(pfds[i].fd);
-                                pfds[i] = pfds.back();
-                                pfds.pop_back();
-                              };
-      for (size_t i = 0; i < pfds.size();) {
-        auto fd = pfds[i].fd;
-        auto revents = pfds[i].revents;
-        if (revents != 0) {
-          if (fd == s) {
-            assert(revents & POLLIN);
-            sockaddr_un remote;
-            socklen_t addrlen = sizeof remote;
-            int newsocket = accept(s,
-                                   (struct sockaddr *)&remote,
-                                   &addrlen);
-            if (newsocket == -1) {
-              ERROR_STREAM << strerror(errno) << std::endl;
-              throw;
-            }
-            pfds.push_back({newsocket, POLLIN});
-            map.insert({newsocket, ConnectionState(newsocket)});
-            ++i;
-          } else if (revents & POLLIN) {
-            char buf[1000];
-            int n = recv(fd, buf, sizeof buf, 0);
-            if (n == 0) {
-              close_connection(i);
-            } else if (n < 0) {
-              ERROR_STREAM << strerror(errno) << std::endl;
-              throw;
-            } else {
-              map.at(pfds[i].fd).accept(std::string(buf, n));
+  time_point last_balance = steady_clock::now();
+  bool report = true;
+  double tolerance = 0.1;
+  void poll_daemon() {
+    while (true) {
+      int num_events = poll(pfds.data(), pfds.size(), 1000 /*miliseconds*/);
+      if (num_events != 0) {
+        auto close_connection = [&](size_t i) {
+                                  std::cout << "peer closed!" << std::endl;
+                                  close(pfds[i].fd);
+                                  map.erase(pfds[i].fd);
+                                  pfds[i] = pfds.back();
+                                  pfds.pop_back();
+                                };
+        for (size_t i = 0; i < pfds.size();) {
+          auto fd = pfds[i].fd;
+          auto revents = pfds[i].revents;
+          if (revents != 0) {
+            if (fd == s) {
+              assert(revents & POLLIN);
+              sockaddr_un remote;
+              socklen_t addrlen = sizeof remote;
+              int newsocket = accept(s,
+                                     (struct sockaddr *)&remote,
+                                     &addrlen);
+              if (newsocket == -1) {
+                ERROR_STREAM << strerror(errno) << std::endl;
+                throw;
+              }
+              pfds.push_back({newsocket, POLLIN});
+              map.insert({newsocket, ConnectionState(newsocket)});
               ++i;
+            } else if (revents & POLLIN) {
+              char buf[1000];
+              int n = recv(fd, buf, sizeof buf, 0);
+              if (n == 0) {
+                close_connection(i);
+              } else if (n < 0) {
+                ERROR_STREAM << strerror(errno) << std::endl;
+                throw;
+              } else {
+                map.at(pfds[i].fd).accept(std::string(buf, n));
+                ++i;
+              }
+            } else {
+              assert(revents & POLLHUP);
+              std::cout << "close from epoll!" << std::endl;
+              close_connection(i);
             }
           } else {
-            assert(revents & POLLHUP);
-            std::cout << "close from epoll!" << std::endl;
-            close_connection(i);
+            ++i;
           }
-        } else {
-          ++i;
         }
+      } else {
+        assert(num_events == 0);
       }
-    } else {
-      assert(num_events == 0);
+      if (steady_clock::now() - last_balance > balance_frequency) {
+        balance();
+      }
     }
-    if (steady_clock::now() - last_balance > balance_frequency) {
-      last_balance = steady_clock::now();
-      std::vector<ConnectionState*> vec;
-      for (auto& p : map) {
-        vec.push_back(&p.second);
+  }
+  void balance() {
+    last_balance = steady_clock::now();
+    std::vector<ConnectionState*> vec;
+    for (auto& p : map) {
+      vec.push_back(&p.second);
+    }
+    std::vector<double> scores;
+    for (ConnectionState* rr: vec) {
+      if (rr->ready()) {
+        scores.push_back(rr->score());
       }
-      std::vector<double> scores;
-      for (ConnectionState* rr: vec) {
-        if (rr->ready()) {
-          scores.push_back(rr->score());
-        }
-      }
-      std::cout << "balancing " << scores.size() << " heap, waiting for " << vec.size() - scores.size() << " heap" << std::endl;
-      std::sort(scores.begin(), scores.end());
+    }
+    std::cout << "balancing " << scores.size() << " heap, waiting for " << vec.size() - scores.size() << " heap" << std::endl;
+    std::sort(scores.begin(), scores.end());
+    if (!scores.empty()) {
+      double median_score = median(scores);
+      std::cout << "median_score: " << median_score << std::endl;
       if (!scores.empty()) {
-        double median_score = median(scores);
-        std::cout << "median_score: " << median_score << std::endl;
-        if (!scores.empty()) {
-          // stats calculation
-          double mse = 0;
-          size_t total_extra_memory = 0;
-          double gt_e = 0;
-          double gt_root = 0;
+        // stats calculation
+        double mse = 0;
+        size_t e = 0;
+        double gt_e = 0;
+        double gt_root = 0;
+
+        for (ConnectionState* rr: vec) {
+          if (rr->ready()) {
+            double diff = (rr->score() - median_score) / median_score;
+            mse += diff * diff;
+            e += rr->extra_memory();
+            gt_e += rr->gt() / rr->extra_memory();
+            gt_root += sqrt(rr->gt());
+          }
+        }
+        mse /= scores.size();
+
+        // pavel: check if this fp is safe?
+        auto suggest_extra_memory = [&](ConnectionState* rr) -> size_t {
+                                      if (gt_root == 0) {
+                                        return 0;
+                                      } else {
+                                        return e / gt_root * sqrt(rr->gt());
+                                      }
+                                    };
+        if (report) {
           for (ConnectionState* rr: vec) {
             if (rr->ready()) {
               rr->report();
-              double diff = (rr->score() - median_score) / median_score;
-              mse += diff * diff;
-              total_extra_memory += rr->extra_memory();
-              gt_e += rr->gt() / rr->extra_memory();
-              gt_root += sqrt(rr->gt());
+              std::cout << "suggested memory:" << suggest_extra_memory(rr) << std::endl;
             }
           }
-          mse /= scores.size();
           std::cout << "score mse: " << mse << std::endl;
-          std::cout << "total extra memory: " << total_extra_memory << std::endl;
-          std::cout << "efficiency: " << gt_e << " " << gt_root << " " << gt_e * total_extra_memory / gt_root / gt_root << std::endl;
+          std::cout << "total extra memory: " << e << std::endl;
+          std::cout << "efficiency: " << gt_e << " " << gt_root << " " << gt_e * e / gt_root / gt_root << std::endl;
           std::cout << std::endl;
+        }
 
-          // sending msg back to v8
-          for (ConnectionState* rr: vec) {
-            if (rr->ready()) {
-              if (rr->score() > 2 * median_score) {
-                char buf[] = "GC";
-                if (send(rr->fd, buf, sizeof buf, 0) != sizeof buf) {
-                  ERROR_STREAM << strerror(errno) << std::endl;
-                  throw;
-                }
+        // send msg back to v8
+        for (ConnectionState* rr: vec) {
+          if (rr->ready()) {
+            size_t suggested_extra_memory_ = suggest_extra_memory(rr);
+            if (abs((suggested_extra_memory_ - rr->extra_memory()) / static_cast<double>(rr->extra_memory())) > tolerance) {
+              std::string msg = std::to_string(suggested_extra_memory_ + rr->working_memory);
+              if (send(rr->fd, msg.c_str(), msg.size(), 0) != msg.size()) {
+                ERROR_STREAM << strerror(errno) << std::endl;
+                throw;
               }
             }
           }
@@ -257,21 +283,20 @@ void poll_daemon() {
       }
     }
   }
-}
+};
 
 int main(int argc, char* argv[]) {
-  if (false) {
-    pareto_curve("../gc_log");
-  }
-  assert(argc == 1);
+  assert(argc == 2);
   V8RAII v8(argv[0]);
-  //v8_experiment();
-  poll_daemon();
+  std::string command(argv[1]);
+  if (command == "daemon") {
+    Balancer().poll_daemon();
+  } else if (command == "v8_experiment") {
+    v8_experiment();
+  } else if (command == "pareto_curve") {
+    pareto_curve("../gc_log");
+  } else {
+    std::cout << "unknown command: " << command << std::endl;
+  }
   return 0;
-  /*#if USE_V8
-  ipc_experiment();
-#else
-  pareto_curve("../gc_log");
-#endif
-return 0;*/
 }

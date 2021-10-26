@@ -1,18 +1,34 @@
 import subprocess
 import time
 
-balancer = subprocess.Popen("/home/marisa/Work/MemoryBalancer/build/MemoryBalancer")
-time.sleep(1)
+class ProcessScope:
+    def __init__(self, p):
+        self.p = p
+    def __enter__(self):
+        return self.p
+    def __exit__(self, *args):
+        self.p.terminate()
 
-memory_limit = "2G"
-result_directory = time.strftime("%Y-%m-%d-%H-%M-%S") + "/"
+with ProcessScope(subprocess.Popen(["/home/marisa/Work/MemoryBalancer/build/MemoryBalancer", "daemon"])):
+    time.sleep(1)
 
-subprocess.run(f"echo {memory_limit} > /sys/fs/cgroup/memory/MemBalancer/memory.limit_in_bytes", shell=True, check=True)
-#subprocess.run(f"USE_MEMBALANCER=1 cgexec -g memory:MemBalancer ../chromium/src/out/Default/chrome --no-sandbox", shell=True, check=True)
-subprocess.run(f"USE_MEMBALANCER=1 ../chromium/src/out/Default/chrome --no-sandbox", shell=True, check=True)
-#subprocess.run(f"cgexec -g memory:MemBalancer python3 benchmark.py {result_directory}", shell=True, check=True)
-f = open(result_directory + "log")
-print(f.read())
-f.close()
+    memory_limit = "1G"
+    result_directory = time.strftime("%Y-%m-%d-%H-%M-%S") + "/"
+    env_vars = "USE_MEMBALANCER=1"
 
-balancer.terminate()
+    subprocess.run(f"echo {memory_limit} > /sys/fs/cgroup/memory/MemBalancer/memory.limit_in_bytes", shell=True, check=True)
+
+    command = f"build/MemoryBalancer v8_experiment"
+    command = f"python3 benchmark.py {result_directory}"
+    command = f"../chromium/src/out/Default/chrome --no-sandbox"
+
+    LIMIT_MEMORY = True
+
+    if LIMIT_MEMORY:
+        subprocess.run(f"{env_vars} cgexec -g memory:MemBalancer {command}", shell=True, check=True)
+    else:
+        subprocess.run(f"{env_vars} {command}", shell=True, check=True)
+
+    f = open(result_directory + "log")
+    print(f.read())
+    f.close()

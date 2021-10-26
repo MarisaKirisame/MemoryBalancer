@@ -1,10 +1,10 @@
 #pragma once
 #include <v8.h>
 #include <v8-json.h>
-
-#ifdef USE_V8
+#include <iostream>
+#include <filesystem>
+#include <fstream>
 #include "v8_util.hpp"
-#endif
 
 std::string get_time();
 

@@ -18,6 +18,7 @@ Input read_from_json(const json& j) {
 
 size_t run_v8_cleanroom(const std::string& str, Signal* s) {
   v8::Isolate::CreateParams create_params;
+  create_params.constraints.ConfigureDefaultsFromHeapSize(100 * 1e6, 100 * 1e6);
   create_params.array_buffer_allocator =
     v8::ArrayBuffer::Allocator::NewDefaultAllocator();
   v8::Isolate* isolate = v8::Isolate::New(create_params);
@@ -40,7 +41,6 @@ size_t run_v8_cleanroom(const std::string& str, Signal* s) {
 }
 
 size_t run_v8(const Input& i, std::mutex* m) {
-#ifdef USE_V8
   std::cout << "running " << i.code_path << std::endl;
   // Create a new Isolate and make it the current one.
   v8::Isolate::CreateParams create_params;
@@ -119,13 +119,9 @@ size_t run_v8(const Input& i, std::mutex* m) {
   isolate->Dispose();
   delete create_params.array_buffer_allocator;
   return run_time_taken;
-#else
-  return 0;
-#endif
 }
 
 void read_write() {
-#ifdef USE_V8
   std::mutex m;
   m.lock();
 
@@ -140,11 +136,9 @@ void read_write() {
   j["time_taken"] = o.get();
 
   log_json(j, "v8-experiment");
-#endif
 }
 
 void parallel_experiment() {
-#ifdef USE_V8
   std::mutex m;
   m.lock();
 
@@ -176,24 +170,31 @@ void parallel_experiment() {
   }
 
   std::cout << "total_time = " << total_time << std::endl;
-#endif
 }
 
 void v8_experiment() {
-  std::string jetstream_path = "../WebKit/Websites/browserbench.org/";
-  std::string splay_path = jetstream_path + "JetStream2.0/Octane/richards.js";
-  //std::string splay_path = jetstream_path + "JetStream2.0/Octane/earley-boyer.js";
-  //std::string splay_path = jetstream_path + "JetStream2.0/Octane/deltablue.js";
-  //std::string splay_path = jetstream_path + "JetStream2.0/Octane/typescript.js"; //typescript not ok!
-  //std::string splay_path = jetstream_path + "JetStream2.0/simple/hash-map.js";
-  //std::string splay_path = jetstream_path + "JetStream2.0/Octane/pdfjs.js";
-  //std::string splay_path = jetstream_path + "JetStream2.0/Octane/splay.js";
+  std::string browserbench_path = "../WebKit/Websites/browserbench.org/";
+  std::string jetstream_path = browserbench_path + "JetStream2.0/";
+  std::string octane_path = jetstream_path + "Octane/";
+  std::vector<std::string> js_paths;
+  js_paths.push_back(octane_path + "richards.js");
+  js_paths.push_back(octane_path + "earley-boyer.js");
+  js_paths.push_back(octane_path + "deltablue.js");
+  js_paths.push_back(octane_path + "pdfjs.js");
+  js_paths.push_back(octane_path + "splay.js");
+  //js_paths.push_back(octane_path + "typescript.js"); //typescript not ok!
+  js_paths.push_back(jetstream_path + "simple/hash-map.js");
 
   std::string header = "let performance = {now() { return 0; }};";
-  std::string footer = "for(i=1;i<=100;i++) { new Benchmark().runIteration(); } 42"; // weird - without the 42 it will segfault
+  std::string footer = "for(i=1;i<=1000;i++) { new Benchmark().runIteration(); } 42"; // weird - without the 42 it will segfault
 
   Signal s;
-  std::thread t([&](){run_v8_cleanroom(header + read_file(splay_path) + footer, &s);});
+  std::vector<std::thread> threads;
+  for (const std::string& js_path : js_paths) {
+    threads.emplace_back([&](){run_v8_cleanroom(header + read_file(js_path) + footer, &s);});
+  }
   s.signal();
-  t.join();
+  for (std::thread& t : threads) {
+    t.join();
+  }
 }

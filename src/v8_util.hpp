@@ -78,7 +78,6 @@ inline v8::Local<v8::String> fromString(v8::Isolate* isolate, const std::string&
   return v8::String::NewFromUtf8(isolate, str.data()).ToLocalChecked();
 }
 
-#ifdef USE_V8
 struct V8RAII {
   std::unique_ptr<v8::Platform> platform;
   V8RAII(const std::string& exec_location) {
@@ -95,6 +94,3 @@ struct V8RAII {
     v8::V8::ShutdownPlatform();
   }
 };
-#else
-struct V8RAII { V8RAII(const std::string&) { } };
-#endif
