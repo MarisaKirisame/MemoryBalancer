@@ -34,7 +34,7 @@ class ProcessScope:
     def __exit__(self, *args):
         self.p.terminate()
 
-with ProcessScope(subprocess.Popen(["/home/marisa/Work/MemoryBalancer/build/MemoryBalancer", "daemon", "--send-msg=true"])):
+with ProcessScope(subprocess.Popen(["/home/marisa/Work/MemoryBalancer/build/MemoryBalancer", "daemon", "--send-msg=false"])):
     time.sleep(1) # make sure the balancer is running
 
     memory_limit = f"{700 * 1e6}"
@@ -48,7 +48,7 @@ with ProcessScope(subprocess.Popen(["/home/marisa/Work/MemoryBalancer/build/Memo
     command = f"../chromium/src/out/Default/chrome --no-sandbox"
     command = f"build/MemoryBalancer v8_experiment --heap-size={int(10 * 1000 * 1e6)}"
 
-    LIMIT_MEMORY = True
+    LIMIT_MEMORY = False
 
     if LIMIT_MEMORY:
         env_vars = f"MEMORY_LIMITER_TYPE=ProcessWide MEMORY_LIMITER_VALUE={memory_limit} {env_vars}"
