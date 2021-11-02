@@ -15,6 +15,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -L /usr/local/Cellar/boost/1.
 include_directories(/usr/local/Cellar/boost/1.75.0_2/include)
 include_directories(/Users/pavpan/Dropbox/Work/MemoryBalancer/third_party/json/nlohmann/include)
 include_directories(third_party/cxxopts/include)
+include_directories(third_party/cpp-text-table)
 
 target_link_libraries(MemoryBalancer PRIVATE pthread)
 target_link_libraries(MemoryBalancer PRIVATE boost_system)
