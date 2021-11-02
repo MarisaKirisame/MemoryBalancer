@@ -34,7 +34,7 @@ class ProcessScope:
     def __exit__(self, *args):
         self.p.terminate()
 
-with ProcessScope(subprocess.Popen(["/home/marisa/Work/MemoryBalancer/build/MemoryBalancer", "daemon", "--send-msg=false"])):
+with ProcessScope(subprocess.Popen(["/home/marisa/Work/MemoryBalancer/build/MemoryBalancer", "daemon", "--send-msg=true"])):
     time.sleep(1) # make sure the balancer is running
 
     memory_limit = f"{700 * 1e6}"

@@ -117,14 +117,13 @@ struct ConnectionState {
     size_t extra_memory_ = extra_memory();
     return static_cast<double>(extra_memory_) * static_cast<double>(extra_memory_) / gt();
   }
-  void report(size_t epoch) {
+  void report(TextTable& t, size_t epoch) {
     assert(ready());
-    std::cout
-      << "extra_memory: " << extra_memory()
-      << ", garbage_rate: " << garbage_rate
-      << ", gc_duration: " << gc_duration
-      << ", epoch_since_gc: " << epoch - last_major_gc_epoch
-      << ", score: " << score() << std::endl;
+    t.add(std::to_string(extra_memory()));
+    t.add(std::to_string(garbage_rate));
+    t.add(std::to_string(gc_duration));
+    t.add(std::to_string(epoch - last_major_gc_epoch));
+    t.add(std::to_string(score()));
   }
 };
 
@@ -250,13 +249,24 @@ struct Balancer {
                                         return e / gt_root * sqrt(rr->gt());
                                       }
                                     };
+
         if (report) {
+          TextTable t( '-', '|', '+' );
+          t.add("extra_memory");
+          t.add("garbage_rate");
+          t.add("gc_duration");
+          t.add("epoch_since_gc");
+          t.add("score");
+          t.add("suggest_extra_memory");
+          t.endOfRow();
           for (ConnectionState* rr: vec) {
             if (rr->ready()) {
-              rr->report(epoch);
-              std::cout << "suggested memory:" << suggest_extra_memory(rr) << std::endl;
+              rr->report(t, epoch);
+              t.add(std::to_string(suggest_extra_memory(rr)));
+              t.endOfRow();
             }
           }
+          std::cout << t << std::endl;
           std::cout << "score mse: " << mse << std::endl;
           std::cout << "total memory: " << m << std::endl;
           std::cout << "total extra memory: " << e << std::endl;
