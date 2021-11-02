@@ -35,9 +35,6 @@
 
 #define ERROR_STREAM std::cout << __LINE__ << " "
 
-// todo: move to right places
-using RemoteRuntime = std::shared_ptr<RemoteRuntimeNode>;
-
 std::string socket_path = "/tmp/membalancer_socket";
 
 int get_listener() {
@@ -59,28 +56,20 @@ int get_listener() {
 
 using socket_t = int;
 
-void balance(const std::vector<RemoteRuntime>& vec) {
-  std::vector<double> scores;
-  for (const RemoteRuntime& rr: vec) {
-    if (rr->ready_) {
-      scores.push_back(rr->memory_score());
-    }
-  }
-  std::cout << "balancing " << scores.size() << " heap, waiting for " << vec.size() - scores.size() << " heap" << std::endl;
-  if (!scores.empty()) {
-    std::sort(scores.begin(), scores.end());
-    double median_score = median(scores);
-    for (const RemoteRuntime& rr: vec) {
-      if (rr->ready_) {
-        if (rr->memory_score() > median_score) {
-          char buf[] = "GC";
-          if (send(rr->sockfd, buf, sizeof buf, 0) != sizeof buf) {
-            ERROR_STREAM << strerror(errno) << std::endl;
-            throw;
-          }
-        }
-      }
-    }
+inline nlohmann::json tagged_json(const std::string& type, const nlohmann::json& data) {
+  nlohmann::json ret;
+  ret["type"] = type;
+  ret["data"] = data;
+  return ret;
+}
+
+void send_balancer_message(int fd, const nlohmann::json& j) {
+  std::stringstream ssr;
+  ssr << j << std::endl;
+  std::string msg = ssr.str();
+  if (send(fd, msg.c_str(), msg.size(), 0) != msg.size()) {
+    ERROR_STREAM << strerror(errno) << std::endl;
+    throw;
   }
 }
 
@@ -92,9 +81,11 @@ struct ConnectionState {
   size_t max_memory;
   size_t gc_duration;
   double garbage_rate;
+  size_t last_major_gc_epoch;
+  time_point last_major_gc;
   bool has_major_gc = false;
   bool has_allocation_rate = false;
-  void accept(const std::string& str) {
+  void accept(const std::string& str, size_t epoch) {
     unprocessed += str;
     auto p = split_string(unprocessed);
     for (const auto& str: p.first) {
@@ -104,6 +95,8 @@ struct ConnectionState {
       json type = j["type"];
       json data = j["data"];
       if (type == "major_gc") {
+        last_major_gc = steady_clock::now();
+        last_major_gc_epoch = epoch;
         has_major_gc = true;
         max_memory = data["max_memory"];
         gc_duration = static_cast<double>(data["after_time"]) - static_cast<double>(data["before_time"]);
@@ -134,12 +127,13 @@ struct ConnectionState {
     size_t extra_memory_ = extra_memory();
     return static_cast<double>(extra_memory_) * static_cast<double>(extra_memory_) / gt();
   }
-  void report() {
+  void report(size_t epoch) {
     assert(ready());
     std::cout
       << "extra_memory: " << extra_memory()
       << ", garbage_rate: " << garbage_rate
       << ", gc_duration: " << gc_duration
+      << ", epoch_since_gc: " << epoch - last_major_gc_epoch
       << ", score: " << score() << std::endl;
   }
 };
@@ -153,6 +147,15 @@ struct Balancer {
   time_point last_balance = steady_clock::now();
   bool report = true;
   double tolerance = 0.1;
+  bool send_msg;
+  size_t epoch = 0;
+  Balancer(const std::vector<char*>& args) {
+    cxxopts::Options options("Balancer", "Balance multiple v8 heap");
+    options.add_options()
+      ("send-msg", "Send actual balancing message", cxxopts::value<bool>()->default_value("true"));
+    auto result = options.parse(args.size(), args.data());
+    send_msg = result["send-msg"].as<bool>();
+  }
   void poll_daemon() {
     while (true) {
       int num_events = poll(pfds.data(), pfds.size(), 1000 /*miliseconds*/);
@@ -191,7 +194,7 @@ struct Balancer {
                 ERROR_STREAM << strerror(errno) << std::endl;
                 throw;
               } else {
-                map.at(pfds[i].fd).accept(std::string(buf, n));
+                map.at(pfds[i].fd).accept(std::string(buf, n), epoch);
                 ++i;
               }
             } else {
@@ -212,6 +215,7 @@ struct Balancer {
     }
   }
   void balance() {
+    ++epoch;
     last_balance = steady_clock::now();
     std::vector<ConnectionState*> vec;
     for (auto& p : map) {
@@ -231,6 +235,7 @@ struct Balancer {
       if (!scores.empty()) {
         // stats calculation
         double mse = 0;
+        size_t m = 0;
         size_t e = 0;
         double gt_e = 0;
         double gt_root = 0;
@@ -239,6 +244,7 @@ struct Balancer {
           if (rr->ready()) {
             double diff = (rr->score() - median_score) / median_score;
             mse += diff * diff;
+            m += rr->max_memory;
             e += rr->extra_memory();
             gt_e += rr->gt() / rr->extra_memory();
             gt_root += sqrt(rr->gt());
@@ -257,25 +263,30 @@ struct Balancer {
         if (report) {
           for (ConnectionState* rr: vec) {
             if (rr->ready()) {
-              rr->report();
+              rr->report(epoch);
               std::cout << "suggested memory:" << suggest_extra_memory(rr) << std::endl;
             }
           }
           std::cout << "score mse: " << mse << std::endl;
+          std::cout << "total memory: " << m << std::endl;
           std::cout << "total extra memory: " << e << std::endl;
           std::cout << "efficiency: " << gt_e << " " << gt_root << " " << gt_e * e / gt_root / gt_root << std::endl;
           std::cout << std::endl;
         }
 
-        // send msg back to v8
-        for (ConnectionState* rr: vec) {
-          if (rr->ready()) {
-            size_t suggested_extra_memory_ = suggest_extra_memory(rr);
-            if (abs((suggested_extra_memory_ - rr->extra_memory()) / static_cast<double>(rr->extra_memory())) > tolerance) {
-              std::string msg = std::to_string(suggested_extra_memory_ + rr->working_memory);
-              if (send(rr->fd, msg.c_str(), msg.size(), 0) != msg.size()) {
-                ERROR_STREAM << strerror(errno) << std::endl;
-                throw;
+        if (send_msg) {
+          // send msg back to v8
+          for (ConnectionState* rr: vec) {
+            if (rr->ready()) {
+              size_t suggested_extra_memory_ = suggest_extra_memory(rr);
+              size_t total_memory = suggested_extra_memory_ + rr->working_memory;
+              if (abs((suggested_extra_memory_ - rr->extra_memory()) / static_cast<double>(rr->extra_memory())) > tolerance) {
+                send_balancer_message(rr->fd, tagged_json("heap", total_memory));
+              }
+              // calculate a gc period, and if a gc hasnt happend in twice of that period, it mean the gc message is stale.
+              bool unexpected_no_gc = 2 * rr->extra_memory() / rr->garbage_rate < (steady_clock::now() - rr->last_major_gc).count();
+              if (unexpected_no_gc && epoch - rr->last_major_gc_epoch > 3) {
+                send_balancer_message(rr->fd, tagged_json("gc", ""));
               }
             }
           }
@@ -286,13 +297,18 @@ struct Balancer {
 };
 
 int main(int argc, char* argv[]) {
-  assert(argc == 2);
+  assert(argc >= 2);
   V8RAII v8(argv[0]);
   std::string command(argv[1]);
+
+  std::vector<char*> command_args{argv[0]};
+  for (size_t i = 2; i < argc; ++i) {
+    command_args.push_back(argv[i]);
+  }
   if (command == "daemon") {
-    Balancer().poll_daemon();
+    Balancer(command_args).poll_daemon();
   } else if (command == "v8_experiment") {
-    v8_experiment();
+    v8_experiment(v8.platform.get(), command_args);
   } else if (command == "pareto_curve") {
     pareto_curve("../gc_log");
   } else {

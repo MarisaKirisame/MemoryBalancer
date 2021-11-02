@@ -13,24 +13,6 @@
 // higher score mean need less memory
 double memory_score(size_t working_memory, size_t max_memory, double garbage_rate, size_t gc_duration, size_t work_left, const HeuristicConfig& hc);
 
-struct RemoteRuntimeNode {
-  int sockfd;
-  size_t working_memory;
-  size_t max_memory;
-  double garbage_rate;
-  size_t gc_duration;
-  size_t last_gc_time;
-  bool has_one_record_ = false;
-  bool ready_ = false;
-  bool done_ = false;
-  RemoteRuntimeNode(int sockfd) : sockfd(sockfd) { }
-  void update(const v8::GCRecord& rec);
-  void done() {
-    done_ = true;
-  }
-  double memory_score();
-};
-
 // In order to avoid cycle, Runtime has strong pointer to controller and Controller has weak pointer to runtime.
 struct RuntimeNode : std::enable_shared_from_this<RuntimeNode> {
   friend ControllerNode;

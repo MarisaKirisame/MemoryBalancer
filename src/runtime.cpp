@@ -98,27 +98,3 @@ void SimulatedRuntimeNode::mutator_tick() {
   controller->change_working_memory(working_memory(), lock());
   check_invariant();
 }
-
-// todo: move lock here
-// todo: skip minor gc?
-void RemoteRuntimeNode::update(const v8::GCRecord& rec) {
-  if (rec.is_major_gc) {
-    if (has_one_record_) {
-      garbage_rate = static_cast<double>(rec.before_memory - working_memory) / static_cast<double>(rec.before_time - last_gc_time);
-      ready_ = true;
-    } else {
-      has_one_record_ = true;
-    }
-    working_memory = rec.after_memory;
-    last_gc_time = rec.after_time;
-    max_memory = rec.max_memory;
-    gc_duration = rec.after_time - rec.before_time;
-  }
-}
-
-double RemoteRuntimeNode::memory_score() {
-  assert(gc_duration > 0);
-  assert(garbage_rate >= 0);
-  double extra_memory = static_cast<double>(max_memory - working_memory);
-  return extra_memory * extra_memory / (gc_duration * garbage_rate);
-}

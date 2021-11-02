@@ -83,7 +83,7 @@ struct V8RAII {
   V8RAII(const std::string& exec_location) {
     v8::V8::InitializeICUDefaultLocation(exec_location.c_str());
     v8::V8::InitializeExternalStartupData(exec_location.c_str());
-    platform = std::make_unique<RestrictedPlatform>(v8::platform::NewDefaultPlatform());
+    platform = v8::platform::NewDefaultPlatform();
     v8::V8::InitializePlatform(platform.get());
     v8::V8::Initialize();
     // todo: weird, errno is nonzero when executed to here.

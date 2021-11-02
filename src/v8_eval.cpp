@@ -5,6 +5,7 @@
 #include <future>
 #include <vector>
 #include <chrono>
+#include <cxxopts.hpp>
 
 // todo: use the generic json-serializer/deserializerinstead
 // I'd love to use the name from_json and to_json, but unfortunately it seems like the two name is used.
@@ -16,28 +17,39 @@ Input read_from_json(const json& j) {
   return Input {heap_size, code_path};
 }
 
-size_t run_v8_cleanroom(const std::string& str, Signal* s) {
+size_t run_v8_cleanroom(v8::Platform* platform, const std::vector<std::pair<size_t, std::string>>& input, size_t heap_size, Signal* s) {
   v8::Isolate::CreateParams create_params;
-  create_params.constraints.ConfigureDefaultsFromHeapSize(100 * 1e6, 100 * 1e6);
+  create_params.constraints.ConfigureDefaultsFromHeapSize(0, heap_size);
+  create_params.constraints.set_code_range_size_in_bytes(10 * 1048576);
   create_params.array_buffer_allocator =
     v8::ArrayBuffer::Allocator::NewDefaultAllocator();
   v8::Isolate* isolate = v8::Isolate::New(create_params);
+  size_t result;
   {
     v8::Isolate::Scope isolate_scope(isolate);
     v8::HandleScope handle_scope(isolate);
     v8::Local<v8::Context> context = v8::Context::New(isolate);
     v8::Context::Scope context_scope(context);
     {
-      v8::Local<v8::String> source = fromString(isolate, str);
-      v8::Local<v8::Script> script =
-        v8::Script::Compile(context, source).ToLocalChecked();
       s->wait();
       time_point begin = steady_clock::now();
-      v8::Local<v8::Value> result = script->Run(context).ToLocalChecked();
+      for (const auto& p: input) {
+        v8::Local<v8::String> source = fromString(isolate, p.second);
+        v8::Local<v8::Script> script =
+          v8::Script::Compile(context, source).ToLocalChecked();
+        for (size_t i = 0; i < p.first; ++i) {
+          script->Run(context);
+          while (v8::platform::PumpMessageLoop(platform, isolate)) {
+            //std::cout << "message pumped!" << std::endl;
+          }
+        }
+      }
       time_point end = steady_clock::now();
-      return duration_cast<milliseconds>(end - begin).count();
+      result = duration_cast<milliseconds>(end - begin).count();
     }
   }
+  isolate->Dispose();
+  return result;
 }
 
 size_t run_v8(const Input& i, std::mutex* m) {
@@ -172,29 +184,37 @@ void parallel_experiment() {
   std::cout << "total_time = " << total_time << std::endl;
 }
 
-void v8_experiment() {
+void v8_experiment(v8::Platform* platform, const std::vector<char*>& args) {
+  cxxopts::Options options("V8 Experiment", "run some experiment from jetstream");
+  options.add_options()
+    ("h,heap-size", "Heap size in bytes.", cxxopts::value<int>());
+  auto result = options.parse(args.size(), args.data());
+  assert(result.count("heap-size"));
+  int heap_size = result["heap-size"].as<int>();
+  assert(heap_size > 0);
   std::string browserbench_path = "../WebKit/Websites/browserbench.org/";
   std::string jetstream_path = browserbench_path + "JetStream2.0/";
   std::string octane_path = jetstream_path + "Octane/";
   std::vector<std::string> js_paths;
-  js_paths.push_back(octane_path + "richards.js");
+  //js_paths.push_back(octane_path + "richards.js");
   js_paths.push_back(octane_path + "earley-boyer.js");
-  js_paths.push_back(octane_path + "deltablue.js");
+  //js_paths.push_back(octane_path + "deltablue.js");
   js_paths.push_back(octane_path + "pdfjs.js");
   js_paths.push_back(octane_path + "splay.js");
   //js_paths.push_back(octane_path + "typescript.js"); //typescript not ok!
   js_paths.push_back(jetstream_path + "simple/hash-map.js");
 
   std::string header = "let performance = {now() { return 0; }};";
-  std::string footer = "for(i=1;i<=1000;i++) { new Benchmark().runIteration(); } 42"; // weird - without the 42 it will segfault
+  std::string footer = "for(i = 0; i < 5; i++) {new Benchmark().runIteration();}";
 
   Signal s;
   std::vector<std::thread> threads;
   for (const std::string& js_path : js_paths) {
-    threads.emplace_back([&](){run_v8_cleanroom(header + read_file(js_path) + footer, &s);});
+    threads.emplace_back([&](){run_v8_cleanroom(platform, {{1, header}, {1, read_file(js_path)}, {200, footer}}, heap_size, &s);});
   }
   s.signal();
   for (std::thread& t : threads) {
     t.join();
   }
+  std::cout << "run ok!" << std::endl;
 }

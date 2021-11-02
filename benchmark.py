@@ -95,14 +95,7 @@ async def async_main(result_directory):
 def main():
     assert(len(sys.argv) == 2)
     result_directory = sys.argv[1]
-    Path(result_directory).mkdir()
-
     check_config()
-
     asyncio.get_event_loop().run_until_complete(async_main(sys.argv[1]))
-
-    for filename in os.listdir(os.getcwd()):
-        if (filename.endswith(".gc.log")):
-            Path(filename).rename(result_directory + filename)
 
 main()

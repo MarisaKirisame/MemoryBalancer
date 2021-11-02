@@ -22,7 +22,7 @@ target_link_libraries(MemoryBalancer PRIVATE boost_filesystem)
 
 target_link_libraries(MemoryBalancer PRIVATE v8_monolith)
 target_link_directories(MemoryBalancer PRIVATE ../v8/src/out.gn/x64.release.sample/obj/)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread -DV8_COMPRESS_POINTERS")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
 #add_custom_command(
 #  TARGET MemoryBalancer
 #  PRE_BUILD
