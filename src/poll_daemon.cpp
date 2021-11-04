@@ -242,7 +242,7 @@ struct Balancer {
         mse /= scores.size();
 
         // pavel: check if this fp is safe?
-        auto suggest_extra_memory = [&](ConnectionState* rr) -> size_t {
+        auto suggested_extra_memory = [&](ConnectionState* rr) -> size_t {
                                       if (gt_root == 0) {
                                         return 0;
                                       } else {
@@ -257,12 +257,15 @@ struct Balancer {
           t.add("gc_duration");
           t.add("epoch_since_gc");
           t.add("score");
-          t.add("suggest_extra_memory");
+          t.add("suggested_extra_memory");
+          t.add("suggested_total_memory");
           t.endOfRow();
           for (ConnectionState* rr: vec) {
             if (rr->ready()) {
               rr->report(t, epoch);
-              t.add(std::to_string(suggest_extra_memory(rr)));
+              size_t suggested_extra_memory_ = suggested_extra_memory(rr);
+              t.add(std::to_string(suggested_extra_memory_));
+              t.add(std::to_string(suggested_extra_memory_ + rr->working_memory));
               t.endOfRow();
             }
           }
@@ -278,7 +281,7 @@ struct Balancer {
           // send msg back to v8
           for (ConnectionState* rr: vec) {
             if (rr->ready()) {
-              size_t suggested_extra_memory_ = suggest_extra_memory(rr);
+              size_t suggested_extra_memory_ = suggested_extra_memory(rr);
               size_t total_memory = suggested_extra_memory_ + rr->working_memory;
               if (abs((suggested_extra_memory_ - rr->extra_memory()) / static_cast<double>(rr->extra_memory())) > tolerance) {
                 send_balancer_message(rr->fd, tagged_json("heap", total_memory));
