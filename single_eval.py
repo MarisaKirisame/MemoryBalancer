@@ -1,0 +1,90 @@
+import subprocess
+import time
+from pathlib import Path
+import os
+import json
+import sys
+
+assert(len(sys.argv) == 2)
+cfg = eval(sys.argv[1])
+
+LIMIT_MEMORY = cfg["LIMIT_MEMORY"]
+DEBUG = cfg["DEBUG"]
+SEND_MSG = cfg["SEND_MSG"]
+if LIMIT_MEMORY:
+    MEMORY_LIMIT = cfg["MEMORY_LIMIT"]
+
+def report_jetstream_score():
+    with open(filename) as f:
+        print(f.read())
+
+def report_major_gc_time(directory):
+    major_gc_total = 0
+    minor_gc_total = 0
+    for filename in os.listdir(directory):
+        if filename.endswith(".gc.log"):
+            with open(os.path.join(directory, filename)) as f:
+                for line in f.read().splitlines():
+                    j = json.loads(line)
+                    if j["is_major_gc"]:
+                        major_gc_total += j["after_time"] - j["before_time"]
+                    else:
+                        minor_gc_total += j["after_time"] - j["before_time"]
+    print(f"major gc took: {major_gc_total}")
+    print(f"minor gc took: {minor_gc_total}")
+    j = {}
+    j["OK"] = True
+    j["MAJOR_GC"] = major_gc_total
+    j["MINOR_GC"] = minor_gc_total
+    j["CFG"] = cfg
+    with open(os.path.join(directory, "log"), "w") as f:
+        json.dump(j, f)
+
+result_directory = "log/" + time.strftime("%Y-%m-%d-%H-%M-%S") + "/"
+Path(result_directory).mkdir()
+
+class ProcessScope:
+    def __init__(self, p):
+        self.p = p
+    def __enter__(self):
+        return self.p
+    def __exit__(self, *args):
+        self.p.terminate()
+
+MB_IN_BYTES = 1024 * 1024
+
+with ProcessScope(subprocess.Popen(["/home/marisa/Work/MemoryBalancer/build/MemoryBalancer", "daemon", f"--send-msg={SEND_MSG}"])):
+    time.sleep(1) # make sure the balancer is running
+
+    memory_limit = f"{MEMORY_LIMIT * MB_IN_BYTES}"
+
+    env_vars = "USE_MEMBALANCER=1 LOG_GC=1"
+
+    #subprocess.run(f"echo {memory_limit} > /sys/fs/cgroup/memory/MemBalancer/memory.limit_in_bytes", shell=True, check=True)
+    #subprocess.run(f"echo {memory_limit} > /sys/fs/cgroup/memory/MemBalancer/memory.memsw.limit_in_bytes", shell=True, check=True)
+
+    command = f"python3 benchmark.py {result_directory}"
+    command = f"../chromium/src/out/Default/chrome --no-sandbox"
+    command = f"build/MemoryBalancer v8_experiment --heap-size={int(10 * 1000 * 1e6)}" # a very big heap size to essentially have no limit
+
+    if LIMIT_MEMORY:
+        env_vars = f"MEMORY_LIMITER_TYPE=ProcessWide MEMORY_LIMITER_VALUE={memory_limit} {env_vars}"
+
+    if DEBUG:
+        command = f"gdb -ex=r --args {command}"
+
+    main_process_result = subprocess.run(f"{env_vars} {command}", shell=True, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+
+    for filename in os.listdir(os.getcwd()):
+        if (filename.endswith(".gc.log")):
+            Path(filename).rename(result_directory + filename)
+
+    if main_process_result.returncode != 0:
+        assert("Fatal javascript OOM" in main_process_result.stdout)
+        j = {}
+        j["OK"] = False
+        j["CFG"] = cfg
+        with open(os.path.join(result_directory, "log"), "w") as f:
+            json.dump(j, f)
+    else:
+        report_major_gc_time(result_directory)
