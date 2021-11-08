@@ -17,13 +17,14 @@ Input read_from_json(const json& j) {
   return Input {heap_size, code_path};
 }
 
-size_t run_v8_cleanroom(v8::Platform* platform, const std::vector<std::pair<size_t, std::string>>& input, size_t heap_size, Signal* s) {
+size_t run_v8_cleanroom(v8::Platform* platform, const std::vector<std::pair<size_t, std::string>>& input, const std::string& name, size_t heap_size, Signal* s) {
   v8::Isolate::CreateParams create_params;
   create_params.constraints.ConfigureDefaultsFromHeapSize(0, heap_size);
   create_params.constraints.set_code_range_size_in_bytes(10 * 1048576);
   create_params.array_buffer_allocator =
     v8::ArrayBuffer::Allocator::NewDefaultAllocator();
   v8::Isolate* isolate = v8::Isolate::New(create_params);
+  isolate->SetName(name);
   size_t result;
   {
     v8::Isolate::Scope isolate_scope(isolate);
@@ -195,22 +196,26 @@ void v8_experiment(v8::Platform* platform, const std::vector<char*>& args) {
   std::string browserbench_path = "../WebKit/Websites/browserbench.org/";
   std::string jetstream_path = browserbench_path + "JetStream2.0/";
   std::string octane_path = jetstream_path + "Octane/";
-  std::vector<std::string> js_paths;
+  std::vector<std::pair<std::string, std::string>> js_paths;
   //js_paths.push_back(octane_path + "richards.js");
-  js_paths.push_back(octane_path + "earley-boyer.js");
+  js_paths.push_back({octane_path, "earley-boyer.js"});
   //js_paths.push_back(octane_path + "deltablue.js");
-  js_paths.push_back(octane_path + "pdfjs.js");
-  js_paths.push_back(octane_path + "splay.js");
+  js_paths.push_back({octane_path, "pdfjs.js"});
+  js_paths.push_back({octane_path, "splay.js"});
   //js_paths.push_back(octane_path + "typescript.js"); //typescript not ok!
-  js_paths.push_back(jetstream_path + "simple/hash-map.js");
+  js_paths.push_back({jetstream_path, "simple/hash-map.js"});
 
   std::string header = "let performance = {now() { return 0; }};";
   std::string footer = "for(i = 0; i < 5; i++) {new Benchmark().runIteration();}";
 
   Signal s;
   std::vector<std::thread> threads;
-  for (const std::string& js_path : js_paths) {
-    threads.emplace_back([&](){run_v8_cleanroom(platform, {{1, header}, {1, read_file(js_path)}, {200, footer}}, heap_size, &s);});
+  for (const std::pair<std::string, std::string>& p : js_paths) {
+    std::string js_directory = p.first;
+    std::string js_name = p.second;
+    std::string js_path = js_directory + js_name;
+    Signal* ps = &s;
+    threads.emplace_back([=](){run_v8_cleanroom(platform, {{1, header}, {1, read_file(js_path)}, {200, footer}}, js_name, heap_size, ps);});
   }
   s.signal();
   for (std::thread& t : threads) {

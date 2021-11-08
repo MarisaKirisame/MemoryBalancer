@@ -17,6 +17,7 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <sys/un.h>
+#include <queue>
 
 #include "util.hpp"
 #include "v8_util.hpp"
@@ -63,18 +64,98 @@ void send_balancer_message(int fd, const nlohmann::json& j) {
   }
 }
 
+template<typename T>
+struct Filter {
+  // a possibly stateful function. transform the input.
+  const std::function<double(double)> func;
+  bool recieved_signal = false;
+  double output;
+  void in(const T& t) {
+    recieved_signal = true;
+    output = func(static_cast<double>(t));
+  }
+  T out() {
+    assert(recieved_signal);
+    return static_cast<T>(output);
+  }
+  T io(const T& t) {
+    in(t);
+    return out();
+  }
+  Filter(const std::function<double(double)>& func) : func(func) { }
+  Filter() = delete;
+  // we intentionally do not provide the more natural = overloading and implicit cast.
+  // it is because a filter *is not* the thing it is filtering.
+  // suppose we have Filter a, Filter b,
+  // a = b can mean both things, which is useful under different circumstances:
+  // 0: assign the state of filter a to that of filter b
+  // 1: feed 1 value from b into a
+  // by not providing the short cut, the distinction is made explicit, and the ambiguity is resolved.
+};
+
+using filter_factory_t = std::function<std::function<double(double)>()>;
+filter_factory_t id_ff =
+                    [](){
+                      return [](double d){return d;};
+                    };
+
+filter_factory_t smooth_approximate(size_t item_count_max) {
+  assert(item_count_max > 0);
+  struct SA {
+    size_t item_count_max;
+    size_t item_count = 0;
+    double sum = 0;
+    SA(size_t item_count_max) : item_count_max(item_count_max) { }
+    double operator()(double d) {
+      ++item_count;
+      sum += d;
+      if (item_count > item_count_max) {
+        assert(item_count == item_count_max + 1);
+        sum *= item_count_max;
+        sum /= item_count;
+        --item_count;
+      }
+      return sum / item_count;
+    }
+  };
+  return [=](){ return SA(item_count_max); };
+}
+
+filter_factory_t smooth_exact(size_t item_count_max) {
+  assert(item_count_max > 0);
+  struct SA {
+    size_t item_count_max;
+    std::queue<double> items;
+    double sum = 0;
+    SA(size_t item_count_max) : item_count_max(item_count_max) { }
+    double operator()(double d) {
+      items.push(d);
+      sum += d;
+      if (items.size() > item_count_max) {
+        assert(items.size() == item_count_max + 1);
+        sum -= items.front();
+        items.pop();
+      }
+      return sum / items.size();
+    }
+  };
+  return [=](){ return SA(item_count_max); };
+}
+
 struct ConnectionState {
   socket_t fd;
-  ConnectionState(socket_t fd) : fd(fd) { }
   std::string unprocessed;
-  size_t working_memory;
-  size_t max_memory;
-  size_t gc_duration;
-  double garbage_rate;
+  Filter<size_t> working_memory;
+  Filter<size_t> max_memory;
+  Filter<size_t> gc_duration;
+  Filter<double> garbage_rate;
   size_t last_major_gc_epoch;
   time_point last_major_gc;
+  std::string name;
   bool has_major_gc = false;
   bool has_allocation_rate = false;
+  ConnectionState(socket_t fd, const filter_factory_t& ff) :
+    fd(fd), working_memory(ff()), max_memory(ff()), gc_duration(ff()), garbage_rate(ff()) { }
   void accept(const std::string& str, size_t epoch) {
     unprocessed += str;
     auto p = split_string(unprocessed);
@@ -85,17 +166,22 @@ struct ConnectionState {
       json type = j["type"];
       json data = j["data"];
       if (type == "major_gc") {
+        if (!has_major_gc) {
+          name = data["name"];
+        } else {
+          assert(name == data["name"]);
+        }
         last_major_gc = steady_clock::now();
         last_major_gc_epoch = epoch;
         has_major_gc = true;
-        max_memory = data["max_memory"];
-        gc_duration = static_cast<double>(data["after_time"]) - static_cast<double>(data["before_time"]);
-        working_memory = data["after_memory"];
+        max_memory.in(data["max_memory"]);
+        gc_duration.in(static_cast<double>(data["after_time"]) - static_cast<double>(data["before_time"]));
+        working_memory.in(data["after_memory"]);
       } else if (type == "allocation_rate") {
         has_allocation_rate = true;
-        garbage_rate = data;
+        garbage_rate.in(data);
       } else if (type == "max_memory") {
-        max_memory = data;
+        max_memory.in(data);
       } else {
         std::cout << "unknown type: " << type << std::endl;
         throw;
@@ -107,10 +193,10 @@ struct ConnectionState {
     return has_major_gc && has_allocation_rate;
   }
   size_t extra_memory() {
-    return max_memory - working_memory;
+    return max_memory.out() - working_memory.out();
   }
   double gt() {
-    return static_cast<double>(garbage_rate) * static_cast<double>(gc_duration);
+    return static_cast<double>(garbage_rate.out()) * static_cast<double>(gc_duration.out());
   }
   double score() {
     assert(ready());
@@ -119,9 +205,10 @@ struct ConnectionState {
   }
   void report(TextTable& t, size_t epoch) {
     assert(ready());
+    t.add(name);
     t.add(std::to_string(extra_memory()));
-    t.add(std::to_string(garbage_rate));
-    t.add(std::to_string(gc_duration));
+    t.add(std::to_string(garbage_rate.out()));
+    t.add(std::to_string(gc_duration.out()));
     t.add(std::to_string(epoch - last_major_gc_epoch));
     t.add(std::to_string(score()));
   }
@@ -138,12 +225,33 @@ struct Balancer {
   double tolerance = 0.1;
   bool send_msg;
   size_t epoch = 0;
+  filter_factory_t ff;
   Balancer(const std::vector<char*>& args) {
+    // note: we intentionally do not use any default option.
+    // as all options is filled in by the eval program, there is no point in having default,
+    // and it will hide error.
     cxxopts::Options options("Balancer", "Balance multiple v8 heap");
     options.add_options()
-      ("send-msg", "Send actual balancing message", cxxopts::value<bool>()->default_value("true"));
+      ("send-msg", "Send actual balancing message", cxxopts::value<bool>());
+    options.add_options()
+      ("smooth-type", "no-smoothing, smooth-approximate, smooth-exact", cxxopts::value<std::string>());
+    options.add_options()
+      ("smooth-count", "a positive number. the bigger it is, the more smoothing we do", cxxopts::value<size_t>());
     auto result = options.parse(args.size(), args.data());
     send_msg = result["send-msg"].as<bool>();
+    std::string smooth_type = result["smooth-type"].as<std::string>();
+    if (smooth_type == "no-smoothing") {
+      ff = id_ff;
+    } else if (smooth_type == "smooth-approximate") {
+      assert(result.count("smooth-count"));
+      ff = smooth_approximate(result["smooth-count"].as<size_t>());
+    } else if (smooth_type == "smooth-exact") {
+      assert(result.count("smooth-count"));
+      ff = smooth_exact(result["smooth-count"].as<size_t>());
+    } else {
+      std::cout << "unknown smooth-type: " << smooth_type;
+      throw;
+    }
   }
   void poll_daemon() {
     while (true) {
@@ -172,7 +280,7 @@ struct Balancer {
                 throw;
               }
               pfds.push_back({newsocket, POLLIN});
-              map.insert({newsocket, ConnectionState(newsocket)});
+              map.insert({newsocket, ConnectionState(newsocket, ff)});
               ++i;
             } else if (revents & POLLIN) {
               char buf[1000];
@@ -233,7 +341,7 @@ struct Balancer {
           if (rr->ready()) {
             double diff = (rr->score() - median_score) / median_score;
             mse += diff * diff;
-            m += rr->max_memory;
+            m += rr->max_memory.out();
             e += rr->extra_memory();
             gt_e += rr->gt() / rr->extra_memory();
             gt_root += sqrt(rr->gt());
@@ -252,6 +360,7 @@ struct Balancer {
 
         if (report) {
           TextTable t( '-', '|', '+' );
+          t.add("name");
           t.add("extra_memory");
           t.add("garbage_rate");
           t.add("gc_duration");
@@ -265,7 +374,7 @@ struct Balancer {
               rr->report(t, epoch);
               size_t suggested_extra_memory_ = suggested_extra_memory(rr);
               t.add(std::to_string(suggested_extra_memory_));
-              t.add(std::to_string(suggested_extra_memory_ + rr->working_memory));
+              t.add(std::to_string(suggested_extra_memory_ + rr->working_memory.out()));
               t.endOfRow();
             }
           }
@@ -282,12 +391,12 @@ struct Balancer {
           for (ConnectionState* rr: vec) {
             if (rr->ready()) {
               size_t suggested_extra_memory_ = suggested_extra_memory(rr);
-              size_t total_memory = suggested_extra_memory_ + rr->working_memory;
+              size_t total_memory = suggested_extra_memory_ + rr->working_memory.out();
               if (abs((suggested_extra_memory_ - rr->extra_memory()) / static_cast<double>(rr->extra_memory())) > tolerance) {
                 send_balancer_message(rr->fd, tagged_json("heap", total_memory));
               }
               // calculate a gc period, and if a gc hasnt happend in twice of that period, it mean the gc message is stale.
-              bool unexpected_no_gc = 2 * rr->extra_memory() / rr->garbage_rate < (steady_clock::now() - rr->last_major_gc).count();
+              bool unexpected_no_gc = 2 * rr->extra_memory() / rr->garbage_rate.out() < (steady_clock::now() - rr->last_major_gc).count();
               if (unexpected_no_gc && epoch - rr->last_major_gc_epoch > 3) {
                 send_balancer_message(rr->fd, tagged_json("gc", ""));
               }

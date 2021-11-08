@@ -58,7 +58,9 @@ using std::chrono::duration_cast;
 using milliseconds = std::chrono::milliseconds;
 
 inline std::string read_file(const std::string& path) {
-  assert(std::filesystem::exists(path));
+  if (!std::filesystem::exists(path)) {
+    std::cout << "ERROR! " << path << " not exist!" << std::endl;
+  }
   std::ifstream t(path);
   return std::string((std::istreambuf_iterator<char>(t)),
                      std::istreambuf_iterator<char>());

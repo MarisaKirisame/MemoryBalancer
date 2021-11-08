@@ -10,9 +10,13 @@ cfg = eval(sys.argv[1])
 
 LIMIT_MEMORY = cfg["LIMIT_MEMORY"]
 DEBUG = cfg["DEBUG"]
-SEND_MSG = cfg["SEND_MSG"]
 if LIMIT_MEMORY:
     MEMORY_LIMIT = cfg["MEMORY_LIMIT"]
+BALANCER_CFG = cfg["BALANCER_CFG"]
+SEND_MSG = BALANCER_CFG["SEND_MSG"]
+SMOOTH_TYPE = BALANCER_CFG["SMOOTHING"]["TYPE"]
+if not SMOOTH_TYPE == "no-smoothing":
+    SMOOTH_COUNT = BALANCER_CFG["SMOOTHING"]["COUNT"]
 
 def report_jetstream_score():
     with open(filename) as f:
@@ -53,7 +57,12 @@ class ProcessScope:
 
 MB_IN_BYTES = 1024 * 1024
 
-with ProcessScope(subprocess.Popen(["/home/marisa/Work/MemoryBalancer/build/MemoryBalancer", "daemon", f"--send-msg={SEND_MSG}"])):
+balancer_cmds = ["/home/marisa/Work/MemoryBalancer/build/MemoryBalancer", "daemon"]
+balancer_cmds.append(f"--send-msg={SEND_MSG}")
+balancer_cmds.append(f"--smooth-type={SMOOTH_TYPE}")
+if not SMOOTH_TYPE == "no-smoothing":
+    balancer_cmds.append(f"--smooth-count={SMOOTH_COUNT}")
+with ProcessScope(subprocess.Popen(balancer_cmds)):
     time.sleep(1) # make sure the balancer is running
 
     memory_limit = f"{MEMORY_LIMIT * MB_IN_BYTES}"
@@ -73,18 +82,22 @@ with ProcessScope(subprocess.Popen(["/home/marisa/Work/MemoryBalancer/build/Memo
     if DEBUG:
         command = f"gdb -ex=r --args {command}"
 
-    main_process_result = subprocess.run(f"{env_vars} {command}", shell=True, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    #main_process_result = subprocess.run(f"{env_vars} {command}", shell=True, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    main_process_result = subprocess.run(f"{env_vars} {command}", shell=True)
 
     for filename in os.listdir(os.getcwd()):
         if (filename.endswith(".gc.log")):
             Path(filename).rename(result_directory + filename)
 
     if main_process_result.returncode != 0:
-        assert("Fatal javascript OOM" in main_process_result.stdout)
-        j = {}
-        j["OK"] = False
-        j["CFG"] = cfg
-        with open(os.path.join(result_directory, "log"), "w") as f:
-            json.dump(j, f)
+        if "Fatal javascript OOM" in main_process_result.stdout:
+            j = {}
+            j["OK"] = False
+            j["CFG"] = cfg
+            with open(os.path.join(result_directory, "log"), "w") as f:
+                json.dump(j, f)
+        else:
+            print(main_process_result.stdout)
+            print("UNKNOWN ERROR!")
     else:
         report_major_gc_time(result_directory)
