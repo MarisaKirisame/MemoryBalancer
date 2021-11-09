@@ -82,8 +82,7 @@ with ProcessScope(subprocess.Popen(balancer_cmds)):
     if DEBUG:
         command = f"gdb -ex=r --args {command}"
 
-    #main_process_result = subprocess.run(f"{env_vars} {command}", shell=True, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-    main_process_result = subprocess.run(f"{env_vars} {command}", shell=True)
+    main_process_result = subprocess.run(f"{env_vars} {command}", shell=True, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 
     for filename in os.listdir(os.getcwd()):
         if (filename.endswith(".gc.log")):

@@ -44,9 +44,13 @@ def deep_freeze(d):
 
 vals = []
 for filename in os.listdir("log"):
-    with open(os.path.join("log", filename, "log")) as f:
-        j = json.load(f)
-        vals.append(deep_freeze(j))
+    log_path = os.path.join("log", filename, "log")
+    if os.path.exists(log_path):
+        with open(log_path) as f:
+            j = json.load(f)
+            vals.append(deep_freeze(j))
+    else:
+        print(f"Warning: {log_path} does not exists")
 
 def report(x):
     print(f"mean: {np.mean(x)} std: {np.std(x)}")

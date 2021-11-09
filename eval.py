@@ -39,26 +39,14 @@ def flatten_nondet_dict(x):
 cfgs = flatten_nondet_dict({
     "LIMIT_MEMORY": True,
     "DEBUG": False,
-    "MEMORY_LIMIT": NONDET(600, 650, 700, 750, 800),
+    "MEMORY_LIMIT": NONDET(550, 600, 650, 700, 750),
     "BALANCER_CFG":NONDET(
         {"SEND_MSG":False, "SMOOTHING":{"TYPE":"no-smoothing"}},
         *flatten_nondet_dict({"SEND_MSG":True,
                               "SMOOTHING": NONDET({"TYPE":"no-smoothing"}, *flatten_nondet_dict({
-                                "TYPE": NONDET("smooth-approximate", "smooth-exact"),
-                                "COUNT": NONDET(2, 3)
+                                "TYPE": NONDET("smooth-approximate"),
+                                "COUNT": NONDET(1)
                               }).l)}).l)
-})
-
-cfgs = flatten_nondet_dict({
-    "LIMIT_MEMORY": True,
-    "DEBUG": False,
-    "MEMORY_LIMIT": NONDET(600, 650, 700, 750, 800),
-    "BALANCER_CFG": {
-        "SEND_MSG":True,
-        "SMOOTHING": {
-            "TYPE": "smooth-approximate",
-            "COUNT": 1
-        }}
 })
 
 for _ in range(10):
