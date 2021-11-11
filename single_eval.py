@@ -25,6 +25,7 @@ def report_jetstream_score():
 def report_major_gc_time(directory):
     major_gc_total = 0
     minor_gc_total = 0
+    balancer_efficiency = []
     for filename in os.listdir(directory):
         if filename.endswith(".gc.log"):
             with open(os.path.join(directory, filename)) as f:
@@ -36,12 +37,20 @@ def report_major_gc_time(directory):
                         minor_gc_total += j["after_time"] - j["before_time"]
     print(f"major gc took: {major_gc_total}")
     print(f"minor gc took: {minor_gc_total}")
+    with open(os.path.join(directory, "v8_log")) as f:
+        for line in f.read().splitlines():
+            j = json.loads(line)
+            assert(j["type"] == "efficiency")
+            balancer_efficiency.append(j["data"])
+    # filter out the nans
+    balancer_efficiency = list([x for x in balancer_efficiency if x])
     j = {}
     j["OK"] = True
     j["MAJOR_GC"] = major_gc_total
     j["MINOR_GC"] = minor_gc_total
+    j["BALANCER_EFFICIENCY"] = sum(balancer_efficiency) / len(balancer_efficiency)
     j["CFG"] = cfg
-    with open(os.path.join(directory, "log"), "w") as f:
+    with open(os.path.join(directory, "score"), "w") as f:
         json.dump(j, f)
 
 result_directory = "log/" + time.strftime("%Y-%m-%d-%H-%M-%S") + "/"
@@ -62,6 +71,7 @@ balancer_cmds.append(f"--send-msg={SEND_MSG}")
 balancer_cmds.append(f"--smooth-type={SMOOTH_TYPE}")
 if not SMOOTH_TYPE == "no-smoothing":
     balancer_cmds.append(f"--smooth-count={SMOOTH_COUNT}")
+balancer_cmds.append(f"""--log-path={result_directory+"v8_log"}""")
 with ProcessScope(subprocess.Popen(balancer_cmds)):
     time.sleep(1) # make sure the balancer is running
 
@@ -93,7 +103,7 @@ with ProcessScope(subprocess.Popen(balancer_cmds)):
             j = {}
             j["OK"] = False
             j["CFG"] = cfg
-            with open(os.path.join(result_directory, "log"), "w") as f:
+            with open(os.path.join(result_directory, "score"), "w") as f:
                 json.dump(j, f)
         else:
             print(main_process_result.stdout)

@@ -215,7 +215,7 @@ struct ConnectionState {
 };
 
 struct Balancer {
-  static constexpr auto balance_frequency = milliseconds(1000);
+  static constexpr auto balance_frequency = milliseconds(300);
   size_t update_count = 0;
   socket_t s = get_listener();
   std::vector<pollfd> pfds {{s, POLLIN}};
@@ -226,6 +226,13 @@ struct Balancer {
   bool send_msg;
   size_t epoch = 0;
   filter_factory_t ff;
+  std::string log_path;
+  std::ofstream f;
+  void log(const nlohmann::json& j) {
+    if (f.is_open()) {
+      f << j << std::endl;
+    }
+  }
   Balancer(const std::vector<char*>& args) {
     // note: we intentionally do not use any default option.
     // as all options is filled in by the eval program, there is no point in having default,
@@ -237,6 +244,8 @@ struct Balancer {
       ("smooth-type", "no-smoothing, smooth-approximate, smooth-exact", cxxopts::value<std::string>());
     options.add_options()
       ("smooth-count", "a positive number. the bigger it is, the more smoothing we do", cxxopts::value<size_t>());
+    options.add_options()
+      ("log-path", "where to put the log ", cxxopts::value<std::string>());
     auto result = options.parse(args.size(), args.data());
     send_msg = result["send-msg"].as<bool>();
     std::string smooth_type = result["smooth-type"].as<std::string>();
@@ -252,10 +261,14 @@ struct Balancer {
       std::cout << "unknown smooth-type: " << smooth_type;
       throw;
     }
+    if (result.count("log-path")) {
+      log_path = result["log-path"].as<std::string>();
+      f = std::ofstream(log_path);
+    }
   }
   void poll_daemon() {
     while (true) {
-      int num_events = poll(pfds.data(), pfds.size(), 1000 /*miliseconds*/);
+      int num_events = poll(pfds.data(), pfds.size(), balance_frequency.count() /*miliseconds*/);
       if (num_events != 0) {
         auto close_connection = [&](size_t i) {
                                   std::cout << "peer closed!" << std::endl;
@@ -382,7 +395,9 @@ struct Balancer {
           std::cout << "score mse: " << mse << std::endl;
           std::cout << "total memory: " << m << std::endl;
           std::cout << "total extra memory: " << e << std::endl;
-          std::cout << "efficiency: " << gt_e << " " << gt_root << " " << gt_e * e / gt_root / gt_root << std::endl;
+          double efficiency = gt_e * e / gt_root / gt_root;
+          std::cout << "efficiency: " << gt_e << " " << gt_root << " " << efficiency << std::endl;
+          log(tagged_json("efficiency", efficiency));
           std::cout << std::endl;
         }
 
@@ -396,8 +411,8 @@ struct Balancer {
                 send_balancer_message(rr->fd, tagged_json("heap", total_memory));
               }
               // calculate a gc period, and if a gc hasnt happend in twice of that period, it mean the gc message is stale.
-              bool unexpected_no_gc = 2 * rr->extra_memory() / rr->garbage_rate.out() < (steady_clock::now() - rr->last_major_gc).count();
-              if (unexpected_no_gc && epoch - rr->last_major_gc_epoch > 3) {
+              bool unexpected_no_gc = std::max(2 * rr->extra_memory() / rr->garbage_rate.out(), 3000.0) < (steady_clock::now() - rr->last_major_gc).count();
+              if (unexpected_no_gc) {
                 send_balancer_message(rr->fd, tagged_json("gc", ""));
               }
             }

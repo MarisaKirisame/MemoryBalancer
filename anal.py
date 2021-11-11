@@ -4,6 +4,7 @@ from pathlib import Path
 import json
 import numpy as np
 import collections
+import matplotlib.pyplot as plt
 
 class FrozenDict(collections.Mapping):
     """Don't forget the docstrings!!"""
@@ -42,9 +43,48 @@ def deep_freeze(d):
     else:
         return d
 
+class Line:
+    def __init__(self, name=None):
+        self.name = name
+        self.xs = []
+        self.ys = []
+
+    def point(self, x, y):
+        self.xs.append(x)
+        self.ys.append(y)
+
+    def plot(self, color=None):
+        return plt.plot(self.xs, self.ys, label=self.name, color=color)
+
+class EvalLine:
+    def __init__(self, name, plot_std):
+        self.plot_std = plot_std
+        if not self.plot_std:
+            self.line = Line(name)
+        else:
+            self.low_line = Line(name)
+            self.high_line = Line()
+
+    def point(self, x, y):
+        if not self.plot_std:
+            self.line.point(x, np.mean(y))
+        else:
+            m = np.mean(y)
+            s = np.std(y)
+            self.low_line.point(x, m - s)
+            self.high_line.point(x, m + s)
+
+    def plot(self):
+        if not self.plot_std:
+            return self.line.plot()
+        else:
+            ll = self.low_line.plot()[0]
+            rr = self.high_line.plot(ll.get_color())[0]
+            return (ll, rr)
+
 vals = []
 for filename in os.listdir("log"):
-    log_path = os.path.join("log", filename, "log")
+    log_path = os.path.join("log", filename, "score")
     if os.path.exists(log_path):
         with open(log_path) as f:
             j = json.load(f)
@@ -52,8 +92,8 @@ for filename in os.listdir("log"):
     else:
         print(f"Warning: {log_path} does not exists")
 
-def report(x):
-    print(f"mean: {np.mean(x)} std: {np.std(x)}")
+def report(name, x):
+    print(f"{name} mean: {np.mean(x)} std: {np.std(x)}")
 
 bucket = {}
 for x in vals:
@@ -68,6 +108,10 @@ for x in vals:
 ms = list(bucket.keys())
 ms.sort(reverse=True)
 
+lines = {}
+
+PLOT_STD = True
+
 for m in ms:
     for cfg, vals in bucket[m].items():
         ok_vals = [x for x in vals if x["OK"]]
@@ -75,4 +119,15 @@ for m in ms:
         print(f"With CFG {cfg}:")
         print(f"OOM rate: {1 - len(ok_vals) / len(vals)} size:{len(vals)}")
         if len(ok_vals) > 0:
-            report([x["MAJOR_GC"] for x in ok_vals])
+            major_gc = [x["MAJOR_GC"] for x in ok_vals]
+            report("major gc time", major_gc)
+            report("balancer efficiency", [x["BALANCER_EFFICIENCY"] for x in ok_vals])
+            balancer_cfg = cfg["BALANCER_CFG"]
+            if balancer_cfg not in lines:
+                lines[balancer_cfg] = EvalLine(balancer_cfg, PLOT_STD)
+            lines[balancer_cfg].point(m, major_gc)
+
+for l in lines.values():
+    l.plot()
+plt.legend()
+plt.show()
