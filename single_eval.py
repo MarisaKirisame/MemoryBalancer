@@ -17,6 +17,7 @@ SEND_MSG = BALANCER_CFG["SEND_MSG"]
 SMOOTH_TYPE = BALANCER_CFG["SMOOTHING"]["TYPE"]
 if not SMOOTH_TYPE == "no-smoothing":
     SMOOTH_COUNT = BALANCER_CFG["SMOOTHING"]["COUNT"]
+BALANCE_FREQUENCY = BALANCER_CFG["BALANCE_FREQUENCY"]
 
 def report_jetstream_score():
     with open(filename) as f:
@@ -40,8 +41,8 @@ def report_major_gc_time(directory):
     with open(os.path.join(directory, "v8_log")) as f:
         for line in f.read().splitlines():
             j = json.loads(line)
-            assert(j["type"] == "efficiency")
-            balancer_efficiency.append(j["data"])
+            if j["type"] == "efficiency":
+                balancer_efficiency.append(j["data"])
     # filter out the nans
     balancer_efficiency = list([x for x in balancer_efficiency if x])
     j = {}
@@ -56,6 +57,7 @@ def report_major_gc_time(directory):
 result_directory = "log/" + time.strftime("%Y-%m-%d-%H-%M-%S") + "/"
 Path(result_directory).mkdir()
 
+# weird error: terminate does not work when exception is raised. fix this.
 class ProcessScope:
     def __init__(self, p):
         self.p = p
@@ -71,8 +73,13 @@ balancer_cmds.append(f"--send-msg={SEND_MSG}")
 balancer_cmds.append(f"--smooth-type={SMOOTH_TYPE}")
 if not SMOOTH_TYPE == "no-smoothing":
     balancer_cmds.append(f"--smooth-count={SMOOTH_COUNT}")
+balancer_cmds.append(f"--balance-frequency={BALANCE_FREQUENCY}")
 balancer_cmds.append(f"""--log-path={result_directory+"v8_log"}""")
-with ProcessScope(subprocess.Popen(balancer_cmds)):
+
+def tee_log(cmd, log_path):
+    return f"{cmd} 2>&1 | tee {log_path}"
+
+with ProcessScope(subprocess.Popen(tee_log(' '.join(balancer_cmds), result_directory + "balancer_out"), shell=True)):
     time.sleep(1) # make sure the balancer is running
 
     memory_limit = f"{MEMORY_LIMIT * MB_IN_BYTES}"
@@ -82,7 +89,7 @@ with ProcessScope(subprocess.Popen(balancer_cmds)):
     #subprocess.run(f"echo {memory_limit} > /sys/fs/cgroup/memory/MemBalancer/memory.limit_in_bytes", shell=True, check=True)
     #subprocess.run(f"echo {memory_limit} > /sys/fs/cgroup/memory/MemBalancer/memory.memsw.limit_in_bytes", shell=True, check=True)
 
-    command = f"python3 benchmark.py {result_directory}"
+    command = f"python3 -u benchmark.py {result_directory}"
     command = f"../chromium/src/out/Default/chrome --no-sandbox"
     command = f"build/MemoryBalancer v8_experiment --heap-size={int(10 * 1000 * 1e6)}" # a very big heap size to essentially have no limit
 
@@ -92,7 +99,7 @@ with ProcessScope(subprocess.Popen(balancer_cmds)):
     if DEBUG:
         command = f"gdb -ex=r --args {command}"
 
-    main_process_result = subprocess.run(f"{env_vars} {command}", shell=True, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    main_process_result = subprocess.run(tee_log(f"{env_vars} {command}", result_directory + "v8_out"), shell=True)
 
     for filename in os.listdir(os.getcwd()):
         if (filename.endswith(".gc.log")):
@@ -106,7 +113,6 @@ with ProcessScope(subprocess.Popen(balancer_cmds)):
             with open(os.path.join(result_directory, "score"), "w") as f:
                 json.dump(j, f)
         else:
-            print(main_process_result.stdout)
             print("UNKNOWN ERROR!")
     else:
         report_major_gc_time(result_directory)

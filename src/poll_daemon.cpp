@@ -54,15 +54,11 @@ inline nlohmann::json tagged_json(const std::string& type, const nlohmann::json&
   return ret;
 }
 
-void send_balancer_message(int fd, const nlohmann::json& j) {
+std::string to_string(const nlohmann::json& j) {
   std::stringstream ssr;
   ssr << j << std::endl;
-  std::string msg = ssr.str();
-  if (send(fd, msg.c_str(), msg.size(), 0) != msg.size()) {
-    ERROR_STREAM << strerror(errno) << std::endl;
-    throw;
-  }
-}
+  return ssr.str();
+};
 
 template<typename T>
 struct Filter {
@@ -111,8 +107,7 @@ filter_factory_t smooth_approximate(size_t item_count_max) {
       sum += d;
       if (item_count > item_count_max) {
         assert(item_count == item_count_max + 1);
-        sum *= item_count_max;
-        sum /= item_count;
+        sum -= sum / item_count;
         --item_count;
       }
       return sum / item_count;
@@ -123,11 +118,11 @@ filter_factory_t smooth_approximate(size_t item_count_max) {
 
 filter_factory_t smooth_exact(size_t item_count_max) {
   assert(item_count_max > 0);
-  struct SA {
+  struct SE {
     size_t item_count_max;
     std::queue<double> items;
     double sum = 0;
-    SA(size_t item_count_max) : item_count_max(item_count_max) { }
+    SE(size_t item_count_max) : item_count_max(item_count_max) { }
     double operator()(double d) {
       items.push(d);
       sum += d;
@@ -139,11 +134,100 @@ filter_factory_t smooth_exact(size_t item_count_max) {
       return sum / items.size();
     }
   };
-  return [=](){ return SA(item_count_max); };
+  return [=](){ return SE(item_count_max); };
 }
 
+filter_factory_t smooth_window_approximate(size_t duration_in_milliseconds) {
+  assert(duration_in_milliseconds > 0);
+  struct SWA {
+    size_t duration_in_milliseconds;
+    SWA(size_t duration_in_milliseconds) : duration_in_milliseconds(duration_in_milliseconds) { }
+    std::queue<time_point> items;
+    double sum = 0;
+    double operator()(double d) {
+      time_point t = steady_clock::now();
+      items.push(t);
+      sum += d;
+      while ((t - items.front()).count() > duration_in_milliseconds) {
+        sum -= sum / items.size();
+        items.pop();
+        assert(!items.empty());
+      }
+      return sum / items.size();
+    }
+  };
+  return [=](){ return SWA(duration_in_milliseconds); };
+}
+
+filter_factory_t smooth_tucker(double param) {
+  assert(param > 0);
+  struct ST {
+    double param;
+    ST(double param) : param(param) { }
+    double sum = 0;
+    time_point last_time_point;
+    bool has_element = false;
+    double operator()(double d) {
+      time_point t = steady_clock::now();
+      if (has_element) {
+        double weight = exp(-param * (t - last_time_point).count());
+        sum = d * (1 - weight) + sum * weight;
+      } else {
+        sum += d;
+      }
+      has_element = true;
+      last_time_point = t;
+      return sum;
+    }
+  };
+  return [=](){ return ST(param); };
+}
+
+// channel over idempotent message.
+// without this, the balancer only change behavior based on message recieved back.
+// so, the more frequent balancer act, the more message it will send - including lots of identical one.
+// this stop all identical message from sending.
+// note: this is incomplete. with some timed base algorithm (e.g. a PD controller),
+// lots of similar message will still be sent.
+struct IdChannel {
+  socket_t s;
+  bool has_last_message = false;
+  std::string last_message;
+  IdChannel(socket_t s) : s(s) { }
+  void send(const std::string& msg) {
+    if (!(has_last_message && last_message == msg)) {
+      if (::send(s, msg.c_str(), msg.size(), 0) != msg.size()) {
+        ERROR_STREAM << strerror(errno) << std::endl;
+        throw;
+      }
+    }
+    has_last_message = true;
+    last_message = msg;
+  }
+};
+
+double big_change(double old_value, double new_value) {
+  return abs((new_value - old_value) / old_value) > 0.1;
+}
+
+// avoid sending multiple similar message
+struct Snapper {
+  bool has_last_value = false;
+  size_t last_value;
+  bool operator()(size_t value) {
+    if ((!has_last_value) || big_change(last_value, value)) {
+      has_last_value = true;
+      last_value = value;
+      return true;
+    } else {
+      return false;
+    }
+  }
+};
+
 struct ConnectionState {
-  socket_t fd;
+  IdChannel heap_resize_chan, force_gc_chan;
+  Snapper heap_resize_snap;
   std::string unprocessed;
   Filter<size_t> working_memory;
   Filter<size_t> max_memory;
@@ -155,7 +239,7 @@ struct ConnectionState {
   bool has_major_gc = false;
   bool has_allocation_rate = false;
   ConnectionState(socket_t fd, const filter_factory_t& ff) :
-    fd(fd), working_memory(ff()), max_memory(ff()), gc_duration(ff()), garbage_rate(ff()) { }
+    heap_resize_chan(fd), force_gc_chan(fd), working_memory(ff()), max_memory(ff()), gc_duration(ff()), garbage_rate(ff()) { }
   void accept(const std::string& str, size_t epoch) {
     unprocessed += str;
     auto p = split_string(unprocessed);
@@ -214,14 +298,37 @@ struct ConnectionState {
   }
 };
 
+// throttle event so they dont fire too often.
+struct Spacer {
+  bool has_past_event = false;
+  time_point last_event;
+  milliseconds space;
+  Spacer(milliseconds space) : space(space) { }
+  bool operator()() {
+    time_point now = steady_clock::now();
+    if ((!has_past_event) || (now - last_event >= space)) {
+      has_past_event = true;
+      last_event = now;
+      return true;
+    } else {
+      return false;
+    }
+  }
+};
+
 struct Balancer {
-  static constexpr auto balance_frequency = milliseconds(300);
+  milliseconds balance_frequency;
   size_t update_count = 0;
   socket_t s = get_listener();
   std::vector<pollfd> pfds {{s, POLLIN}};
   std::unordered_map<socket_t, ConnectionState> map;
   time_point last_balance = steady_clock::now();
-  bool report = true;
+  bool report_ = true;
+  Spacer report_spacer = Spacer(milliseconds(1000));
+  Spacer log_spacer = Spacer(milliseconds(100));
+  bool report() {
+    return report_ && report_spacer();
+  }
   double tolerance = 0.1;
   bool send_msg;
   size_t epoch = 0;
@@ -245,7 +352,9 @@ struct Balancer {
     options.add_options()
       ("smooth-count", "a positive number. the bigger it is, the more smoothing we do", cxxopts::value<size_t>());
     options.add_options()
-      ("log-path", "where to put the log ", cxxopts::value<std::string>());
+      ("log-path", "where to put the log", cxxopts::value<std::string>());
+    options.add_options()
+      ("balance-frequency", "milliseconds between balance", cxxopts::value<size_t>());
     auto result = options.parse(args.size(), args.data());
     send_msg = result["send-msg"].as<bool>();
     std::string smooth_type = result["smooth-type"].as<std::string>();
@@ -257,14 +366,21 @@ struct Balancer {
     } else if (smooth_type == "smooth-exact") {
       assert(result.count("smooth-count"));
       ff = smooth_exact(result["smooth-count"].as<size_t>());
+    } else if (smooth_type == "smooth-window-approximate") {
+      assert(result.count("smooth-count"));
+      ff = smooth_window_approximate(result["smooth-count"].as<size_t>());
+    } else if (smooth_type == "smooth-tucker") {
+      assert(result.count("smooth-count"));
+      ff = smooth_tucker(1.0 / result["smooth-count"].as<size_t>());
     } else {
-      std::cout << "unknown smooth-type: " << smooth_type;
+      std::cout << "unknown smooth-type: " << smooth_type << std::endl;
       throw;
     }
     if (result.count("log-path")) {
       log_path = result["log-path"].as<std::string>();
       f = std::ofstream(log_path);
     }
+    balance_frequency = milliseconds(result["balance-frequency"].as<size_t>());
   }
   void poll_daemon() {
     while (true) {
@@ -326,6 +442,7 @@ struct Balancer {
   }
   void balance() {
     ++epoch;
+    bool report_this_epoch = report();
     last_balance = steady_clock::now();
     std::vector<ConnectionState*> vec;
     for (auto& p : map) {
@@ -337,11 +454,15 @@ struct Balancer {
         scores.push_back(rr->score());
       }
     }
-    std::cout << "balancing " << scores.size() << " heap, waiting for " << vec.size() - scores.size() << " heap" << std::endl;
+    if (report_this_epoch) {
+      std::cout << "balancing " << scores.size() << " heap, waiting for " << vec.size() - scores.size() << " heap" << std::endl;
+    }
     std::sort(scores.begin(), scores.end());
     if (!scores.empty()) {
       double median_score = median(scores);
-      std::cout << "median_score: " << median_score << std::endl;
+      if (report_this_epoch) {
+        std::cout << "median_score: " << median_score << std::endl;
+      }
       if (!scores.empty()) {
         // stats calculation
         double mse = 0;
@@ -361,6 +482,7 @@ struct Balancer {
           }
         }
         mse /= scores.size();
+        double efficiency = gt_e * e / gt_root / gt_root;
 
         // pavel: check if this fp is safe?
         auto suggested_extra_memory = [&](ConnectionState* rr) -> size_t {
@@ -371,7 +493,7 @@ struct Balancer {
                                       }
                                     };
 
-        if (report) {
+        if (report_this_epoch) {
           TextTable t( '-', '|', '+' );
           t.add("name");
           t.add("extra_memory");
@@ -395,25 +517,38 @@ struct Balancer {
           std::cout << "score mse: " << mse << std::endl;
           std::cout << "total memory: " << m << std::endl;
           std::cout << "total extra memory: " << e << std::endl;
-          double efficiency = gt_e * e / gt_root / gt_root;
           std::cout << "efficiency: " << gt_e << " " << gt_root << " " << efficiency << std::endl;
-          log(tagged_json("efficiency", efficiency));
           std::cout << std::endl;
+        }
+
+        if (log_spacer()) {
+          log(tagged_json("efficiency", efficiency));
+          for (ConnectionState* rr: vec) {
+            if (rr->ready()) {
+              nlohmann::json j;
+              j["working-memory"] = rr->working_memory.out();
+              j["max-memory"] = rr->max_memory.out();
+              j["gc-duration"] = rr->gc_duration.out();
+              j["garbage-rate"] = rr->garbage_rate.out();
+              log(tagged_json("heap-stat", j));
+            }
+          }
         }
 
         if (send_msg) {
           // send msg back to v8
           for (ConnectionState* rr: vec) {
             if (rr->ready()) {
+              size_t extra_memory_ = rr->extra_memory();
               size_t suggested_extra_memory_ = suggested_extra_memory(rr);
-              size_t total_memory = suggested_extra_memory_ + rr->working_memory.out();
-              if (abs((suggested_extra_memory_ - rr->extra_memory()) / static_cast<double>(rr->extra_memory())) > tolerance) {
-                send_balancer_message(rr->fd, tagged_json("heap", total_memory));
+              size_t total_memory_ = suggested_extra_memory_ + rr->working_memory.out();
+              if (big_change(extra_memory_, suggested_extra_memory_) && rr->heap_resize_snap(suggested_extra_memory_)) {
+                rr->heap_resize_chan.send(to_string(tagged_json("heap", total_memory_)));
               }
               // calculate a gc period, and if a gc hasnt happend in twice of that period, it mean the gc message is stale.
               bool unexpected_no_gc = std::max(2 * rr->extra_memory() / rr->garbage_rate.out(), 3000.0) < (steady_clock::now() - rr->last_major_gc).count();
-              if (unexpected_no_gc) {
-                send_balancer_message(rr->fd, tagged_json("gc", ""));
+              if (false && unexpected_no_gc) {
+                rr->force_gc_chan.send(to_string(tagged_json("gc", "")));
               }
             }
           }

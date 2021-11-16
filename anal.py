@@ -44,43 +44,26 @@ def deep_freeze(d):
         return d
 
 class Line:
-    def __init__(self, name=None):
+    def __init__(self, plot_std, name=None):
+        self.plot_std = plot_std
         self.name = name
         self.xs = []
         self.ys = []
+        if self.plot_std:
+            self.errs = []
 
-    def point(self, x, y):
+    def point(self, x, y, err=None):
         self.xs.append(x)
         self.ys.append(y)
-
-    def plot(self, color=None):
-        return plt.plot(self.xs, self.ys, label=self.name, color=color)
-
-class EvalLine:
-    def __init__(self, name, plot_std):
-        self.plot_std = plot_std
-        if not self.plot_std:
-            self.line = Line(name)
-        else:
-            self.low_line = Line(name)
-            self.high_line = Line()
-
-    def point(self, x, y):
-        if not self.plot_std:
-            self.line.point(x, np.mean(y))
-        else:
-            m = np.mean(y)
-            s = np.std(y)
-            self.low_line.point(x, m - s)
-            self.high_line.point(x, m + s)
+        if self.plot_std:
+            assert err is not None
+            self.errs.append(err)
 
     def plot(self):
-        if not self.plot_std:
-            return self.line.plot()
+        if self.plot_std:
+            return plt.errorbar(self.xs, self.ys, self.errs, label=self.name)
         else:
-            ll = self.low_line.plot()[0]
-            rr = self.high_line.plot(ll.get_color())[0]
-            return (ll, rr)
+            return plt.plot(self.xs, self.ys, label=self.name)
 
 vals = []
 for filename in os.listdir("log"):
@@ -88,7 +71,9 @@ for filename in os.listdir("log"):
     if os.path.exists(log_path):
         with open(log_path) as f:
             j = json.load(f)
-            vals.append(deep_freeze(j))
+            balancer_cfg = j["CFG"]["BALANCER_CFG"]
+            if (not balancer_cfg["SEND_MSG"]) or balancer_cfg["BALANCE_FREQUENCY"] < 200:
+                vals.append(deep_freeze(j))
     else:
         print(f"Warning: {log_path} does not exists")
 
@@ -119,15 +104,18 @@ for m in ms:
         print(f"With CFG {cfg}:")
         print(f"OOM rate: {1 - len(ok_vals) / len(vals)} size:{len(vals)}")
         if len(ok_vals) > 0:
-            major_gc = [x["MAJOR_GC"] for x in ok_vals]
+            major_gc = list([x["MAJOR_GC"] for x in ok_vals])
+            balancer_efficiency = list([x["BALANCER_EFFICIENCY"] for x in ok_vals])
             report("major gc time", major_gc)
-            report("balancer efficiency", [x["BALANCER_EFFICIENCY"] for x in ok_vals])
+            report("balancer efficiency", balancer_efficiency)
             balancer_cfg = cfg["BALANCER_CFG"]
             if balancer_cfg not in lines:
-                lines[balancer_cfg] = EvalLine(balancer_cfg, PLOT_STD)
-            lines[balancer_cfg].point(m, major_gc)
+                lines[balancer_cfg] = (Line(PLOT_STD, balancer_cfg), Line(False, f"{balancer_cfg} / E"))
+            lines[balancer_cfg][0].point(m, np.mean(major_gc), np.std(major_gc))
+            lines[balancer_cfg][1].point(m, np.mean([x["MAJOR_GC"] / x["BALANCER_EFFICIENCY"] for x in ok_vals]))
 
 for l in lines.values():
-    l.plot()
+    l[0].plot()
+    l[1].plot()
 plt.legend()
 plt.show()
