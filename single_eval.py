@@ -79,9 +79,9 @@ balancer_cmds.append(f"""--log-path={result_directory+"v8_log"}""")
 def tee_log(cmd, log_path):
     return f"{cmd} 2>&1 | tee {log_path}"
 
-with ProcessScope(subprocess.Popen(tee_log(' '.join(balancer_cmds), result_directory + "balancer_out"), shell=True)):
+with ProcessScope(subprocess.Popen(balancer_cmds, stdout=subprocess.PIPE, stderr=subprocess.PIPE)) as p:
+    subprocess.Popen(["tee", result_directory+"balancer_out"], stdin=p.stdout)
     time.sleep(1) # make sure the balancer is running
-
     memory_limit = f"{MEMORY_LIMIT * MB_IN_BYTES}"
 
     env_vars = "USE_MEMBALANCER=1 LOG_GC=1"

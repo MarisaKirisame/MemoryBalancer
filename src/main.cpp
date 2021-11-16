@@ -18,7 +18,6 @@ int main(int argc, char* argv[]) {
   assert(argc >= 2);
   V8RAII v8(argv[0]);
   std::string command(argv[1]);
-
   std::vector<char*> command_args{argv[0]};
   for (size_t i = 2; i < argc; ++i) {
     command_args.push_back(argv[i]);
