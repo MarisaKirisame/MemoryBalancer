@@ -65,27 +65,50 @@ class Line:
         else:
             return plt.plot(self.xs, self.ys, label=self.name)
 
+class Data:
+    def __init__(self, name):
+        self.name = name
+        self.xs = []
+        self.ys = []
+        self.y_errs = []
+        self.y_es = []
+        self.oom_rates = []
+    def point(self, x, y, y_err, y_e, oom_rate):
+        self.xs.append(x)
+        self.ys.append(y)
+        self.y_errs.append(y_err)
+        self.y_es.append(y_e)
+        self.oom_rates.append(oom_rate)
+    def plot(self):
+        #descending
+        split_i = 0
+        for i in range(len(self.xs)):
+            if self.oom_rates[i] < 0.5:
+                split_i = i + 1
+        x = plt.errorbar(self.xs[:split_i+1], self.ys[:split_i+1], self.y_errs[:split_i+1], label=self.name)
+        plt.errorbar(self.xs[split_i:], self.ys[split_i:], self.y_errs[split_i:], ls="--", color=x[0].get_color())
+        plt.plot(self.xs, self.y_es, label=f"{self.name} / E")
 vals = []
 for filename in os.listdir("log"):
-    log_path = os.path.join("log", filename, "score")
-    if os.path.exists(log_path):
-        with open(log_path) as f:
-            j = json.load(f)
-            balancer_cfg = j["CFG"]["BALANCER_CFG"]
-            if (not balancer_cfg["SEND_MSG"]) or balancer_cfg["BALANCE_FREQUENCY"] < 200:
-                vals.append(deep_freeze(j))
+    score_path = os.path.join("log", filename, "score")
+    cfg_path = os.path.join("log", filename, "cfg")
+    if os.path.exists(score_path):
+        with open(score_path) as f:
+            score = json.load(f)
+        with open(cfg_path) as f:
+            cfg = json.load(f)
+        vals.append((deep_freeze(score), deep_freeze(cfg)))
     else:
-        print(f"Warning: {log_path} does not exists")
+        print(f"Warning: {score_path} does not exists")
 
 def report(name, x):
     print(f"{name} mean: {np.mean(x)} std: {np.std(x)}")
 
 bucket = {}
-for x in vals:
-    m = x["CFG"]["MEMORY_LIMIT"]
+for x, cfg in vals:
+    m = cfg["MEMORY_LIMIT"]
     if m not in bucket:
         bucket[m] = dict()
-    cfg = x["CFG"]
     if cfg not in bucket[m]:
         bucket[m][cfg] = []
     bucket[m][cfg].append(x)
@@ -93,7 +116,7 @@ for x in vals:
 ms = list(bucket.keys())
 ms.sort(reverse=True)
 
-lines = {}
+data = {}
 
 PLOT_STD = True
 
@@ -102,20 +125,19 @@ for m in ms:
         ok_vals = [x for x in vals if x["OK"]]
         assert(len(vals) > 0)
         print(f"With CFG {cfg}:")
-        print(f"OOM rate: {1 - len(ok_vals) / len(vals)} size:{len(vals)}")
+        oom_rate = 1 - len(ok_vals) / len(vals)
+        print(f"OOM rate: {oom_rate} size:{len(vals)}")
         if len(ok_vals) > 0:
             major_gc = list([x["MAJOR_GC"] for x in ok_vals])
             balancer_efficiency = list([x["BALANCER_EFFICIENCY"] for x in ok_vals])
             report("major gc time", major_gc)
             report("balancer efficiency", balancer_efficiency)
             balancer_cfg = cfg["BALANCER_CFG"]
-            if balancer_cfg not in lines:
-                lines[balancer_cfg] = (Line(PLOT_STD, balancer_cfg), Line(False, f"{balancer_cfg} / E"))
-            lines[balancer_cfg][0].point(m, np.mean(major_gc), np.std(major_gc))
-            lines[balancer_cfg][1].point(m, np.mean([x["MAJOR_GC"] / x["BALANCER_EFFICIENCY"] for x in ok_vals]))
+            if balancer_cfg not in data:
+                data[balancer_cfg] = Data(balancer_cfg)
+            data[balancer_cfg].point(m, np.mean(major_gc), np.std(major_gc), np.mean([x["MAJOR_GC"] / x["BALANCER_EFFICIENCY"] for x in ok_vals]), oom_rate)
 
-for l in lines.values():
-    l[0].plot()
-    l[1].plot()
+for d in data.values():
+    d.plot()
 plt.legend()
 plt.show()

@@ -36,24 +36,17 @@ def flatten_nondet(x):
 def flatten_nondet_dict(x):
     return flatten_nondet(list(x.items())).map(lambda x: dict(x))
 
-baseline_balancer_cfg = {
-    "SEND_MSG":False,
-    "SMOOTHING":{"TYPE":"no-smoothing"},
-    "BALANCE_FREQUENCY":500
-}
-
 cfgs = flatten_nondet_dict({
     "LIMIT_MEMORY": True,
     "DEBUG": False,
-    "MEMORY_LIMIT": NONDET(550, 600, 650, 700, 750),
-    "BALANCER_CFG":NONDET(
-        baseline_balancer_cfg,
-        *flatten_nondet_dict({
-            "SEND_MSG":True,
+    "MEMORY_LIMIT": NONDET(*[600 + 30 * i for i in range(5)]),
+    "BALANCER_CFG":flatten_nondet_dict({
+            "BALANCER_TYPE":NONDET("extra-memory", "classic", "ignore"),
             "SMOOTHING": {"TYPE": "no-smoothing"},
-            "BALANCE_FREQUENCY":NONDET(0, 100, 300, 500)}).l)
-})
+            "BALANCE_FREQUENCY":0
+        })
+}).l
 
 for _ in range(20):
-    for cfg in cfgs.l:
+    for cfg in cfgs:
         subprocess.run(f"python3 single_eval.py \"{cfg}\"", shell=True, check=True)

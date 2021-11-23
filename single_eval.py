@@ -13,7 +13,7 @@ DEBUG = cfg["DEBUG"]
 if LIMIT_MEMORY:
     MEMORY_LIMIT = cfg["MEMORY_LIMIT"]
 BALANCER_CFG = cfg["BALANCER_CFG"]
-SEND_MSG = BALANCER_CFG["SEND_MSG"]
+BALANCER_TYPE = BALANCER_CFG["BALANCER_TYPE"]
 SMOOTH_TYPE = BALANCER_CFG["SMOOTHING"]["TYPE"]
 if not SMOOTH_TYPE == "no-smoothing":
     SMOOTH_COUNT = BALANCER_CFG["SMOOTHING"]["COUNT"]
@@ -50,12 +50,13 @@ def report_major_gc_time(directory):
     j["MAJOR_GC"] = major_gc_total
     j["MINOR_GC"] = minor_gc_total
     j["BALANCER_EFFICIENCY"] = sum(balancer_efficiency) / len(balancer_efficiency)
-    j["CFG"] = cfg
     with open(os.path.join(directory, "score"), "w") as f:
         json.dump(j, f)
 
 result_directory = "log/" + time.strftime("%Y-%m-%d-%H-%M-%S") + "/"
 Path(result_directory).mkdir()
+with open(os.path.join(result_directory, "cfg"), "w") as f:
+    json.dump(cfg, f)
 
 # weird error: terminate does not work when exception is raised. fix this.
 class ProcessScope:
@@ -69,7 +70,7 @@ class ProcessScope:
 MB_IN_BYTES = 1024 * 1024
 
 balancer_cmds = ["/home/marisa/Work/MemoryBalancer/build/MemoryBalancer", "daemon"]
-balancer_cmds.append(f"--send-msg={SEND_MSG}")
+balancer_cmds.append(f"--balancer-type={BALANCER_TYPE}")
 balancer_cmds.append(f"--smooth-type={SMOOTH_TYPE}")
 if not SMOOTH_TYPE == "no-smoothing":
     balancer_cmds.append(f"--smooth-count={SMOOTH_COUNT}")
@@ -99,7 +100,8 @@ with ProcessScope(subprocess.Popen(balancer_cmds, stdout=subprocess.PIPE, stderr
     if DEBUG:
         command = f"gdb -ex=r --args {command}"
 
-    main_process_result = subprocess.run(tee_log(f"{env_vars} {command}", result_directory + "v8_out"), shell=True)
+    #main_process_result = subprocess.run(tee_log(f"{env_vars} {command}", result_directory + "v8_out"), shell=True)
+    main_process_result = subprocess.run(f"{env_vars} {command}", shell=True, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 
     for filename in os.listdir(os.getcwd()):
         if (filename.endswith(".gc.log")):
@@ -113,6 +115,9 @@ with ProcessScope(subprocess.Popen(balancer_cmds, stdout=subprocess.PIPE, stderr
             with open(os.path.join(result_directory, "score"), "w") as f:
                 json.dump(j, f)
         else:
+            print(main_process_result.stdout)
             print("UNKNOWN ERROR!")
     else:
         report_major_gc_time(result_directory)
+    with open(os.path.join(result_directory, "v8_out"), "w") as f:
+        f.write(main_process_result.stdout)
