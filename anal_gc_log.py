@@ -99,19 +99,19 @@ ys = []
 for ragged_y in ragged_ys:
     ys.append(ragged_y + (l - len(ragged_y)) * [ragged_y[-1]])
 
-print(len(ys))
-if False:
-    for i in range(l):
-        plt.plot(xs, [y[i] for y in ys], label=instance_list[i].name)
-else:
-    i = 0
-    old = []
-    for l in new_list:
-        p = stack(old, l)
-        plt.plot([x for x, y in p], [y for x, y in p], label=i)
-        old = p
-        i += 1
-        print(len(old))
+old = []
+
+ps = []
+for l in new_list:
+    p = stack(old, l)
+    ps.append(p)
+    old = p
+
+i = 0
+ps.reverse()
+for p in ps:
+    plt.plot([x for x, y in p], [y for x, y in p], label=i)
+    i += 1
 
 plt.legend()
 plt.title(title)
