@@ -22,11 +22,7 @@ with open(directory + "score") as f:
 
 assert all(logs[i]["time"] <= logs[i+1]["time"] for i in range(len(logs)-1))
 
-class Stacked:
-    pass
-
 # alas, can not write in functional style even though it is cleaner, due to python efficiency concern.
-
 def stack(l, r):
     len_l = len(l)
     len_r = len(r)
@@ -53,65 +49,47 @@ def stack(l, r):
                 old_ry = ry
                 ret.append((rx, old_ly + old_ry))
 
-instance_map = {}
-instance_list = []
-xs = []
-ragged_ys = []
+class Stackable:
+    def draw(self, baseline):
+        raise NotImplementedError()
 
-class Instance:
+    # return a new baseline
+    def stack(self, baseline):
+        raise NotImplementedError()
+
+def draw_stacks(stacks):
+    def go(stacks, len_stacks, baseline):
+        if len_stacks != 0:
+            go(stacks[1:], len_stacks - 1, stacks[0].stack(baseline))
+            stacks[0].draw(baseline)
+    go(stacks, len(stacks), ())
+
+class Process(Stackable):
     def __init__(self, name):
         self.name = name
-        self.memory = 0
+        self.l = []
     def point(self, time, memory):
-        self.memory = memory
-        xs.append(time)
-        y = []
-        memory = 0
-        for i in instance_list:
-            memory += i.memory
-            y.append(memory)
-        ragged_ys.append(y)
+        self.l.append((time, memory))
+    def draw(self, baseline):
+        l = stack(baseline, self.l)
+        plt.plot([x for x, y in l], [y for x, y in l], label=self.name)
+    def stack(self, baseline):
+        return stack(baseline, self.l)
 
-new_map = {}
-new_list = []
+instance_map = {}
+instance_list = []
 
 for l in logs:
     name = l["name"]
     time = l["time"]
     memory = l["max-memory"]
     if name not in instance_map:
-        i = Instance(name)
-        instance_map[name] = i
-        instance_list.append(i)
+        x = Process(name)
+        instance_map[name] = x
+        instance_list.append(x)
     instance_map[name].point(time, memory)
-    if name not in new_map:
-        x = []
-        new_map[name] = x
-        new_list.append(x)
-    new_map[name].append((time, memory))
 
-l = 0
-for ragged_y in ragged_ys:
-    l = max(l, len(ragged_y))
-
-ys = []
-
-for ragged_y in ragged_ys:
-    ys.append(ragged_y + (l - len(ragged_y)) * [ragged_y[-1]])
-
-old = []
-
-ps = []
-for l in new_list:
-    p = stack(old, l)
-    ps.append(p)
-    old = p
-
-i = 0
-ps.reverse()
-for p in ps:
-    plt.plot([x for x, y in p], [y for x, y in p], label=i)
-    i += 1
+draw_stacks(instance_list)
 
 plt.legend()
 plt.title(title)
