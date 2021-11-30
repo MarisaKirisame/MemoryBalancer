@@ -7,12 +7,19 @@ import matplotlib.pyplot as plt
 assert(len(sys.argv) == 2)
 directory = sys.argv[1]
 
+memory_msg_logs = []
+
 logs = []
 with open(directory + "v8_log") as f:
     for line in f.readlines():
         j = json.loads(line)
+        if j["type"] == "memory-msg":
+            memory_msg_logs.append(j["data"])
         if j["type"] == "heap-stat":
             logs.append(j["data"])
+            if j["data"]["msg-type"] == "close":
+                memory_msg_logs.append(j["data"])
+
 with open(directory + "cfg") as f:
     title = f.read()
 with open(directory + "score") as f:
@@ -20,6 +27,7 @@ with open(directory + "score") as f:
     if j["OK"] == False:
         title = f"OOM: {title}"
 
+print(f"{len(logs)} point in total")
 assert all(logs[i]["time"] <= logs[i+1]["time"] for i in range(len(logs)-1))
 
 # alas, can not write in functional style even though it is cleaner, due to python efficiency concern.
@@ -67,28 +75,45 @@ def draw_stacks(stacks):
 class Process(Stackable):
     def __init__(self, name):
         self.name = name
-        self.l = []
-    def point(self, time, memory):
-        self.l.append((time, memory))
+        self.memory = []
+        self.working_memory = []
+    def point(self, time, working_memory, memory):
+        self.memory.append((time, memory))
+        self.working_memory.append((time, working_memory))
     def draw(self, baseline):
-        l = stack(baseline, self.l)
-        plt.plot([x for x, y in l], [y for x, y in l], label=self.name)
+        memory = stack(baseline, self.memory)
+        p = plt.plot([x for x, y in memory], [y for x, y in memory], label=self.name)
+        working_memory = stack(baseline, self.working_memory)
+        plt.fill_between([x for x, y in working_memory], [y for x, y in working_memory],  [y for x, y in stack(baseline, [(x, 0) for x, y in self.memory])], color=p[0].get_color())
+        plt.plot([x for x, y in working_memory], [y for x, y in working_memory], color=p[0].get_color())
     def stack(self, baseline):
-        return stack(baseline, self.l)
+        return stack(baseline, self.memory)
 
 instance_map = {}
 instance_list = []
 
-for l in logs:
+#for l in logs:
+#    name = l["name"]
+#    time = l["time"]
+#    working_memory = l["working-memory"]
+#    memory = l["max-memory"]
+#    if name not in instance_map:
+#        x = Process(name)
+#        instance_map[name] = x
+#        instance_list.append(x)
+#    instance_map[name].point(time, working_memory, memory)
+for l in memory_msg_logs:
     name = l["name"]
     time = l["time"]
+    working_memory = l["working-memory"]
     memory = l["max-memory"]
     if name not in instance_map:
         x = Process(name)
         instance_map[name] = x
         instance_list.append(x)
-    instance_map[name].point(time, memory)
+    instance_map[name].point(time, working_memory, memory)
 
+#draw_stacks([instance_list[3], instance_list[5]])
 draw_stacks(instance_list)
 
 plt.legend()

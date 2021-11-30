@@ -241,6 +241,7 @@ struct Logger {
 };
 
 struct ConnectionState {
+  size_t wait_ack_count = 0;
   socket_t fd;
   IdChannel force_gc_chan;
   Snapper heap_resize_snap;
@@ -286,23 +287,32 @@ struct ConnectionState {
       json type = j["type"];
       json data = j["data"];
       if (type == "major_gc") {
-        if (!has_major_gc) {
-          name = data["name"];
-        } else {
-          assert(name == data["name"]);
+        if (wait_ack_count == 0) {
+          if (!has_major_gc) {
+            name = data["name"];
+          } else {
+            assert(name == data["name"]);
+          }
+          last_major_gc = steady_clock::now();
+          last_major_gc_epoch = epoch;
+          has_major_gc = true;
+          max_memory.in(data["max_memory"]);
+          real_max_memory.in(data["max_memory"]);
+          gc_duration.in(static_cast<double>(data["after_time"]) - static_cast<double>(data["before_time"]));
+          working_memory.in(data["after_memory"]);
+          has_allocation_rate = true;
+          garbage_rate.in(data["allocation_rate"]);
         }
-        last_major_gc = steady_clock::now();
-        last_major_gc_epoch = epoch;
-        has_major_gc = true;
-        max_memory.in(data["max_memory"]);
-        real_max_memory.in(data["max_memory"]);
-        gc_duration.in(static_cast<double>(data["after_time"]) - static_cast<double>(data["before_time"]));
-        working_memory.in(data["after_memory"]);
       } else if (type == "allocation_rate") {
         has_allocation_rate = true;
         garbage_rate.in(data);
       } else if (type == "max_memory") {
-        max_memory.in(data);
+        if (wait_ack_count == 0) {
+          max_memory.in(data);
+        }
+      } else if (type == "ack") {
+        assert(wait_ack_count > 0);
+        --wait_ack_count;
       } else {
         std::cout << "unknown type: " << type << std::endl;
         throw;
@@ -432,7 +442,7 @@ struct Balancer {
   }
   void poll_daemon() {
     while (true) {
-      int num_events = poll(pfds.data(), pfds.size(), balance_frequency.count() /*miliseconds*/);
+      int num_events = poll(pfds.data(), pfds.size(), -1);
       if (num_events != 0) {
         auto close_connection = [&](size_t i) {
                                   std::cout << "peer closed!" << std::endl;
@@ -588,7 +598,7 @@ struct Balancer {
         if (balancer_type != BalancerType::ignore) {
           // send msg back to v8
           for (ConnectionState* rr: vec) {
-            if (rr->ready()) {
+            if (rr->ready() && rr->wait_ack_count == 0) {
               size_t extra_memory_ = rr->extra_memory();
               size_t suggested_extra_memory_ = suggested_extra_memory(rr);
               size_t total_memory_ = suggested_extra_memory_ + rr->working_memory.out();
@@ -596,9 +606,13 @@ struct Balancer {
                 std::string str = to_string(tagged_json("heap", total_memory_));
                 std::cout << "sending: " << str << "to: " << rr->name << std::endl;
                 send_string(rr->fd, str);
+                rr->max_memory.in(total_memory_);
+                ++rr->wait_ack_count;
                 nlohmann::json j;
                 j["name"] = rr->name;
-                j["total-memory"] = total_memory_;
+                j["working-memory"] = rr->working_memory.out();
+                j["max-memory"] = total_memory_;
+                j["time"] = (steady_clock::now() - program_begin).count();
                 l.log(tagged_json("memory-msg", j));
               }
               // calculate a gc period, and if a gc hasnt happend in twice of that period, it mean the gc message is stale.

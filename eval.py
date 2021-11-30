@@ -39,7 +39,7 @@ def flatten_nondet_dict(x):
 cfgs = flatten_nondet_dict({
     "LIMIT_MEMORY": True,
     "DEBUG": False,
-    "MEMORY_LIMIT": NONDET(*[600 + 30 * i for i in range(5)]),
+    "MEMORY_LIMIT": NONDET(*[600 + 30 * i for i in range(10)]),
     "BALANCER_CFG":flatten_nondet_dict({
             "BALANCER_TYPE":NONDET("extra-memory", "classic", "ignore"),
             "SMOOTHING": {"TYPE": "no-smoothing"},
