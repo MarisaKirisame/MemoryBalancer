@@ -367,7 +367,28 @@ struct Spacer {
   }
 };
 
-enum class BalancerType { ignore, classic, extra_memory };
+// balance memory given a limit
+enum class BalanceStrategy {
+  // do nothing
+  ignore,
+  // use the sqrt forumla
+  classic,
+  // give all process same amt of extra memory
+  extra_memory
+};
+
+// change the sum of memory across all process
+enum class ResizeStrategy {
+  // do nothing
+  ignore,
+  // a constant amount for all process
+  constant,
+  // 3% mutator rate after balancing
+  before_balance,
+  // 3% mutator rate after balacning
+  // rn, after_balance only support classic
+  after_balance
+};
 
 struct Balancer {
   milliseconds balance_frequency;
@@ -383,7 +404,9 @@ struct Balancer {
     return report_ && report_spacer();
   }
   double tolerance = 0.1;
-  BalancerType balancer_type;
+  BalanceStrategy balance_strategy;
+  ResizeStrategy resize_strategy;
+  size_t resize_amount; // only when resize_strategy == constant
   size_t epoch = 0;
   filter_factory_t ff;
   std::string log_path;
@@ -394,7 +417,11 @@ struct Balancer {
     // and it will hide error.
     cxxopts::Options options("Balancer", "Balance multiple v8 heap");
     options.add_options()
-      ("balancer-type", "ignore, classic, extra-memory", cxxopts::value<std::string>());
+      ("balance-strategy", "ignore, classic, extra-memory", cxxopts::value<std::string>());
+    options.add_options()
+      ("resize-strategy", "ignore, before-balance, after-balance", cxxopts::value<std::string>());
+    options.add_options()
+      ("resize-amount", "a number denoting how much to resize", cxxopts::value<size_t>());
     options.add_options()
       ("smooth-type", "no-smoothing, smooth-approximate, smooth-exact", cxxopts::value<std::string>());
     options.add_options()
@@ -404,16 +431,31 @@ struct Balancer {
     options.add_options()
       ("balance-frequency", "milliseconds between balance", cxxopts::value<size_t>());
     auto result = options.parse(args.size(), args.data());
-    assert(result.count("balancer-type"));
-    auto balancer_type_str = result["balancer-type"].as<std::string>();
-    if (balancer_type_str == "ignore") {
-      balancer_type = BalancerType::ignore;
-    } else if (balancer_type_str == "classic") {
-      balancer_type = BalancerType::classic;
-    } else if (balancer_type_str == "extra-memory") {
-      balancer_type = BalancerType::extra_memory;
+    assert(result.count("balance-strategy"));
+    auto balance_strategy_str = result["balance-strategy"].as<std::string>();
+    if (balance_strategy_str == "ignore") {
+      balance_strategy = BalanceStrategy::ignore;
+    } else if (balance_strategy_str == "classic") {
+      balance_strategy = BalanceStrategy::classic;
+    } else if (balance_strategy_str == "extra-memory") {
+      balance_strategy = BalanceStrategy::extra_memory;
     } else {
-      std::cout << "UNKNOWN BALANCER TYPE: " << balancer_type_str << std::endl;
+      std::cout << "UNKNOWN BALANCER TYPE: " << balance_strategy_str << std::endl;
+    }
+    assert(result.count("resize-strategy"));
+    std::string resize_strategy_str = result["resize-strategy"].as<std::string>();
+    if (resize_strategy_str == "ignore") {
+      resize_strategy = ResizeStrategy::ignore;
+    } else if (resize_strategy_str == "constant") {
+      resize_strategy = ResizeStrategy::constant;
+      assert(result.count("resize-amount"));
+      resize_amount = result["resize-amount"].as<size_t>();
+    } else if (resize_strategy_str == "before-balance") {
+      resize_strategy = ResizeStrategy::before_balance;
+    } else if (resize_strategy_str == "after-balance") {
+      resize_strategy = ResizeStrategy::after_balance;
+    } else {
+      std::cout << "unknown resize-strategy: " << resize_strategy_str << std::endl;
     }
     std::string smooth_type = result["smooth-type"].as<std::string>();
     if (smooth_type == "no-smoothing") {
@@ -552,9 +594,10 @@ struct Balancer {
 
         // pavel: check if this fp is safe?
         auto suggested_extra_memory = [&](ConnectionState* rr) -> size_t {
-                                        if (balancer_type == BalancerType::extra_memory) {
+                                        if (balance_strategy == BalanceStrategy::extra_memory) {
                                           return e / instance_count;
                                         } else {
+                                          assert(balance_strategy == BalanceStrategy::classic);
                                           if (gt_root == 0) {
                                             return 0;
                                           } else {
@@ -595,7 +638,7 @@ struct Balancer {
           l.log(tagged_json("efficiency", efficiency));
         }
 
-        if (balancer_type != BalancerType::ignore) {
+        if (balance_strategy != BalanceStrategy::ignore) {
           // send msg back to v8
           for (ConnectionState* rr: vec) {
             if (rr->ready() && rr->wait_ack_count == 0) {
