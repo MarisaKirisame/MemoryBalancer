@@ -30,11 +30,18 @@ with open(directory + "score") as f:
 print(f"{len(logs)} point in total")
 assert all(logs[i]["time"] <= logs[i+1]["time"] for i in range(len(logs)-1))
 
+def interpol(pl, pr, x):
+    plx, ply = pl
+    prx, pry = pr
+    pr_percent = (x - plx) / (prx - plx)
+    return (1 - pr_percent) * ply + pr_percent * pry
 # alas, can not write in functional style even though it is cleaner, due to python efficiency concern.
 def stack(l, r):
     len_l = len(l)
     len_r = len(r)
+    old_lx = 0
     old_ly = 0
+    old_rx = 0
     old_ry = 0
     ret = []
     while True:
@@ -49,13 +56,15 @@ def stack(l, r):
             if lx < rx:
                 l = l[1:]
                 len_l -= 1
+                old_lx = lx
                 old_ly = ly
-                ret.append((lx, old_ly + old_ry))
+                ret.append((lx, old_ly + interpol((old_rx, old_ry), (rx, ry), lx)))
             else:
                 r = r[1:]
                 len_r -= 1
+                old_rx = rx
                 old_ry = ry
-                ret.append((rx, old_ly + old_ry))
+                ret.append((rx, interpol((old_lx, old_ly), (lx, ly), rx) + old_ry))
 
 class Stackable:
     def draw(self, baseline):
@@ -112,7 +121,6 @@ for l in memory_msg_logs:
         instance_map[name] = x
         instance_list.append(x)
     instance_map[name].point(time, working_memory, memory)
-
 #draw_stacks([instance_list[3], instance_list[5]])
 draw_stacks(instance_list)
 
