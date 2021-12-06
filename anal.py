@@ -85,8 +85,9 @@ class Data:
         for i in range(len(self.xs)):
             if self.oom_rates[i] < 0.5:
                 split_i = i + 1
-        x = plt.errorbar(self.xs[:split_i+1], self.ys[:split_i+1], self.y_errs[:split_i+1], label=self.name)
-        plt.errorbar(self.xs[split_i:], self.ys[split_i:], self.y_errs[split_i:], ls="--", color=x[0].get_color())
+        x = plt.errorbar(self.xs[:split_i], self.ys[:split_i], self.y_errs[:split_i], label=self.name)
+        if split_i > 0:
+            plt.errorbar(self.xs[split_i-1:], self.ys[split_i-1:], self.y_errs[split_i-1:], ls="--", color=x[0].get_color())
         plt.plot(self.xs, self.y_es, label=f"{self.name} / E")
 vals = []
 for filename in os.listdir("log"):

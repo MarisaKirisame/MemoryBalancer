@@ -184,7 +184,7 @@ void parallel_experiment() {
 
   std::cout << "total_time = " << total_time << std::endl;
 }
-
+constexpr bool single = false;
 void v8_experiment(v8::Platform* platform, const std::vector<char*>& args) {
   cxxopts::Options options("V8 Experiment", "run some experiment from jetstream");
   options.add_options()
@@ -200,41 +200,50 @@ void v8_experiment(v8::Platform* platform, const std::vector<char*>& args) {
   std::string sunspider_path = jetstream1_path + "sunspider/";
   std::vector<std::pair<std::string, std::string>> jetstream2_js_paths;
   // js_paths.push_back(octane_path + "richards.js"); // not used because not memory heavy
-  jetstream2_js_paths.push_back({octane_path, "earley-boyer.js"}); // comment out temporarily
+  if (!single) {
+    jetstream2_js_paths.push_back({octane_path, "earley-boyer.js"}); // comment out temporarily
+  }
   // js_paths.push_back(octane_path + "deltablue.js"); // not used because not memory heavy
-  jetstream2_js_paths.push_back({octane_path, "pdfjs.js"}); // comment out temporarily
+  if (!single) {
+    jetstream2_js_paths.push_back({octane_path, "pdfjs.js"}); // comment out temporarily
+  }
   jetstream2_js_paths.push_back({octane_path, "splay.js"}); // comment out temporarily
-  jetstream2_js_paths.push_back({jetstream2_path, "simple/hash-map.js"}); // comment out temporarily
+  if (!single) {
+    jetstream2_js_paths.push_back({jetstream2_path, "simple/hash-map.js"}); // comment out temporarily
+  }
   // jetstream2_js_paths.push_back({octane_path, "box2d.js"}); // not used because not memory heavy
   // jetstream2_js_paths.push_back({jetstream2_path, "Seamonster/gaussian-blur.js"}); // not used because not memory heavy
   std::vector<std::pair<std::string, std::string>> js_paths;
-  js_paths.push_back({sunspider_path, "tagcloud.js"}); // new benchmark; comment out temporarily
-
+  if (!single) {
+    js_paths.push_back({sunspider_path, "tagcloud.js"}); // new benchmark; comment out temporarily
+  }
   Signal s;
   std::vector<std::thread> threads;
 
   {
     std::string header = "let performance = {now() { return 0; }};";
-    std::string footer = "for(i = 0; i < 5; i++) {new Benchmark().runIteration();}";
+    std::string footer = "for(i = 0; i < 1000; i++) {new Benchmark().runIteration();}";
     for (const std::pair<std::string, std::string>& p : jetstream2_js_paths) {
       std::string js_directory = p.first;
       std::string js_name = p.second;
       std::string js_path = js_directory + js_name;
       Signal* ps = &s;
-      threads.emplace_back([=](){run_v8_cleanroom(platform, {{1, header}, {1, read_file(js_path)}, {200, footer}}, js_name, heap_size, ps);});
+      threads.emplace_back([=](){run_v8_cleanroom(platform, {{1, header}, {1, read_file(js_path)}, {1, footer}}, js_name, heap_size, ps);});
     }
   }
 
   {
     std::string header = "let performance = {now() { return 0; }};";
-    std::string footer = "for(i = 0; i < 5; i++) {new Benchmark().runIteration();}";
+    std::string footer = "for(i = 0; i < 100; i++) {new Benchmark().runIteration();}";
     Signal* ps = &s;
-    threads.emplace_back([=](){run_v8_cleanroom(platform, {{1, header},
-                                                           {1, read_file(octane_path + "typescript-compiler.js")},
-                                                           {1, read_file(octane_path + "typescript-input.js")},
-                                                           {1, read_file(octane_path + "typescript.js")},
-                                                           {20, footer}}, // typescript is slow. run it less.
-          "typescript.js", heap_size, ps);});
+    if (!single) {
+      threads.emplace_back([=](){run_v8_cleanroom(platform, {{1, header},
+                                                             {1, read_file(octane_path + "typescript-compiler.js")},
+                                                             {1, read_file(octane_path + "typescript-input.js")},
+                                                             {1, read_file(octane_path + "typescript.js")},
+                                                             {1, footer}}, // typescript is slow. run it less.
+            "typescript.js", heap_size, ps);});
+    }
   }
 
   for (const std::pair<std::string, std::string>& p : js_paths) {
@@ -242,7 +251,7 @@ void v8_experiment(v8::Platform* platform, const std::vector<char*>& args) {
     std::string js_name = p.second;
     std::string js_path = js_directory + js_name;
     Signal* ps = &s;
-    threads.emplace_back([=](){run_v8_cleanroom(platform, {{1000, read_file(js_path)}}, js_name, heap_size, ps);});
+    threads.emplace_back([=](){run_v8_cleanroom(platform, {{1, std::string("for(i = 0; i < 1000; i++) {") + read_file(js_path) + "}"}}, js_name, heap_size, ps);});
   }
 
   s.signal();

@@ -13,7 +13,11 @@ DEBUG = cfg["DEBUG"]
 if LIMIT_MEMORY:
     MEMORY_LIMIT = cfg["MEMORY_LIMIT"]
 BALANCER_CFG = cfg["BALANCER_CFG"]
-BALANCER_TYPE = BALANCER_CFG["BALANCER_TYPE"]
+BALANCE_STRATEGY = BALANCER_CFG["BALANCE_STRATEGY"]
+RESIZE_CFG = BALANCER_CFG["RESIZE_CFG"]
+RESIZE_STRATEGY = RESIZE_CFG["RESIZE_STRATEGY"]
+if RESIZE_STRATEGY == "constant":
+    RESIZE_AMOUNT = RESIZE_CFG["RESIZE_AMOUNT"]
 SMOOTH_TYPE = BALANCER_CFG["SMOOTHING"]["TYPE"]
 if not SMOOTH_TYPE == "no-smoothing":
     SMOOTH_COUNT = BALANCER_CFG["SMOOTHING"]["COUNT"]
@@ -70,7 +74,10 @@ class ProcessScope:
 MB_IN_BYTES = 1024 * 1024
 
 balancer_cmds = ["/home/marisa/Work/MemoryBalancer/build/MemoryBalancer", "daemon"]
-balancer_cmds.append(f"--balancer-type={BALANCER_TYPE}")
+balancer_cmds.append(f"--balance-strategy={BALANCE_STRATEGY}")
+balancer_cmds.append(f"--resize-strategy={RESIZE_STRATEGY}")
+if RESIZE_STRATEGY == "constant":
+    balancer_cmds.append(f"--resize-amount={RESIZE_AMOUNT * MB_IN_BYTES}")
 balancer_cmds.append(f"--smooth-type={SMOOTH_TYPE}")
 if not SMOOTH_TYPE == "no-smoothing":
     balancer_cmds.append(f"--smooth-count={SMOOTH_COUNT}")
@@ -80,12 +87,15 @@ balancer_cmds.append(f"""--log-path={result_directory+"v8_log"}""")
 def tee_log(cmd, log_path):
     return f"{cmd} 2>&1 | tee {log_path}"
 
-with ProcessScope(subprocess.Popen(balancer_cmds, stdout=subprocess.PIPE, stderr=subprocess.PIPE)) as p:
+with ProcessScope(subprocess.Popen(balancer_cmds, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)) as p:
     subprocess.Popen(["tee", result_directory+"balancer_out"], stdin=p.stdout)
     time.sleep(1) # make sure the balancer is running
     memory_limit = f"{MEMORY_LIMIT * MB_IN_BYTES}"
 
     env_vars = "USE_MEMBALANCER=1 LOG_GC=1"
+
+    if not RESIZE_STRATEGY == "ignore":
+        env_vars = f"{env_vars} SKIP_RECOMPUTE_LIMIT=1"
 
     #subprocess.run(f"echo {memory_limit} > /sys/fs/cgroup/memory/MemBalancer/memory.limit_in_bytes", shell=True, check=True)
     #subprocess.run(f"echo {memory_limit} > /sys/fs/cgroup/memory/MemBalancer/memory.memsw.limit_in_bytes", shell=True, check=True)

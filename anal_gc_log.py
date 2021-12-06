@@ -101,17 +101,7 @@ class Process(Stackable):
 instance_map = {}
 instance_list = []
 
-#for l in logs:
-#    name = l["name"]
-#    time = l["time"]
-#    working_memory = l["working-memory"]
-#    memory = l["max-memory"]
-#    if name not in instance_map:
-#        x = Process(name)
-#        instance_map[name] = x
-#        instance_list.append(x)
-#    instance_map[name].point(time, working_memory, memory)
-for l in memory_msg_logs:
+for l in logs:
     name = l["name"]
     time = l["time"]
     working_memory = l["working-memory"]
@@ -121,6 +111,16 @@ for l in memory_msg_logs:
         instance_map[name] = x
         instance_list.append(x)
     instance_map[name].point(time, working_memory, memory)
+#for l in memory_msg_logs:
+#    name = l["name"]
+#    time = l["time"]
+#    working_memory = l["working-memory"]
+#    memory = l["max-memory"]
+#    if name not in instance_map:
+#        x = Process(name)
+#        instance_map[name] = x
+#        instance_list.append(x)
+#    instance_map[name].point(time, working_memory, memory)
 #draw_stacks([instance_list[3], instance_list[5]])
 draw_stacks(instance_list)
 

@@ -250,6 +250,8 @@ struct ConnectionState {
   // real max memory is for efficiency calculation purpose only
   Filter<size_t> max_memory, real_max_memory;
   Filter<size_t> gc_duration;
+  Filter<size_t> size_of_objects;
+  Filter<double> gc_speed;
   Filter<double> garbage_rate;
   size_t last_major_gc_epoch;
   time_point last_major_gc;
@@ -263,6 +265,8 @@ struct ConnectionState {
     max_memory(ff()),
     real_max_memory(ff()),
     gc_duration(ff()),
+    size_of_objects(ff()),
+    gc_speed(ff()),
     garbage_rate(ff()) { }
   void try_log(Logger& l, const std::string& msg_type) {
     if (ready()) {
@@ -272,6 +276,7 @@ struct ConnectionState {
       j["working-memory"] = working_memory.out();
       j["max-memory"] = max_memory.out();
       j["gc-duration"] = gc_duration.out();
+      j["gc-speed"] = gc_speed.out();
       j["garbage-rate"] = garbage_rate.out();
       j["name"] = name;
       l.log(tagged_json("heap-stat", j));
@@ -299,6 +304,8 @@ struct ConnectionState {
           max_memory.in(data["max_memory"]);
           real_max_memory.in(data["max_memory"]);
           gc_duration.in(static_cast<double>(data["after_time"]) - static_cast<double>(data["before_time"]));
+          size_of_objects.in(data["size_of_objects"]);
+          gc_speed.in(data["gc_speed"]);
           working_memory.in(data["after_memory"]);
           has_allocation_rate = true;
           garbage_rate.in(data["allocation_rate"]);
@@ -338,13 +345,19 @@ struct ConnectionState {
     size_t extra_memory_ = extra_memory();
     return static_cast<double>(extra_memory_) * static_cast<double>(extra_memory_) / gt();
   }
+  size_t calculated_gc_duration() {
+    return max_memory.out() / gc_speed.out();
+  }
   void report(TextTable& t, size_t epoch) {
     assert(ready());
     t.add(name);
     t.add(std::to_string(extra_memory()));
+    t.add(std::to_string(max_memory.out()));
     t.add(std::to_string(garbage_rate.out()));
+    t.add(std::to_string(gc_speed.out()));
     t.add(std::to_string(gc_duration.out()));
-    t.add(std::to_string(epoch - last_major_gc_epoch));
+    t.add(std::to_string(calculated_gc_duration()));
+    t.add(std::to_string(size_of_objects.out()));
     t.add(std::to_string(score()));
   }
 };
@@ -382,6 +395,9 @@ enum class ResizeStrategy {
   // do nothing
   ignore,
   // a constant amount for all process
+  // is incompatible with BalanceStrategy::ignore as it does nothing and thus cannot balance the memory
+  // one fix is to just scale each process uniformly but this will make late process starve
+  // so - if it is a constant, use extra_memory as a base line
   constant,
   // 3% mutator rate after balancing
   before_balance,
@@ -390,6 +406,20 @@ enum class ResizeStrategy {
   after_balance
 };
 
+std::ostream& operator<<(std::ostream& os, ResizeStrategy rs) {
+  if (rs == ResizeStrategy::ignore) {
+    return os << "ignore";
+  } else if (rs == ResizeStrategy::constant) {
+    return os << "constant";
+  } else if (rs == ResizeStrategy::before_balance) {
+    return os << "before-balance";
+  } else if (rs == ResizeStrategy::after_balance) {
+    return os << "after-balance";
+  } else {
+    std::cout << "unknown ResizeStrategy" << std::endl;
+    throw;
+  }
+}
 struct Balancer {
   milliseconds balance_frequency;
   size_t update_count = 0;
@@ -411,6 +441,10 @@ struct Balancer {
   filter_factory_t ff;
   std::string log_path;
   Logger l;
+  void check_config_consistency() {
+    assert(resize_strategy != ResizeStrategy::constant || balance_strategy != BalanceStrategy::ignore);
+    assert(resize_strategy != ResizeStrategy::after_balance || balance_strategy == BalanceStrategy::classic);
+  }
   Balancer(const std::vector<char*>& args) {
     // note: we intentionally do not use any default option.
     // as all options is filled in by the eval program, there is no point in having default,
@@ -481,6 +515,7 @@ struct Balancer {
       l.f = std::ofstream(log_path);
     }
     balance_frequency = milliseconds(result["balance-frequency"].as<size_t>());
+    check_config_consistency();
   }
   void poll_daemon() {
     while (true) {
@@ -592,16 +627,27 @@ struct Balancer {
         mse /= scores.size();
         double efficiency = real_gt_e * real_e / gt_root / gt_root;
 
+        size_t total_extra_memory;
+        if (resize_strategy == ResizeStrategy::ignore) {
+          total_extra_memory = e;
+        } else if (resize_strategy == ResizeStrategy::constant) {
+          size_t working_memory = m - e;
+          total_extra_memory = resize_amount - working_memory;
+        } else {
+          std::cout << "resize_strategy " << resize_strategy << " not implemented!" << std::endl;
+          throw;
+        }
+
         // pavel: check if this fp is safe?
         auto suggested_extra_memory = [&](ConnectionState* rr) -> size_t {
                                         if (balance_strategy == BalanceStrategy::extra_memory) {
-                                          return e / instance_count;
+                                          return total_extra_memory / instance_count;
                                         } else {
-                                          assert(balance_strategy == BalanceStrategy::classic);
+                                          assert(balance_strategy == BalanceStrategy::classic || balance_strategy == BalanceStrategy::ignore);
                                           if (gt_root == 0) {
                                             return 0;
                                           } else {
-                                            return e / gt_root * sqrt(rr->gt());
+                                            return total_extra_memory / gt_root * sqrt(rr->gt());
                                           }
                                         }
                                     };
@@ -610,9 +656,12 @@ struct Balancer {
           TextTable t( '-', '|', '+' );
           t.add("name");
           t.add("extra_memory");
+          t.add("total_memory");
           t.add("garbage_rate");
+          t.add("gc_speed");
           t.add("gc_duration");
-          t.add("epoch_since_gc");
+          t.add("calculated_gc_duration");
+          t.add("size_of_objects");
           t.add("score");
           t.add("suggested_extra_memory");
           t.add("suggested_total_memory");
