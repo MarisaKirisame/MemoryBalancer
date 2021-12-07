@@ -277,7 +277,6 @@ struct Logger {
 };
 
 struct ConnectionState {
-  size_t wait_ack_count = 0;
   socket_t fd;
   IdChannel force_gc_chan;
   Snapper heap_resize_snap;
@@ -328,34 +327,27 @@ struct ConnectionState {
       json type = j["type"];
       json data = j["data"];
       if (type == "major_gc") {
-        if (wait_ack_count == 0) {
-          if (!has_major_gc) {
-            name = data["name"];
-          } else {
-            assert(name == data["name"]);
-          }
-          last_major_gc = steady_clock::now();
-          last_major_gc_epoch = epoch;
-          has_major_gc = true;
-          max_memory.in(data["max_memory"]);
-          real_max_memory.in(data["max_memory"]);
-          gc_duration.in(static_cast<double>(data["after_time"]) - static_cast<double>(data["before_time"]));
-          size_of_objects.in(data["size_of_objects"]);
-          gc_speed.in(data["gc_speed"]);
-          working_memory.in(data["after_memory"]);
-          has_allocation_rate = true;
-          garbage_rate.in(data["allocation_rate"]);
+        if (!has_major_gc) {
+          name = data["name"];
+        } else {
+          assert(name == data["name"]);
         }
+        last_major_gc = steady_clock::now();
+        last_major_gc_epoch = epoch;
+        has_major_gc = true;
+        max_memory.in(data["max_memory"]);
+        real_max_memory.in(data["max_memory"]);
+        gc_duration.in(static_cast<double>(data["after_time"]) - static_cast<double>(data["before_time"]));
+        size_of_objects.in(data["size_of_objects"]);
+        gc_speed.in(data["gc_speed"]);
+        working_memory.in(data["after_memory"]);
+        has_allocation_rate = true;
+        garbage_rate.in(data["allocation_rate"]);
       } else if (type == "allocation_rate") {
         has_allocation_rate = true;
         garbage_rate.in(data);
       } else if (type == "max_memory") {
-        if (wait_ack_count == 0) {
-          max_memory.in(data);
-        }
-      } else if (type == "ack") {
-        assert(wait_ack_count > 0);
-        --wait_ack_count;
+        max_memory.in(data);
       } else {
         std::cout << "unknown type: " << type << std::endl;
         throw;
@@ -750,6 +742,11 @@ struct Balancer {
         } else if (resize_strategy == ResizeStrategy::constant) {
           size_t working_memory = st.m - st.e;
           total_extra_memory = resize_amount - working_memory;
+        } else if (resize_strategy == ResizeStrategy::before_balance) {
+          total_extra_memory = 0;
+          throw;
+        } else if (resize_strategy == ResizeStrategy::after_balance) {
+          throw;
         } else {
           std::cout << "resize_strategy " << resize_strategy << " not implemented!" << std::endl;
           throw;
@@ -772,7 +769,7 @@ struct Balancer {
         if (balance_strategy != BalanceStrategy::ignore) {
           // send msg back to v8
           for (ConnectionState* rr: vec) {
-            if (rr->ready() && rr->wait_ack_count == 0) {
+            if (rr->ready()) {
               size_t extra_memory_ = rr->extra_memory();
               size_t suggested_extra_memory_ = suggested_extra_memory(rr);
               size_t total_memory_ = suggested_extra_memory_ + rr->working_memory.out();
@@ -781,7 +778,6 @@ struct Balancer {
                 std::cout << "sending: " << str << "to: " << rr->name << std::endl;
                 send_string(rr->fd, str);
                 rr->max_memory.in(total_memory_);
-                ++rr->wait_ack_count;
                 nlohmann::json j;
                 j["name"] = rr->name;
                 j["working-memory"] = rr->working_memory.out();
