@@ -26,6 +26,42 @@
 
 #define ERROR_STREAM std::cout << __LINE__ << " "
 
+enum class Ord { LT, EQ, GT };
+
+double binary_search_aux(double low, double high, const std::function<Ord(double)>& searcher) {
+  double mid = (low + high) / 2;
+  Ord ord = searcher(mid);
+  if (ord == Ord::EQ) {
+    return mid;
+  } else if (ord == Ord::GT) {
+    return binary_search_aux(0, mid, searcher);
+  } else {
+    assert(ord == Ord::LT);
+    return binary_search_aux(mid, high, searcher);
+  }
+}
+
+double binary_search(double low, double high, const std::function<Ord(double)>& searcher) {
+  assert(searcher(low) != Ord::GT);
+  assert(searcher(high) != Ord::LT);
+  return binary_search_aux(low, high, searcher);
+}
+
+// binary search, but we only know the lower bound (0), and not the upper bound.
+// try to deduct it by repeat doubling of initial_guess.
+double positive_binary_search_unbounded(double initial_guess, const std::function<Ord(double)>& searcher) {
+  assert(initial_guess > 0);
+  Ord ord = searcher(initial_guess);
+  if (ord == Ord::EQ) {
+    return initial_guess;
+  } else if (ord == Ord::GT) {
+    return binary_search(0, initial_guess, searcher);
+  } else {
+    assert(ord == Ord::LT);
+    return positive_binary_search_unbounded(initial_guess * 2, searcher);
+  }
+}
+
 std::string socket_path = "/tmp/membalancer_socket";
 
 int get_listener() {
@@ -360,6 +396,13 @@ struct ConnectionState {
     t.add(std::to_string(size_of_objects.out()));
     t.add(std::to_string(score()));
   }
+  double mutator_utilization_rate(size_t extra_memory) {
+    double mutator_duration = (working_memory.out() + extra_memory) / garbage_rate.out();
+    return mutator_duration / (gc_duration.out() + mutator_duration);
+  }
+  double mutator_utilization_rate() {
+    return mutator_utilization_rate(extra_memory());
+  }
 };
 
 // throttle event so they dont fire too often.
@@ -426,11 +469,18 @@ struct Balancer {
   socket_t s = get_listener();
   std::vector<pollfd> pfds {{s, POLLIN}};
   std::unordered_map<socket_t, ConnectionState> map;
+  std::vector<ConnectionState*> vector() {
+    std::vector<ConnectionState*> vec;
+    for (auto& p : map) {
+      vec.push_back(&p.second);
+    }
+    return vec;
+  }
   time_point last_balance = steady_clock::now();
   bool report_ = true;
   Spacer report_spacer = Spacer(milliseconds(1000));
   Spacer log_spacer = Spacer(milliseconds(100));
-  bool report() {
+  bool should_report() {
     return report_ && report_spacer();
   }
   double tolerance = 0.1;
@@ -577,61 +627,128 @@ struct Balancer {
       }
     }
   }
+  struct Stat {
+    size_t instance_count = 0;
+    double mse = 0;
+    size_t m = 0;
+    size_t e = 0;
+    double gt_e = 0;
+    double gt_root = 0;
+
+    double real_e = 0;
+    double real_gt_e = 0;
+    double efficiency = 0;
+  };
+  void report(const Stat& st, const std::function<size_t(ConnectionState*)>& suggested_extra_memory) {
+    TextTable t( '-', '|', '+' );
+    t.add("name");
+    t.add("extra_memory");
+    t.add("total_memory");
+    t.add("garbage_rate");
+    t.add("gc_speed");
+    t.add("gc_duration");
+    t.add("calculated_gc_duration");
+    t.add("size_of_objects");
+    t.add("score");
+    t.add("suggested_extra_memory");
+    t.add("suggested_total_memory");
+    t.endOfRow();
+    auto vec = vector();
+    std::cout << "balancing " << st.instance_count << " heap, waiting for " << vec.size() - st.instance_count << " heap" << std::endl;
+    for (ConnectionState* rr: vector()) {
+      if (rr->ready()) {
+        rr->report(t, epoch);
+        size_t suggested_extra_memory_ = suggested_extra_memory(rr);
+        t.add(std::to_string(suggested_extra_memory_));
+        t.add(std::to_string(suggested_extra_memory_ + rr->working_memory.out()));
+        t.endOfRow();
+      }
+    }
+    std::cout << t << std::endl;
+    std::cout << "score mse: " << st.mse << std::endl;
+    std::cout << "total memory: " << st.m << std::endl;
+    std::cout << "total extra memory: " << st.e << std::endl;
+    std::cout << "efficiency: " << st.efficiency << std::endl;
+    std::cout << std::endl;
+
+  }
   void balance() {
     ++epoch;
-    bool report_this_epoch = report();
     last_balance = steady_clock::now();
-    std::vector<ConnectionState*> vec;
-    for (auto& p : map) {
-      vec.push_back(&p.second);
-    }
     std::vector<double> scores;
+    std::vector<ConnectionState*> vec = vector();
     for (ConnectionState* rr: vec) {
       if (rr->ready()) {
         scores.push_back(rr->score());
       }
     }
-    if (report_this_epoch) {
-      std::cout << "balancing " << scores.size() << " heap, waiting for " << vec.size() - scores.size() << " heap" << std::endl;
-    }
     std::sort(scores.begin(), scores.end());
     if (!scores.empty()) {
       double median_score = median(scores);
-      if (report_this_epoch) {
-        std::cout << "median_score: " << median_score << std::endl;
-      }
       if (!scores.empty()) {
-        // stats calculation
-        size_t instance_count = 0;
-        double mse = 0;
-        size_t m = 0;
-        size_t e = 0;
-        double gt_e = 0;
-        double gt_root = 0;
-
-        double real_e = 0;
-        double real_gt_e = 0;
+        Stat st;
         for (ConnectionState* rr: vec) {
           if (rr->ready()) {
-            ++instance_count;
+            ++st.instance_count;
             double diff = (rr->score() - median_score) / median_score;
-            mse += diff * diff;
-            m += rr->max_memory.out();
-            e += rr->extra_memory();
-            real_e += rr->real_extra_memory();
-            gt_e += rr->gt() / rr->extra_memory();
-            real_gt_e += rr->gt() / rr->real_extra_memory();
-            gt_root += sqrt(rr->gt());
+            st.mse += diff * diff;
+            st.m += rr->max_memory.out();
+            st.e += rr->extra_memory();
+            st.real_e += rr->real_extra_memory();
+            st.gt_e += rr->gt() / rr->extra_memory();
+            st.real_gt_e += rr->gt() / rr->real_extra_memory();
+            st.gt_root += sqrt(rr->gt());
           }
         }
-        mse /= scores.size();
-        double efficiency = real_gt_e * real_e / gt_root / gt_root;
+        st.mse /= scores.size();
+        st.efficiency = st.real_gt_e * st.real_e / st.gt_root / st.gt_root;
+
+        auto suggested_extra_memory_given_total =
+          [&](ConnectionState* rr, size_t total_extra_memory) -> size_t {
+            if (balance_strategy == BalanceStrategy::extra_memory) {
+              return total_extra_memory / st.instance_count;
+            } else {
+              assert(balance_strategy == BalanceStrategy::classic || balance_strategy == BalanceStrategy::ignore);
+              if (st.gt_root == 0) {
+                return 0;
+              } else {
+                return total_extra_memory / st.gt_root * sqrt(rr->gt());
+              }
+            }
+          };
+
+        auto calculate_suggestion =
+          [&](size_t total_extra_memory) {
+            std::unordered_map<ConnectionState*, size_t> memory_suggestion;
+            for (ConnectionState* rr: vec) {
+              memory_suggestion.insert({rr, suggested_extra_memory_given_total(rr, total_extra_memory)});
+            }
+            return memory_suggestion;
+          };
+
+        auto calculate_mutator_utilization =
+          [&](const std::unordered_map<ConnectionState*, size_t>& memory_suggestion) {
+            double mu = 0;
+            for (const auto& p : memory_suggestion) {
+              mu += p.first->mutator_utilization_rate(p.second);
+            }
+            return mu / memory_suggestion.size();
+          };
+
+          auto get_total_extra_memory =
+          [&](const std::unordered_map<ConnectionState*, size_t>& memory_suggestion) {
+            size_t sum = 0;
+            for (const auto& p : memory_suggestion) {
+              sum += p.second;
+            }
+            return sum;
+          };
 
         size_t total_extra_memory;
         if (resize_strategy == ResizeStrategy::ignore) {
-          total_extra_memory = e;
+          total_extra_memory = st.e;
         } else if (resize_strategy == ResizeStrategy::constant) {
-          size_t working_memory = m - e;
+          size_t working_memory = st.m - st.e;
           total_extra_memory = resize_amount - working_memory;
         } else {
           std::cout << "resize_strategy " << resize_strategy << " not implemented!" << std::endl;
@@ -639,52 +756,17 @@ struct Balancer {
         }
 
         // pavel: check if this fp is safe?
-        auto suggested_extra_memory = [&](ConnectionState* rr) -> size_t {
-                                        if (balance_strategy == BalanceStrategy::extra_memory) {
-                                          return total_extra_memory / instance_count;
-                                        } else {
-                                          assert(balance_strategy == BalanceStrategy::classic || balance_strategy == BalanceStrategy::ignore);
-                                          if (gt_root == 0) {
-                                            return 0;
-                                          } else {
-                                            return total_extra_memory / gt_root * sqrt(rr->gt());
-                                          }
-                                        }
-                                    };
+        auto suggested_extra_memory =
+          [&](ConnectionState* rr) -> size_t {
+            return suggested_extra_memory_given_total(rr, total_extra_memory);
+          };
 
-        if (report_this_epoch) {
-          TextTable t( '-', '|', '+' );
-          t.add("name");
-          t.add("extra_memory");
-          t.add("total_memory");
-          t.add("garbage_rate");
-          t.add("gc_speed");
-          t.add("gc_duration");
-          t.add("calculated_gc_duration");
-          t.add("size_of_objects");
-          t.add("score");
-          t.add("suggested_extra_memory");
-          t.add("suggested_total_memory");
-          t.endOfRow();
-          for (ConnectionState* rr: vec) {
-            if (rr->ready()) {
-              rr->report(t, epoch);
-              size_t suggested_extra_memory_ = suggested_extra_memory(rr);
-              t.add(std::to_string(suggested_extra_memory_));
-              t.add(std::to_string(suggested_extra_memory_ + rr->working_memory.out()));
-              t.endOfRow();
-            }
-          }
-          std::cout << t << std::endl;
-          std::cout << "score mse: " << mse << std::endl;
-          std::cout << "total memory: " << m << std::endl;
-          std::cout << "total extra memory: " << e << std::endl;
-          std::cout << "efficiency: " << gt_e << " " << gt_root << " " << efficiency << std::endl;
-          std::cout << std::endl;
+        if (should_report()) {
+          report(st, suggested_extra_memory);
         }
 
         if (log_spacer()) {
-          l.log(tagged_json("efficiency", efficiency));
+          l.log(tagged_json("efficiency", st.efficiency));
         }
 
         if (balance_strategy != BalanceStrategy::ignore) {
