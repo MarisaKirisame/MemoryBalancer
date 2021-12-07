@@ -65,12 +65,17 @@ cfgs = recursive_flatten_nondet_dict({
     }
 }).l
 
-cfgs = flatten_nondet_dict({
+cfgs = recursive_flatten_nondet_dict({
     "LIMIT_MEMORY": True,
     "DEBUG": False,
     "MEMORY_LIMIT": NONDET(*[600 + 30 * i for i in range(10)]),
-    "BALANCER_CFG": flatten_nondet_dict({
-        "BALANCE_STRATEGY": NONDET( "ignore", "extra-memory", "classic"),
+    "BALANCER_CFG": NONDET({
+        "BALANCE_STRATEGY": NONDET("classic", "extra-memory", "classic"),
+        "RESIZE_CFG": {"RESIZE_STRATEGY": "after_balance"},
+        "SMOOTHING": {"TYPE": "no-smoothing"},
+        "BALANCE_FREQUENCY": 0
+    }, {
+        "BALANCE_STRATEGY": "ignore",
         "RESIZE_CFG": {"RESIZE_STRATEGY": "ignore"},
         "SMOOTHING": {"TYPE": "no-smoothing"},
         "BALANCE_FREQUENCY": 0
