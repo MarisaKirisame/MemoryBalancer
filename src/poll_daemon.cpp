@@ -664,6 +664,7 @@ struct Balancer {
     std::cout << std::endl;
 
   }
+  // pavel: check if this fp is safe?
   void balance() {
     ++epoch;
     last_balance = steady_clock::now();
@@ -709,6 +710,17 @@ struct Balancer {
             }
           };
 
+        auto compare_mu =
+          [](double mu) {
+            if (mu < 0.029) {
+              return Ord::LT;
+            } else if (mu > 0.031) {
+              return Ord::GT;
+            } else {
+              return Ord::EQ;
+            }
+          };
+
         auto calculate_suggestion =
           [&](size_t total_extra_memory) {
             std::unordered_map<ConnectionState*, size_t> memory_suggestion;
@@ -727,15 +739,6 @@ struct Balancer {
             return mu / memory_suggestion.size();
           };
 
-          auto get_total_extra_memory =
-          [&](const std::unordered_map<ConnectionState*, size_t>& memory_suggestion) {
-            size_t sum = 0;
-            for (const auto& p : memory_suggestion) {
-              sum += p.second;
-            }
-            return sum;
-          };
-
         size_t total_extra_memory;
         if (resize_strategy == ResizeStrategy::ignore) {
           total_extra_memory = st.e;
@@ -744,15 +747,26 @@ struct Balancer {
           total_extra_memory = resize_amount - working_memory;
         } else if (resize_strategy == ResizeStrategy::before_balance) {
           total_extra_memory = 0;
-          throw;
+          for (ConnectionState* rr: vec) {
+            if (rr->ready()) {
+              total_extra_memory +=
+                positive_binary_search_unbounded(rr->extra_memory(),
+                                                 [&](double extra_memory) {
+                                                   return compare_mu(rr->mutator_utilization_rate(extra_memory));
+                                                 });
+            }
+          }
         } else if (resize_strategy == ResizeStrategy::after_balance) {
-          throw;
+          total_extra_memory =
+            positive_binary_search_unbounded(st.e,
+                                             [&](double extra_memory) {
+                                               return compare_mu(calculate_mutator_utilization(calculate_suggestion(extra_memory)));
+                                             });
         } else {
           std::cout << "resize_strategy " << resize_strategy << " not implemented!" << std::endl;
           throw;
         }
 
-        // pavel: check if this fp is safe?
         auto suggested_extra_memory =
           [&](ConnectionState* rr) -> size_t {
             return suggested_extra_memory_given_total(rr, total_extra_memory);
