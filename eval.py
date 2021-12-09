@@ -37,13 +37,22 @@ def flatten_nondet_dict(x):
     return flatten_nondet(list(x.items())).map(lambda x: dict(x))
 
 def recursive_flatten_nondet_dict(x):
+    def join(x):
+        assert isinstance(x, NONDET)
+        l = []
+        for y in x.l:
+            if isinstance(y, NONDET):
+                l += y.l
+            else:
+                l.append(y)
+        return NONDET(*l)
     def recurse(x):
         if isinstance(x, (bool, int, str)):
             return x
         elif isinstance(x, dict):
             return recursive_flatten_nondet_dict(x)
         elif isinstance(x, NONDET):
-            return NONDET(*[recurse(y) for y in x.l])
+            return join(NONDET(*[recurse(y) for y in x.l]))
         else:
             print(type(x))
             raise
@@ -70,15 +79,15 @@ cfgs = recursive_flatten_nondet_dict({
     "DEBUG": False,
     "MEMORY_LIMIT": NONDET(*[600 + 30 * i for i in range(10)]),
     "BALANCER_CFG": NONDET({
-        "BALANCE_STRATEGY": NONDET("classic", "extra-memory", "classic"),
-        "RESIZE_CFG": {"RESIZE_STRATEGY": "after_balance"},
+        "BALANCE_STRATEGY": NONDET("classic", "extra-memory"),
+        "RESIZE_CFG": {"RESIZE_STRATEGY": NONDET("after-balance", "ignore")},
         "SMOOTHING": {"TYPE": "no-smoothing"},
-        "BALANCE_FREQUENCY": 0
+        "BALANCE_FREQUENCY": 100
     }, {
         "BALANCE_STRATEGY": "ignore",
         "RESIZE_CFG": {"RESIZE_STRATEGY": "ignore"},
         "SMOOTHING": {"TYPE": "no-smoothing"},
-        "BALANCE_FREQUENCY": 0
+        "BALANCE_FREQUENCY": 100
     })
 }).l
 
