@@ -15,6 +15,9 @@ class NONDET:
             ret += res.l
         return NONDET(*ret)
 
+    def join(self):
+        return self.bind(lambda x: x)
+
     def map(self, f):
         return self.bind(lambda x: NONDET(f(x)))
 
@@ -22,74 +25,57 @@ class NONDET:
         return f"NONDET{repr(self.l)}"
 
 def flatten_nondet(x):
-    assert isinstance(x, list)
-    if len(x) == 0:
-        return NONDET([])
-    else:
-        def process_rest(tail):
-            head = x[0]
-            head_key = head[0]
-            head_value = head[1]
-            return (head_value if isinstance(head_value, NONDET) else NONDET(head_value)).map(lambda hv: [(head_key, hv)] + tail)
-        return flatten_nondet(x[1:]).bind(process_rest)
-
-def flatten_nondet_dict(x):
-    return flatten_nondet(list(x.items())).map(lambda x: dict(x))
-
-def recursive_flatten_nondet_dict(x):
-    def join(x):
-        assert isinstance(x, NONDET)
-        l = []
-        for y in x.l:
-            if isinstance(y, NONDET):
-                l += y.l
-            else:
-                l.append(y)
-        return NONDET(*l)
-    def recurse(x):
-        if isinstance(x, (bool, int, str)):
-            return x
-        elif isinstance(x, dict):
-            return recursive_flatten_nondet_dict(x)
-        elif isinstance(x, NONDET):
-            return join(NONDET(*[recurse(y) for y in x.l]))
+    if isinstance(x, (bool, int, str, float)):
+        return NONDET(x)
+    elif isinstance(x, dict):
+        return flatten_nondet([i for i in x.items()]).map(lambda x: dict(x))
+    elif isinstance(x, list):
+        if len(x) == 0:
+            return NONDET([])
         else:
-            print(type(x))
-            raise
-    return flatten_nondet_dict({k:recurse(v) for k, v in x.items()})
+            head = flatten_nondet(x[0])
+            tail = flatten_nondet(x[1:])
+            return head.bind(lambda y: tail.bind(lambda z: NONDET([y] + z)))
+    elif isinstance(x, NONDET):
+        return NONDET(*[flatten_nondet(y) for y in x.l]).join()
+    elif isinstance(x, tuple):
+        return NONDET(*[tuple(y) for y in flatten_nondet(list(x)).l])
+    else:
+        print(type(x))
+        print(x)
+        raise
 
-# test out relationship btwn resize-amount
-cfgs = recursive_flatten_nondet_dict({
-    "LIMIT_MEMORY": True,
-    "DEBUG": False,
-    "MEMORY_LIMIT": 1000,
-    "BALANCER_CFG": {
-        "BALANCE_STRATEGY": "extra-memory",
-        "RESIZE_CFG": {
-            "RESIZE_STRATEGY": "constant",
-            "RESIZE_AMOUNT": NONDET(100, 150, 200, 250),
-        },
-        "SMOOTHING": {"TYPE": "no-smoothing"},
-        "BALANCE_FREQUENCY": 0
-    }
-}).l
-
-cfgs = recursive_flatten_nondet_dict({
+cfgs = flatten_nondet({
     "LIMIT_MEMORY": True,
     "DEBUG": False,
     "MEMORY_LIMIT": NONDET(*[600 + 30 * i for i in range(10)]),
     "BALANCER_CFG": NONDET({
-        "BALANCE_STRATEGY": NONDET("classic", "extra-memory"),
-        "RESIZE_CFG": {"RESIZE_STRATEGY": NONDET("after-balance", "ignore")},
-        "SMOOTHING": {"TYPE": "no-smoothing"},
-        "BALANCE_FREQUENCY": 100
-    }, {
-        "BALANCE_STRATEGY": "ignore",
+        "BALANCE_STRATEGY": NONDET("classic", "extra-memory", "ignore"),
         "RESIZE_CFG": {"RESIZE_STRATEGY": "ignore"},
         "SMOOTHING": {"TYPE": "no-smoothing"},
-        "BALANCE_FREQUENCY": 100
+        "BALANCE_FREQUENCY": 0
     })
 }).l
+
+cfgs = flatten_nondet(NONDET({
+    "LIMIT_MEMORY": True,
+    "DEBUG": False,
+    "MEMORY_LIMIT": NONDET(2000),
+    "BALANCER_CFG": {
+        "BALANCE_STRATEGY": "classic",
+        "RESIZE_CFG": {"RESIZE_STRATEGY": "after-balance", "GC_RATE":NONDET(0.03, 0.04, 0.06, 0.08, 0.10)},
+        "SMOOTHING": {"TYPE": "no-smoothing"},
+        "BALANCE_FREQUENCY": 0
+    }}, {
+    "LIMIT_MEMORY": True,
+    "DEBUG": False,
+    "MEMORY_LIMIT": NONDET(2000),
+    "BALANCER_CFG": {
+        "BALANCE_STRATEGY": NONDET("ignore", "extra-memory"),
+        "RESIZE_CFG": {"RESIZE_STRATEGY": "ignore"},
+        "SMOOTHING": {"TYPE": "no-smoothing"},
+        "BALANCE_FREQUENCY": 0
+    }})).l
 
 for _ in range(20):
     for cfg in cfgs:

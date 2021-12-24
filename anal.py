@@ -88,57 +88,86 @@ class Data:
         x = plt.errorbar(self.xs[:split_i], self.ys[:split_i], self.y_errs[:split_i], label=self.name)
         if split_i > 0:
             plt.errorbar(self.xs[split_i-1:], self.ys[split_i-1:], self.y_errs[split_i-1:], ls="--", color=x[0].get_color())
-        plt.plot(self.xs, self.y_es, label=f"{self.name} / E")
-vals = []
-for filename in os.listdir("log"):
-    score_path = os.path.join("log", filename, "score")
-    cfg_path = os.path.join("log", filename, "cfg")
-    if os.path.exists(score_path):
-        with open(score_path) as f:
-            score = json.load(f)
-        with open(cfg_path) as f:
-            cfg = json.load(f)
-        vals.append((deep_freeze(score), deep_freeze(cfg)))
-    else:
-        print(f"Warning: {score_path} does not exists")
+        #plt.plot(self.xs, self.y_es, label=f"{self.name} / E")
+
+def parse_log():
+    ret = []
+    for filename in os.listdir("log"):
+        score_path = os.path.join("log", filename, "score")
+        cfg_path = os.path.join("log", filename, "cfg")
+        if os.path.exists(score_path):
+            with open(score_path) as f:
+                score = json.load(f)
+            with open(cfg_path) as f:
+                cfg = json.load(f)
+            ret.append((deep_freeze(score), deep_freeze(cfg)))
+        else:
+            print(f"Warning: {score_path} does not exists")
+    return ret
 
 def report(name, x):
     print(f"{name} mean: {np.mean(x)} std: {np.std(x)}")
 
-bucket = {}
-for x, cfg in vals:
-    m = cfg["MEMORY_LIMIT"]
-    if m not in bucket:
-        bucket[m] = dict()
-    if cfg not in bucket[m]:
-        bucket[m][cfg] = []
-    bucket[m][cfg].append(x)
+def old_plot():
+    bucket = {}
+    for x, cfg in parse_log():
+        if cfg["BALANCER_CFG"]["RESIZE_CFG"]["RESIZE_STRATEGY"] != "ignore":
+            pass
+        m = cfg["MEMORY_LIMIT"]
+        if m not in bucket:
+            bucket[m] = dict()
+        if cfg not in bucket[m]:
+            bucket[m][cfg] = []
+        bucket[m][cfg].append(x)
 
-ms = list(bucket.keys())
-ms.sort(reverse=True)
+    ms = list(bucket.keys())
+    ms.sort(reverse=True)
 
-data = {}
+    data = {}
 
-PLOT_STD = True
+    PLOT_STD = True
 
-for m in ms:
-    for cfg, vals in bucket[m].items():
-        ok_vals = [x for x in vals if x["OK"]]
+    for m in ms:
+        for cfg, vals in bucket[m].items():
+            assert(len(vals) > 0)
+            ok_vals = [x for x in vals if x["OK"]]
+            print(f"With CFG {cfg}:")
+            oom_rate = 1 - len(ok_vals) / len(vals)
+            print(f"OOM rate: {oom_rate} size:{len(vals)}")
+            if len(ok_vals) > 0:
+                #major_gc = list([x["MAJOR_GC"] for x in ok_vals])
+                #major_gc = list([x["EXTRA_TIME"] for x in ok_vals])
+                major_gc = list([x["TOTAL_TIME"] for x in ok_vals])
+                balancer_efficiency = list([x["BALANCER_EFFICIENCY"] for x in ok_vals])
+                report("major gc time", major_gc)
+                report("balancer efficiency", balancer_efficiency)
+                balancer_cfg = cfg["BALANCER_CFG"]
+                if balancer_cfg not in data:
+                    data[balancer_cfg] = Data(balancer_cfg)
+                data[balancer_cfg].point(m, np.mean(major_gc), np.std(major_gc), np.mean([x["TOTAL_TIME"] / x["BALANCER_EFFICIENCY"] for x in ok_vals]), oom_rate)
+    for d in data.values():
+        d.plot()
+    plt.legend()
+    plt.show()
+
+def new_plot():
+    bucket = {}
+    for x, cfg in parse_log():
+        balancer_cfg = cfg["BALANCER_CFG"]
+        if balancer_cfg not in bucket:
+            bucket[balancer_cfg] = []
+        bucket[balancer_cfg].append(x)
+
+    for cfg, vals in bucket.items():
         assert(len(vals) > 0)
-        print(f"With CFG {cfg}:")
-        oom_rate = 1 - len(ok_vals) / len(vals)
-        print(f"OOM rate: {oom_rate} size:{len(vals)}")
+        ok_vals = [x for x in vals if x["OK"]]
         if len(ok_vals) > 0:
-            major_gc = list([x["MAJOR_GC"] for x in ok_vals])
-            balancer_efficiency = list([x["BALANCER_EFFICIENCY"] for x in ok_vals])
-            report("major gc time", major_gc)
-            report("balancer efficiency", balancer_efficiency)
-            balancer_cfg = cfg["BALANCER_CFG"]
-            if balancer_cfg not in data:
-                data[balancer_cfg] = Data(balancer_cfg)
-            data[balancer_cfg].point(m, np.mean(major_gc), np.std(major_gc), np.mean([x["MAJOR_GC"] / x["BALANCER_EFFICIENCY"] for x in ok_vals]), oom_rate)
+            x = list([x["PEAK_MEMORY"] for x in ok_vals])
+            y = list([x["TOTAL_TIME"] for x in ok_vals])
+            #y = list([x["TOTAL_MAJOR_GC_TIME"] for x in ok_vals])
+            #y = list([x["TOTAL_TIME"] - x["TOTAL_MAJOR_GC_TIME"] for x in ok_vals])
+            plt.scatter(x, y, label=cfg)
+    plt.legend()
+    plt.show()
 
-for d in data.values():
-    d.plot()
-plt.legend()
-plt.show()
+new_plot()

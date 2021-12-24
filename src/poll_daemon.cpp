@@ -96,19 +96,6 @@ int get_listener() {
 
 using socket_t = int;
 
-inline nlohmann::json tagged_json(const std::string& type, const nlohmann::json& data) {
-  nlohmann::json ret;
-  ret["type"] = type;
-  ret["data"] = data;
-  return ret;
-}
-
-std::string to_string(const nlohmann::json& j) {
-  std::stringstream ssr;
-  ssr << j << std::endl;
-  return ssr.str();
-};
-
 template<typename T>
 struct Filter {
   // a possibly stateful function. transform the input.
@@ -289,6 +276,7 @@ struct Logger {
   }
 };
 
+// all duration is in milliseconds, and all speed is in bytes per milliseconds.
 struct ConnectionState {
   size_t wait_ack_count = 0;
   socket_t fd;
@@ -297,12 +285,14 @@ struct ConnectionState {
   std::string unprocessed;
   Filter<size_t> working_memory;
   // real max memory is for efficiency calculation purpose only
-  Filter<size_t> max_memory, real_max_memory;
-  Filter<size_t> gc_duration;
+  Filter<size_t> max_memory;
+  Filter<double> gc_duration;
   Filter<size_t> size_of_objects;
   Filter<double> gc_speed;
   Filter<double> garbage_rate;
   size_t last_major_gc_epoch;
+  size_t begin_time, current_time;
+  double total_gc_duration = 0;
   time_point last_major_gc;
   std::string name;
   bool has_major_gc = false;
@@ -312,7 +302,6 @@ struct ConnectionState {
     force_gc_chan(fd),
     working_memory(ff()),
     max_memory(ff()),
-    real_max_memory(ff()),
     gc_duration(ff()),
     size_of_objects(ff()),
     gc_speed(ff()),
@@ -347,16 +336,22 @@ struct ConnectionState {
           assert(name == data["name"]);
         }
         if (wait_ack_count == 0) {
+          if (! has_major_gc) {
+            begin_time = static_cast<size_t>(data["before_time"]);
+            has_major_gc = true;
+          }
+          current_time = static_cast<size_t>(data["after_time"]);
           last_major_gc = steady_clock::now();
           last_major_gc_epoch = epoch;
-          has_major_gc = true;
-          max_memory.in(data["max_memory"]);
-          real_max_memory.in(data["max_memory"]);
-          gc_duration.in(static_cast<double>(data["after_time"]) - static_cast<double>(data["before_time"]));
+          size_t adjusted_working_memory = static_cast<size_t>(data["after_memory"]);
+          working_memory.in(adjusted_working_memory);
+          size_t adjusted_max_memory = std::max(static_cast<size_t>(data["max_memory"]), adjusted_working_memory);
+          max_memory.in(adjusted_max_memory);
+          double current_gc_duration = data["gc_duration"];
+          gc_duration.in(current_gc_duration);
+          total_gc_duration += current_gc_duration;
           size_of_objects.in(data["size_of_objects"]);
           gc_speed.in(data["gc_speed"]);
-          working_memory.in(data["after_memory"]);
-          assert(max_memory.out() >= working_memory.out());
           has_allocation_rate = true;
           garbage_rate.in(data["allocation_rate"]);
         }
@@ -382,19 +377,19 @@ struct ConnectionState {
     assert(max_memory.out() >= working_memory.out());
     return max_memory.out() - working_memory.out();
   }
-  size_t real_extra_memory() {
-    return real_max_memory.out() - working_memory.out();
-  }
   double gt() {
     return static_cast<double>(garbage_rate.out()) * static_cast<double>(gc_duration.out());
   }
-  double score() {
+  double duration_score() {
     assert(ready());
     size_t extra_memory_ = extra_memory();
     return static_cast<double>(extra_memory_) * static_cast<double>(extra_memory_) / gt();
   }
-  size_t calculated_gc_duration() {
-    return max_memory.out() / gc_speed.out();
+  double duration_balance_factor() {
+    return sqrt(gt());
+  }
+  double speed_balance_factor() {
+    return sqrt(static_cast<double>(garbage_rate.out()) * static_cast<double>(working_memory.out()) / static_cast<double>(gc_speed.out()));
   }
   void report(TextTable& t, size_t epoch) {
     assert(ready());
@@ -404,19 +399,27 @@ struct ConnectionState {
     t.add(std::to_string(garbage_rate.out()));
     t.add(std::to_string(gc_speed.out()));
     t.add(std::to_string(gc_duration.out()));
-    t.add(std::to_string(calculated_gc_duration()));
-    t.add(std::to_string(size_of_objects.out()));
-    t.add(std::to_string(score()));
-    t.add(std::to_string(mutator_utilization_rate()));
   }
-  double mutator_utilization_rate(size_t extra_memory) {
-    // work in microsceonds
-    double mutator_duration = 1000 * extra_memory / garbage_rate.out();
+  double duration_utilization_rate(size_t extra_memory) {
+    double mutator_duration = extra_memory / garbage_rate.out();
     assert(mutator_duration >= 0);
     return mutator_duration / (gc_duration.out() + mutator_duration);
   }
-  double mutator_utilization_rate() {
-    return mutator_utilization_rate(extra_memory());
+  double duration_utilization_rate() {
+    return duration_utilization_rate(extra_memory());
+  }
+  double measured_duration_utilization_rate() {
+    return 1 - static_cast<double>(total_gc_duration) / (current_time - begin_time);
+  }
+  double speed_utilization_rate(size_t extra_memory) {
+    double mutator_duration = extra_memory / garbage_rate.out();
+    assert(mutator_duration >= 0);
+    double useful_gc_duration = extra_memory / garbage_rate.out();
+    double wasteful_gc_duration = working_memory.out() / garbage_rate.out();
+    return (mutator_duration + useful_gc_duration) / (mutator_duration + useful_gc_duration + wasteful_gc_duration);
+  }
+  double speed_utilization_rate() {
+    return speed_utilization_rate(extra_memory());
   }
 };
 
@@ -502,6 +505,7 @@ struct Balancer {
   BalanceStrategy balance_strategy;
   ResizeStrategy resize_strategy;
   size_t resize_amount; // only when resize_strategy == constant
+  double gc_rate; // only when resize_strategy == after-balance or before-balance
   size_t epoch = 0;
   filter_factory_t ff;
   std::string log_path;
@@ -521,6 +525,8 @@ struct Balancer {
       ("resize-strategy", "ignore, before-balance, after-balance", cxxopts::value<std::string>());
     options.add_options()
       ("resize-amount", "a number denoting how much to resize", cxxopts::value<size_t>());
+    options.add_options()
+      ("gc-rate", "trying to spend this much time in gc", cxxopts::value<double>());
     options.add_options()
       ("smooth-type", "no-smoothing, smooth-approximate, smooth-exact", cxxopts::value<std::string>());
     options.add_options()
@@ -551,8 +557,12 @@ struct Balancer {
       resize_amount = result["resize-amount"].as<size_t>();
     } else if (resize_strategy_str == "before-balance") {
       resize_strategy = ResizeStrategy::before_balance;
+      assert(result.count("gc-rate"));
+      gc_rate = result["gc-rate"].as<double>();
     } else if (resize_strategy_str == "after-balance") {
       resize_strategy = ResizeStrategy::after_balance;
+      assert(result.count("gc-rate"));
+      gc_rate = result["gc-rate"].as<double>();
     } else {
       std::cout << "unknown resize-strategy: " << resize_strategy_str << std::endl;
       throw;
@@ -649,11 +659,7 @@ struct Balancer {
     size_t m = 0;
     size_t e = 0;
     double gt_e = 0;
-    double gt_root = 0;
-
-    double real_e = 0;
-    double real_gt_e = 0;
-    double efficiency = 0;
+    double balance_factor = 0;
   };
   TextTable make_table() {
     TextTable t( '-', '|', '+' );
@@ -663,10 +669,6 @@ struct Balancer {
     t.add("garbage_rate");
     t.add("gc_speed");
     t.add("gc_duration");
-    t.add("calculated_gc_duration");
-    t.add("size_of_objects");
-    t.add("score");
-    t.add("mu");
     t.add("suggested_extra_memory");
     t.add("suggested_total_memory");
     t.endOfRow();
@@ -689,7 +691,6 @@ struct Balancer {
     std::cout << "score mse: " << st.mse << std::endl;
     std::cout << "total memory: " << st.m << std::endl;
     std::cout << "total extra memory: " << st.e << std::endl;
-    std::cout << "efficiency: " << st.efficiency << std::endl;
     std::cout << std::endl;
   }
   // pavel: check if this fp is safe?
@@ -700,7 +701,7 @@ struct Balancer {
     std::vector<ConnectionState*> vec = vector();
     for (ConnectionState* rr: vec) {
       if (rr->ready()) {
-        scores.push_back(rr->score());
+        scores.push_back(rr->duration_score());
       }
     }
     std::sort(scores.begin(), scores.end());
@@ -711,18 +712,15 @@ struct Balancer {
         for (ConnectionState* rr: vec) {
           if (rr->ready()) {
             ++st.instance_count;
-            double diff = (rr->score() - median_score) / median_score;
+            double diff = (rr->duration_score() - median_score) / median_score;
             st.mse += diff * diff;
             st.m += rr->max_memory.out();
             st.e += rr->extra_memory();
-            st.real_e += rr->real_extra_memory();
             st.gt_e += rr->gt() / rr->extra_memory();
-            st.real_gt_e += rr->gt() / rr->real_extra_memory();
-            st.gt_root += sqrt(rr->gt());
+            st.balance_factor += rr->speed_balance_factor();
           }
         }
         st.mse /= scores.size();
-        st.efficiency = st.real_gt_e * st.real_e / st.gt_root / st.gt_root;
 
         auto suggested_extra_memory_given_total =
           [&](ConnectionState* rr, size_t total_extra_memory) -> size_t {
@@ -730,22 +728,22 @@ struct Balancer {
               return total_extra_memory / st.instance_count;
             } else {
               assert(balance_strategy == BalanceStrategy::classic || balance_strategy == BalanceStrategy::ignore);
-              assert(st.gt_root != 0);
-              if (st.gt_root == 0) {
+              assert(st.balance_factor != 0);
+              if (st.balance_factor == 0) {
                 return 0;
               } else {
-                return total_extra_memory / st.gt_root * sqrt(rr->gt());
+                return total_extra_memory / st.balance_factor * rr->speed_balance_factor();
               }
             }
           };
 
         auto compare_mu =
-          [](double mu) {
+          [this](double mu) {
             assert(0 <= mu);
             assert(mu <= 1);
-            if (mu < 0.969) {
+            if (mu < 1 - gc_rate - 0.01) {
               return Ord::LT;
-            } else if (mu > 0.971) {
+            } else if (mu > 1 - gc_rate + 0.01) {
               return Ord::GT;
             } else {
               return Ord::EQ;
@@ -763,13 +761,13 @@ struct Balancer {
             return memory_suggestion;
           };
 
-        auto calculate_mutator_utilization =
+        auto calculate_utilization =
           [&](const std::unordered_map<ConnectionState*, size_t>& memory_suggestion) {
-            double mu = 0;
+            double u = 0;
             for (const auto& p : memory_suggestion) {
-              mu += p.first->mutator_utilization_rate(p.second);
+              u += p.first->speed_utilization_rate(p.second);
             }
-            return mu / memory_suggestion.size();
+            return u / memory_suggestion.size();
           };
 
         size_t total_extra_memory;
@@ -785,7 +783,7 @@ struct Balancer {
               total_extra_memory +=
                 positive_binary_search_unbounded(std::max<size_t>(rr->extra_memory(), 1),
                                                  [&](double extra_memory) {
-                                                   return compare_mu(rr->mutator_utilization_rate(extra_memory));
+                                                   return compare_mu(rr->speed_utilization_rate(extra_memory));
                                                  });
             }
           }
@@ -794,7 +792,7 @@ struct Balancer {
             positive_binary_search_unbounded(std::max<size_t>(st.e, 1),
                                              [&](double extra_memory) {
                                                assert(extra_memory <= 1e30);
-                                               double mu = calculate_mutator_utilization(calculate_suggestion(extra_memory));
+                                               double mu = calculate_utilization(calculate_suggestion(extra_memory));
                                                return compare_mu(mu);
                                              });
           assert(total_extra_memory <= 1e30);
@@ -812,9 +810,7 @@ struct Balancer {
           report(st, suggested_extra_memory);
         }
 
-        if (log_spacer()) {
-          l.log(tagged_json("efficiency", st.efficiency));
-        }
+        l.log(tagged_json("total-memory", st.m - st.e + total_extra_memory));
 
         if (balance_strategy != BalanceStrategy::ignore) {
           // send msg back to v8
@@ -834,7 +830,6 @@ struct Balancer {
                 j["max-memory"] = total_memory_;
                 j["time"] = (steady_clock::now() - program_begin).count();
                 l.log(tagged_json("memory-msg", j));
-                //++rr->wait_ack_count;
               }
               // calculate a gc period, and if a gc hasnt happend in twice of that period, it mean the gc message is stale.
               bool unexpected_no_gc = std::max(2 * rr->extra_memory() / rr->garbage_rate.out(), 3000.0) < (steady_clock::now() - rr->last_major_gc).count();

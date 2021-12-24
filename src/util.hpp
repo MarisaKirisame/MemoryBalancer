@@ -65,3 +65,16 @@ inline std::string read_file(const std::string& path) {
   return std::string((std::istreambuf_iterator<char>(t)),
                      std::istreambuf_iterator<char>());
 }
+
+inline nlohmann::json tagged_json(const std::string& type, const nlohmann::json& data) {
+  nlohmann::json ret;
+  ret["type"] = type;
+  ret["data"] = data;
+  return ret;
+}
+
+inline std::string to_string(const nlohmann::json& j) {
+  std::stringstream ssr;
+  ssr << j << std::endl;
+  return ssr.str();
+};

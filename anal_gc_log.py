@@ -10,7 +10,7 @@ directory = sys.argv[1]
 memory_msg_logs = []
 
 logs = []
-with open(directory + "v8_log") as f:
+with open(directory + "balancer_log") as f:
     for line in f.readlines():
         j = json.loads(line)
         if j["type"] == "memory-msg":
@@ -21,7 +21,7 @@ with open(directory + "v8_log") as f:
                 memory_msg_logs.append(j["data"])
 
 with open(directory + "cfg") as f:
-    title = f.read()
+    title = json.load(f)["BALANCER_CFG"]
 with open(directory + "score") as f:
     j = json.load(f)
     if j["OK"] == False:

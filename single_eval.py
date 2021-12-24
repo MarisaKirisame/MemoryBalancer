@@ -18,6 +18,8 @@ RESIZE_CFG = BALANCER_CFG["RESIZE_CFG"]
 RESIZE_STRATEGY = RESIZE_CFG["RESIZE_STRATEGY"]
 if RESIZE_STRATEGY == "constant":
     RESIZE_AMOUNT = RESIZE_CFG["RESIZE_AMOUNT"]
+if RESIZE_STRATEGY == "after-balance":
+    GC_RATE = RESIZE_CFG["GC_RATE"]
 SMOOTH_TYPE = BALANCER_CFG["SMOOTHING"]["TYPE"]
 if not SMOOTH_TYPE == "no-smoothing":
     SMOOTH_COUNT = BALANCER_CFG["SMOOTHING"]["COUNT"]
@@ -42,18 +44,36 @@ def report_major_gc_time(directory):
                         minor_gc_total += j["after_time"] - j["before_time"]
     print(f"major gc took: {major_gc_total}")
     print(f"minor gc took: {minor_gc_total}")
-    with open(os.path.join(directory, "v8_log")) as f:
+    total_memory = []
+    with open(os.path.join(directory, "balancer_log")) as f:
         for line in f.read().splitlines():
             j = json.loads(line)
             if j["type"] == "efficiency":
                 balancer_efficiency.append(j["data"])
+            elif j["type"] == "total-memory":
+                total_memory.append(j["data"])
+    total_time = None
+    total_major_gc_time = None
+    with open(os.path.join(directory, "v8_log")) as f:
+        for line in f.read().splitlines():
+            j = json.loads(line)
+            if j["type"] == "total_time":
+                assert(total_time == None)
+                total_time = j["data"]
+            elif j["type"] == "total_major_gc_time":
+                assert(total_major_gc_time == None)
+                total_major_gc_time = j["data"]
     # filter out the nans
     balancer_efficiency = list([x for x in balancer_efficiency if x])
     j = {}
     j["OK"] = True
-    j["MAJOR_GC"] = major_gc_total
-    j["MINOR_GC"] = minor_gc_total
-    j["BALANCER_EFFICIENCY"] = sum(balancer_efficiency) / len(balancer_efficiency)
+    j["MAJOR_GC_OLD"] = major_gc_total
+    j["MINOR_GC_OLD"] = minor_gc_total
+    j["PEAK_MEMORY"] = max(total_memory)
+    assert(total_time != None)
+    j["TOTAL_TIME"] = total_time
+    assert(total_major_gc_time != None)
+    j["TOTAL_MAJOR_GC_TIME"] = total_major_gc_time
     with open(os.path.join(directory, "score"), "w") as f:
         json.dump(j, f)
 
@@ -78,11 +98,13 @@ balancer_cmds.append(f"--balance-strategy={BALANCE_STRATEGY}")
 balancer_cmds.append(f"--resize-strategy={RESIZE_STRATEGY}")
 if RESIZE_STRATEGY == "constant":
     balancer_cmds.append(f"--resize-amount={RESIZE_AMOUNT * MB_IN_BYTES}")
+if RESIZE_STRATEGY == "after-balance":
+    balancer_cmds.append(f"--gc-rate={GC_RATE}")
 balancer_cmds.append(f"--smooth-type={SMOOTH_TYPE}")
 if not SMOOTH_TYPE == "no-smoothing":
     balancer_cmds.append(f"--smooth-count={SMOOTH_COUNT}")
 balancer_cmds.append(f"--balance-frequency={BALANCE_FREQUENCY}")
-balancer_cmds.append(f"""--log-path={result_directory+"v8_log"}""")
+balancer_cmds.append(f"""--log-path={result_directory+"balancer_log"}""")
 
 def tee_log(cmd, log_path):
     return f"{cmd} 2>&1 | tee {log_path}"
@@ -97,12 +119,9 @@ with ProcessScope(subprocess.Popen(balancer_cmds, stdout=subprocess.PIPE, stderr
     if not RESIZE_STRATEGY == "ignore":
         env_vars = f"{env_vars} SKIP_RECOMPUTE_LIMIT=1"
 
-    #subprocess.run(f"echo {memory_limit} > /sys/fs/cgroup/memory/MemBalancer/memory.limit_in_bytes", shell=True, check=True)
-    #subprocess.run(f"echo {memory_limit} > /sys/fs/cgroup/memory/MemBalancer/memory.memsw.limit_in_bytes", shell=True, check=True)
-
     command = f"python3 -u benchmark.py {result_directory}"
     command = f"../chromium/src/out/Default/chrome --no-sandbox"
-    command = f"build/MemoryBalancer v8_experiment --heap-size={int(10 * 1000 * 1e6)}" # a very big heap size to essentially have no limit
+    command = f"""build/MemoryBalancer v8_experiment --heap-size={int(10 * 1000 * 1e6)} --log-path={result_directory+"v8_log"}""" # a very big heap size to essentially have no limit
 
     if LIMIT_MEMORY:
         env_vars = f"MEMORY_LIMITER_TYPE=ProcessWide MEMORY_LIMITER_VALUE={memory_limit} {env_vars}"
@@ -110,7 +129,6 @@ with ProcessScope(subprocess.Popen(balancer_cmds, stdout=subprocess.PIPE, stderr
     if DEBUG:
         command = f"gdb -ex=r --args {command}"
 
-    #main_process_result = subprocess.run(tee_log(f"{env_vars} {command}", result_directory + "v8_out"), shell=True)
     main_process_result = subprocess.run(f"{env_vars} {command}", shell=True, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 
     for filename in os.listdir(os.getcwd()):
