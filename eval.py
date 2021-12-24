@@ -63,7 +63,7 @@ cfgs = flatten_nondet(NONDET({
     "MEMORY_LIMIT": NONDET(2000),
     "BALANCER_CFG": {
         "BALANCE_STRATEGY": "classic",
-        "RESIZE_CFG": {"RESIZE_STRATEGY": "after-balance", "GC_RATE":NONDET(0.03, 0.04, 0.06, 0.08, 0.10)},
+        "RESIZE_CFG": {"RESIZE_STRATEGY": "after-balance", "GC_RATE":NONDET(0.015, 0.02, 0.03, 0.04, 0.06, 0.08, 0.10, 0.15, 0.2)},
         "SMOOTHING": {"TYPE": "no-smoothing"},
         "BALANCE_FREQUENCY": 0
     }}, {

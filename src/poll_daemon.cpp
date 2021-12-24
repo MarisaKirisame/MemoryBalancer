@@ -414,8 +414,8 @@ struct ConnectionState {
   double speed_utilization_rate(size_t extra_memory) {
     double mutator_duration = extra_memory / garbage_rate.out();
     assert(mutator_duration >= 0);
-    double useful_gc_duration = extra_memory / garbage_rate.out();
-    double wasteful_gc_duration = working_memory.out() / garbage_rate.out();
+    double useful_gc_duration = extra_memory / gc_speed.out();
+    double wasteful_gc_duration = working_memory.out() / gc_speed.out();
     return (mutator_duration + useful_gc_duration) / (mutator_duration + useful_gc_duration + wasteful_gc_duration);
   }
   double speed_utilization_rate() {
@@ -741,9 +741,9 @@ struct Balancer {
           [this](double mu) {
             assert(0 <= mu);
             assert(mu <= 1);
-            if (mu < 1 - gc_rate - 0.01) {
+            if (mu < 1 - gc_rate - 0.001) {
               return Ord::LT;
-            } else if (mu > 1 - gc_rate + 0.01) {
+            } else if (mu > 1 - gc_rate + 0.001) {
               return Ord::GT;
             } else {
               return Ord::EQ;

@@ -84,7 +84,7 @@ void v8_experiment(v8::Platform* platform, const std::vector<char*>& args) {
   if (!single) {
     jetstream2_js_paths.push_back({octane_path, "pdfjs.js"}); // comment out temporarily
   }
-  //jetstream2_js_paths.push_back({octane_path, "splay.js"}); // comment out temporarily
+  jetstream2_js_paths.push_back({octane_path, "splay.js"}); // comment out temporarily
   if (!single) {
     jetstream2_js_paths.push_back({jetstream2_path, "simple/hash-map.js"}); // comment out temporarily
   }
