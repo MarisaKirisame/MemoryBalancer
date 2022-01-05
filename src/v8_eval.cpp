@@ -56,7 +56,7 @@ V8_Result run_v8(v8::Platform* platform, const std::vector<std::pair<size_t, std
   return {isolate->GetTotalMajorGCTime(), time};
 }
 
-constexpr bool single = false;
+constexpr bool single = true;
 
 struct Benchmark {
   std::string directory;
@@ -82,16 +82,22 @@ void v8_experiment(v8::Platform* platform, const std::vector<char*>& args) {
   std::string octane_path = jetstream2_path + "Octane/";
   std::string sunspider_path = jetstream1_path + "sunspider/";
   std::vector<Benchmark> jetstream2_js_paths;
-  // js_paths.push_back(octane_path + "richards.js"); // not used because not memory heavy
-  jetstream2_js_paths.push_back({octane_path, "earley-boyer.js", 3000});
-  // js_paths.push_back(octane_path + "deltablue.js"); // not used because not memory heavy
-  jetstream2_js_paths.push_back({octane_path, "pdfjs.js", 1000});
-  jetstream2_js_paths.push_back({octane_path, "splay.js", 1000});
-  jetstream2_js_paths.push_back({jetstream2_path, "simple/hash-map.js", 3000});
-  // jetstream2_js_paths.push_back({octane_path, "box2d.js"}); // not used because not memory heavy
-  // jetstream2_js_paths.push_back({jetstream2_path, "Seamonster/gaussian-blur.js"}); // not used because not memory heavy
   std::vector<Benchmark> js_paths;
-  js_paths.push_back({sunspider_path, "tagcloud.js", 3000});
+  if (!single || true) {
+    jetstream2_js_paths.push_back({octane_path, "splay.js", 1000});
+  }
+  if (!single || true) {
+    jetstream2_js_paths.push_back({octane_path, "pdfjs.js", 1000});
+  }
+  if (!single) {
+    // js_paths.push_back(octane_path + "richards.js"); // not used because not memory heavy
+    jetstream2_js_paths.push_back({octane_path, "earley-boyer.js", 3000});
+    // js_paths.push_back(octane_path + "deltablue.js"); // not used because not memory heavy
+    jetstream2_js_paths.push_back({jetstream2_path, "simple/hash-map.js", 3000});
+    // jetstream2_js_paths.push_back({octane_path, "box2d.js"}); // not used because not memory heavy
+    // jetstream2_js_paths.push_back({jetstream2_path, "Seamonster/gaussian-blur.js"}); // not used because not memory heavy
+    js_paths.push_back({sunspider_path, "tagcloud.js", 3000});
+  }
   Signal s;
   std::vector<std::thread> threads;
   std::vector<std::future<V8_Result>> futures;
@@ -110,7 +116,7 @@ void v8_experiment(v8::Platform* platform, const std::vector<char*>& args) {
     std::string header = "let performance = {now() { return 0; }};";
     std::string footer = "for(i = 0; i < 100; i++) {new Benchmark().runIteration();}";
     Signal* ps = &s;
-    if (!single) {
+    if (!single || true) {
       std::vector<std::pair<size_t, std::string>> input =
         {{1, header},
          {1, read_file(octane_path + "typescript-compiler.js")},
@@ -138,6 +144,7 @@ void v8_experiment(v8::Platform* platform, const std::vector<char*>& args) {
     total_time += ret.time;
   }
 
+  logger << tagged_json("peak_memory", v8::PeakMemory()) << std::endl;
   logger << tagged_json("total_major_gc_time", total_major_gc_time) << std::endl;
   logger << tagged_json("total_time", total_time) << std::endl;
 }

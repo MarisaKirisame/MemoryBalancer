@@ -60,18 +60,18 @@ cfgs = flatten_nondet({
 cfgs = flatten_nondet(NONDET({
     "LIMIT_MEMORY": True,
     "DEBUG": False,
-    "MEMORY_LIMIT": NONDET(2000),
+    "MEMORY_LIMIT": NONDET(10000),
     "BALANCER_CFG": {
         "BALANCE_STRATEGY": "classic",
-        "RESIZE_CFG": {"RESIZE_STRATEGY": "after-balance", "GC_RATE":NONDET(0.015, 0.02, 0.03, 0.04, 0.06, 0.08, 0.10, 0.15, 0.2)},
+        "RESIZE_CFG": {"RESIZE_STRATEGY": "after-balance", "GC_RATE":NONDET(0.01, 0.015, 0.02, 0.03, 0.04, 0.06, 0.08, 0.10, 0.15, 0.2)},
         "SMOOTHING": {"TYPE": "no-smoothing"},
         "BALANCE_FREQUENCY": 0
     }}, {
     "LIMIT_MEMORY": True,
     "DEBUG": False,
-    "MEMORY_LIMIT": NONDET(2000),
+    "MEMORY_LIMIT": NONDET(*[500 + 30 * i for i in range(16)], 10000),
     "BALANCER_CFG": {
-        "BALANCE_STRATEGY": NONDET("ignore", "extra-memory"),
+        "BALANCE_STRATEGY": NONDET("ignore"),
         "RESIZE_CFG": {"RESIZE_STRATEGY": "ignore"},
         "SMOOTHING": {"TYPE": "no-smoothing"},
         "BALANCE_FREQUENCY": 0

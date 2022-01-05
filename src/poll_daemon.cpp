@@ -693,6 +693,123 @@ struct Balancer {
     std::cout << "total extra memory: " << st.e << std::endl;
     std::cout << std::endl;
   }
+  // setting this to true will assume memory is immediately reclaimed by 
+  bool immediate_reclaim = false;
+  Stat get_stat(const std::vector<double>& scores) {
+    double median_score = median(scores);
+    Stat st;
+    for (ConnectionState* rr: vector()) {
+      if (rr->ready()) {
+        ++st.instance_count;
+        double diff = (rr->duration_score() - median_score) / median_score;
+        st.mse += diff * diff;
+        st.m += rr->max_memory.out();
+        st.e += rr->extra_memory();
+        st.gt_e += rr->gt() / rr->extra_memory();
+        st.balance_factor += rr->speed_balance_factor();
+      }
+    }
+    st.mse /= scores.size();
+    return st;
+  }
+  size_t suggested_extra_memory(ConnectionState* rr, size_t total_extra_memory, const Stat& st) {
+    if (balance_strategy == BalanceStrategy::extra_memory) {
+      return total_extra_memory / st.instance_count;
+    } else {
+      assert(balance_strategy == BalanceStrategy::classic || balance_strategy == BalanceStrategy::ignore);
+      assert(st.balance_factor != 0);
+      if (st.balance_factor == 0) {
+        return 0;
+      } else {
+        return total_extra_memory / st.balance_factor * rr->speed_balance_factor();
+      }
+    }
+  }
+  Ord compare_mu(double mu) {
+    assert(0 <= mu);
+    assert(mu <= 1);
+    if (mu < 1 - gc_rate - 0.001) {
+      return Ord::LT;
+    } else if (mu > 1 - gc_rate + 0.001) {
+      return Ord::GT;
+    } else {
+      return Ord::EQ;
+    }
+  }
+  using memory_suggestion_t = std::unordered_map<ConnectionState*, size_t>;
+  memory_suggestion_t calculate_suggestion(size_t total_extra_memory, const Stat& st) {
+    memory_suggestion_t memory_suggestion;
+    for (ConnectionState* rr: vector()) {
+      if (rr->ready()) {
+        memory_suggestion.insert({rr, suggested_extra_memory(rr, total_extra_memory, st)});
+      }
+    }
+    return memory_suggestion;
+  }
+  double utilization(const memory_suggestion_t& memory_suggestion) {
+    double u = 0;
+    for (const auto& p : memory_suggestion) {
+      u += p.first->speed_utilization_rate(p.second);
+    }
+    return u / memory_suggestion.size();
+  }
+  size_t get_total_extra_memory(const Stat& st) {
+    size_t total_extra_memory;
+    if (resize_strategy == ResizeStrategy::ignore) {
+      total_extra_memory = st.e;
+    } else if (resize_strategy == ResizeStrategy::constant) {
+      size_t working_memory = st.m - st.e;
+      total_extra_memory = resize_amount - working_memory;
+    } else if (resize_strategy == ResizeStrategy::before_balance) {
+      total_extra_memory = 0;
+      for (ConnectionState* rr: vector()) {
+        if (rr->ready()) {
+          total_extra_memory +=
+            positive_binary_search_unbounded(std::max<size_t>(rr->extra_memory(), 1),
+                                             [&](double extra_memory) {
+                                               return compare_mu(rr->speed_utilization_rate(extra_memory));
+                                             });
+        }
+      }
+    } else if (resize_strategy == ResizeStrategy::after_balance) {
+      total_extra_memory =
+        positive_binary_search_unbounded(std::max<size_t>(st.e, 1),
+                                         [&](double extra_memory) {
+                                           double mu = utilization(calculate_suggestion(extra_memory, st));
+                                           return compare_mu(mu);
+                                         });
+    } else {
+      std::cout << "resize_strategy " << resize_strategy << " not implemented!" << std::endl;
+      throw;
+    }
+    assert(total_extra_memory <= 1e30);
+    return total_extra_memory;
+  }
+  double get_adjust_ratio(double total_extra_memory, const Stat& st) {
+    if (immediate_reclaim) {
+      return 1;
+    } else {
+      // if the reclaim is not immediate, we can still took away memory from a process, but we cannot allocate those memory.
+      // so, we disallow 'transfering memory from one process to another'.
+      size_t bytes_grown = total_extra_memory >= st.e ? total_extra_memory - st.e : 0;
+      size_t bytes_malloced = 0;
+      for (ConnectionState* rr: vector()) {
+        if (rr->ready() && rr->wait_ack_count == 0) {
+          size_t extra_memory_ = rr->extra_memory();
+          size_t suggested_extra_memory_ = suggested_extra_memory(rr, total_extra_memory, st);
+          if (suggested_extra_memory_ >= extra_memory_) {
+            bytes_malloced += suggested_extra_memory_ - extra_memory_;
+          }
+        }
+      }
+      if (bytes_malloced > 0) {
+        return bytes_grown / bytes_malloced;
+      } else {
+        assert(bytes_grown == 0);
+        return 1;
+      }
+    }
+  }
   // pavel: check if this fp is safe?
   void balance() {
     ++epoch;
@@ -706,136 +823,44 @@ struct Balancer {
     }
     std::sort(scores.begin(), scores.end());
     if (!scores.empty()) {
-      double median_score = median(scores);
-      if (!scores.empty()) {
-        Stat st;
+      Stat st = get_stat(scores);
+      size_t total_extra_memory = get_total_extra_memory(st);
+      auto suggested_extra_memory_aux =
+        [&](ConnectionState* rr) -> size_t {
+          return suggested_extra_memory(rr, total_extra_memory, st);
+        };
+
+      if (should_report()) {
+        report(st, suggested_extra_memory_aux);
+      }
+
+      l.log(tagged_json("total-memory", st.m - st.e + total_extra_memory));
+
+      if (balance_strategy != BalanceStrategy::ignore) {
+        double adjust_ratio = get_adjust_ratio(total_extra_memory, st);
+        // send msg back to v8
         for (ConnectionState* rr: vec) {
-          if (rr->ready()) {
-            ++st.instance_count;
-            double diff = (rr->duration_score() - median_score) / median_score;
-            st.mse += diff * diff;
-            st.m += rr->max_memory.out();
-            st.e += rr->extra_memory();
-            st.gt_e += rr->gt() / rr->extra_memory();
-            st.balance_factor += rr->speed_balance_factor();
-          }
-        }
-        st.mse /= scores.size();
-
-        auto suggested_extra_memory_given_total =
-          [&](ConnectionState* rr, size_t total_extra_memory) -> size_t {
-            if (balance_strategy == BalanceStrategy::extra_memory) {
-              return total_extra_memory / st.instance_count;
-            } else {
-              assert(balance_strategy == BalanceStrategy::classic || balance_strategy == BalanceStrategy::ignore);
-              assert(st.balance_factor != 0);
-              if (st.balance_factor == 0) {
-                return 0;
-              } else {
-                return total_extra_memory / st.balance_factor * rr->speed_balance_factor();
-              }
+          if (rr->ready() && rr->wait_ack_count == 0) {
+            size_t extra_memory_ = rr->extra_memory();
+            size_t suggested_extra_memory_ = suggested_extra_memory_aux(rr);
+            if (suggested_extra_memory_ >= extra_memory_) {
+              // have to restrict the amount of allocation due to latency concern
+              suggested_extra_memory_ = extra_memory_ + (suggested_extra_memory_ - extra_memory_) * adjust_ratio;
             }
-          };
-
-        auto compare_mu =
-          [this](double mu) {
-            assert(0 <= mu);
-            assert(mu <= 1);
-            if (mu < 1 - gc_rate - 0.001) {
-              return Ord::LT;
-            } else if (mu > 1 - gc_rate + 0.001) {
-              return Ord::GT;
-            } else {
-              return Ord::EQ;
-            }
-          };
-
-        auto calculate_suggestion =
-          [&](size_t total_extra_memory) {
-            std::unordered_map<ConnectionState*, size_t> memory_suggestion;
-            for (ConnectionState* rr: vec) {
-              if (rr->ready()) {
-                memory_suggestion.insert({rr, suggested_extra_memory_given_total(rr, total_extra_memory)});
-              }
-            }
-            return memory_suggestion;
-          };
-
-        auto calculate_utilization =
-          [&](const std::unordered_map<ConnectionState*, size_t>& memory_suggestion) {
-            double u = 0;
-            for (const auto& p : memory_suggestion) {
-              u += p.first->speed_utilization_rate(p.second);
-            }
-            return u / memory_suggestion.size();
-          };
-
-        size_t total_extra_memory;
-        if (resize_strategy == ResizeStrategy::ignore) {
-          total_extra_memory = st.e;
-        } else if (resize_strategy == ResizeStrategy::constant) {
-          size_t working_memory = st.m - st.e;
-          total_extra_memory = resize_amount - working_memory;
-        } else if (resize_strategy == ResizeStrategy::before_balance) {
-          total_extra_memory = 0;
-          for (ConnectionState* rr: vec) {
-            if (rr->ready()) {
-              total_extra_memory +=
-                positive_binary_search_unbounded(std::max<size_t>(rr->extra_memory(), 1),
-                                                 [&](double extra_memory) {
-                                                   return compare_mu(rr->speed_utilization_rate(extra_memory));
-                                                 });
-            }
-          }
-        } else if (resize_strategy == ResizeStrategy::after_balance) {
-          total_extra_memory =
-            positive_binary_search_unbounded(std::max<size_t>(st.e, 1),
-                                             [&](double extra_memory) {
-                                               assert(extra_memory <= 1e30);
-                                               double mu = calculate_utilization(calculate_suggestion(extra_memory));
-                                               return compare_mu(mu);
-                                             });
-          assert(total_extra_memory <= 1e30);
-        } else {
-          std::cout << "resize_strategy " << resize_strategy << " not implemented!" << std::endl;
-          throw;
-        }
-
-        auto suggested_extra_memory =
-          [&](ConnectionState* rr) -> size_t {
-            return suggested_extra_memory_given_total(rr, total_extra_memory);
-          };
-
-        if (should_report()) {
-          report(st, suggested_extra_memory);
-        }
-
-        l.log(tagged_json("total-memory", st.m - st.e + total_extra_memory));
-
-        if (balance_strategy != BalanceStrategy::ignore) {
-          // send msg back to v8
-          for (ConnectionState* rr: vec) {
-            if (rr->ready() && rr->wait_ack_count == 0) {
-              size_t extra_memory_ = rr->extra_memory();
-              size_t suggested_extra_memory_ = suggested_extra_memory(rr);
-              size_t total_memory_ = suggested_extra_memory_ + rr->working_memory.out();
-              if (big_change(extra_memory_, suggested_extra_memory_) && rr->heap_resize_snap(suggested_extra_memory_)) {
-                std::string str = to_string(tagged_json("heap", total_memory_));
-                std::cout << "sending: " << str << "to: " << rr->name << std::endl;
-                send_string(rr->fd, str);
+            size_t total_memory_ = suggested_extra_memory_ + rr->working_memory.out();
+            if (big_change(extra_memory_, suggested_extra_memory_) && rr->heap_resize_snap(suggested_extra_memory_)) {
+              std::string str = to_string(tagged_json("heap", total_memory_));
+              std::cout << "sending: " << str << "to: " << rr->name << std::endl;
+              send_string(rr->fd, str);
+              if (immediate_reclaim) {
                 rr->max_memory.in(total_memory_);
-                nlohmann::json j;
-                j["name"] = rr->name;
-                j["working-memory"] = rr->working_memory.out();
-                j["max-memory"] = total_memory_;
-                j["time"] = (steady_clock::now() - program_begin).count();
-                l.log(tagged_json("memory-msg", j));
               }
-              // calculate a gc period, and if a gc hasnt happend in twice of that period, it mean the gc message is stale.
-              bool unexpected_no_gc = std::max(2 * rr->extra_memory() / rr->garbage_rate.out(), 3000.0) < (steady_clock::now() - rr->last_major_gc).count();
-              if (false && unexpected_no_gc) {
-                rr->force_gc_chan.send(to_string(tagged_json("gc", "")));
-              }
+              nlohmann::json j;
+              j["name"] = rr->name;
+              j["working-memory"] = rr->working_memory.out();
+              j["max-memory"] = total_memory_;
+              j["time"] = (steady_clock::now() - program_begin).count();
+              l.log(tagged_json("memory-msg", j));
             }
           }
         }

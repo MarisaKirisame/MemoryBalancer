@@ -32,7 +32,6 @@ def report_jetstream_score():
 def report_major_gc_time(directory):
     major_gc_total = 0
     minor_gc_total = 0
-    balancer_efficiency = []
     for filename in os.listdir(directory):
         if filename.endswith(".gc.log"):
             with open(os.path.join(directory, filename)) as f:
@@ -44,16 +43,15 @@ def report_major_gc_time(directory):
                         minor_gc_total += j["after_time"] - j["before_time"]
     print(f"major gc took: {major_gc_total}")
     print(f"minor gc took: {minor_gc_total}")
-    total_memory = []
+    total_heap_memory = []
     with open(os.path.join(directory, "balancer_log")) as f:
         for line in f.read().splitlines():
             j = json.loads(line)
-            if j["type"] == "efficiency":
-                balancer_efficiency.append(j["data"])
-            elif j["type"] == "total-memory":
-                total_memory.append(j["data"])
+            if j["type"] == "total-memory":
+                total_heap_memory.append(j["data"])
     total_time = None
     total_major_gc_time = None
+    peak_memory = None
     with open(os.path.join(directory, "v8_log")) as f:
         for line in f.read().splitlines():
             j = json.loads(line)
@@ -63,13 +61,15 @@ def report_major_gc_time(directory):
             elif j["type"] == "total_major_gc_time":
                 assert(total_major_gc_time == None)
                 total_major_gc_time = j["data"]
-    # filter out the nans
-    balancer_efficiency = list([x for x in balancer_efficiency if x])
+            elif j["type"] == "peak_memory":
+                assert(peak_memory == None)
+                peak_memory = j["data"]
     j = {}
     j["OK"] = True
     j["MAJOR_GC_OLD"] = major_gc_total
     j["MINOR_GC_OLD"] = minor_gc_total
-    j["PEAK_MEMORY"] = max(total_memory)
+    j["PEAK_MEMORY"] = peak_memory
+    j["PEAK_HEAP_MEMORY"] = max(total_heap_memory)
     assert(total_time != None)
     j["TOTAL_TIME"] = total_time
     assert(total_major_gc_time != None)
