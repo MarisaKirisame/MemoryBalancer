@@ -717,7 +717,6 @@ struct Balancer {
       return total_extra_memory / st.instance_count;
     } else {
       assert(balance_strategy == BalanceStrategy::classic || balance_strategy == BalanceStrategy::ignore);
-      assert(st.balance_factor != 0);
       if (st.balance_factor == 0) {
         return 0;
       } else {
