@@ -353,7 +353,8 @@ struct ConnectionState {
           size_of_objects.in(data["size_of_objects"]);
           gc_speed.in(data["gc_speed"]);
           has_allocation_rate = true;
-          garbage_rate.in(data["allocation_rate"]);
+          // allocation rate might be zero. to avoid getting weird nan error in the code, it is set to a small value (1.0). 
+          garbage_rate.in(std::max<double>(static_cast<double>(data["allocation_rate"]), 1.0));
         }
       } else if (type == "max_memory") {
         if (wait_ack_count == 0) {

@@ -48,6 +48,7 @@ def flatten_nondet(x):
 cfgs = flatten_nondet({
     "LIMIT_MEMORY": True,
     "DEBUG": False,
+    "NAME": "jetstream",
     "MEMORY_LIMIT": NONDET(*[600 + 30 * i for i in range(10)]),
     "BALANCER_CFG": NONDET({
         "BALANCE_STRATEGY": NONDET("classic", "extra-memory", "ignore"),
@@ -60,6 +61,7 @@ cfgs = flatten_nondet({
 cfgs = flatten_nondet(NONDET({
     "LIMIT_MEMORY": True,
     "DEBUG": False,
+    "NAME": "jetstream",
     "MEMORY_LIMIT": NONDET(10000),
     "BALANCER_CFG": {
         "BALANCE_STRATEGY": "classic",
@@ -69,6 +71,7 @@ cfgs = flatten_nondet(NONDET({
     }}, {
     "LIMIT_MEMORY": True,
     "DEBUG": False,
+    "NAME": "jetstream",
     "MEMORY_LIMIT": NONDET(*[500 + 30 * i for i in range(16)], 10000),
     "BALANCER_CFG": {
         "BALANCE_STRATEGY": NONDET("ignore"),
@@ -76,6 +79,23 @@ cfgs = flatten_nondet(NONDET({
         "SMOOTHING": {"TYPE": "no-smoothing"},
         "BALANCE_FREQUENCY": 0
     }})).l
+
+cfgs = flatten_nondet({
+    "LIMIT_MEMORY": True,
+    "DEBUG": False,
+    "NAME": "browser",
+    "MEMORY_LIMIT": NONDET(10000),
+    "BALANCER_CFG": NONDET({
+        "BALANCE_STRATEGY": "classic",
+        "RESIZE_CFG": {"RESIZE_STRATEGY": "after-balance", "GC_RATE":NONDET(0.01, 0.03, 0.04, 0.06, 0.08, 0.10)},
+        "SMOOTHING": {"TYPE": "no-smoothing"},
+        "BALANCE_FREQUENCY": 0
+    }, {
+        "BALANCE_STRATEGY": NONDET("ignore"),
+        "RESIZE_CFG": {"RESIZE_STRATEGY": "ignore"},
+        "SMOOTHING": {"TYPE": "no-smoothing"},
+        "BALANCE_FREQUENCY": 0
+    })}).l
 
 for _ in range(20):
     for cfg in cfgs:
