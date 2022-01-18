@@ -100,7 +100,7 @@ def run_jetstream(v8_env_vars):
         j = {}
         j["OK"] = True
         j["PEAK_HEAP_MEMORY"] = calculate_peak_heap_memory(result_directory)
-        v8_log_path = os.path.join(directory, "v8_log")
+        v8_log_path = os.path.join(result_directory, "v8_log")
         total_time = None
         total_major_gc_time = None
         peak_memory = None
@@ -122,7 +122,7 @@ def run_jetstream(v8_env_vars):
         j["TOTAL_TIME"] = total_time
         assert(total_major_gc_time != None)
         j["TOTAL_MAJOR_GC_TIME"] = total_major_gc_time
-    with open(os.path.join(directory, "score"), "w") as f:
+    with open(os.path.join(result_directory, "score"), "w") as f:
         json.dump(j, f)
 
 
@@ -249,5 +249,5 @@ with ProcessScope(subprocess.Popen(balancer_cmds, stdout=subprocess.PIPE, stderr
         raise Exception(f"unknown benchmark name: {NAME}")
 
     for filename in os.listdir(os.getcwd()):
-        if (filename.endswith(".gc.log")):
+        if (filename.endswith(".log")):
             Path(filename).rename(result_directory + filename)
