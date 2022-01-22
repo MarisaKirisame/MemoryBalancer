@@ -17,6 +17,10 @@ run: build/MemoryBalancer
 debug: build/MemoryBalancer
 	(cd build && gdb ./MemoryBalancer)
 
+clean:
+	./clean_log
+	rm -rf build/*
+
 nightly:
 	git submodule init
 	git submodule update

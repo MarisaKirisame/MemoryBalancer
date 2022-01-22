@@ -217,6 +217,10 @@ def run_browser(v8_env_vars):
     async def run_browser_main():
         await asyncio.gather(reddit(await new_browser()))
 
+    async def run_browser_main():
+        await new_browser()
+        hang()
+
     start = time.time()
     asyncio.get_event_loop().run_until_complete(run_browser_main())
     end = time.time()
