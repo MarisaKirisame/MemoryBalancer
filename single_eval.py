@@ -6,6 +6,7 @@ import sys
 import time
 from pathlib import Path
 from pyppeteer import launch
+from collections import defaultdict
 
 assert(len(sys.argv) == 2)
 cfg = eval(sys.argv[1])
@@ -41,6 +42,34 @@ def calculate_peak_heap_memory(directory):
             if tmp["type"] == "total-memory":
                 total_heap_memory.append(tmp["data"])
     return max(total_heap_memory)
+
+def calculate_peak_heap_memory(directory):
+    logs = []
+    for filename in os.listdir(directory):
+        if filename.endswith(".memory.log"):
+            with open(os.path.join(directory, filename)) as f:
+                writeOnce = False
+                for line in f.read().splitlines():
+                    j = json.loads(line)
+                    j["source"] = filename
+                    logs.append(j)
+                    writeOnce = True
+                if writeOnce:
+                    logs.append({"source": filename, "value": 0, "time": j["time"] + 1})
+    logs.sort(key=lambda x: x["time"])
+
+    max_memory = 0
+    memory = 0
+    memory_breakdown = defaultdict(int)
+
+    for i in range(len(logs)):
+        l = logs[i]
+        memory -= memory_breakdown[l["source"]]
+        memory += l["value"]
+        memory_breakdown[l["source"]] = l["value"]
+        max_memory = max(max_memory, memory)
+
+    return max_memory
 
 result_directory = "log/" + time.strftime("%Y-%m-%d-%H-%M-%S") + "/"
 Path(result_directory).mkdir()
@@ -129,7 +158,7 @@ def run_jetstream(v8_env_vars):
 def run_browser(v8_env_vars):
     async def new_browser():
         browseroptions = {"headless":False,
-                          "args":["--no-sandbox", "--disable-notifications", "--start-maximized"]}
+                          "args":["--no-sandbox", "--disable-notifications", "--start-maximized", "--user-data-dir=/home/marisa/membalancer_profile"]}
 
         browseroptions["executablePath"] = "/home/marisa/Work/chromium/src/out/Release/chrome"
 
@@ -158,20 +187,44 @@ def run_browser(v8_env_vars):
             await asyncio.sleep(5)
             link = await page.evaluate("(element) => element.parentElement.href", l[i])
             sub_page = await new_page(browser)
-            await sub_page.goto(link, {"waitUntil" : "domcontentloaded"})
+            await sub_page.goto(link, {"waitUntil" : "domcontentloaded"}, timeout=120*1000)
             await asyncio.sleep(5)
             await sub_page.close()
             await asyncio.sleep(5)
 
-    # problem - twitter is being blocked when it detect we are bot
     async def twitter(browser):
         page = await new_page(browser)
-        await stealth(page)
-        await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.75 Safari/537.36');
-        await page.goto("https://twitter.com")
-        for i in range(20):
-            await page.evaluate("{window.scrollBy(0, 10);}")
+        await page.goto("https://www.twitter.com")
+        await asyncio.sleep(1)
+        for i in range(120):
+            await page.evaluate("{window.scrollBy(0, 50);}")
+            await asyncio.sleep(1)
+
+    async def cnn(browser):
+        page = await new_page(browser)
+        await page.goto("https://www.cnn.com/", timeout=300*1000)
+        await asyncio.sleep(1)
+        for i in range(30):
+            await page.evaluate("{window.scrollBy(0, 100);}")
+            await asyncio.sleep(1)
+
+    async def gmail(browser):
+        page = await new_page(browser)
+        await page.goto("https://www.gmail.com")
+        await asyncio.sleep(5)
+        for i in range(5):
+            await page.evaluate(f'document.querySelectorAll(".zA")[{i}].click()')
+            await asyncio.sleep(10)
+            await page.evaluate('document.querySelector(".TN.bzz.aHS-bnt").click()')
             await asyncio.sleep(5)
+
+    async def espn(browser):
+        page = await new_page(browser)
+        await page.goto("https://www.espn.com/")
+        await asyncio.sleep(1)
+        for i in range(120):
+            await page.evaluate("{window.scrollBy(0, 100);}")
+            await asyncio.sleep(1)
 
     # problem - cannot watch twitch video
     async def twitch(browser):
@@ -214,16 +267,28 @@ def run_browser(v8_env_vars):
         while True:
             pass
 
-    async def run_browser_main():
-        await asyncio.gather(reddit(await new_browser()))
+    # bug
+    async def two_browser_bug():
+        l = await new_browser()
+        r = await new_browser()
 
     async def run_browser_main():
-        await new_browser()
-        hang()
+        b = await new_browser()
+        await asyncio.gather(cnn(b), twitter(b))
+        #await asyncio.gather(cnn(await new_browser()), twitter(await new_browser()))
+
+    #async def run_browser_main():
+    #    await new_browser()
+    #    hang()
 
     start = time.time()
     asyncio.get_event_loop().run_until_complete(run_browser_main())
     end = time.time()
+
+    for filename in os.listdir(os.getcwd()):
+        if (filename.endswith(".log")):
+            Path(filename).rename(result_directory + filename)
+
     j = {}
     j["OK"] = True
     j["PEAK_HEAP_MEMORY"] = calculate_peak_heap_memory(result_directory)

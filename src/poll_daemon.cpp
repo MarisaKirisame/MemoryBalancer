@@ -276,6 +276,11 @@ struct Logger {
   }
 };
 
+std::string gen_name() {
+  static size_t i = 0;
+  return "x_" + std::to_string(i++);
+}
+
 // all duration is in milliseconds, and all speed is in bytes per milliseconds.
 struct ConnectionState {
   size_t wait_ack_count = 0;
@@ -331,9 +336,14 @@ struct ConnectionState {
       json data = j["data"];
       if (type == "major_gc") {
         if (!has_major_gc) {
-          name = data["name"];
+          if (name == "") {
+            name = data["name"];
+            if (name == "") {
+              name = gen_name();
+            }
+          }
         } else {
-          assert(name == data["name"]);
+          assert(name == data["name"] || data["name"] == "");
         }
         if (wait_ack_count == 0) {
           if (! has_major_gc) {
@@ -672,6 +682,8 @@ struct Balancer {
     t.add("gc_duration");
     t.add("suggested_extra_memory");
     t.add("suggested_total_memory");
+    t.add("gc_rate");
+    t.add("suggested_gc_rate");
     t.endOfRow();
     return t;
   }
@@ -685,6 +697,8 @@ struct Balancer {
         size_t suggested_extra_memory_ = suggested_extra_memory(rr);
         t.add(std::to_string(suggested_extra_memory_));
         t.add(std::to_string(suggested_extra_memory_ + rr->working_memory.out()));
+        t.add(std::to_string(1 - rr->speed_utilization_rate()));
+        t.add(std::to_string(1 - rr->speed_utilization_rate(suggested_extra_memory_)));
         t.endOfRow();
       }
     }
