@@ -164,9 +164,9 @@ def new_plot():
         if len(ok_vals) > 0:
             #x = list([x["PEAK_MEMORY"] for x in ok_vals])
             x = list([x["PEAK_HEAP_MEMORY"] for x in ok_vals])
-            y = list([x["TOTAL_TIME"] for x in ok_vals])
-            #y = list([x["TOTAL_MAJOR_GC_TIME"] for x in ok_vals])
-            #y = list([x["TOTAL_TIME"] - x["TOTAL_MAJOR_GC_TIME"] for x in ok_vals])
+            #y = list([x["TOTAL_TIME"] for x in ok_vals])
+            y = list([x["MAJOR_GC_TIME"] for x in ok_vals])
+            #y = list([x["TOTAL_TIME"] * 1000 - x["MAJOR_GC_TIME"] for x in ok_vals])
             if cfg["BALANCE_STRATEGY"] == "ignore":
                 plt.scatter(x, y, label=cfg, color="black")
             elif cfg["BALANCE_STRATEGY"] == "extra-memory":

@@ -34,14 +34,17 @@ def report_jetstream_score():
     with open(filename) as f:
         print(f.read())
 
-def calculate_peak_heap_memory(directory):
-    total_heap_memory = []
-    with open(os.path.join(directory, "balancer_log")) as f:
-        for line in f.read().splitlines():
-            tmp = json.loads(line)
-            if tmp["type"] == "total-memory":
-                total_heap_memory.append(tmp["data"])
-    return max(total_heap_memory)
+def calculate_total_major_gc_time(directory):
+    total_major_gc_time = 0
+    for filename in os.listdir(directory):
+        if filename.endswith(".gc.log"):
+            with open(os.path.join(directory, filename)) as f:
+                major_gc_time = 0
+                for line in f.read().splitlines():
+                    j = json.loads(line)
+                    major_gc_time = j["total_major_gc_time"]
+                total_major_gc_time += major_gc_time
+    return total_major_gc_time
 
 def calculate_peak_heap_memory(directory):
     logs = []
@@ -128,6 +131,7 @@ def run_jetstream(v8_env_vars):
     else:
         j = {}
         j["OK"] = True
+        j["MAJOR_GC_TIME"] = calculate_total_major_gc_time(result_directory)
         j["PEAK_HEAP_MEMORY"] = calculate_peak_heap_memory(result_directory)
         v8_log_path = os.path.join(result_directory, "v8_log")
         total_time = None
@@ -291,6 +295,7 @@ def run_browser(v8_env_vars):
 
     j = {}
     j["OK"] = True
+    j["MAJOR_GC_TIME"] = calculate_total_major_gc_time(result_directory)
     j["PEAK_HEAP_MEMORY"] = calculate_peak_heap_memory(result_directory)
     j["TOTAL_TIME"] = end - start
     with open(os.path.join(result_directory, "score"), "w") as f:
