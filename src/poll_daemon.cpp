@@ -708,8 +708,8 @@ struct Balancer {
     std::cout << "total extra memory: " << st.e << std::endl;
     std::cout << std::endl;
   }
-  // setting this to true will assume memory is immediately reclaimed by 
-  bool immediate_reclaim = false;
+  // setting this to true will assume memory is immediately reclaimed by sending a message
+  bool immediate_reclaim = true;
   Stat get_stat(const std::vector<double>& scores) {
     double median_score = median(scores);
     Stat st;
@@ -742,9 +742,9 @@ struct Balancer {
   Ord compare_mu(double mu) {
     assert(0 <= mu);
     assert(mu <= 1);
-    if (mu < 1 - gc_rate - 0.001) {
+    if (mu < 1 - 1.1 * gc_rate) {
       return Ord::LT;
-    } else if (mu > 1 - gc_rate + 0.001) {
+    } else if (mu > 1 - 0.9 * gc_rate) {
       return Ord::GT;
     } else {
       return Ord::EQ;
