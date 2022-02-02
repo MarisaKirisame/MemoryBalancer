@@ -5,6 +5,7 @@ import json
 import numpy as np
 import collections
 import matplotlib.pyplot as plt
+import random
 
 class FrozenDict(collections.Mapping):
     """Don't forget the docstrings!!"""
@@ -150,6 +151,7 @@ def old_plot():
     plt.legend()
     plt.show()
 
+
 def new_plot():
     bucket = {}
     for x, cfg in parse_log():
@@ -158,15 +160,27 @@ def new_plot():
             bucket[balancer_cfg] = []
         bucket[balancer_cfg].append(x)
 
+    seen_cfg = list(bucket.keys())
+    def sort_f(cfg):
+        if cfg["BALANCE_STRATEGY"] == "ignore":
+            return -1
+        return cfg["RESIZE_CFG"]["GC_RATE"]
+    seen_cfg.sort(key = sort_f)
+    cfg_ordering = {}
+    for cfg in seen_cfg:
+        cfg_ordering[cfg] = len(cfg_ordering)
+    def cfg_to_x(cfg):
+        return cfg_ordering[cfg] + random.uniform(0, 1)
+
     for cfg, vals in bucket.items():
         assert(len(vals) > 0)
         ok_vals = [x for x in vals if x["OK"]]
         if len(ok_vals) > 0:
-            #x = list([x["PEAK_MEMORY"] for x in ok_vals])
-            x = list([x["PEAK_HEAP_MEMORY"] for x in ok_vals])
-            #x = list([x["AVERAGE_HEAP_MEMORY"] for x in ok_vals])
+            x = list([cfg_to_x(cfg) for x in ok_vals])
             #y = list([x["TOTAL_TIME"] for x in ok_vals])
-            y = list([x["MAJOR_GC_TIME"] for x in ok_vals])
+            #y = list([x["PEAK_HEAP_MEMORY"] for x in ok_vals])
+            y = list([x["AVERAGE_HEAP_MEMORY"] for x in ok_vals])
+            #y = list([x["MAJOR_GC_TIME"] for x in ok_vals])
             #y = list([x["TOTAL_TIME"] * 1000 - x["MAJOR_GC_TIME"] for x in ok_vals])
             if cfg["BALANCE_STRATEGY"] == "ignore":
                 plt.scatter(x, y, label=cfg, color="black")

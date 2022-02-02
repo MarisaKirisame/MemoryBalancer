@@ -82,7 +82,7 @@ cfgs = flatten_nondet(NONDET({
 
 cfgs = [{
     "LIMIT_MEMORY": True,
-    "DEBUG": False,
+    "DEBUG": True,
     "NAME": "browser",
     "MEMORY_LIMIT": 10000,
     "BALANCER_CFG": {
@@ -94,10 +94,15 @@ cfgs = [{
 
 cfgs = flatten_nondet({
     "LIMIT_MEMORY": True,
-    "DEBUG": False,
+    "DEBUG": True,
     "NAME": "browser",
     "MEMORY_LIMIT": NONDET(10000),
     "BALANCER_CFG": NONDET({
+        "BALANCE_STRATEGY": "classic",
+        "RESIZE_CFG": {"RESIZE_STRATEGY": "after-balance", "GC_RATE":NONDET(0.001, 0.0015, 0.002, 0.0025, 0.003, 0.0035, 0.004)},
+        "SMOOTHING": {"TYPE": "no-smoothing"},
+        "BALANCE_FREQUENCY": 0
+    }, {
         "BALANCE_STRATEGY": NONDET("ignore"),
         "RESIZE_CFG": {"RESIZE_STRATEGY": "ignore"},
         "SMOOTHING": {"TYPE": "no-smoothing"},
@@ -106,15 +111,10 @@ cfgs = flatten_nondet({
 
 cfgs = flatten_nondet({
     "LIMIT_MEMORY": True,
-    "DEBUG": False,
+    "DEBUG": True,
     "NAME": "browser",
     "MEMORY_LIMIT": NONDET(10000),
     "BALANCER_CFG": NONDET({
-        "BALANCE_STRATEGY": "classic",
-        "RESIZE_CFG": {"RESIZE_STRATEGY": "after-balance", "GC_RATE":NONDET(0.001, 0.002, 0.003)},
-        "SMOOTHING": {"TYPE": "no-smoothing"},
-        "BALANCE_FREQUENCY": 0
-    }, {
         "BALANCE_STRATEGY": NONDET("ignore"),
         "RESIZE_CFG": {"RESIZE_STRATEGY": "ignore"},
         "SMOOTHING": {"TYPE": "no-smoothing"},

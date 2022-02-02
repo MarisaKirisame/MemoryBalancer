@@ -363,7 +363,7 @@ struct ConnectionState {
           size_of_objects.in(data["size_of_objects"]);
           gc_speed.in(data["gc_speed"]);
           has_allocation_rate = true;
-          // allocation rate might be zero. to avoid getting weird nan error in the code, it is set to a small value (1.0). 
+          // allocation rate might be zero. to avoid getting weird nan error in the code, it is set to a small value (1.0).
           garbage_rate.in(std::max<double>(static_cast<double>(data["allocation_rate"]), 1.0));
         }
       } else if (type == "max_memory") {
@@ -861,6 +861,7 @@ struct Balancer {
               // have to restrict the amount of allocation due to latency concern
               suggested_extra_memory_ = extra_memory_ + (suggested_extra_memory_ - extra_memory_) * adjust_ratio;
             }
+            suggested_extra_memory_ = std::max<size_t>(suggested_extra_memory_, 10485760);
             size_t total_memory_ = suggested_extra_memory_ + rr->working_memory.out();
             if (big_change(extra_memory_, suggested_extra_memory_) && rr->heap_resize_snap(suggested_extra_memory_)) {
               std::string str = to_string(tagged_json("heap", total_memory_));
