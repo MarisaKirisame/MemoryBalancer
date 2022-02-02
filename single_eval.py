@@ -11,6 +11,7 @@ from collections import defaultdict
 assert(len(sys.argv) == 2)
 cfg = eval(sys.argv[1])
 
+print(f"running: {cfg}")
 LIMIT_MEMORY = cfg["LIMIT_MEMORY"]
 DEBUG = cfg["DEBUG"]
 if LIMIT_MEMORY:
@@ -74,6 +75,34 @@ def calculate_peak_heap_memory(directory):
 
     return max_memory
 
+def calculate_average_heap_memory(directory):
+    logs = []
+    for filename in os.listdir(directory):
+        if filename.endswith(".memory.log"):
+            with open(os.path.join(directory, filename)) as f:
+                writeOnce = False
+                for line in f.read().splitlines():
+                    j = json.loads(line)
+                    j["source"] = filename
+                    logs.append(j)
+                    writeOnce = True
+                if writeOnce:
+                    logs.append({"source": filename, "value": 0, "time": j["time"] + 1})
+    logs.sort(key=lambda x: x["time"])
+
+    memory_sum = 0
+    memory = 0
+    memory_breakdown = defaultdict(int)
+
+    for i in range(len(logs)):
+        l = logs[i]
+        memory -= memory_breakdown[l["source"]]
+        memory += l["value"]
+        memory_breakdown[l["source"]] = l["value"]
+        memory_sum += memory
+
+    return memory_sum / len(logs)
+
 result_directory = "log/" + time.strftime("%Y-%m-%d-%H-%M-%S") + "/"
 Path(result_directory).mkdir()
 with open(os.path.join(result_directory, "cfg"), "w") as f:
@@ -132,6 +161,7 @@ def run_jetstream(v8_env_vars):
         j = {}
         j["OK"] = True
         j["MAJOR_GC_TIME"] = calculate_total_major_gc_time(result_directory)
+        j["AVERAGE_HEAP_MEMORY"] = calculate_average_heap_memory(result_directory)
         j["PEAK_HEAP_MEMORY"] = calculate_peak_heap_memory(result_directory)
         v8_log_path = os.path.join(result_directory, "v8_log")
         total_time = None
@@ -196,20 +226,22 @@ def run_browser(v8_env_vars):
             await sub_page.close()
             await asyncio.sleep(5)
 
-    async def twitter(browser):
+    async def twitter(browser, duration):
+        start = time.time()
         page = await new_page(browser)
-        await page.goto("https://www.twitter.com")
+        await page.goto("https://www.twitter.com", timeout=duration*1000)
         await asyncio.sleep(1)
-        for i in range(120):
+        while time.time() - start > duration:
             await page.evaluate("{window.scrollBy(0, 50);}")
             await asyncio.sleep(1)
 
-    async def cnn(browser):
+    async def cnn(browser, duration):
+        start = time.time()
         page = await new_page(browser)
-        await page.goto("https://www.cnn.com/", timeout=300*1000)
+        await page.goto("https://www.cnn.com/", timeout=duration*1000)
         await asyncio.sleep(1)
-        for i in range(30):
-            await page.evaluate("{window.scrollBy(0, 100);}")
+        while time.time() - start > duration:
+            await page.evaluate("{window.scrollBy(0, 50);}")
             await asyncio.sleep(1)
 
     async def gmail(browser):
@@ -222,12 +254,13 @@ def run_browser(v8_env_vars):
             await page.evaluate('document.querySelector(".TN.bzz.aHS-bnt").click()')
             await asyncio.sleep(5)
 
-    async def espn(browser):
+    async def espn(browser, duration):
+        start = time.time()
         page = await new_page(browser)
-        await page.goto("https://www.espn.com/")
+        await page.goto("https://www.espn.com/", timeout=duration*1000)
         await asyncio.sleep(1)
-        for i in range(120):
-            await page.evaluate("{window.scrollBy(0, 100);}")
+        while time.time() - start > duration:
+            await page.evaluate("{window.scrollBy(0, 50);}")
             await asyncio.sleep(1)
 
     # problem - cannot watch twitch video
@@ -236,10 +269,11 @@ def run_browser(v8_env_vars):
         await page.goto("https://www.twitch.com/")
         await asyncio.sleep(100)
 
-    async def cookie_clicker(browser):
+    async def cookie_clicker(browser, duration):
+        start = time.time()
         page = await new_page(browser)
-        await page.goto("https://orteil.dashnet.org/cookieclicker/", timeout=120*1000)
-        for i in range(150):
+        await page.goto("https://orteil.dashnet.org/cookieclicker/", timeout=duration*1000)
+        while time.time() - start > duration:
             bigCookie = await page.querySelector("#bigCookie")
             items = await page.querySelectorAll(".product.unlocked.enabled")
             upgrades = await page.querySelectorAll(".crate.upgrade")
@@ -278,25 +312,19 @@ def run_browser(v8_env_vars):
 
     async def run_browser_main():
         b = await new_browser()
-        await asyncio.gather(cnn(b), twitter(b))
-        #await asyncio.gather(cnn(await new_browser()), twitter(await new_browser()))
-
-    #async def run_browser_main():
-    #    await new_browser()
-    #    hang()
+        d = 240
+        await asyncio.gather(cnn(b, d), twitter(b, d), espn(b, d))
+        await b.close()
 
     start = time.time()
     asyncio.get_event_loop().run_until_complete(run_browser_main())
     end = time.time()
 
-    for filename in os.listdir(os.getcwd()):
-        if (filename.endswith(".log")):
-            Path(filename).rename(result_directory + filename)
-
     j = {}
     j["OK"] = True
     j["MAJOR_GC_TIME"] = calculate_total_major_gc_time(result_directory)
     j["PEAK_HEAP_MEMORY"] = calculate_peak_heap_memory(result_directory)
+    j["AVERAGE_HEAP_MEMORY"] = calculate_average_heap_memory(result_directory)
     j["TOTAL_TIME"] = end - start
     with open(os.path.join(result_directory, "score"), "w") as f:
         json.dump(j, f)
@@ -306,7 +334,7 @@ with ProcessScope(subprocess.Popen(balancer_cmds, stdout=subprocess.PIPE, stderr
     time.sleep(1) # make sure the balancer is running
     memory_limit = f"{MEMORY_LIMIT * MB_IN_BYTES}"
 
-    v8_env_vars = {"USE_MEMBALANCER": "1", "LOG_GC": "1"}
+    v8_env_vars = {"USE_MEMBALANCER": "1", "LOG_GC": "1", "LOG_DIRECTORY": result_directory}
 
     if not RESIZE_STRATEGY == "ignore":
         v8_env_vars["SKIP_RECOMPUTE_LIMIT"] = "1"
@@ -321,7 +349,3 @@ with ProcessScope(subprocess.Popen(balancer_cmds, stdout=subprocess.PIPE, stderr
         run_browser(v8_env_vars)
     else:
         raise Exception(f"unknown benchmark name: {NAME}")
-
-    for filename in os.listdir(os.getcwd()):
-        if (filename.endswith(".log")):
-            Path(filename).rename(result_directory + filename)

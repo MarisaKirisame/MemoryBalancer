@@ -20,10 +20,9 @@ with open(directory + "balancer_log") as f:
             if j["data"]["msg-type"] == "close":
                 memory_msg_logs.append(j["data"])
 
-#with open(directory + "cfg") as f:
-    #title = json.load(f)["BALANCER_CFG"]
+with open(directory + "cfg") as f:
+    title = json.load(f)["BALANCER_CFG"]
 #    title = json.load(f)
-title = "meow"
 #with open(directory + "score") as f:
 #    j = json.load(f)
 #    if j["OK"] == False:
