@@ -97,6 +97,7 @@ cfgs = flatten_nondet({
     "DEBUG": True,
     "NAME": "browser",
     "MEMORY_LIMIT": NONDET(10000),
+    "BENCH": NONDET(["twitter"], ["twitter", "cnn"], ["twitter", "cnn", "espn"]),
     "BALANCER_CFG": NONDET({
         "BALANCE_STRATEGY": "classic",
         "RESIZE_CFG": {"RESIZE_STRATEGY": "after-balance", "GC_RATE":NONDET(0.001, 0.0015, 0.002, 0.0025, 0.003, 0.0035, 0.004)},
@@ -114,6 +115,7 @@ cfgs = flatten_nondet({
     "DEBUG": True,
     "NAME": "browser",
     "MEMORY_LIMIT": NONDET(10000),
+    "BENCH": NONDET(["twitter"], ["twitter", "cnn"], ["twitter", "cnn", "espn"]),
     "BALANCER_CFG": NONDET({
         "BALANCE_STRATEGY": NONDET("ignore"),
         "RESIZE_CFG": {"RESIZE_STRATEGY": "ignore"},

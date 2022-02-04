@@ -16,6 +16,7 @@ LIMIT_MEMORY = cfg["LIMIT_MEMORY"]
 DEBUG = cfg["DEBUG"]
 if LIMIT_MEMORY:
     MEMORY_LIMIT = cfg["MEMORY_LIMIT"]
+BENCH = cfg["BENCH"]
 BALANCER_CFG = cfg["BALANCER_CFG"]
 BALANCE_STRATEGY = BALANCER_CFG["BALANCE_STRATEGY"]
 RESIZE_CFG = BALANCER_CFG["RESIZE_CFG"]
@@ -209,6 +210,7 @@ def run_browser(v8_env_vars):
         page = await browser.newPage()
         await page.setViewport({"width": 1280, "height": 1080})
         return page
+    bench = {}
 
     async def reddit(browser):
         page = await new_page(browser)
@@ -234,6 +236,7 @@ def run_browser(v8_env_vars):
         while time.time() - start > duration:
             await page.evaluate("{window.scrollBy(0, 50);}")
             await asyncio.sleep(1)
+    bench["twitter"] = twitter
 
     async def cnn(browser, duration):
         start = time.time()
@@ -243,6 +246,7 @@ def run_browser(v8_env_vars):
         while time.time() - start > duration:
             await page.evaluate("{window.scrollBy(0, 50);}")
             await asyncio.sleep(1)
+    bench["cnn"] = cnn
 
     async def gmail(browser):
         page = await new_page(browser)
@@ -262,6 +266,7 @@ def run_browser(v8_env_vars):
         while time.time() - start > duration:
             await page.evaluate("{window.scrollBy(0, 50);}")
             await asyncio.sleep(1)
+    bench["espn"] = espn
 
     # problem - cannot watch twitch video
     async def twitch(browser):
@@ -310,10 +315,13 @@ def run_browser(v8_env_vars):
         l = await new_browser()
         r = await new_browser()
 
+    def get_bench(bench_name):
+        return bench[bench_name]
+
     async def run_browser_main():
         b = await new_browser()
         d = 240
-        await asyncio.gather(cnn(b, d), twitter(b, d), espn(b, d))
+        await asyncio.gather(*[get_bench(bench)(b, d) for bench in BENCH])
         await b.close()
 
     start = time.time()
