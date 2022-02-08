@@ -98,8 +98,12 @@ for bench in m:
                 time = score["MAJOR_GC_TIME"] / baseline_time
                 x.append(memory)
                 y.append(time)
-    plt.scatter(x, y, label=bench)
+    plt.scatter(x, y, label=bench,linewidth=0.1)
 
+circle = plt.Circle((1, 1), 0.1)
+plt.gca().add_patch(circle)
+plt.xlabel("Average MemoryBalancer Memory")
+plt.ylabel("Time")
 plt.scatter([1], [1], label="baseline") 
 plt.legend()
 plt.show()
