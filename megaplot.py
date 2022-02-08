@@ -100,5 +100,6 @@ for bench in m:
                 y.append(time)
     plt.scatter(x, y, label=bench)
 
+plt.scatter([1], [1], label="baseline") 
 plt.legend()
 plt.show()
