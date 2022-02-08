@@ -8,8 +8,9 @@ from pathlib import Path
 from pyppeteer import launch
 from collections import defaultdict
 
-assert(len(sys.argv) == 2)
+assert(len(sys.argv) == 3)
 cfg = eval(sys.argv[1])
+result_directory = sys.argv[2] + "/"
 
 print(f"running: {cfg}")
 LIMIT_MEMORY = cfg["LIMIT_MEMORY"]
@@ -48,7 +49,7 @@ def calculate_total_major_gc_time(directory):
                 total_major_gc_time += major_gc_time
     return total_major_gc_time
 
-def calculate_peak_heap_memory(directory):
+def read_memory_log(directory):
     logs = []
     for filename in os.listdir(directory):
         if filename.endswith(".memory.log"):
@@ -62,6 +63,10 @@ def calculate_peak_heap_memory(directory):
                 if writeOnce:
                     logs.append({"source": filename, "value": 0, "time": j["time"] + 1})
     logs.sort(key=lambda x: x["time"])
+    return logs
+
+def calculate_peak_heap_memory(directory):
+    logs = read_memory_log(directory)
 
     max_memory = 0
     memory = 0
@@ -77,19 +82,7 @@ def calculate_peak_heap_memory(directory):
     return max_memory
 
 def calculate_average_heap_memory(directory):
-    logs = []
-    for filename in os.listdir(directory):
-        if filename.endswith(".memory.log"):
-            with open(os.path.join(directory, filename)) as f:
-                writeOnce = False
-                for line in f.read().splitlines():
-                    j = json.loads(line)
-                    j["source"] = filename
-                    logs.append(j)
-                    writeOnce = True
-                if writeOnce:
-                    logs.append({"source": filename, "value": 0, "time": j["time"] + 1})
-    logs.sort(key=lambda x: x["time"])
+    logs = read_memory_log(directory)
 
     memory_sum = 0
     memory = 0
@@ -104,8 +97,6 @@ def calculate_average_heap_memory(directory):
 
     return memory_sum / len(logs)
 
-result_directory = "log/" + time.strftime("%Y-%m-%d-%H-%M-%S") + "/"
-Path(result_directory).mkdir()
 with open(os.path.join(result_directory, "cfg"), "w") as f:
     json.dump(cfg, f)
 
@@ -233,7 +224,7 @@ def run_browser(v8_env_vars):
         page = await new_page(browser)
         await page.goto("https://www.twitter.com", timeout=duration*1000)
         await asyncio.sleep(1)
-        while time.time() - start > duration:
+        while time.time() - start < duration:
             await page.evaluate("{window.scrollBy(0, 50);}")
             await asyncio.sleep(1)
     bench["twitter"] = twitter
@@ -243,7 +234,7 @@ def run_browser(v8_env_vars):
         page = await new_page(browser)
         await page.goto("https://www.cnn.com/", timeout=duration*1000)
         await asyncio.sleep(1)
-        while time.time() - start > duration:
+        while time.time() - start < duration:
             await page.evaluate("{window.scrollBy(0, 50);}")
             await asyncio.sleep(1)
     bench["cnn"] = cnn
@@ -263,7 +254,7 @@ def run_browser(v8_env_vars):
         page = await new_page(browser)
         await page.goto("https://www.espn.com/", timeout=duration*1000)
         await asyncio.sleep(1)
-        while time.time() - start > duration:
+        while time.time() - start < duration:
             await page.evaluate("{window.scrollBy(0, 50);}")
             await asyncio.sleep(1)
     bench["espn"] = espn
@@ -320,7 +311,7 @@ def run_browser(v8_env_vars):
 
     async def run_browser_main():
         b = await new_browser()
-        d = 240
+        d = 300
         await asyncio.gather(*[get_bench(bench)(b, d) for bench in BENCH])
         await b.close()
 
