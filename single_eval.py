@@ -231,26 +231,29 @@ def run_browser(v8_env_vars):
         return page
     bench = {}
 
-    async def reddit(browser):
+    async def reddit(browser, duration):
         page = await new_page(browser)
-        await page.goto("https://reddit.com", timeout=120*1000)
+        await page.goto("https://reddit.com", timeout=duration*1000, waitUntil='domcontentloaded')
         await page.waitForSelector("i.icon-comment")
-        for i in range(1):
+        i = 0
+        while time.time() - start < duration:
             l = await page.querySelectorAll("i.icon-comment")
             assert i < len(l)
             await page.evaluate("(element) => element.scrollIntoView()", l[i])
             await asyncio.sleep(5)
             link = await page.evaluate("(element) => element.parentElement.href", l[i])
             sub_page = await new_page(browser)
-            await sub_page.goto(link, {"waitUntil" : "domcontentloaded"}, timeout=120*1000)
+            await sub_page.goto(link, {"waitUntil" : "domcontentloaded"}, timeout=duration*1000, waitUntil='domcontentloaded')
             await asyncio.sleep(5)
             await sub_page.close()
             await asyncio.sleep(5)
+            i += 1
+    bench["reddit"] = reddit
 
     async def twitter(browser, duration):
         start = time.time()
         page = await new_page(browser)
-        await page.goto("https://www.twitter.com", timeout=duration*1000)
+        await page.goto("https://www.twitter.com", timeout=duration*1000, waitUntil='domcontentloaded')
         await asyncio.sleep(1)
         while time.time() - start < duration:
             await page.evaluate("{window.scrollBy(0, 50);}")
@@ -260,7 +263,7 @@ def run_browser(v8_env_vars):
     async def cnn(browser, duration):
         start = time.time()
         page = await new_page(browser)
-        await page.goto("https://www.cnn.com/", timeout=duration*1000)
+        await page.goto("https://www.cnn.com/", timeout=duration*1000, waitUntil='domcontentloaded')
         await asyncio.sleep(1)
         while time.time() - start < duration:
             await page.evaluate("{window.scrollBy(0, 50);}")
@@ -280,7 +283,7 @@ def run_browser(v8_env_vars):
     async def espn(browser, duration):
         start = time.time()
         page = await new_page(browser)
-        await page.goto("https://www.espn.com/", timeout=duration*1000)
+        await page.goto("https://www.espn.com/", timeout=duration*1000, waitUntil='domcontentloaded')
         await asyncio.sleep(1)
         while time.time() - start < duration:
             await page.evaluate("{window.scrollBy(0, 50);}")

@@ -1,7 +1,7 @@
 import subprocess
 from pathlib import Path, PurePath
 import time
-
+import random
 # list monad
 class NONDET:
     def __init__(self, *args):
@@ -162,12 +162,14 @@ BALANCER_CFG = QUOTE(NONDET({
     "BALANCE_FREQUENCY": 0
 }))
 
+bench = ["twitter", "cnn", "espn", "reddit"]
+choose_two = [random.sample(bench, k=2) for i in range(10)]
 cfg = {
     "LIMIT_MEMORY": True,
     "DEBUG": True,
     "NAME": "browser",
     "MEMORY_LIMIT": 10000,
-    "BENCH": NONDET(["twitter"], ["twitter", "cnn"], ["twitter", "cnn", "espn"]),
+    "BENCH": NONDET(*choose_two),
     "BALANCER_CFG": BALANCER_CFG
 }
 

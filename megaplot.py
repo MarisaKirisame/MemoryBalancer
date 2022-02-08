@@ -76,6 +76,8 @@ for d in data:
         m[k][k_k] = []
     m[k][k_k].append(d[0])
 
+p = "Average_Balancer_Memory"
+
 for bench in m:
     if BASELINE not in m[bench]:
         print("WARNING: BASELINE NOT FOUND")
@@ -83,7 +85,7 @@ for bench in m:
     baseline_memorys = []
     baseline_times = []
     for score in m[bench][BASELINE]:
-        memory = score["AVERAGE_HEAP_MEMORY"]
+        memory = score[p]
         time = score["MAJOR_GC_TIME"]
         baseline_memorys.append(memory)
         baseline_times.append(time)
@@ -94,7 +96,7 @@ for bench in m:
     for balancer_cfg in m[bench]:
         if balancer_cfg != BASELINE:
             for score in m[bench][balancer_cfg]:
-                memory = score["AVERAGE_HEAP_MEMORY"] / baseline_memory
+                memory = score[p] / baseline_memory
                 time = score["MAJOR_GC_TIME"] / baseline_time
                 x.append(memory)
                 y.append(time)
