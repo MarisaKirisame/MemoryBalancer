@@ -61,11 +61,15 @@ def read_memory_log(directory):
                     logs.append(j)
                     writeOnce = True
                 if writeOnce:
-                    logs.append({"source": filename, "value": 0, "time": j["time"] + 1})
+                    time = j["time"] + 1
+                    j = {"source": filename, "time": time}
+                    for p in ["Limit", "PhysicalMemory", "SizeOfObjects"]:
+                        j[p] = 0
+                    logs.append(j)
     logs.sort(key=lambda x: x["time"])
     return logs
 
-def calculate_peak_heap_memory(directory):
+def calculate_peak(directory, property_name):
     logs = read_memory_log(directory)
 
     max_memory = 0
@@ -75,13 +79,13 @@ def calculate_peak_heap_memory(directory):
     for i in range(len(logs)):
         l = logs[i]
         memory -= memory_breakdown[l["source"]]
-        memory += l["value"]
-        memory_breakdown[l["source"]] = l["value"]
+        memory += l[property_name]
+        memory_breakdown[l["source"]] = l[property_name]
         max_memory = max(max_memory, memory)
 
     return max_memory
 
-def calculate_average_heap_memory(directory):
+def calculate_average(directory, property_name):
     logs = read_memory_log(directory)
 
     memory_sum = 0
@@ -91,11 +95,35 @@ def calculate_average_heap_memory(directory):
     for i in range(len(logs)):
         l = logs[i]
         memory -= memory_breakdown[l["source"]]
-        memory += l["value"]
-        memory_breakdown[l["source"]] = l["value"]
+        memory += l[property_name]
+        memory_breakdown[l["source"]] = l[property_name]
         memory_sum += memory
 
     return memory_sum / len(logs)
+
+def calculate_peak_balancer_memory(directory):
+    total_heap_memory = []
+    with open(os.path.join(directory, "balancer_log")) as f:
+        for line in f.read().splitlines():
+            tmp = json.loads(line)
+            if tmp["type"] == "total-memory":
+                total_heap_memory.append(tmp["data"])
+    if len(total_heap_memory) == 0:
+        return 0
+    else:
+        return max(total_heap_memory)
+
+def calculate_average_balancer_memory(directory):
+    total_heap_memory = []
+    with open(os.path.join(directory, "balancer_log")) as f:
+        for line in f.read().splitlines():
+            tmp = json.loads(line)
+            if tmp["type"] == "total-memory":
+                total_heap_memory.append(tmp["data"])
+    if len(total_heap_memory) == 0:
+        return 0
+    else:
+        return sum(total_heap_memory) / len(total_heap_memory)
 
 with open(os.path.join(result_directory, "cfg"), "w") as f:
     json.dump(cfg, f)
@@ -322,8 +350,11 @@ def run_browser(v8_env_vars):
     j = {}
     j["OK"] = True
     j["MAJOR_GC_TIME"] = calculate_total_major_gc_time(result_directory)
-    j["PEAK_HEAP_MEMORY"] = calculate_peak_heap_memory(result_directory)
-    j["AVERAGE_HEAP_MEMORY"] = calculate_average_heap_memory(result_directory)
+    for p in ["PhysicalMemory", "SizeOfObjects", "Limit"]:
+        j[f"Peak_{p}"] = calculate_peak(result_directory, p)
+        j[f"Average_{p}"] = calculate_average(result_directory, p)
+    j["Peak_Balancer_Memory"] = calculate_peak_balancer_memory(result_directory)
+    j["Average_Balancer_Memory"] = calculate_peak_balancer_memory(result_directory)
     j["TOTAL_TIME"] = end - start
     with open(os.path.join(result_directory, "score"), "w") as f:
         json.dump(j, f)
