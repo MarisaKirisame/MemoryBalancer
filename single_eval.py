@@ -244,7 +244,7 @@ def run_browser(v8_env_vars):
             link = await page.evaluate("(element) => element.parentElement.href", l[i])
             sub_page = await new_page(browser)
             await sub_page.goto(link, {"waitUntil" : "domcontentloaded"}, timeout=duration*1000, waitUntil='domcontentloaded')
-            await asyncio.sleep(5)
+            await asyncio.sleep(10)
             await sub_page.close()
             await asyncio.sleep(5)
             i += 1
@@ -342,7 +342,7 @@ def run_browser(v8_env_vars):
 
     async def run_browser_main():
         b = await new_browser()
-        d = 300
+        d = 180
         await asyncio.gather(*[get_bench(bench)(b, d) for bench in BENCH])
         await b.close()
 

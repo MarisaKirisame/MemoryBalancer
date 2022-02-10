@@ -102,10 +102,8 @@ for bench in m:
                 y.append(time)
     plt.scatter(x, y, label=bench,linewidth=0.1)
 
-circle = plt.Circle((1, 1), 0.1)
-plt.gca().add_patch(circle)
 plt.xlabel("Average MemoryBalancer Memory")
 plt.ylabel("Time")
-plt.scatter([1], [1], label="baseline") 
+plt.scatter([1], [1], label="baseline", color="black")
 plt.legend()
 plt.show()
