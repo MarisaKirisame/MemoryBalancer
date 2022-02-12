@@ -2,6 +2,7 @@ import subprocess
 from pathlib import Path, PurePath
 import time
 import random
+import json
 # list monad
 class NONDET:
     def __init__(self, *args):
@@ -176,6 +177,8 @@ cfg = {
 def run(config, in_path):
     path = in_path.joinpath(time.strftime("%Y-%m-%d-%H-%M-%S"))
     path.mkdir()
+    with open(path.joinpath("cfg"), "w") as f:
+        f.write(str(config))
     if has_meta(config):
         for x in strip_quote(flatten_nondet(config)).l:
             run(x, path)

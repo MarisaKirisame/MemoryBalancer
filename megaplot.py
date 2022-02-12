@@ -50,7 +50,7 @@ for name in glob.glob('log/**/score', recursive=True):
     with open(dirname + "/score") as f:
         score = json.load(f)
     with open(dirname + "/cfg") as f:
-        cfg = json.load(f)
+        cfg = eval(f.read())
     data.append((score, cfg))
 
 def filter_warn(x):
@@ -76,7 +76,9 @@ for d in data:
         m[k][k_k] = []
     m[k][k_k].append(d[0])
 
-p = "Average_Balancer_Memory"
+p = "Average_PhysicalMemory"
+p = "Average_BalancerMemory"
+p = "Average_SizeOfObjects"
 
 for bench in m:
     if BASELINE not in m[bench]:
@@ -85,6 +87,8 @@ for bench in m:
     baseline_memorys = []
     baseline_times = []
     for score in m[bench][BASELINE]:
+        if p not in score:
+            print(score)
         memory = score[p]
         time = score["MAJOR_GC_TIME"]
         baseline_memorys.append(memory)
@@ -102,7 +106,7 @@ for bench in m:
                 y.append(time)
     plt.scatter(x, y, label=bench,linewidth=0.1)
 
-plt.xlabel("Average MemoryBalancer Memory")
+plt.xlabel(p)
 plt.ylabel("Time")
 plt.scatter([1], [1], label="baseline", color="black")
 plt.legend()

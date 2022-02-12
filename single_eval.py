@@ -125,9 +125,6 @@ def calculate_average_balancer_memory(directory):
     else:
         return sum(total_heap_memory) / len(total_heap_memory)
 
-with open(os.path.join(result_directory, "cfg"), "w") as f:
-    json.dump(cfg, f)
-
 # weird error: terminate does not work when exception is raised. fix this.
 class ProcessScope:
     def __init__(self, p):
@@ -346,6 +343,11 @@ def run_browser(v8_env_vars):
         await asyncio.gather(*[get_bench(bench)(b, d) for bench in BENCH])
         await b.close()
 
+    #for sign in and other configuration purpose
+    #async def run_browser_main():
+    #    b = await new_browser()
+    #    hang()
+
     start = time.time()
     asyncio.get_event_loop().run_until_complete(run_browser_main())
     end = time.time()
@@ -356,8 +358,8 @@ def run_browser(v8_env_vars):
     for p in ["PhysicalMemory", "SizeOfObjects", "Limit"]:
         j[f"Peak_{p}"] = calculate_peak(result_directory, p)
         j[f"Average_{p}"] = calculate_average(result_directory, p)
-    j["Peak_Balancer_Memory"] = calculate_peak_balancer_memory(result_directory)
-    j["Average_Balancer_Memory"] = calculate_peak_balancer_memory(result_directory)
+    j["Peak_BalancerMemory"] = calculate_peak_balancer_memory(result_directory)
+    j["Average_BalancerMemory"] = calculate_peak_balancer_memory(result_directory)
     j["TOTAL_TIME"] = end - start
     with open(os.path.join(result_directory, "score"), "w") as f:
         json.dump(j, f)

@@ -96,129 +96,6 @@ int get_listener() {
 
 using socket_t = int;
 
-template<typename T>
-struct Filter {
-  // a possibly stateful function. transform the input.
-  const std::function<double(double)> func;
-  bool recieved_signal = false;
-  double output;
-  void in(const T& t) {
-    recieved_signal = true;
-    output = func(static_cast<double>(t));
-  }
-  T out() {
-    assert(recieved_signal);
-    return static_cast<T>(output);
-  }
-  T io(const T& t) {
-    in(t);
-    return out();
-  }
-  Filter(const std::function<double(double)>& func) : func(func) { }
-  Filter() = delete;
-  // we intentionally do not provide the more natural = overloading and implicit cast.
-  // it is because a filter *is not* the thing it is filtering.
-  // suppose we have Filter a, Filter b,
-  // a = b can mean both things, which is useful under different circumstances:
-  // 0: assign the state of filter a to that of filter b
-  // 1: feed 1 value from b into a
-  // by not providing the short cut, the distinction is made explicit, and the ambiguity is resolved.
-};
-
-using filter_factory_t = std::function<std::function<double(double)>()>;
-filter_factory_t id_ff =
-                    [](){
-                      return [](double d){return d;};
-                    };
-
-filter_factory_t smooth_approximate(size_t item_count_max) {
-  assert(item_count_max > 0);
-  struct SA {
-    size_t item_count_max;
-    size_t item_count = 0;
-    double sum = 0;
-    SA(size_t item_count_max) : item_count_max(item_count_max) { }
-    double operator()(double d) {
-      ++item_count;
-      sum += d;
-      if (item_count > item_count_max) {
-        assert(item_count == item_count_max + 1);
-        sum -= sum / item_count;
-        --item_count;
-      }
-      return sum / item_count;
-    }
-  };
-  return [=](){ return SA(item_count_max); };
-}
-
-filter_factory_t smooth_exact(size_t item_count_max) {
-  assert(item_count_max > 0);
-  struct SE {
-    size_t item_count_max;
-    std::queue<double> items;
-    double sum = 0;
-    SE(size_t item_count_max) : item_count_max(item_count_max) { }
-    double operator()(double d) {
-      items.push(d);
-      sum += d;
-      if (items.size() > item_count_max) {
-        assert(items.size() == item_count_max + 1);
-        sum -= items.front();
-        items.pop();
-      }
-      return sum / items.size();
-    }
-  };
-  return [=](){ return SE(item_count_max); };
-}
-
-filter_factory_t smooth_window_approximate(size_t duration_in_milliseconds) {
-  assert(duration_in_milliseconds > 0);
-  struct SWA {
-    size_t duration_in_milliseconds;
-    SWA(size_t duration_in_milliseconds) : duration_in_milliseconds(duration_in_milliseconds) { }
-    std::queue<time_point> items;
-    double sum = 0;
-    double operator()(double d) {
-      time_point t = steady_clock::now();
-      items.push(t);
-      sum += d;
-      while ((t - items.front()).count() > duration_in_milliseconds) {
-        sum -= sum / items.size();
-        items.pop();
-        assert(!items.empty());
-      }
-      return sum / items.size();
-    }
-  };
-  return [=](){ return SWA(duration_in_milliseconds); };
-}
-
-filter_factory_t smooth_tucker(double param) {
-  assert(param > 0);
-  struct ST {
-    double param;
-    ST(double param) : param(param) { }
-    double sum = 0;
-    time_point last_time_point;
-    bool has_element = false;
-    double operator()(double d) {
-      time_point t = steady_clock::now();
-      if (has_element) {
-        double weight = exp(-param * (t - last_time_point).count());
-        sum = d * (1 - weight) + sum * weight;
-      } else {
-        sum += d;
-      }
-      has_element = true;
-      last_time_point = t;
-      return sum;
-    }
-  };
-  return [=](){ return ST(param); };
-}
-
 void send_string(socket_t s, const std::string& msg) {
   if (::send(s, msg.c_str(), msg.size(), 0) != msg.size()) {
     ERROR_STREAM << strerror(errno) << std::endl;
@@ -288,13 +165,13 @@ struct ConnectionState {
   IdChannel force_gc_chan;
   Snapper heap_resize_snap;
   std::string unprocessed;
-  Filter<size_t> working_memory;
+  size_t working_memory;
   // real max memory is for efficiency calculation purpose only
-  Filter<size_t> max_memory;
-  Filter<double> gc_duration;
-  Filter<size_t> size_of_objects;
-  Filter<double> gc_speed;
-  Filter<double> garbage_rate;
+  size_t max_memory;
+  double gc_duration;
+  size_t size_of_objects;
+  double gc_speed;
+  double garbage_rate;
   size_t last_major_gc_epoch;
   size_t begin_time, current_time;
   double total_gc_duration = 0;
@@ -302,25 +179,19 @@ struct ConnectionState {
   std::string name;
   bool has_major_gc = false;
   bool has_allocation_rate = false;
-  ConnectionState(socket_t fd, const filter_factory_t& ff) :
+  ConnectionState(socket_t fd) :
     fd(fd),
-    force_gc_chan(fd),
-    working_memory(ff()),
-    max_memory(ff()),
-    gc_duration(ff()),
-    size_of_objects(ff()),
-    gc_speed(ff()),
-    garbage_rate(ff()) { }
+    force_gc_chan(fd) { }
   void try_log(Logger& l, const std::string& msg_type) {
     if (ready()) {
       nlohmann::json j;
       j["msg-type"] = msg_type;
       j["time"] = (steady_clock::now() - program_begin).count();
-      j["working-memory"] = working_memory.out();
-      j["max-memory"] = max_memory.out();
-      j["gc-duration"] = gc_duration.out();
-      j["gc-speed"] = gc_speed.out();
-      j["garbage-rate"] = garbage_rate.out();
+      j["working-memory"] = working_memory;
+      j["max-memory"] = max_memory;
+      j["gc-duration"] = gc_duration;
+      j["gc-speed"] = gc_speed;
+      j["garbage-rate"] = garbage_rate;
       j["name"] = name;
       l.log(tagged_json("heap-stat", j));
     }
@@ -354,21 +225,21 @@ struct ConnectionState {
           last_major_gc = steady_clock::now();
           last_major_gc_epoch = epoch;
           size_t adjusted_working_memory = static_cast<size_t>(data["after_memory"]);
-          working_memory.in(adjusted_working_memory);
+          working_memory = adjusted_working_memory;
           size_t adjusted_max_memory = std::max(static_cast<size_t>(data["max_memory"]), adjusted_working_memory);
-          max_memory.in(adjusted_max_memory);
+          max_memory = adjusted_max_memory;
           double current_gc_duration = data["gc_duration"];
-          gc_duration.in(current_gc_duration);
+          gc_duration = current_gc_duration;
           total_gc_duration += current_gc_duration;
-          size_of_objects.in(data["size_of_objects"]);
-          gc_speed.in(data["gc_speed"]);
+          size_of_objects = data["size_of_objects"];
+          gc_speed = data["gc_speed"];
           has_allocation_rate = true;
           // allocation rate might be zero. to avoid getting weird nan error in the code, it is set to a small value (1.0).
-          garbage_rate.in(std::max<double>(static_cast<double>(data["allocation_rate"]), 1.0));
+          garbage_rate = std::max<double>(static_cast<double>(data["allocation_rate"]), 1.0);
         }
       } else if (type == "max_memory") {
         if (wait_ack_count == 0) {
-          max_memory.in(data);
+          max_memory = data;
         }
       } else if (type == "ack") {
         assert(wait_ack_count > 0);
@@ -385,11 +256,11 @@ struct ConnectionState {
     return has_major_gc && has_allocation_rate;
   }
   size_t extra_memory() {
-    assert(max_memory.out() >= working_memory.out());
-    return max_memory.out() - working_memory.out();
+    assert(max_memory >= working_memory);
+    return max_memory - working_memory;
   }
   double gt() {
-    return static_cast<double>(garbage_rate.out()) * static_cast<double>(gc_duration.out());
+    return static_cast<double>(garbage_rate) * static_cast<double>(gc_duration);
   }
   double duration_score() {
     assert(ready());
@@ -400,21 +271,21 @@ struct ConnectionState {
     return sqrt(gt());
   }
   double speed_balance_factor() {
-    return sqrt(static_cast<double>(garbage_rate.out()) * static_cast<double>(working_memory.out()) / static_cast<double>(gc_speed.out()));
+    return sqrt(static_cast<double>(garbage_rate) * static_cast<double>(working_memory) / static_cast<double>(gc_speed));
   }
   void report(TextTable& t, size_t epoch) {
     assert(ready());
     t.add(name);
     t.add(std::to_string(extra_memory()));
-    t.add(std::to_string(max_memory.out()));
-    t.add(std::to_string(garbage_rate.out()));
-    t.add(std::to_string(gc_speed.out()));
-    t.add(std::to_string(gc_duration.out()));
+    t.add(std::to_string(max_memory));
+    t.add(std::to_string(garbage_rate));
+    t.add(std::to_string(gc_speed));
+    t.add(std::to_string(gc_duration));
   }
   double duration_utilization_rate(size_t extra_memory) {
-    double mutator_duration = extra_memory / garbage_rate.out();
+    double mutator_duration = extra_memory / garbage_rate;
     assert(mutator_duration >= 0);
-    return mutator_duration / (gc_duration.out() + mutator_duration);
+    return mutator_duration / (gc_duration + mutator_duration);
   }
   double duration_utilization_rate() {
     return duration_utilization_rate(extra_memory());
@@ -423,10 +294,10 @@ struct ConnectionState {
     return 1 - static_cast<double>(total_gc_duration) / (current_time - begin_time);
   }
   double speed_utilization_rate(size_t extra_memory) {
-    double mutator_duration = extra_memory / garbage_rate.out();
+    double mutator_duration = extra_memory / garbage_rate;
     assert(mutator_duration >= 0);
-    double useful_gc_duration = extra_memory / gc_speed.out();
-    double wasteful_gc_duration = working_memory.out() / gc_speed.out();
+    double useful_gc_duration = extra_memory / gc_speed;
+    double wasteful_gc_duration = working_memory / gc_speed;
     return (mutator_duration + useful_gc_duration) / (mutator_duration + useful_gc_duration + wasteful_gc_duration);
   }
   double speed_utilization_rate() {
@@ -518,7 +389,6 @@ struct Balancer {
   size_t resize_amount; // only when resize_strategy == constant
   double gc_rate; // only when resize_strategy == after-balance or before-balance
   size_t epoch = 0;
-  filter_factory_t ff;
   std::string log_path;
   Logger l;
   void check_config_consistency() {
@@ -538,10 +408,6 @@ struct Balancer {
       ("resize-amount", "a number denoting how much to resize", cxxopts::value<size_t>());
     options.add_options()
       ("gc-rate", "trying to spend this much time in gc", cxxopts::value<double>());
-    options.add_options()
-      ("smooth-type", "no-smoothing, smooth-approximate, smooth-exact", cxxopts::value<std::string>());
-    options.add_options()
-      ("smooth-count", "a positive number. the bigger it is, the more smoothing we do", cxxopts::value<size_t>());
     options.add_options()
       ("log-path", "where to put the log", cxxopts::value<std::string>());
     options.add_options()
@@ -578,25 +444,6 @@ struct Balancer {
       std::cout << "unknown resize-strategy: " << resize_strategy_str << std::endl;
       throw;
     }
-    std::string smooth_type = result["smooth-type"].as<std::string>();
-    if (smooth_type == "no-smoothing") {
-      ff = id_ff;
-    } else if (smooth_type == "smooth-approximate") {
-      assert(result.count("smooth-count"));
-      ff = smooth_approximate(result["smooth-count"].as<size_t>());
-    } else if (smooth_type == "smooth-exact") {
-      assert(result.count("smooth-count"));
-      ff = smooth_exact(result["smooth-count"].as<size_t>());
-    } else if (smooth_type == "smooth-window-approximate") {
-      assert(result.count("smooth-count"));
-      ff = smooth_window_approximate(result["smooth-count"].as<size_t>());
-    } else if (smooth_type == "smooth-tucker") {
-      assert(result.count("smooth-count"));
-      ff = smooth_tucker(1.0 / result["smooth-count"].as<size_t>());
-    } else {
-      std::cout << "unknown smooth-type: " << smooth_type << std::endl;
-      throw;
-    }
     if (result.count("log-path")) {
       log_path = result["log-path"].as<std::string>();
       l.f = std::ofstream(log_path);
@@ -611,7 +458,7 @@ struct Balancer {
         auto close_connection = [&](size_t i) {
                                   std::cout << "peer closed!" << std::endl;
                                   close(pfds[i].fd);
-                                  map.at(pfds[i].fd).max_memory.in(0);
+                                  map.at(pfds[i].fd).max_memory = 0;
                                   map.at(pfds[i].fd).try_log(l, "close");
                                   map.erase(pfds[i].fd);
                                   pfds[i] = pfds.back();
@@ -633,7 +480,7 @@ struct Balancer {
                 throw;
               }
               pfds.push_back({newsocket, POLLIN});
-              map.insert({newsocket, ConnectionState(newsocket, ff)});
+              map.insert({newsocket, ConnectionState(newsocket)});
               ++i;
             } else if (revents & POLLIN) {
               char buf[1000];
@@ -696,7 +543,7 @@ struct Balancer {
         rr->report(t, epoch);
         size_t suggested_extra_memory_ = suggested_extra_memory(rr);
         t.add(std::to_string(suggested_extra_memory_));
-        t.add(std::to_string(suggested_extra_memory_ + rr->working_memory.out()));
+        t.add(std::to_string(suggested_extra_memory_ + rr->working_memory));
         t.add(std::to_string(1 - rr->speed_utilization_rate()));
         t.add(std::to_string(1 - rr->speed_utilization_rate(suggested_extra_memory_)));
         t.endOfRow();
@@ -718,7 +565,7 @@ struct Balancer {
         ++st.instance_count;
         double diff = (rr->duration_score() - median_score) / median_score;
         st.mse += diff * diff;
-        st.m += rr->max_memory.out();
+        st.m += rr->max_memory;
         st.e += rr->extra_memory();
         st.gt_e += rr->gt() / rr->extra_memory();
         st.balance_factor += rr->speed_balance_factor();
@@ -862,17 +709,17 @@ struct Balancer {
               suggested_extra_memory_ = extra_memory_ + (suggested_extra_memory_ - extra_memory_) * adjust_ratio;
             }
             suggested_extra_memory_ = std::max<size_t>(suggested_extra_memory_, 10485760);
-            size_t total_memory_ = suggested_extra_memory_ + rr->working_memory.out();
+            size_t total_memory_ = suggested_extra_memory_ + rr->working_memory;
             if (big_change(extra_memory_, suggested_extra_memory_) && rr->heap_resize_snap(suggested_extra_memory_)) {
               std::string str = to_string(tagged_json("heap", total_memory_));
               std::cout << "sending: " << str << "to: " << rr->name << std::endl;
               send_string(rr->fd, str);
               if (immediate_reclaim) {
-                rr->max_memory.in(total_memory_);
+                rr->max_memory = total_memory_;
               }
               nlohmann::json j;
               j["name"] = rr->name;
-              j["working-memory"] = rr->working_memory.out();
+              j["working-memory"] = rr->working_memory;
               j["max-memory"] = total_memory_;
               j["time"] = (steady_clock::now() - program_begin).count();
               l.log(tagged_json("memory-msg", j));
