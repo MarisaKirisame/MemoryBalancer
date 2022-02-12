@@ -3,6 +3,7 @@ from pathlib import Path, PurePath
 import time
 import random
 import json
+import os
 # list monad
 class NONDET:
     def __init__(self, *args):
@@ -90,66 +91,66 @@ def strip_quote(x):
         print(x)
         raise
 
-cfgs = flatten_nondet({
-    "LIMIT_MEMORY": True,
-    "DEBUG": False,
-    "NAME": "jetstream",
-    "MEMORY_LIMIT": NONDET(*[600 + 30 * i for i in range(10)]),
-    "BALANCER_CFG": NONDET({
-        "BALANCE_STRATEGY": NONDET("classic", "extra-memory", "ignore"),
-        "RESIZE_CFG": {"RESIZE_STRATEGY": "ignore"},
-        "SMOOTHING": {"TYPE": "no-smoothing"},
-        "BALANCE_FREQUENCY": 0
-    })
-}).l
-
-cfgs = flatten_nondet(NONDET({
-    "LIMIT_MEMORY": True,
-    "DEBUG": False,
-    "NAME": "jetstream",
-    "MEMORY_LIMIT": NONDET(10000),
-    "BALANCER_CFG": {
-        "BALANCE_STRATEGY": "classic",
-        "RESIZE_CFG": {"RESIZE_STRATEGY": "after-balance", "GC_RATE":NONDET(0.01, 0.015, 0.02, 0.03, 0.04, 0.06, 0.08, 0.10, 0.15, 0.2)},
-        "SMOOTHING": {"TYPE": "no-smoothing"},
-        "BALANCE_FREQUENCY": 0
-    }}, {
-        "LIMIT_MEMORY": True,
-        "DEBUG": False,
-        "NAME": "jetstream",
-        "MEMORY_LIMIT": NONDET(*[500 + 30 * i for i in range(16)], 10000),
-        "BALANCER_CFG": {
-            "BALANCE_STRATEGY": NONDET("ignore"),
-            "RESIZE_CFG": {"RESIZE_STRATEGY": "ignore"},
-            "SMOOTHING": {"TYPE": "no-smoothing"},
-            "BALANCE_FREQUENCY": 0
-        }})).l
-
-cfgs = [{
-    "LIMIT_MEMORY": True,
-    "DEBUG": True,
-    "NAME": "browser",
-    "MEMORY_LIMIT": 10000,
-    "BALANCER_CFG": {
-        "BALANCE_STRATEGY": "ignore",
-        "RESIZE_CFG": {"RESIZE_STRATEGY": "ignore"},
-        "SMOOTHING": {"TYPE": "no-smoothing"},
-        "BALANCE_FREQUENCY": 0
-    }}]
-
-
-cfgs = flatten_nondet({
-    "LIMIT_MEMORY": True,
-    "DEBUG": True,
-    "NAME": "browser",
-    "MEMORY_LIMIT": NONDET(10000),
-    "BENCH": NONDET(["twitter"], ["twitter", "cnn"], ["twitter", "cnn", "espn"]),
-    "BALANCER_CFG": NONDET({
-        "BALANCE_STRATEGY": NONDET("ignore"),
-        "RESIZE_CFG": {"RESIZE_STRATEGY": "ignore"},
-        "SMOOTHING": {"TYPE": "no-smoothing"},
-        "BALANCE_FREQUENCY": 0
-    })}).l
+#cfgs = flatten_nondet({
+#    "LIMIT_MEMORY": True,
+#    "DEBUG": False,
+#    "NAME": "jetstream",
+#    "MEMORY_LIMIT": NONDET(*[600 + 30 * i for i in range(10)]),
+#    "BALANCER_CFG": NONDET({
+#        "BALANCE_STRATEGY": NONDET("classic", "extra-memory", "ignore"),
+#        "RESIZE_CFG": {"RESIZE_STRATEGY": "ignore"},
+#        "SMOOTHING": {"TYPE": "no-smoothing"},
+#        "BALANCE_FREQUENCY": 0
+#    })
+#}).l
+#
+#cfgs = flatten_nondet(NONDET({
+#    "LIMIT_MEMORY": True,
+#    "DEBUG": False,
+#    "NAME": "jetstream",
+#    "MEMORY_LIMIT": NONDET(10000),
+#    "BALANCER_CFG": {
+#        "BALANCE_STRATEGY": "classic",
+#        "RESIZE_CFG": {"RESIZE_STRATEGY": "after-balance", "GC_RATE":NONDET(0.01, 0.015, 0.02, 0.03, 0.04, 0.06, 0.08, 0.10, 0.15, 0.2)},
+#        "SMOOTHING": {"TYPE": "no-smoothing"},
+#        "BALANCE_FREQUENCY": 0
+#    }}, {
+#        "LIMIT_MEMORY": True,
+#        "DEBUG": False,
+#        "NAME": "jetstream",
+#        "MEMORY_LIMIT": NONDET(*[500 + 30 * i for i in range(16)], 10000),
+#        "BALANCER_CFG": {
+#            "BALANCE_STRATEGY": NONDET("ignore"),
+#            "RESIZE_CFG": {"RESIZE_STRATEGY": "ignore"},
+#            "SMOOTHING": {"TYPE": "no-smoothing"},
+#            "BALANCE_FREQUENCY": 0
+#        }})).l
+#
+#cfgs = [{
+#    "LIMIT_MEMORY": True,
+#    "DEBUG": True,
+#    "NAME": "browser",
+#    "MEMORY_LIMIT": 10000,
+#    "BALANCER_CFG": {
+#        "BALANCE_STRATEGY": "ignore",
+#        "RESIZE_CFG": {"RESIZE_STRATEGY": "ignore"},
+#        "SMOOTHING": {"TYPE": "no-smoothing"},
+#        "BALANCE_FREQUENCY": 0
+#    }}]
+#
+#
+#cfgs = flatten_nondet({
+#    "LIMIT_MEMORY": True,
+#    "DEBUG": True,
+#    "NAME": "browser",
+#    "MEMORY_LIMIT": NONDET(10000),
+#    "BENCH": NONDET(["twitter"], ["twitter", "cnn"], ["twitter", "cnn", "espn"]),
+#    "BALANCER_CFG": NONDET({
+#        "BALANCE_STRATEGY": NONDET("ignore"),
+#        "RESIZE_CFG": {"RESIZE_STRATEGY": "ignore"},
+#        "SMOOTHING": {"TYPE": "no-smoothing"},
+#        "BALANCE_FREQUENCY": 0
+#    })}).l
 
 BALANCER_CFG = QUOTE(NONDET({
     "BALANCE_STRATEGY": "classic",
@@ -184,4 +185,74 @@ def run(config, in_path):
         cmd = f'python3 single_eval.py "{config}" {path}'
         subprocess.run(cmd, shell=True, check=True)
 
-run(cfg, Path("log"))
+#run(cfg, Path("log"))
+
+
+#******************n Automation ********************
+
+def create_dir(in_path):
+	path = in_path.joinpath(time.strftime("%Y-%m-%d-%H-%M-%S"))
+	os.makedirs(path)
+	return path
+
+#run one wgroup for all config
+def run_wg(wg, cfgs, out_path):
+	
+	for index, cfg in enumerate(cfgs):
+		path = out_path.joinpath("config-"+str(index))
+		os.makedirs(path)
+		with open(path.joinpath("cfg"), "w") as f:
+			f.write(str(cfg))
+		cfg["BENCH"] = wg
+		cmd = f'python3 single_eval.py "{cfg}" {path}'
+		subprocess.run(cmd, shell=True, check=True)
+        
+def run_wgs(wgs, cfgs, out_path):
+	
+	for index, wg in enumerate(wgs):
+		path = out_path.joinpath("wg-"+str(index))
+		os.makedirs(path)
+		run_wg(wg, cfgs, path)
+
+def eval_wrapper(wgs, cfgs, out_path):
+	
+	out_path = create_dir(out_path)
+	run_wgs(wgs, cfgs, out_path)
+	
+	
+#Invocation
+BALANCER_CFG = NONDET({
+    "BALANCE_STRATEGY": "classic",
+    "RESIZE_CFG": {"RESIZE_STRATEGY": "after-balance", "GC_RATE":NONDET(0.001, 0.002, 0.003)},
+    "SMOOTHING": {"TYPE": "no-smoothing"},
+    "BALANCE_FREQUENCY": 0
+}, {
+    "BALANCE_STRATEGY": "ignore",
+    "RESIZE_CFG": {"RESIZE_STRATEGY": "ignore"},
+    "SMOOTHING": {"TYPE": "no-smoothing"},
+    "BALANCE_FREQUENCY": 0
+})
+
+bench = ["twitter", "cnn", "espn", "reddit"]
+choose_two = [random.sample(bench, k=2) for i in range(10)]
+#BENCH key will be added later
+cfgs_jetstream = flatten_nondet({
+    "LIMIT_MEMORY": True,
+    "DEBUG": True,
+    "NAME": "jetstream",
+    "MEMORY_LIMIT": 10000,
+    "BALANCER_CFG": BALANCER_CFG
+}).l
+
+eval_wrapper(choose_two, cfgs_jetstream, Path("log"))
+
+	
+
+
+		
+		
+	
+	
+
+
+
