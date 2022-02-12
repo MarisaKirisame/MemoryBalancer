@@ -133,7 +133,7 @@ class ProcessScope:
 
 MB_IN_BYTES = 1024 * 1024
 
-balancer_cmds = ["/home/marisa/Work/MemoryBalancer/build/MemoryBalancer", "daemon"]
+balancer_cmds = ["./build/MemoryBalancer", "daemon"]
 balancer_cmds.append(f"--balance-strategy={BALANCE_STRATEGY}")
 balancer_cmds.append(f"--resize-strategy={RESIZE_STRATEGY}")
 if RESIZE_STRATEGY == "constant":
