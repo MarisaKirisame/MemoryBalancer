@@ -158,6 +158,14 @@ std::string gen_name() {
   return "x_" + std::to_string(i++);
 }
 
+using BytesAndDuration = std::pair<uint64_t, double>;
+
+constexpr size_t average_window = 3;
+
+size_t get_starting_index(size_t len) {
+  return average_window > len ? 0 : len - average_window;
+}
+
 // all duration is in milliseconds, and all speed is in bytes per milliseconds.
 struct ConnectionState {
   size_t wait_ack_count = 0;
@@ -168,13 +176,59 @@ struct ConnectionState {
   size_t working_memory;
   // real max memory is for efficiency calculation purpose only
   size_t max_memory;
-  double gc_duration;
   size_t size_of_objects;
-  double gc_speed;
-  double garbage_rate;
+  std::vector<BytesAndDuration> gc_bad, allocation_bad;
+  std::vector<json> memory_log;
+  std::vector<BytesAndDuration> adjusted_allocation_bad() {
+    if (memory_log.empty()) {
+      return allocation_bad;
+    } else {
+      auto ret = allocation_bad;
+      assert(!allocation_bad.empty());
+      ret.back().first += static_cast<int64_t>(memory_log.back()["SizeOfObjects"]) - static_cast<int64_t>(memory_log.front()["SizeOfObjects"]);
+      ret.back().second += static_cast<int64_t>(memory_log.back()["time"]) - static_cast<int64_t>(memory_log.front()["time"]);
+      return ret;
+    }
+  }
+  double garbage_rate() {
+    auto aabad = adjusted_allocation_bad();
+    size_t garbage_bytes = 0;
+    double garbage_duration = 0;
+    for (size_t i = get_starting_index(aabad.size()); i < aabad.size(); ++i) {
+      const auto& bad = aabad[i];
+      garbage_bytes += bad.first;
+      garbage_duration += bad.second;
+    }
+    // HACK: return at least 1. this basically allocate very little memory without breaking anything.
+    if (garbage_bytes == 0 || garbage_duration == 0) {
+      return 1;
+    }
+    return garbage_bytes / garbage_duration;
+  }
+  double gc_speed() {
+    return gc_bytes() / gc_duration();
+  }
+  double gc_duration() {
+    double ret = 0;
+    for (size_t i = get_starting_index(gc_bad.size()); i < gc_bad.size(); ++i) {
+      const auto& bad = gc_bad[i];
+      ret += bad.second;
+    }
+    return ret;
+  }
+  double average_gc_duration() {
+    return gc_duration() / (gc_bad.size() - get_starting_index(gc_bad.size()));
+  }
+  size_t gc_bytes() {
+    size_t ret = 0;
+    for (size_t i = get_starting_index(gc_bad.size()); i < gc_bad.size(); ++i) {
+      const auto& bad = gc_bad[i];
+      ret += bad.first;
+    }
+    return ret;
+  }
   size_t last_major_gc_epoch;
   size_t begin_time, current_time;
-  double total_gc_duration = 0;
   time_point last_major_gc;
   std::string name;
   bool has_major_gc = false;
@@ -189,9 +243,8 @@ struct ConnectionState {
       j["time"] = (steady_clock::now() - program_begin).count();
       j["working-memory"] = working_memory;
       j["max-memory"] = max_memory;
-      j["gc-duration"] = gc_duration;
-      j["gc-speed"] = gc_speed;
-      j["garbage-rate"] = garbage_rate;
+      j["garbage-rate"] = garbage_rate();
+      j["gc-speed"] = gc_speed();
       j["name"] = name;
       l.log(tagged_json("heap-stat", j));
     }
@@ -228,14 +281,23 @@ struct ConnectionState {
           working_memory = adjusted_working_memory;
           size_t adjusted_max_memory = std::max(static_cast<size_t>(data["max_memory"]), adjusted_working_memory);
           max_memory = adjusted_max_memory;
-          double current_gc_duration = data["gc_duration"];
-          gc_duration = current_gc_duration;
-          total_gc_duration += current_gc_duration;
           size_of_objects = data["size_of_objects"];
-          gc_speed = data["gc_speed"];
+	  BytesAndDuration gc_bad;
+	  gc_bad.first = data["gc_bytes"];
+	  gc_bad.second = data["gc_duration"];
+	  // HACK: sometimes an auxillary gc will be fired, and will collect no garbage. in this case we 'stick' it to the earlier gc.
+	  if (gc_bad.second == 0) {
+	    assert(!this->gc_bad.empty());
+	    this->gc_bad.back().first += gc_bad.first;
+	  } else {	
+	    this->gc_bad.push_back(gc_bad);
+	  }
+	  BytesAndDuration allocation_bad;
+	  allocation_bad.first = data["allocation_bytes"];
+	  allocation_bad.second = data["allocation_duration"];
+	  this->allocation_bad.push_back(allocation_bad);
+	  memory_log.clear();
           has_allocation_rate = true;
-          // allocation rate might be zero. to avoid getting weird nan error in the code, it is set to a small value (1.0).
-          garbage_rate = std::max<double>(static_cast<double>(data["allocation_rate"]), 1.0);
         }
       } else if (type == "max_memory") {
         if (wait_ack_count == 0) {
@@ -244,7 +306,10 @@ struct ConnectionState {
       } else if (type == "ack") {
         assert(wait_ack_count > 0);
         --wait_ack_count;
-      } else {
+      } else if (type == "memory_timer") {
+	memory_log.push_back(data);
+      }
+      else {
         std::cout << "unknown type: " << type << std::endl;
         throw;
       }
@@ -260,7 +325,7 @@ struct ConnectionState {
     return max_memory - working_memory;
   }
   double gt() {
-    return static_cast<double>(garbage_rate) * static_cast<double>(gc_duration);
+    return static_cast<double>(garbage_rate()) * static_cast<double>(average_gc_duration());
   }
   double duration_score() {
     assert(ready());
@@ -271,33 +336,35 @@ struct ConnectionState {
     return sqrt(gt());
   }
   double speed_balance_factor() {
-    return sqrt(static_cast<double>(garbage_rate) * static_cast<double>(working_memory) / static_cast<double>(gc_speed));
+    return sqrt(static_cast<double>(garbage_rate()) * static_cast<double>(working_memory) / static_cast<double>(gc_speed()));
   }
   void report(TextTable& t, size_t epoch) {
     assert(ready());
     t.add(name);
     t.add(std::to_string(extra_memory()));
     t.add(std::to_string(max_memory));
-    t.add(std::to_string(garbage_rate));
-    t.add(std::to_string(gc_speed));
-    t.add(std::to_string(gc_duration));
+    t.add(std::to_string(garbage_rate()));
+    t.add(std::to_string(gc_speed()));
   }
   double duration_utilization_rate(size_t extra_memory) {
-    double mutator_duration = extra_memory / garbage_rate;
+    double mutator_duration = extra_memory / garbage_rate();
     assert(mutator_duration >= 0);
-    return mutator_duration / (gc_duration + mutator_duration);
+    return mutator_duration / (average_gc_duration() + mutator_duration);
   }
   double duration_utilization_rate() {
     return duration_utilization_rate(extra_memory());
   }
   double measured_duration_utilization_rate() {
-    return 1 - static_cast<double>(total_gc_duration) / (current_time - begin_time);
+    return 1 - static_cast<double>(gc_duration()) / (current_time - begin_time);
   }
   double speed_utilization_rate(size_t extra_memory) {
-    double mutator_duration = extra_memory / garbage_rate;
+    double mutator_duration = extra_memory / garbage_rate();
+    if (!(mutator_duration >= 0)) {
+      std::cout << extra_memory << " " << garbage_rate() << " " << mutator_duration << std::endl;
+    }
     assert(mutator_duration >= 0);
-    double useful_gc_duration = extra_memory / gc_speed;
-    double wasteful_gc_duration = working_memory / gc_speed;
+    double useful_gc_duration = extra_memory / gc_speed();
+    double wasteful_gc_duration = working_memory / gc_speed();
     return (mutator_duration + useful_gc_duration) / (mutator_duration + useful_gc_duration + wasteful_gc_duration);
   }
   double speed_utilization_rate() {
@@ -363,6 +430,7 @@ std::ostream& operator<<(std::ostream& os, ResizeStrategy rs) {
     throw;
   }
 }
+
 struct Balancer {
   milliseconds balance_frequency;
   size_t update_count = 0;
@@ -526,7 +594,6 @@ struct Balancer {
     t.add("total_memory");
     t.add("garbage_rate");
     t.add("gc_speed");
-    t.add("gc_duration");
     t.add("suggested_extra_memory");
     t.add("suggested_total_memory");
     t.add("gc_rate");

@@ -26,9 +26,6 @@ if RESIZE_STRATEGY == "constant":
     RESIZE_AMOUNT = RESIZE_CFG["RESIZE_AMOUNT"]
 if RESIZE_STRATEGY == "after-balance":
     GC_RATE = RESIZE_CFG["GC_RATE"]
-SMOOTH_TYPE = BALANCER_CFG["SMOOTHING"]["TYPE"]
-if not SMOOTH_TYPE == "no-smoothing":
-    SMOOTH_COUNT = BALANCER_CFG["SMOOTHING"]["COUNT"]
 BALANCE_FREQUENCY = BALANCER_CFG["BALANCE_FREQUENCY"]
 
 NAME = cfg["NAME"]
@@ -143,9 +140,6 @@ if RESIZE_STRATEGY == "constant":
     balancer_cmds.append(f"--resize-amount={RESIZE_AMOUNT * MB_IN_BYTES}")
 if RESIZE_STRATEGY == "after-balance":
     balancer_cmds.append(f"--gc-rate={GC_RATE}")
-balancer_cmds.append(f"--smooth-type={SMOOTH_TYPE}")
-if not SMOOTH_TYPE == "no-smoothing":
-    balancer_cmds.append(f"--smooth-count={SMOOTH_COUNT}")
 balancer_cmds.append(f"--balance-frequency={BALANCE_FREQUENCY}")
 balancer_cmds.append(f"""--log-path={result_directory+"balancer_log"}""")
 

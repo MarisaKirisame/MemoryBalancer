@@ -65,7 +65,7 @@ data = [x for x in data if filter_warn(x)]
 
 m = {}
 
-BASELINE = deep_freeze({'BALANCE_STRATEGY': 'ignore', 'RESIZE_CFG': {'RESIZE_STRATEGY': 'ignore'}, 'SMOOTHING': {'TYPE': 'no-smoothing'}, 'BALANCE_FREQUENCY': 0})
+BASELINE = deep_freeze({'BALANCE_STRATEGY': 'ignore', 'RESIZE_CFG': {'RESIZE_STRATEGY': 'ignore'}, 'BALANCE_FREQUENCY': 0})
 
 for d in data:
     k = deep_freeze(d[1]["BENCH"])
