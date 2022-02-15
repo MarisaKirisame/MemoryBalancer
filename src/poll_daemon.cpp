@@ -206,7 +206,7 @@ struct ConnectionState {
     return garbage_bytes / garbage_duration;
   }
   double gc_speed() {
-    return gc_bytes() / gc_duration();
+    return std::max(1.0, gc_bytes() / gc_duration());
   }
   double gc_duration() {
     double ret = 0;
@@ -365,7 +365,12 @@ struct ConnectionState {
     assert(mutator_duration >= 0);
     double useful_gc_duration = extra_memory / gc_speed();
     double wasteful_gc_duration = working_memory / gc_speed();
-    return (mutator_duration + useful_gc_duration) / (mutator_duration + useful_gc_duration + wasteful_gc_duration);
+    auto ret = (mutator_duration + useful_gc_duration) / (mutator_duration + useful_gc_duration + wasteful_gc_duration);
+    if(!(ret >= 0)) {
+      std::cout << mutator_duration << " " << useful_gc_duration << " " << wasteful_gc_duration << std::endl;
+    }
+    assert(ret >= 0);
+    return ret;
   }
   double speed_utilization_rate() {
     return speed_utilization_rate(extra_memory());
