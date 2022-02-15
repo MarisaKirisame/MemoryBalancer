@@ -76,9 +76,9 @@ for d in data:
         m[k][k_k] = []
     m[k][k_k].append(d[0])
 
-p = "Average_PhysicalMemory"
-p = "Average_BalancerMemory"
-p = "Average_SizeOfObjects"
+p = "Average(PhysicalMemory)"
+p = "Average(BalancerMemory)"
+p = "Average(SizeOfObjects)"
 
 for bench in m:
     if BASELINE not in m[bench]:
