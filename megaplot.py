@@ -51,10 +51,10 @@ for name in glob.glob('log/**/score', recursive=True):
         score = json.load(f)
     with open(dirname + "/cfg") as f:
         cfg = eval(f.read())
-    data.append((score, cfg))
+    data.append((score, cfg, name))
 
 def filter_warn(x):
-    score, cfg = x
+    score, cfg, name = x
     if score["MAJOR_GC_TIME"] == 0:
         print("WARNING: MAJOR_GC_TIME == 0 FOUND, FILTERING")
         return False
@@ -74,7 +74,7 @@ for d in data:
     k_k = deep_freeze(d[1]["BALANCER_CFG"])
     if k_k not in m[k]:
         m[k][k_k] = []
-    m[k][k_k].append(d[0])
+    m[k][k_k].append((d[0], d[2]))
 
 p = "Average(PhysicalMemory)"
 p = "Average(BalancerMemory)"
@@ -86,7 +86,7 @@ for bench in m:
         continue
     baseline_memorys = []
     baseline_times = []
-    for score in m[bench][BASELINE]:
+    for score, name in m[bench][BASELINE]:
         if p not in score:
             print(score)
         memory = score[p]
@@ -99,9 +99,13 @@ for bench in m:
     y = []
     for balancer_cfg in m[bench]:
         if balancer_cfg != BASELINE:
-            for score in m[bench][balancer_cfg]:
+            for score, name in m[bench][balancer_cfg]:
                 memory = score[p] / baseline_memory
                 time = score["MAJOR_GC_TIME"] / baseline_time
+                if time > 1.5:
+                    print(bench)
+                    print(balancer_cfg)
+                    print(name)
                 x.append(memory)
                 y.append(time)
     plt.scatter(x, y, label=bench,linewidth=0.1)

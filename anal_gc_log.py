@@ -20,6 +20,8 @@ with open(directory + "balancer_log") as f:
             if j["data"]["msg-type"] == "close":
                 memory_msg_logs.append(j["data"])
 
+print(len(logs))
+
 with open(directory + "cfg") as f:
     title = eval(f.read())["BALANCER_CFG"]
 #with open(directory + "score") as f:
@@ -106,7 +108,6 @@ for l in logs:
     time = l["time"]
     working_memory = l["working-memory"]
     memory = l["max-memory"]
-    print(memory)
     if name not in instance_map:
         x = Process(name)
         instance_map[name] = x
