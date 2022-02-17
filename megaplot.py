@@ -83,6 +83,7 @@ def plot(m, benches):
     p = "Average(PhysicalMemory)"
     p = "Average(BalancerMemory)"
     p = "Average(SizeOfObjects)"
+    p = "Average_SizeOfObjects"
 
     coords = []
 

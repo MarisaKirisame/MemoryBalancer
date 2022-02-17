@@ -334,6 +334,7 @@ def run_browser(v8_env_vars):
     async def run_browser_main():
         b = await new_browser()
         d = 180
+        hang()
         await asyncio.gather(*[get_bench(bench)(b, d) for bench in BENCH])
         await b.close()
 

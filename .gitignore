@@ -3,3 +3,4 @@ logs/*
 out/*
 plot.png
 log
+__pycache__
