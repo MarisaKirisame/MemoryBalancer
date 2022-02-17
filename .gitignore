@@ -1,4 +1,5 @@
 build
 logs/*
+out/*
 plot.png
 log

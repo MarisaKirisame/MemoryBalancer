@@ -43,16 +43,6 @@ def deep_freeze(d):
     else:
         return d
 
-data = []
-
-for name in glob.glob('log/**/score', recursive=True):
-    dirname = os.path.dirname(name)
-    with open(dirname + "/score") as f:
-        score = json.load(f)
-    with open(dirname + "/cfg") as f:
-        cfg = eval(f.read())
-    data.append((score, cfg, name))
-
 def filter_warn(x):
     score, cfg, name = x
     if score["MAJOR_GC_TIME"] == 0:
@@ -61,57 +51,75 @@ def filter_warn(x):
     else:
         return True
 
-data = [x for x in data if filter_warn(x)]
-
-m = {}
-
 BASELINE = deep_freeze({'BALANCE_STRATEGY': 'ignore', 'RESIZE_CFG': {'RESIZE_STRATEGY': 'ignore'}, 'BALANCE_FREQUENCY': 0})
 
-for d in data:
-    k = deep_freeze(d[1]["BENCH"])
-    if k not in m:
-        m[k] = {}
-    k_k = deep_freeze(d[1]["BALANCER_CFG"])
-    if k_k not in m[k]:
-        m[k][k_k] = []
-    m[k][k_k].append((d[0], d[2]))
+def anal_log():
+    data = []
 
-p = "Average(PhysicalMemory)"
-p = "Average(BalancerMemory)"
-p = "Average(SizeOfObjects)"
+    for name in glob.glob('log/**/score', recursive=True):
+        dirname = os.path.dirname(name)
+        with open(dirname + "/score") as f:
+            score = json.load(f)
+        with open(dirname + "/cfg") as f:
+            cfg = eval(f.read())
+        data.append((score, cfg, name))
 
-for bench in m:
-    if BASELINE not in m[bench]:
-        print("WARNING: BASELINE NOT FOUND")
-        continue
-    baseline_memorys = []
-    baseline_times = []
-    for score, name in m[bench][BASELINE]:
-        if p not in score:
-            print(score)
-        memory = score[p]
-        time = score["MAJOR_GC_TIME"]
-        baseline_memorys.append(memory)
-        baseline_times.append(time)
-    baseline_memory = sum(baseline_memorys) / len(baseline_memorys)
-    baseline_time = sum(baseline_times) / len(baseline_times)
-    x = []
-    y = []
-    for balancer_cfg in m[bench]:
-        if balancer_cfg != BASELINE:
-            for score, name in m[bench][balancer_cfg]:
-                memory = score[p] / baseline_memory
-                time = score["MAJOR_GC_TIME"] / baseline_time
-                if time > 1.5:
-                    print(bench)
-                    print(balancer_cfg)
-                    print(name)
-                x.append(memory)
-                y.append(time)
-    plt.scatter(x, y, label=bench,linewidth=0.1)
+    data = [x for x in data if   filter_warn(x)]
 
-plt.xlabel(p)
-plt.ylabel("Time")
-plt.scatter([1], [1], label="baseline", color="black")
-plt.legend()
-plt.show()
+    m = {}
+
+    for d in data:
+        k = deep_freeze(d[1]["BENCH"])
+        if k not in m:
+            m[k] = {}
+        k_k = deep_freeze(d[1]["BALANCER_CFG"])
+        if k_k not in m[k]:
+            m[k][k_k] = []
+        m[k][k_k].append((d[0], d[2]))
+
+    return m
+
+def plot(m, benches):
+    p = "Average(PhysicalMemory)"
+    p = "Average(BalancerMemory)"
+    p = "Average(SizeOfObjects)"
+
+    coords = []
+
+    for bench in benches:
+        if BASELINE not in m[bench]:
+            print("WARNING: BASELINE NOT FOUND")
+            continue
+        baseline_memorys = []
+        baseline_times = []
+        for score, name in m[bench][BASELINE]:
+            if p not in score:
+                print(score)
+            memory = score[p]
+            time = score["MAJOR_GC_TIME"]
+            baseline_memorys.append(memory)
+            baseline_times.append(time)
+        baseline_memory = sum(baseline_memorys) / len(baseline_memorys)
+        baseline_time = sum(baseline_times) / len(baseline_times)
+        x = []
+        y = []
+        for balancer_cfg in m[bench]:
+            if balancer_cfg != BASELINE:
+                for score, name in m[bench][balancer_cfg]:
+                    memory = score[p] / baseline_memory
+                    time = score["MAJOR_GC_TIME"] / baseline_time
+                    x.append(memory)
+                    y.append(time)
+                    coords.append(((memory, time), name))
+        plt.scatter(x, y, label=bench,linewidth=0.1)
+
+    plt.xlabel(p)
+    plt.ylabel("Time")
+    plt.scatter([1], [1], label="baseline", color="black")
+    plt.legend()
+    return coords
+
+if __name__ == "__main__":
+    m = anal_log()
+    plot(m, m.keys())
+    plt.show()
