@@ -196,8 +196,8 @@ def run_jetstream(v8_env_vars):
         j["TOTAL_TIME"] = total_time
         assert(total_major_gc_time != None)
         j["TOTAL_MAJOR_GC_TIME"] = total_major_gc_time
-    with open(os.path.join(result_directory, "score"), "w") as f:
-        json.dump(j, f)
+        with open(os.path.join(result_directory, "score"), "w") as f:
+            json.dump(j, f)
 
 
 def run_browser(v8_env_vars):

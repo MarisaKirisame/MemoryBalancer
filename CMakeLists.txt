@@ -7,6 +7,7 @@ project(MemoryBalancer)
 file(GLOB_RECURSE SOURCES src/*.hpp src/*.cpp)
 add_executable(MemoryBalancer ${SOURCES})
 
+
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(CMAKE_CXX_STANDARD 17)
 # somehow this does not work. add flag manually
@@ -20,6 +21,7 @@ include_directories(third_party/cpp-text-table)
 target_link_libraries(MemoryBalancer PRIVATE pthread)
 target_link_libraries(MemoryBalancer PRIVATE boost_system)
 target_link_libraries(MemoryBalancer PRIVATE boost_filesystem)
+target_link_libraries(MemoryBalancer PRIVATE stdc++fs)
 
 target_link_libraries(MemoryBalancer PRIVATE v8_monolith)
 target_link_directories(MemoryBalancer PRIVATE ../v8/src/out.gn/x64.release.sample/obj/)
