@@ -87,8 +87,6 @@ def main(directory):
                 if j["data"]["msg-type"] == "close":
                     memory_msg_logs.append(j["data"])
 
-    print(len(logs))
-
     with open(directory + "cfg") as f:
         title = eval(f.read())["BALANCER_CFG"]
 
