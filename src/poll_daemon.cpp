@@ -231,13 +231,13 @@ struct ConnectionState {
   size_t begin_time, current_time;
   time_point last_major_gc;
   std::string name;
+  std::string guid;
   bool has_major_gc = false;
-  bool has_allocation_rate = false;
   ConnectionState(socket_t fd) :
     fd(fd),
     force_gc_chan(fd) { }
   void try_log(Logger& l, const std::string& msg_type) {
-    if (ready()) {
+    if (should_balance()) {
       nlohmann::json j;
       j["msg-type"] = msg_type;
       j["time"] = (steady_clock::now() - program_begin).count();
@@ -246,6 +246,7 @@ struct ConnectionState {
       j["garbage-rate"] = garbage_rate();
       j["gc-speed"] = gc_speed();
       j["name"] = name;
+      //j["guid"] = guid;
       l.log(tagged_json("heap-stat", j));
     }
   }
@@ -282,22 +283,22 @@ struct ConnectionState {
           size_t adjusted_max_memory = std::max(static_cast<size_t>(data["max_memory"]), adjusted_working_memory);
           max_memory = adjusted_max_memory;
           size_of_objects = data["size_of_objects"];
-	  BytesAndDuration gc_bad;
-	  gc_bad.first = data["gc_bytes"];
-	  gc_bad.second = data["gc_duration"];
-	  // HACK: sometimes an auxillary gc will be fired, and will collect no garbage. in this case we 'stick' it to the earlier gc.
-	  if (gc_bad.second == 0) {
-	    assert(!this->gc_bad.empty());
-	    this->gc_bad.back().first += gc_bad.first;
-	  } else {	
-	    this->gc_bad.push_back(gc_bad);
-	  }
-	  BytesAndDuration allocation_bad;
-	  allocation_bad.first = data["allocation_bytes"];
-	  allocation_bad.second = data["allocation_duration"];
-	  this->allocation_bad.push_back(allocation_bad);
-	  memory_log.clear();
-          has_allocation_rate = true;
+          BytesAndDuration gc_bad;
+          gc_bad.first = data["gc_bytes"];
+          gc_bad.second = data["gc_duration"];
+          // HACK: sometimes an auxillary gc will be fired, and will collect no garbage. in this case we 'stick' it to the earlier gc.
+          if (gc_bad.second == 0) {
+            assert(!this->gc_bad.empty());
+            this->gc_bad.back().first += gc_bad.first;
+          } else if (gc_bad.first == 0) { }
+          else {
+            this->gc_bad.push_back(gc_bad);
+          }
+          BytesAndDuration allocation_bad;
+          allocation_bad.first = data["allocation_bytes"];
+          allocation_bad.second = data["allocation_duration"];
+          this->allocation_bad.push_back(allocation_bad);
+          memory_log.clear();
         }
       } else if (type == "max_memory") {
         if (wait_ack_count == 0) {
@@ -307,18 +308,19 @@ struct ConnectionState {
         assert(wait_ack_count > 0);
         --wait_ack_count;
       } else if (type == "memory_timer") {
-	memory_log.push_back(data);
+        memory_log.push_back(data);
       }
       else {
         std::cout << "unknown type: " << type << std::endl;
         throw;
       }
+      std::cout << name << " accept: " << str << std::endl;
       try_log(l, type);
     }
     unprocessed = p.second;
   }
-  bool ready() {
-    return has_major_gc && has_allocation_rate;
+  bool should_balance() {
+    return has_major_gc && wait_ack_count == 0 && gc_speed() != 1.0 && garbage_rate() != 1.0;
   }
   size_t extra_memory() {
     assert(max_memory >= working_memory);
@@ -328,7 +330,7 @@ struct ConnectionState {
     return static_cast<double>(garbage_rate()) * static_cast<double>(average_gc_duration());
   }
   double duration_score() {
-    assert(ready());
+    assert(should_balance());
     size_t extra_memory_ = extra_memory();
     return static_cast<double>(extra_memory_) * static_cast<double>(extra_memory_) / gt();
   }
@@ -339,7 +341,7 @@ struct ConnectionState {
     return sqrt(static_cast<double>(garbage_rate()) * static_cast<double>(working_memory) / static_cast<double>(gc_speed()));
   }
   void report(TextTable& t, size_t epoch) {
-    assert(ready());
+    assert(should_balance());
     t.add(name);
     t.add(std::to_string(extra_memory()));
     t.add(std::to_string(max_memory));
@@ -611,7 +613,7 @@ struct Balancer {
     auto vec = vector();
     std::cout << "balancing " << st.instance_count << " heap, waiting for " << vec.size() - st.instance_count << " heap" << std::endl;
     for (ConnectionState* rr: vector()) {
-      if (rr->ready()) {
+      if (rr->should_balance()) {
         rr->report(t, epoch);
         size_t suggested_extra_memory_ = suggested_extra_memory(rr);
         t.add(std::to_string(suggested_extra_memory_));
@@ -633,7 +635,7 @@ struct Balancer {
     double median_score = median(scores);
     Stat st;
     for (ConnectionState* rr: vector()) {
-      if (rr->ready()) {
+      if (rr->should_balance()) {
         ++st.instance_count;
         double diff = (rr->duration_score() - median_score) / median_score;
         st.mse += diff * diff;
@@ -673,7 +675,7 @@ struct Balancer {
   memory_suggestion_t calculate_suggestion(size_t total_extra_memory, const Stat& st) {
     memory_suggestion_t memory_suggestion;
     for (ConnectionState* rr: vector()) {
-      if (rr->ready()) {
+      if (rr->should_balance()) {
         memory_suggestion.insert({rr, suggested_extra_memory(rr, total_extra_memory, st)});
       }
     }
@@ -696,7 +698,7 @@ struct Balancer {
     } else if (resize_strategy == ResizeStrategy::before_balance) {
       total_extra_memory = 0;
       for (ConnectionState* rr: vector()) {
-        if (rr->ready()) {
+        if (rr->should_balance()) {
           total_extra_memory +=
             positive_binary_search_unbounded(std::max<size_t>(rr->extra_memory(), 1),
                                              [&](double extra_memory) {
@@ -727,7 +729,7 @@ struct Balancer {
       size_t bytes_grown = total_extra_memory >= st.e ? total_extra_memory - st.e : 0;
       size_t bytes_malloced = 0;
       for (ConnectionState* rr: vector()) {
-        if (rr->ready() && rr->wait_ack_count == 0) {
+        if (rr->should_balance()) {
           size_t extra_memory_ = rr->extra_memory();
           size_t suggested_extra_memory_ = suggested_extra_memory(rr, total_extra_memory, st);
           if (suggested_extra_memory_ >= extra_memory_) {
@@ -750,7 +752,7 @@ struct Balancer {
     std::vector<double> scores;
     std::vector<ConnectionState*> vec = vector();
     for (ConnectionState* rr: vec) {
-      if (rr->ready()) {
+      if (rr->should_balance()) {
         scores.push_back(rr->duration_score());
       }
     }
@@ -773,14 +775,14 @@ struct Balancer {
         double adjust_ratio = get_adjust_ratio(total_extra_memory, st);
         // send msg back to v8
         for (ConnectionState* rr: vec) {
-          if (rr->ready() && rr->wait_ack_count == 0) {
+          if (rr->should_balance()) {
             size_t extra_memory_ = rr->extra_memory();
             size_t suggested_extra_memory_ = suggested_extra_memory_aux(rr);
             if (suggested_extra_memory_ >= extra_memory_) {
               // have to restrict the amount of allocation due to latency concern
               suggested_extra_memory_ = extra_memory_ + (suggested_extra_memory_ - extra_memory_) * adjust_ratio;
             }
-            suggested_extra_memory_ = std::max<size_t>(suggested_extra_memory_, 10485760);
+            suggested_extra_memory_ = std::max<size_t>(suggested_extra_memory_, 1048576 * 2);
             size_t total_memory_ = suggested_extra_memory_ + rr->working_memory;
             if (big_change(extra_memory_, suggested_extra_memory_) && rr->heap_resize_snap(suggested_extra_memory_)) {
               std::string str = to_string(tagged_json("heap", total_memory_));

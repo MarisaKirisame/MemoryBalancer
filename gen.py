@@ -59,7 +59,7 @@ m = megaplot.anal_log()
 subpages = []
 for bench in m.keys():
     with dominate.document(title=str(bench)) as doc:
-        coords = megaplot.plot(m, [bench])
+        coords = megaplot.plot(m, [bench], summarize_baseline=False)
         png_path = f"{png_counter()}.png"
         plt.savefig(str(path.joinpath(png_path)))
         plt.clf()
