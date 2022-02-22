@@ -79,11 +79,10 @@ def anal_log():
 
     return m
 
-def plot(m, benches):
+def plot(m, benches, summarize_baseline=True):
     p = "Average(PhysicalMemory)"
     p = "Average(BalancerMemory)"
     p = "Average(SizeOfObjects)"
-    p = "Average_SizeOfObjects"
 
     coords = []
 
@@ -100,23 +99,30 @@ def plot(m, benches):
             time = score["MAJOR_GC_TIME"]
             baseline_memorys.append(memory)
             baseline_times.append(time)
+            if not summarize_baseline:
+                coords.append(((memory, time), name))
         baseline_memory = sum(baseline_memorys) / len(baseline_memorys)
         baseline_time = sum(baseline_times) / len(baseline_times)
+        if not summarize_baseline:
+            plt.scatter(baseline_memorys, baseline_times, label="baseline")
         x = []
         y = []
         for balancer_cfg in m[bench]:
             if balancer_cfg != BASELINE:
                 for score, name in m[bench][balancer_cfg]:
-                    memory = score[p] / baseline_memory
-                    time = score["MAJOR_GC_TIME"] / baseline_time
+                    memory = score[p]
+                    time = score["MAJOR_GC_TIME"]
+                    if summarize_baseline:
+                        memory /= baseline_memory
+                        time /= baseline_time
                     x.append(memory)
                     y.append(time)
                     coords.append(((memory, time), name))
-        plt.scatter(x, y, label=bench,linewidth=0.1)
-
+        plt.scatter(x, y, label=bench, linewidth=0.1)
     plt.xlabel(p)
     plt.ylabel("Time")
-    plt.scatter([1], [1], label="baseline", color="black")
+    if summarize_baseline:
+        plt.scatter([1], [1], label="baseline", color="black")
     plt.legend()
     return coords
 
