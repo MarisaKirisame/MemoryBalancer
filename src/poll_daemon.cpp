@@ -247,7 +247,7 @@ struct ConnectionState {
       j["garbage-rate"] = garbage_rate();
       j["gc-speed"] = gc_speed();
       j["name"] = name;
-      j["current_memory"] = current_memory;
+      j["current-memory"] = current_memory;
       //j["guid"] = guid;
       l.log(tagged_json("heap-stat", j));
     }
