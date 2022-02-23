@@ -174,6 +174,7 @@ struct ConnectionState {
   Snapper heap_resize_snap;
   std::string unprocessed;
   size_t working_memory;
+  size_t current_memory; // this is for logging plotting only, it does not change any action we do.
   // real max memory is for efficiency calculation purpose only
   size_t max_memory;
   size_t size_of_objects;
@@ -246,6 +247,7 @@ struct ConnectionState {
       j["garbage-rate"] = garbage_rate();
       j["gc-speed"] = gc_speed();
       j["name"] = name;
+      j["current_memory"] = current_memory;
       //j["guid"] = guid;
       l.log(tagged_json("heap-stat", j));
     }
@@ -280,6 +282,7 @@ struct ConnectionState {
           last_major_gc_epoch = epoch;
           size_t adjusted_working_memory = static_cast<size_t>(data["after_memory"]);
           working_memory = adjusted_working_memory;
+          current_memory = working_memory;
           size_t adjusted_max_memory = std::max(static_cast<size_t>(data["max_memory"]), adjusted_working_memory);
           max_memory = adjusted_max_memory;
           size_of_objects = data["size_of_objects"];
@@ -309,6 +312,7 @@ struct ConnectionState {
         --wait_ack_count;
       } else if (type == "memory_timer") {
         memory_log.push_back(data);
+        current_memory = data["SizeOfObjects"];
       }
       else {
         std::cout << "unknown type: " << type << std::endl;

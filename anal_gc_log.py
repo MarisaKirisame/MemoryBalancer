@@ -78,23 +78,27 @@ def draw_stacks(stacks):
 class Process(Stackable):
     def __init__(self, name):
         self.name = name
-        self.memory = []
         self.working_memory = []
+        self.current_memory = []
+        self.max_memory = []
         self.gc_line_low = []
         self.gc_line_high = []
 
-    def point(self, time, working_memory, memory, gc_trigger):
-        self.memory.append((time, memory))
+    def point(self, time, working_memory, current_memory, max_memory, gc_trigger):
         self.working_memory.append((time, working_memory))
+        self.current_memory.append((time, current_memory))
+        self.max_memory.append((time, max_memory))
         if gc_trigger:
             self.gc_line_low.append((time, 0))
-            self.gc_line_high.append((time, memory))
+            self.gc_line_high.append((time, max_memory))
 
     def draw(self, baseline):
-        memory = stack(baseline, self.memory)
-        p = plt.plot([x for x, y in memory], [y for x, y in memory], label=self.name)
+        max_memory = stack(baseline, self.max_memory)
+        p = plt.plot([x for x, y in max_memory], [y for x, y in max_memory], label=self.name)
+        current_memory = stack(baseline, self.current_memory)
+        plt.plot([x for x, y in current_memory], [y for x, y in current_memory], color="black")
         working_memory = stack(baseline, self.working_memory)
-        plt.fill_between([x for x, y in working_memory], [y for x, y in working_memory],  [y for x, y in stack(baseline, [(x, 0) for x, y in self.memory])], color=p[0].get_color())
+        plt.fill_between([x for x, y in working_memory], [y for x, y in working_memory],  [y for x, y in stack(baseline, [(x, 0) for x, y in self.max_memory])], color=p[0].get_color())
         plt.plot([x for x, y in working_memory], [y for x, y in working_memory], color=p[0].get_color())
         gc_line_low = stack_unmerged(baseline, self.gc_line_low)[1]
         gc_line_high = stack_unmerged(baseline, self.gc_line_high)[1]
@@ -104,7 +108,7 @@ class Process(Stackable):
             plt.vlines(x_low, ymin=y_low, ymax=y_high, color="black", linestyle="--")
 
     def stack(self, baseline):
-        return stack(baseline, self.memory)
+        return stack(baseline, self.max_memory)
 
 def main(directory):
     memory_msg_logs = []
@@ -133,13 +137,14 @@ def main(directory):
         name = l["name"]
         time = l["time"]
         working_memory = l["working-memory"]
-        memory = l["max-memory"]
+        max_memory = l["max-memory"]
+        current_memory = l["current_memory"]
         if name not in instance_map:
             x = Process(name)
             instance_map[name] = x
             instance_list.append(x)
         gc_trigger = l["msg-type"] == "major_gc"
-        instance_map[name].point(time, working_memory, memory, gc_trigger)
+        instance_map[name].point(time, working_memory, current_memory, max_memory, gc_trigger)
 
     draw_stacks(instance_list)
     plt.legend()
