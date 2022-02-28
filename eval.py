@@ -197,7 +197,7 @@ def create_dir(in_path):
 
 #run one wgroup for all config
 def run_wg(wg, cfgs, out_path):
-	
+
 	for index, cfg in enumerate(cfgs):
 		path = out_path.joinpath("config-"+str(index))
 		os.makedirs(path)
@@ -206,20 +206,19 @@ def run_wg(wg, cfgs, out_path):
 		cfg["BENCH"] = wg
 		cmd = f'python3 single_eval.py "{cfg}" {path}'
 		subprocess.run(cmd, shell=True, check=True)
-        
+
 def run_wgs(wgs, cfgs, out_path):
-	
+
 	for index, wg in enumerate(wgs):
 		path = out_path.joinpath("wg-"+str(index))
 		os.makedirs(path)
 		run_wg(wg, cfgs, path)
 
 def eval_wrapper(wgs, cfgs, out_path):
-	
 	out_path = create_dir(out_path)
 	run_wgs(wgs, cfgs, out_path)
-	
-	
+
+
 #Invocation
 BALANCER_CFG = NONDET({
     "BALANCE_STRATEGY": "classic",
@@ -244,15 +243,12 @@ cfgs_jetstream = flatten_nondet({
     "BALANCER_CFG": BALANCER_CFG
 }).l
 
-eval_wrapper(choose_two, cfgs_jetstream, Path("log"))
+cfgs_browser = flatten_nondet({
+    "LIMIT_MEMORY": True,
+    "DEBUG": True,
+    "NAME": "browser",
+    "MEMORY_LIMIT": 10000,
+    "BALANCER_CFG": BALANCER_CFG
+}).l
 
-	
-
-
-		
-		
-	
-	
-
-
-
+eval_wrapper(choose_two, cfgs_browser, Path("log/Result"))
