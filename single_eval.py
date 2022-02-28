@@ -11,6 +11,9 @@ from collections import defaultdict
 assert(len(sys.argv) == 3)
 cfg = eval(sys.argv[1])
 result_directory = sys.argv[2] + "/"
+root_dir = os.path.split(os.getcwd())[0]
+print("root-dir: "+root_dir)
+
 
 print(f"running: {cfg}")
 LIMIT_MEMORY = cfg["LIMIT_MEMORY"]
@@ -202,10 +205,10 @@ def run_jetstream(v8_env_vars):
 
 def run_browser(v8_env_vars):
     async def new_browser():
-        browseroptions = {"headless":False,
-                          "args":["--no-sandbox", "--disable-notifications", "--start-maximized", "--user-data-dir=/home/marisa/membalancer_profile"]}
+        browseroptions = {"headless":True,
+                          "args":["--no-sandbox", "--disable-notifications", "--start-maximized", f"""--user-data-dir={root_dir}+/MemoryBalancer/membalancer_profile"""]}
 
-        browseroptions["executablePath"] = "/home/marisa/Work/chromium/src/out/Release/chrome"
+        browseroptions["executablePath"] = f"""{root_dir}+/chromium/src/out/Release/chrome"""
 
         # we need the environment variable for headless:False, because it include stuff such for graphics such as DISPLAY.
         # todo: isolate them instead of passing the whole env var?
