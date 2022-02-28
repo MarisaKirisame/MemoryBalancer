@@ -206,9 +206,9 @@ def run_jetstream(v8_env_vars):
 def run_browser(v8_env_vars):
     async def new_browser():
         browseroptions = {"headless":True,
-                          "args":["--no-sandbox", "--disable-notifications", "--start-maximized", f"""--user-data-dir={root_dir}+/MemoryBalancer/membalancer_profile"""]}
+                          "args":["--no-sandbox", "--disable-notifications", "--start-maximized", f"""--user-data-dir={root_dir+"/MemoryBalancer/membalancer_profile"}"""]}
 
-        browseroptions["executablePath"] = f"""{root_dir}+/chromium/src/out/Release/chrome"""
+        browseroptions["executablePath"] = f"""{root_dir+"/chromium/src/out/Release/chrome"}"""
 
         # we need the environment variable for headless:False, because it include stuff such for graphics such as DISPLAY.
         # todo: isolate them instead of passing the whole env var?
