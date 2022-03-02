@@ -153,7 +153,7 @@ cfgs = flatten_nondet({
 
 BALANCER_CFG = QUOTE(NONDET({
     "BALANCE_STRATEGY": "classic",
-    "RESIZE_CFG": {"RESIZE_STRATEGY": "after-balance", "GC_RATE":NONDET(0.002, 0.004, 0.006, 0.008, 0.010)},
+    "RESIZE_CFG": {"RESIZE_STRATEGY": "after-balance", "GC_RATE":NONDET(0.004, 0.006, 0.008, 0.010)},
     "BALANCE_FREQUENCY": 0
 }, {
     "BALANCE_STRATEGY": "ignore",
@@ -162,7 +162,7 @@ BALANCER_CFG = QUOTE(NONDET({
 }))
 
 bench = ["twitter", "cnn", "espn", "reddit"]
-choose_two = [random.sample(bench, k=2) for i in range(10)]
+choose_two = [random.sample(bench, k=2) for i in range(100)]
 cfg = {
     "LIMIT_MEMORY": True,
     "DEBUG": True,

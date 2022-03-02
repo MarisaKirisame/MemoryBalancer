@@ -34,6 +34,7 @@ for name in glob.glob('log/**/score', recursive=True):
     with open(dirname + "/score") as f:
         score = json.load(f)
     with dominate.document(title=dirname) as doc:
+        print(dirname)
         anal_gc_log.main(dirname + "/")
         png_path = f"{png_counter()}.png"
         plt.savefig(str(path.joinpath(png_path)))

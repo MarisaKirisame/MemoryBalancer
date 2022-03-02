@@ -35,13 +35,19 @@ def stack_unmerged(l, r):
                 len_l -= 1
                 old_lx = lx
                 old_ly = ly
-                ret_l.append((lx, old_ly + interpol((old_rx, old_ry), (rx, ry), lx)))
+                if len(ret_r) == 0:
+                    ret_l.append((lx, ly))
+                else:
+                    ret_l.append((lx, ly + interpol((old_rx, old_ry), (rx, ry), lx)))
             else:
                 r = r[1:]
                 len_r -= 1
                 old_rx = rx
                 old_ry = ry
-                ret_r.append((rx, old_ry + interpol((old_lx, old_ly), (lx, ly), rx)))
+                if len(ret_l) == 0:
+                    ret_r.append((rx, ry))
+                else:
+                    ret_r.append((rx, ry + interpol((old_lx, old_ly), (lx, ly), rx)))
 
 def merge(l, r):
     if len(l) == 0:
@@ -96,7 +102,7 @@ class Process(Stackable):
         max_memory = stack(baseline, self.max_memory)
         p = plt.plot([x for x, y in max_memory], [y for x, y in max_memory], label=self.name)
         current_memory = stack(baseline, self.current_memory)
-        plt.plot([x for x, y in current_memory], [y for x, y in current_memory], color="black")
+        plt.fill_between([x for x, y in current_memory], [y for x, y in current_memory],  [y for x, y in stack(baseline, [(x, 0) for x, y in self.max_memory])], color=p[0].get_color(), alpha=0.5)
         working_memory = stack(baseline, self.working_memory)
         plt.fill_between([x for x, y in working_memory], [y for x, y in working_memory],  [y for x, y in stack(baseline, [(x, 0) for x, y in self.max_memory])], color=p[0].get_color())
         plt.plot([x for x, y in working_memory], [y for x, y in working_memory], color=p[0].get_color())
@@ -105,7 +111,7 @@ class Process(Stackable):
         assert len(gc_line_low) == len(gc_line_high)
         for (x_low, y_low), (x_high, y_high) in zip(gc_line_low, gc_line_high):
             assert x_low == x_high
-            plt.vlines(x_low, ymin=y_low, ymax=y_high, color="black", linestyle="--")
+            plt.vlines(x_low, ymin=y_low, ymax=y_high, color="black", zorder=100)
 
     def stack(self, baseline):
         return stack(baseline, self.max_memory)
@@ -138,12 +144,12 @@ def main(directory):
         time = l["time"]
         working_memory = l["working-memory"]
         max_memory = l["max-memory"]
-        current_memory = l["current_memory"]
+        current_memory = l["current-memory"]
         if name not in instance_map:
             x = Process(name)
             instance_map[name] = x
             instance_list.append(x)
-        gc_trigger = l["msg-type"] == "major_gc"
+        gc_trigger = l["msg-type"] in ["major_gc", "close"]
         instance_map[name].point(time, working_memory, current_memory, max_memory, gc_trigger)
 
     draw_stacks(instance_list)

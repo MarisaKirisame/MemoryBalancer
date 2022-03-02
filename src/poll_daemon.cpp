@@ -538,6 +538,8 @@ struct Balancer {
                                   std::cout << "peer closed!" << std::endl;
                                   close(pfds[i].fd);
                                   map.at(pfds[i].fd).max_memory = 0;
+                                  map.at(pfds[i].fd).current_memory = 0;
+                                  map.at(pfds[i].fd).working_memory = 0;
                                   map.at(pfds[i].fd).try_log(l, "close");
                                   map.erase(pfds[i].fd);
                                   pfds[i] = pfds.back();
