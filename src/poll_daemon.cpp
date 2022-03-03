@@ -181,6 +181,14 @@ struct ConnectionState {
   std::vector<BytesAndDuration> gc_bad, allocation_bad;
   std::vector<json> memory_log;
   std::vector<BytesAndDuration> adjusted_allocation_bad() {
+    /*std::vector<BytesAndDuration> ret;
+    assert(memory_log.size() >= 2);
+    size_t sm1 = memory_log.size() - 1;
+    size_t sm2 = memory_log.size() - 2;
+    ret.push_back({
+        static_cast<int64_t>(memory_log[sm1]["SizeOfObjects"]) - static_cast<int64_t>(memory_log[sm2]["SizeOfObjects"]),
+        static_cast<int64_t>(memory_log[sm1]["time"]) - static_cast<int64_t>(memory_log[sm2]["time"])});
+        return ret;*/
     if (memory_log.empty()) {
       return allocation_bad;
     } else {
@@ -324,7 +332,7 @@ struct ConnectionState {
     unprocessed = p.second;
   }
   bool should_balance() {
-    return has_major_gc && wait_ack_count == 0 && gc_speed() != 1.0 && garbage_rate() != 1.0;
+    return has_major_gc && wait_ack_count == 0 /*&& memory_log.size() >= 2*/ && gc_speed() != 1.0 && garbage_rate() != 1.0;
   }
   size_t extra_memory() {
     assert(max_memory >= working_memory);

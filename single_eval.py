@@ -203,8 +203,8 @@ def run_jetstream(v8_env_vars):
 def run_browser(v8_env_vars):
     async def new_browser():
         args = ["--no-sandbox", "--disable-notifications", "--start-maximized", "--user-data-dir=/home/marisa/membalancer_profile"]
-        if False:
-            args.append("--noincremental-marking")
+        args.append("--noincremental-marking")
+        args.append("--no-memory-reducer")
         browseroptions = {"headless":False,
                           "args":args}
 
