@@ -208,14 +208,10 @@ struct ConnectionState {
       garbage_bytes += bad.first;
       garbage_duration += bad.second;
     }
-    // HACK: return at least 1. this basically allocate very little memory without breaking anything.
-    if (garbage_bytes == 0 || garbage_duration == 0) {
-      return 1;
-    }
     return garbage_bytes / garbage_duration;
   }
   double gc_speed() {
-    return std::max(1.0, gc_bytes() / gc_duration());
+    return gc_bytes() / gc_duration();
   }
   double gc_duration() {
     double ret = 0;
@@ -241,7 +237,6 @@ struct ConnectionState {
   time_point last_major_gc;
   std::string name;
   std::string guid;
-  bool has_major_gc = false;
   ConnectionState(socket_t fd) :
     fd(fd),
     force_gc_chan(fd) { }
@@ -270,20 +265,17 @@ struct ConnectionState {
       json type = j["type"];
       json data = j["data"];
       if (type == "major_gc") {
-        if (!has_major_gc) {
+        if (name == "") {
+          name = data["name"];
           if (name == "") {
-            name = data["name"];
-            if (name == "") {
-              name = gen_name();
-            }
+            name = gen_name();
           }
         } else {
           assert(name == data["name"] || data["name"] == "");
         }
         if (wait_ack_count == 0) {
-          if (! has_major_gc) {
+          if (this->gc_bad.size() == 0) {
             begin_time = static_cast<size_t>(data["before_time"]);
-            has_major_gc = true;
           }
           current_time = static_cast<size_t>(data["after_time"]);
           last_major_gc = steady_clock::now();
@@ -293,18 +285,12 @@ struct ConnectionState {
           current_memory = working_memory;
           size_t adjusted_max_memory = std::max(static_cast<size_t>(data["max_memory"]), adjusted_working_memory);
           max_memory = adjusted_max_memory;
+          assert(max_memory >= working_memory);
           size_of_objects = data["size_of_objects"];
           BytesAndDuration gc_bad;
           gc_bad.first = data["gc_bytes"];
           gc_bad.second = data["gc_duration"];
-          // HACK: sometimes an auxillary gc will be fired, and will collect no garbage. in this case we 'stick' it to the earlier gc.
-          if (gc_bad.second == 0) {
-            assert(!this->gc_bad.empty());
-            this->gc_bad.back().first += gc_bad.first;
-          } else if (gc_bad.first == 0) { }
-          else {
-            this->gc_bad.push_back(gc_bad);
-          }
+          this->gc_bad.push_back(gc_bad);
           BytesAndDuration allocation_bad;
           allocation_bad.first = data["allocation_bytes"];
           allocation_bad.second = data["allocation_duration"];
@@ -314,6 +300,7 @@ struct ConnectionState {
       } else if (type == "max_memory") {
         if (wait_ack_count == 0) {
           max_memory = data;
+          assert(max_memory >= working_memory);
         }
       } else if (type == "ack") {
         assert(wait_ack_count > 0);
@@ -332,9 +319,13 @@ struct ConnectionState {
     unprocessed = p.second;
   }
   bool should_balance() {
-    return has_major_gc && wait_ack_count == 0 /*&& memory_log.size() >= 2*/ && gc_speed() != 1.0 && garbage_rate() != 1.0;
+    return gc_bad.size() > 0 && allocation_bad.size() > 0 &&
+      wait_ack_count == 0 /*&& memory_log.size() >= 2*/ && gc_speed() != 1.0 && garbage_rate() != 1.0;
   }
   size_t extra_memory() {
+    if (!(max_memory >= working_memory)) {
+      std::cout << "assertion failed: " << max_memory << " " << working_memory << std::endl;
+    }
     assert(max_memory >= working_memory);
     return max_memory - working_memory;
   }
@@ -804,6 +795,7 @@ struct Balancer {
               send_string(rr->fd, str);
               if (immediate_reclaim) {
                 rr->max_memory = total_memory_;
+                assert(rr->max_memory >= rr->working_memory);
               }
               nlohmann::json j;
               j["name"] = rr->name;
