@@ -87,28 +87,25 @@ def plot(m, benches, summarize_baseline=True):
     coords = []
 
     for bench in benches:
-        if BASELINE not in m[bench]:
-            print("WARNING: BASELINE NOT FOUND")
-            continue
-        baseline_memorys = []
-        baseline_times = []
-        for score, name in m[bench][BASELINE]:
-            if p not in score:
-                print(score)
-            memory = score[p]
-            time = score["MAJOR_GC_TIME"]
-            baseline_memorys.append(memory)
-            baseline_times.append(time)
-            if not summarize_baseline:
-                coords.append(((memory, time), name))
-        baseline_memory = sum(baseline_memorys) / len(baseline_memorys)
-        baseline_time = sum(baseline_times) / len(baseline_times)
-        if not summarize_baseline:
-            plt.scatter(baseline_memorys, baseline_times, label="baseline")
+        if summarize_baseline:
+            if BASELINE not in m[bench]:
+                print("WARNING: BASELINE NOT FOUND")
+                continue
+            baseline_memorys = []
+            baseline_times = []
+            for score, name in m[bench][BASELINE]:
+                if p not in score:
+                    print(score)
+                memory = score[p]
+                time = score["MAJOR_GC_TIME"]
+                baseline_memorys.append(memory)
+                baseline_times.append(time)
+                baseline_memory = sum(baseline_memorys) / len(baseline_memorys)
+                baseline_time = sum(baseline_times) / len(baseline_times)
         x = []
         y = []
         for balancer_cfg in m[bench]:
-            if balancer_cfg != BASELINE:
+            if not summarize_baseline or balancer_cfg != BASELINE:
                 for score, name in m[bench][balancer_cfg]:
                     memory = score[p]
                     time = score["MAJOR_GC_TIME"]

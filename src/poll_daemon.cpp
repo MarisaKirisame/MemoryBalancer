@@ -158,12 +158,19 @@ std::string gen_name() {
   return "x_" + std::to_string(i++);
 }
 
-using BytesAndDuration = std::pair<uint64_t, double>;
+using ByteDiffsAndDuration = std::pair<int64_t, double>;
 
 constexpr size_t average_window = 3;
 
 size_t get_starting_index(size_t len) {
+  return 0;
   return average_window > len ? 0 : len - average_window;
+}
+
+template<typename T>
+T nneg(const T& t) {
+  assert(t >= 0);
+  return t;
 }
 
 // all duration is in milliseconds, and all speed is in bytes per milliseconds.
@@ -173,14 +180,14 @@ struct ConnectionState {
   IdChannel force_gc_chan;
   Snapper heap_resize_snap;
   std::string unprocessed;
-  size_t working_memory;
+  size_t working_memory = 0;
   size_t current_memory; // this is for logging plotting only, it does not change any action we do.
   // real max memory is for efficiency calculation purpose only
   size_t max_memory;
   size_t size_of_objects;
-  std::vector<BytesAndDuration> gc_bad, allocation_bad;
+  std::vector<ByteDiffsAndDuration> gc_bad, allocation_bad;
   std::vector<json> memory_log;
-  std::vector<BytesAndDuration> adjusted_allocation_bad() {
+  std::vector<ByteDiffsAndDuration> adjusted_allocation_bad() {
     /*std::vector<BytesAndDuration> ret;
     assert(memory_log.size() >= 2);
     size_t sm1 = memory_log.size() - 1;
@@ -189,6 +196,22 @@ struct ConnectionState {
         static_cast<int64_t>(memory_log[sm1]["SizeOfObjects"]) - static_cast<int64_t>(memory_log[sm2]["SizeOfObjects"]),
         static_cast<int64_t>(memory_log[sm1]["time"]) - static_cast<int64_t>(memory_log[sm2]["time"])});
         return ret;*/
+    std::vector<ByteDiffsAndDuration> ret = allocation_bad;
+    size_t i = 0;
+    for (size_t j = 1; j < memory_log.size(); ++j) {
+      auto i_log = memory_log[i];
+      int64_t i_size = i_log["SizeOfObjects"];
+      int64_t i_time = i_log["time"];
+      auto j_log = memory_log[j];
+      int64_t j_size = j_log["SizeOfObjects"];
+      int64_t j_time = j_log["time"];
+      assert(j_time > i_time);
+      if (j_size >= i_size) {
+        ret.push_back({j_size - i_size, j_time - i_time});
+        i = j;
+      }
+    }
+    return ret;
     if (memory_log.empty()) {
       return allocation_bad;
     } else {
@@ -201,14 +224,18 @@ struct ConnectionState {
   }
   double garbage_rate() {
     auto aabad = adjusted_allocation_bad();
-    size_t garbage_bytes = 0;
+    double garbage_bytes = 0;
     double garbage_duration = 0;
     for (size_t i = get_starting_index(aabad.size()); i < aabad.size(); ++i) {
       const auto& bad = aabad[i];
       garbage_bytes += bad.first;
+      garbage_bytes *= 0.9;
       garbage_duration += bad.second;
+      garbage_duration *= 0.9;
     }
-    return garbage_bytes / garbage_duration;
+    auto ret = garbage_bytes / garbage_duration;
+    assert(ret <= 100);
+    return ret;
   }
   double gc_speed() {
     return gc_bytes() / gc_duration();
@@ -287,11 +314,11 @@ struct ConnectionState {
           max_memory = adjusted_max_memory;
           assert(max_memory >= working_memory);
           size_of_objects = data["size_of_objects"];
-          BytesAndDuration gc_bad;
+          ByteDiffsAndDuration gc_bad;
           gc_bad.first = data["gc_bytes"];
           gc_bad.second = data["gc_duration"];
           this->gc_bad.push_back(gc_bad);
-          BytesAndDuration allocation_bad;
+          ByteDiffsAndDuration allocation_bad;
           allocation_bad.first = data["allocation_bytes"];
           allocation_bad.second = data["allocation_duration"];
           this->allocation_bad.push_back(allocation_bad);
@@ -308,6 +335,8 @@ struct ConnectionState {
       } else if (type == "memory_timer") {
         memory_log.push_back(data);
         current_memory = data["SizeOfObjects"];
+        max_memory = data["Limit"];
+        assert(max_memory >= working_memory);
       }
       else {
         std::cout << "unknown type: " << type << std::endl;
@@ -320,7 +349,7 @@ struct ConnectionState {
   }
   bool should_balance() {
     return gc_bad.size() > 0 && allocation_bad.size() > 0 &&
-      wait_ack_count == 0 /*&& memory_log.size() >= 2*/ && gc_speed() != 1.0 && garbage_rate() != 1.0;
+      wait_ack_count == 0 /*&& memory_log.size() >= 2*/;
   }
   size_t extra_memory() {
     if (!(max_memory >= working_memory)) {
