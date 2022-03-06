@@ -104,6 +104,8 @@ def plot(m, benches, summarize_baseline=True):
                 baseline_time = sum(baseline_times) / len(baseline_times)
         x = []
         y = []
+        baseline_x = []
+        baseline_y = []
         for balancer_cfg in m[bench]:
             if not summarize_baseline or balancer_cfg != BASELINE:
                 for score, name in m[bench][balancer_cfg]:
@@ -112,10 +114,16 @@ def plot(m, benches, summarize_baseline=True):
                     if summarize_baseline:
                         memory /= baseline_memory
                         time /= baseline_time
-                    x.append(memory)
-                    y.append(time)
+                    if balancer_cfg != BASELINE:
+                        x.append(memory)
+                        y.append(time)
+                    else:
+                        baseline_x.append(memory)
+                        baseline_y.append(time)
                     coords.append(((memory, time), name))
         plt.scatter(x, y, label=bench, linewidth=0.1)
+        if len(baseline_x) != 0:
+            plt.scatter(baseline_x, baseline_y, label=bench, linewidth=0.1, color="orange")
     plt.xlabel(p)
     plt.ylabel("Time")
     if summarize_baseline:
