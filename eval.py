@@ -153,7 +153,7 @@ cfgs = flatten_nondet({
 
 BALANCER_CFG = QUOTE(NONDET({
     "BALANCE_STRATEGY": "classic",
-    "RESIZE_CFG": {"RESIZE_STRATEGY": "after-balance", "GC_RATE":NONDET(0.004, 0.006, 0.008, 0.010)},
+    "RESIZE_CFG": {"RESIZE_STRATEGY": "after-balance", "GC_RATE":NONDET(0.001, 0.002, 0.004, 0.006, 0.008)},
     "BALANCE_FREQUENCY": 0
 }, {
     "BALANCE_STRATEGY": "ignore",

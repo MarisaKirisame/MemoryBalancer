@@ -309,7 +309,7 @@ struct ConnectionState {
           assert(max_memory >= working_memory);
           size_of_objects = data["size_of_objects"];
           ByteDiffsAndDuration gc_bad;
-          gc_bad.first = data["gc_bytes"];
+          gc_bad.first = data["before_memory"];
           gc_bad.second = data["gc_duration"];
           this->gc_bad.push_back(gc_bad);
           ByteDiffsAndDuration allocation_bad;

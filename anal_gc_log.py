@@ -50,17 +50,23 @@ def stack_unmerged(l, r):
                     ret_r.append((rx, ry + interpol((old_lx, old_ly), (lx, ly), rx)))
 
 def merge(l, r):
-    if len(l) == 0:
-        return r
-    elif len(r) == 0:
-        return l
-    else:
-        lx, ly = l[0]
-        rx, ry = r[0]
-        if lx < rx:
-            return [(lx, ly)] + merge(l[1:], r)
+    ret = []
+    x = 0
+    y = 0
+    while True:
+        if len(l) == x:
+            return ret + r[y:]
+        elif len(r) == y:
+            return ret + l[x:]
         else:
-            return [(rx, ry)] + merge(l, r[1:])
+            lx, ly = l[x]
+            rx, ry = r[y]
+            if lx < rx:
+                x += 1
+                ret.append((lx, ly))
+            else:
+                y += 1
+                ret.append((rx, ry))
 
 # alas, can not write in functional style even though it is cleaner, due to python efficiency concern.
 def stack(l, r):
