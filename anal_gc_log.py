@@ -149,7 +149,7 @@ def main(directory):
             x = Process(name)
             instance_map[name] = x
             instance_list.append(x)
-        gc_trigger = l["msg-type"] in ["major_gc", "close"]
+        gc_trigger = l["msg-type"] in ["gc", "close"]
         instance_map[name].point(time, working_memory, current_memory, max_memory, gc_trigger)
 
     draw_stacks(instance_list)

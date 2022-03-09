@@ -188,14 +188,6 @@ struct ConnectionState {
   std::vector<ByteDiffsAndDuration> gc_bad, allocation_bad;
   std::vector<json> memory_log;
   std::vector<ByteDiffsAndDuration> adjusted_allocation_bad() {
-    /*std::vector<BytesAndDuration> ret;
-    assert(memory_log.size() >= 2);
-    size_t sm1 = memory_log.size() - 1;
-    size_t sm2 = memory_log.size() - 2;
-    ret.push_back({
-        static_cast<int64_t>(memory_log[sm1]["SizeOfObjects"]) - static_cast<int64_t>(memory_log[sm2]["SizeOfObjects"]),
-        static_cast<int64_t>(memory_log[sm1]["time"]) - static_cast<int64_t>(memory_log[sm2]["time"])});
-        return ret;*/
     std::vector<ByteDiffsAndDuration> ret = allocation_bad;
     size_t i = 0;
     for (size_t j = 1; j < memory_log.size(); ++j) {
@@ -228,10 +220,11 @@ struct ConnectionState {
     double garbage_duration = 0;
     for (size_t i = get_starting_index(aabad.size()); i < aabad.size(); ++i) {
       const auto& bad = aabad[i];
+      double decay = pow(0.9, bad.second / 1000000000);
       garbage_bytes += bad.first;
-      garbage_bytes *= 0.9;
+      garbage_bytes *= decay;
       garbage_duration += bad.second;
-      garbage_duration *= 0.9;
+      garbage_duration *= decay;
     }
     auto ret = garbage_bytes / garbage_duration;
     assert(ret <= 100);
@@ -291,7 +284,8 @@ struct ConnectionState {
       iss >> j;
       json type = j["type"];
       json data = j["data"];
-      if (type == "major_gc") {
+      std::cout << name << " accept: " << str << std::endl;
+      if (type == "gc") {
         if (name == "") {
           name = data["name"];
           if (name == "") {
@@ -335,14 +329,13 @@ struct ConnectionState {
       } else if (type == "memory_timer") {
         memory_log.push_back(data);
         current_memory = data["SizeOfObjects"];
-        max_memory = data["Limit"];
+        max_memory = std::max(static_cast<size_t>(data["Limit"]), working_memory);
         assert(max_memory >= working_memory);
       }
       else {
         std::cout << "unknown type: " << type << std::endl;
         throw;
       }
-      std::cout << name << " accept: " << str << std::endl;
       try_log(l, type);
     }
     unprocessed = p.second;
@@ -597,8 +590,12 @@ struct Balancer {
               if (n == 0) {
                 close_connection(i);
               } else if (n < 0) {
-                ERROR_STREAM << strerror(errno) << std::endl;
-                throw;
+                if (errno = ECONNRESET) {
+                  close_connection(i);
+                } else {
+                  ERROR_STREAM << strerror(errno) << std::endl;
+                  throw;
+                }
               } else {
                 map.at(pfds[i].fd).accept(std::string(buf, n), epoch, l);
                 ++i;

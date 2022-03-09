@@ -199,7 +199,6 @@ def run_jetstream(v8_env_vars):
     with open(os.path.join(result_directory, "score"), "w") as f:
         json.dump(j, f)
 
-
 def run_browser(v8_env_vars):
     async def new_browser():
         args = ["--no-sandbox", "--disable-notifications", "--start-maximized", "--user-data-dir=/home/marisa/membalancer_profile"]
