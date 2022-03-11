@@ -39,6 +39,8 @@ struct ScopeLog {
 
 double binary_search_aux(double low, double high, const std::function<Ord(double)>& searcher) {
   double mid = (low + high) / 2;
+  assert(mid > 1);
+  assert(mid < 1e20);
   Ord ord = searcher(mid);
   if (ord == Ord::EQ) {
     return mid;
@@ -309,7 +311,8 @@ struct ConnectionState {
           assert(max_memory >= working_memory);
           size_of_objects = data["size_of_objects"];
           ByteDiffsAndDuration gc_bad;
-          gc_bad.first = data["before_memory"];
+          //gc_bad.first = data["before_memory"];
+          gc_bad.first = data["gc_bytes"];
           gc_bad.second = data["gc_duration"];
           this->gc_bad.push_back(gc_bad);
           ByteDiffsAndDuration allocation_bad;
@@ -591,6 +594,7 @@ struct Balancer {
                 close_connection(i);
               } else if (n < 0) {
                 if (errno = ECONNRESET) {
+                  std::cout << "warning: membalancer close connection" << std::endl;
                   close_connection(i);
                 } else {
                   ERROR_STREAM << strerror(errno) << std::endl;

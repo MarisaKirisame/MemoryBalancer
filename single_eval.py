@@ -336,8 +336,10 @@ def run_browser(v8_env_vars):
     async def run_browser_main():
         b = await new_browser()
         d = 180
-        await asyncio.gather(*[get_bench(bench)(b, d) for bench in BENCH])
-        await b.close()
+        try:
+            await asyncio.gather(*[get_bench(bench)(b, d) for bench in BENCH])
+        finally:
+            await b.close()
 
     #for sign in and other configuration purpose
     #async def run_browser_main():
