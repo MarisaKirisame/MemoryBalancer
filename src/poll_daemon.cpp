@@ -28,7 +28,7 @@ struct Dual {
   double v;
   double d;
   Dual(double v, double d) : v(v), d(d) { }
-  Dual(double v) : v(v), d(0) { }
+  Dual(const double& v) : v(v), d(0) { }
   Dual operator+(const Dual& rhs) const {
     return Dual(v + rhs.v, d + rhs.d);
   }
@@ -436,7 +436,7 @@ struct ConnectionState {
     return speed_utilization_rate(extra_memory());
   }
   double speed_utilization_rate_d(size_t extra_memory) {
-    Dual d = 1 / speed_utilization_rate_generic<Dual>(Dual(extra_memory, 1));
+    Dual d = Dual(1) / speed_utilization_rate_generic<Dual>(Dual(extra_memory, 1));
     return d.d;
   }
   double speed_utilization_rate_d() {
