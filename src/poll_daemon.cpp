@@ -39,7 +39,9 @@ struct ScopeLog {
 
 double binary_search_aux(double low, double high, const std::function<Ord(double)>& searcher) {
   double mid = (low + high) / 2;
-  assert(mid > 1);
+  if (mid <= 1) {
+    return 1.0;
+  }
   assert(mid < 1e20);
   Ord ord = searcher(mid);
   if (ord == Ord::EQ) {
@@ -222,7 +224,7 @@ struct ConnectionState {
     double garbage_duration = 0;
     for (size_t i = get_starting_index(aabad.size()); i < aabad.size(); ++i) {
       const auto& bad = aabad[i];
-      double decay = pow(0.9, bad.second / 1000000000);
+      double decay = pow(0.95, bad.second / 1000000000);
       garbage_bytes += bad.first;
       garbage_bytes *= decay;
       garbage_duration += bad.second;

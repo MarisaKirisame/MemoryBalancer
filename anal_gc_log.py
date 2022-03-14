@@ -161,6 +161,9 @@ def main(directory):
     draw_stacks(instance_list)
     plt.legend()
     plt.title(title)
+    with open(directory + "score") as f:
+        score = json.load(f)
+        plt.ylim([0, score["Average(PhysicalMemory)"] * 2])
 
 if __name__ == "__main__":
     assert(len(sys.argv) == 2)
