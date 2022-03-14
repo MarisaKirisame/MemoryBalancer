@@ -24,6 +24,30 @@
 
 #include <cxxopts.hpp>
 
+struct Dual {
+  double v;
+  double d;
+  Dual(double v, double d) : v(v), d(d) { }
+  Dual(double v) : v(v), d(0) { }
+  Dual operator+(const Dual& rhs) const {
+    return Dual(v + rhs.v, d + rhs.d);
+  }
+  Dual operator*(const Dual& rhs) const {
+    return Dual(v * rhs.v, d * rhs.v + rhs.d * v);
+  }
+  Dual operator/(const Dual& rhs) const {
+    return Dual(v / rhs.v, (rhs.v * d - v * rhs.d)/(rhs.d * rhs.d));
+  }
+  bool operator>=(const Dual& rhs) const {
+    return v >= rhs.v;
+  }
+  friend std::ostream& operator<<(std::ostream& os, const Dual& d);
+};
+
+std::ostream& operator<<(std::ostream& os, const Dual& d) {
+  return os << "Dual(" << d.v << ", " << d.d << ")" << std::endl;
+}
+
 #define ERROR_STREAM std::cout << __LINE__ << " "
 
 enum class Ord { LT, EQ, GT };
@@ -389,14 +413,15 @@ struct ConnectionState {
   double measured_duration_utilization_rate() {
     return 1 - static_cast<double>(gc_duration()) / (current_time - begin_time);
   }
-  double speed_utilization_rate(size_t extra_memory) {
-    double mutator_duration = extra_memory / garbage_rate();
+  template<typename T>
+  T speed_utilization_rate_generic(const T& extra_memory) {
+    auto mutator_duration = extra_memory / garbage_rate();
     if (!(mutator_duration >= 0)) {
       std::cout << extra_memory << " " << garbage_rate() << " " << mutator_duration << std::endl;
     }
     assert(mutator_duration >= 0);
-    double useful_gc_duration = extra_memory / gc_speed();
-    double wasteful_gc_duration = working_memory / gc_speed();
+    auto useful_gc_duration = extra_memory / gc_speed();
+    auto wasteful_gc_duration = working_memory / gc_speed();
     auto ret = (mutator_duration + useful_gc_duration) / (mutator_duration + useful_gc_duration + wasteful_gc_duration);
     if(!(ret >= 0)) {
       std::cout << mutator_duration << " " << useful_gc_duration << " " << wasteful_gc_duration << std::endl;
@@ -404,7 +429,17 @@ struct ConnectionState {
     assert(ret >= 0);
     return ret;
   }
+  double speed_utilization_rate(size_t extra_memory) {
+    return speed_utilization_rate_generic<double>(extra_memory);
+  }
   double speed_utilization_rate() {
+    return speed_utilization_rate(extra_memory());
+  }
+  double speed_utilization_rate_d(size_t extra_memory) {
+    Dual d = 1 / speed_utilization_rate_generic<Dual>(Dual(extra_memory, 1));
+    return d.d;
+  }
+  double speed_utilization_rate_d() {
     return speed_utilization_rate(extra_memory());
   }
 };
@@ -446,11 +481,12 @@ enum class ResizeStrategy {
   // one fix is to just scale each process uniformly but this will make late process starve
   // so - if it is a constant, use extra_memory as a base line
   constant,
-  // 3% mutator rate after balancing
+  // reach a fixed mutator rate before balancing
   before_balance,
-  // 3% mutator rate after balacning
+  // reach a fixed mutator rate after balacning
   // rn, after_balance only support classic
-  after_balance
+  after_balance,
+  after_gradient
 };
 
 std::ostream& operator<<(std::ostream& os, ResizeStrategy rs) {
@@ -462,6 +498,8 @@ std::ostream& operator<<(std::ostream& os, ResizeStrategy rs) {
     return os << "before-balance";
   } else if (rs == ResizeStrategy::after_balance) {
     return os << "after-balance";
+  } else if (rs == ResizeStrategy::after_gradient) {
+    return os << "after-gradient";
   } else {
     std::cout << "unknown ResizeStrategy" << std::endl;
     throw;
@@ -543,6 +581,9 @@ struct Balancer {
       gc_rate = result["gc-rate"].as<double>();
     } else if (resize_strategy_str == "after-balance") {
       resize_strategy = ResizeStrategy::after_balance;
+      assert(result.count("gc-rate"));
+      gc_rate = result["gc-rate"].as<double>();
+    } else if (resize_strategy_str == "after-gradient") {
       assert(result.count("gc-rate"));
       gc_rate = result["gc-rate"].as<double>();
     } else {
