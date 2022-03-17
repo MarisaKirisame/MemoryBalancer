@@ -47,7 +47,7 @@ struct Dual {
 };
 
 std::ostream& operator<<(std::ostream& os, const Dual& d) {
-  return os << "Dual(" << d.v << ", " << d.d << ")" << std::endl;
+  return os << "Dual(" << d.v << ", " << d.d << ")";
 }
 
 #define ERROR_STREAM std::cout << __LINE__ << " "
@@ -246,8 +246,8 @@ struct ConnectionState {
   }
   double garbage_rate() {
     auto aabad = adjusted_allocation_bad();
-    double garbage_bytes = 0;
-    double garbage_duration = 0;
+    double garbage_bytes = 1; // hack - start off with a small number to avoid nan and inf
+    double garbage_duration = 10;
     for (size_t i = get_starting_index(aabad.size()); i < aabad.size(); ++i) {
       const auto& bad = aabad[i];
       double decay = pow(0.95, bad.second / 1000000000);
@@ -417,6 +417,7 @@ struct ConnectionState {
   }
   template<typename T>
   T speed_utilization_rate_generic(const T& extra_memory) {
+    assert(garbage_rate() > 0);
     auto mutator_duration = extra_memory / garbage_rate();
     if (!(mutator_duration >= 0)) {
       std::cout << extra_memory << " " << garbage_rate() << " " << mutator_duration << std::endl;
@@ -424,13 +425,10 @@ struct ConnectionState {
     assert(mutator_duration >= 0);
     auto useful_gc_duration = extra_memory / gc_speed();
     auto wasteful_gc_duration = working_memory / gc_speed();
-    //std::cout << (mutator_duration + useful_gc_duration) << (mutator_duration + useful_gc_duration + wasteful_gc_duration) << std::endl;
-    //std::cout << "BISECT!" << std::endl;
     auto ret = (mutator_duration + useful_gc_duration) / (mutator_duration + useful_gc_duration + wasteful_gc_duration);
     if(!(ret >= 0)) {
       std::cout << mutator_duration << " " << useful_gc_duration << " " << wasteful_gc_duration << std::endl;
     }
-    //std::cout << "OK!" << std::endl;
     assert(ret >= 0);
     return ret;
   }
@@ -438,14 +436,14 @@ struct ConnectionState {
     return speed_utilization_rate_generic<double>(extra_memory);
   }
   double speed_utilization_rate() {
-    return speed_utilization_rate(extra_memory());
+    return speed_utilization_rate(std::max<size_t>(1, extra_memory()));
   }
   double speed_utilization_rate_d(size_t extra_memory) {
     Dual d = Dual(1) / speed_utilization_rate_generic<Dual>(Dual(extra_memory, 1));
     return d.d;
   }
   double speed_utilization_rate_d() {
-    return speed_utilization_rate_d(extra_memory());
+    return speed_utilization_rate_d(std::max<size_t>(1, extra_memory()));
   }
 };
 
