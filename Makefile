@@ -22,8 +22,9 @@ clean:
 	rm -rf build/*
 
 nightly:
-	git submodule init
-	git submodule update
-	git submodule sync
-	make run
-	sh python/upload.sh logs
+	sh nightly-run.sh
+	# git submodule init
+	# git submodule update
+	# git submodule sync
+	# make run
+	# sh python/upload.sh logs
