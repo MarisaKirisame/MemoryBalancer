@@ -98,6 +98,8 @@ def calculate_average(directory, property_name):
         memory_breakdown[l["source"]] = l[property_name]
         memory_sum += memory
 
+    if len(logs) == 0:
+        return memory_sum
     return memory_sum / len(logs)
 
 def calculate_peak_balancer_memory(directory):
@@ -135,7 +137,7 @@ class ProcessScope:
 
 MB_IN_BYTES = 1024 * 1024
 
-balancer_cmds = ["/home/marisa/Work/MemoryBalancer/build/MemoryBalancer", "daemon"]
+balancer_cmds = ["./build/MemoryBalancer", "daemon"]
 balancer_cmds.append(f"--balance-strategy={BALANCE_STRATEGY}")
 balancer_cmds.append(f"--resize-strategy={RESIZE_STRATEGY}")
 if RESIZE_STRATEGY == "constant":
@@ -176,8 +178,8 @@ def run_jetstream(v8_env_vars):
         j = {}
         j["OK"] = True
         j["MAJOR_GC_TIME"] = calculate_total_major_gc_time(result_directory)
-        j["AVERAGE_HEAP_MEMORY"] = calculate_average_heap_memory(result_directory)
-        j["PEAK_HEAP_MEMORY"] = calculate_peak_heap_memory(result_directory)
+        j["AVERAGE_HEAP_MEMORY"] = calculate_average(result_directory, "SizeOfObjects")
+        j["PEAK_HEAP_MEMORY"] = calculate_peak(result_directory, "SizeOfObjects")
         v8_log_path = os.path.join(result_directory, "v8_log")
         total_time = None
         total_major_gc_time = None
@@ -200,18 +202,16 @@ def run_jetstream(v8_env_vars):
         j["TOTAL_TIME"] = total_time
         assert(total_major_gc_time != None)
         j["TOTAL_MAJOR_GC_TIME"] = total_major_gc_time
-    with open(os.path.join(result_directory, "score"), "w") as f:
-        json.dump(j, f)
+        with open(os.path.join(result_directory, "score"), "w") as f:
+            json.dump(j, f)
 
 def run_browser(v8_env_vars):
     async def new_browser():
-        args = ["--no-sandbox", "--disable-notifications", "--start-maximized", "--user-data-dir=/home/marisa/membalancer_profile"]
+        args = ["--no-sandbox", "--disable-notifications", "--start-maximized", "--user-data-dir=./membalancer_profile"]
         args.append("--noincremental-marking")
         args.append("--no-memory-reducer")
-        browseroptions = {"headless":False,
-                          "args":args}
-
-        browseroptions["executablePath"] = "/home/marisa/Work/chromium/src/out/Release/chrome"
+        browseroptions = {"headless":True, "args":args}
+        browseroptions["executablePath"] = "../chromium/src/out/Release/chrome"
 
         # we need the environment variable for headless:False, because it include stuff such for graphics such as DISPLAY.
         # todo: isolate them instead of passing the whole env var?
@@ -385,4 +385,6 @@ with ProcessScope(subprocess.Popen(balancer_cmds, stdout=subprocess.PIPE, stderr
     elif NAME == "browser":
         run_browser(v8_env_vars)
     else:
+        p.kill()
         raise Exception(f"unknown benchmark name: {NAME}")
+    p.kill()

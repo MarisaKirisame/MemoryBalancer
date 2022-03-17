@@ -2,6 +2,7 @@ import subprocess
 from pathlib import Path, PurePath
 import time
 import random
+import sys
 import json
 # list monad
 class NONDET:
@@ -170,13 +171,16 @@ BALANCER_CFG = QUOTE(NONDET({
     "RESIZE_CFG": {"RESIZE_STRATEGY": "ignore"},
     "BALANCE_FREQUENCY": 0
 }))
+mode = sys.argv[1]
+if(len(mode) == 0):
+    mode = "browser"
 
 bench = ["twitter", "cnn", "espn", "reddit"]
-choose_two = [random.sample(bench, k=2) for i in range(100)]
+choose_two = [random.sample(bench, k=2) for i in range(2)]
 cfg = {
     "LIMIT_MEMORY": True,
     "DEBUG": True,
-    "NAME": "browser",
+    "NAME": mode,
     "MEMORY_LIMIT": 10000,
     "BENCH": NONDET(*choose_two),
     #"BENCH": NONDET(*[[x] for x in bench]),
