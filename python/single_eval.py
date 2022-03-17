@@ -26,6 +26,8 @@ if RESIZE_STRATEGY == "constant":
     RESIZE_AMOUNT = RESIZE_CFG["RESIZE_AMOUNT"]
 if RESIZE_STRATEGY == "after-balance":
     GC_RATE = RESIZE_CFG["GC_RATE"]
+if RESIZE_STRATEGY == "gradient":
+    GC_RATE_D = RESIZE_CFG["GC_RATE_D"]
 BALANCE_FREQUENCY = BALANCER_CFG["BALANCE_FREQUENCY"]
 
 NAME = cfg["NAME"]
@@ -140,6 +142,8 @@ if RESIZE_STRATEGY == "constant":
     balancer_cmds.append(f"--resize-amount={RESIZE_AMOUNT * MB_IN_BYTES}")
 if RESIZE_STRATEGY == "after-balance":
     balancer_cmds.append(f"--gc-rate={GC_RATE}")
+if RESIZE_STRATEGY == "gradient":
+    balancer_cmds.append(f"--gc-rate-d={GC_RATE_D}")
 balancer_cmds.append(f"--balance-frequency={BALANCE_FREQUENCY}")
 balancer_cmds.append(f"""--log-path={result_directory+"balancer_log"}""")
 

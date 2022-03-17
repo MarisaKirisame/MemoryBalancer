@@ -161,6 +161,16 @@ BALANCER_CFG = QUOTE(NONDET({
     "BALANCE_FREQUENCY": 0
 }))
 
+BALANCER_CFG = QUOTE(NONDET({
+    "BALANCE_STRATEGY": "classic",
+    "RESIZE_CFG": {"RESIZE_STRATEGY": "gradient", "GC_RATE_D":NONDET(*[x / -1e9for x in [0.02, 0.03, 0.05, 0.1, 0.2, 0.3, 0.5, 0.7, 0.9]])},
+    "BALANCE_FREQUENCY": 0
+}, {
+    "BALANCE_STRATEGY": "ignore",
+    "RESIZE_CFG": {"RESIZE_STRATEGY": "ignore"},
+    "BALANCE_FREQUENCY": 0
+}))
+
 bench = ["twitter", "cnn", "espn", "reddit"]
 choose_two = [random.sample(bench, k=2) for i in range(100)]
 cfg = {
@@ -169,6 +179,7 @@ cfg = {
     "NAME": "browser",
     "MEMORY_LIMIT": 10000,
     "BENCH": NONDET(*choose_two),
+    #"BENCH": NONDET(*[[x] for x in bench]),
     "BALANCER_CFG": BALANCER_CFG
 }
 
@@ -181,7 +192,7 @@ def run(config, in_path):
         for x in strip_quote(flatten_nondet(config)).l:
             run(x, path)
     else:
-        cmd = f'python3 single_eval.py "{config}" {path}'
+        cmd = f'python3 python/single_eval.py "{config}" {path}'
         subprocess.run(cmd, shell=True, check=True)
 
 run(cfg, Path("log"))

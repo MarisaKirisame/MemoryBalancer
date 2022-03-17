@@ -27,7 +27,9 @@
 struct Dual {
   double v;
   double d;
-  Dual(double v, double d) : v(v), d(d) { }
+  Dual(double v, double d) : v(v), d(d) {
+    assert(!std::isnan(d));
+  }
   Dual(const double& v) : v(v), d(0) { }
   Dual operator+(const Dual& rhs) const {
     return Dual(v + rhs.v, d + rhs.d);
@@ -36,7 +38,7 @@ struct Dual {
     return Dual(v * rhs.v, d * rhs.v + rhs.d * v);
   }
   Dual operator/(const Dual& rhs) const {
-    return Dual(v / rhs.v, (rhs.v * d - v * rhs.d)/(rhs.d * rhs.d));
+    return Dual(v / rhs.v, (rhs.v * d - v * rhs.d)/(rhs.v * rhs.v));
   }
   bool operator>=(const Dual& rhs) const {
     return v >= rhs.v;
@@ -422,10 +424,13 @@ struct ConnectionState {
     assert(mutator_duration >= 0);
     auto useful_gc_duration = extra_memory / gc_speed();
     auto wasteful_gc_duration = working_memory / gc_speed();
+    //std::cout << (mutator_duration + useful_gc_duration) << (mutator_duration + useful_gc_duration + wasteful_gc_duration) << std::endl;
+    //std::cout << "BISECT!" << std::endl;
     auto ret = (mutator_duration + useful_gc_duration) / (mutator_duration + useful_gc_duration + wasteful_gc_duration);
     if(!(ret >= 0)) {
       std::cout << mutator_duration << " " << useful_gc_duration << " " << wasteful_gc_duration << std::endl;
     }
+    //std::cout << "OK!" << std::endl;
     assert(ret >= 0);
     return ret;
   }
@@ -440,7 +445,7 @@ struct ConnectionState {
     return d.d;
   }
   double speed_utilization_rate_d() {
-    return speed_utilization_rate(extra_memory());
+    return speed_utilization_rate_d(extra_memory());
   }
 };
 
@@ -486,7 +491,7 @@ enum class ResizeStrategy {
   // reach a fixed mutator rate after balacning
   // rn, after_balance only support classic
   after_balance,
-  after_gradient
+  gradient
 };
 
 std::ostream& operator<<(std::ostream& os, ResizeStrategy rs) {
@@ -498,8 +503,8 @@ std::ostream& operator<<(std::ostream& os, ResizeStrategy rs) {
     return os << "before-balance";
   } else if (rs == ResizeStrategy::after_balance) {
     return os << "after-balance";
-  } else if (rs == ResizeStrategy::after_gradient) {
-    return os << "after-gradient";
+  } else if (rs == ResizeStrategy::gradient) {
+    return os << "gradient";
   } else {
     std::cout << "unknown ResizeStrategy" << std::endl;
     throw;
@@ -531,6 +536,7 @@ struct Balancer {
   ResizeStrategy resize_strategy;
   size_t resize_amount; // only when resize_strategy == constant
   double gc_rate; // only when resize_strategy == after-balance or before-balance
+  double gc_rate_d;
   size_t epoch = 0;
   std::string log_path;
   Logger l;
@@ -551,6 +557,8 @@ struct Balancer {
       ("resize-amount", "a number denoting how much to resize", cxxopts::value<size_t>());
     options.add_options()
       ("gc-rate", "trying to spend this much time in gc", cxxopts::value<double>());
+    options.add_options()
+      ("gc-rate-d", "gc-rate in derivative", cxxopts::value<double>());
     options.add_options()
       ("log-path", "where to put the log", cxxopts::value<std::string>());
     options.add_options()
@@ -583,9 +591,10 @@ struct Balancer {
       resize_strategy = ResizeStrategy::after_balance;
       assert(result.count("gc-rate"));
       gc_rate = result["gc-rate"].as<double>();
-    } else if (resize_strategy_str == "after-gradient") {
-      assert(result.count("gc-rate"));
-      gc_rate = result["gc-rate"].as<double>();
+    } else if (resize_strategy_str == "gradient") {
+      resize_strategy = ResizeStrategy::gradient;
+      assert(result.count("gc-rate-d"));
+      gc_rate_d = result["gc-rate-d"].as<double>();
     } else {
       std::cout << "unknown resize-strategy: " << resize_strategy_str << std::endl;
       throw;
@@ -683,6 +692,8 @@ struct Balancer {
     t.add("suggested_total_memory");
     t.add("gc_rate");
     t.add("suggested_gc_rate");
+    t.add("gc_rate_d");
+    t.add("suggested_gc_rate_d");
     t.endOfRow();
     return t;
   }
@@ -698,6 +709,8 @@ struct Balancer {
         t.add(std::to_string(suggested_extra_memory_ + rr->working_memory));
         t.add(std::to_string(1 - rr->speed_utilization_rate()));
         t.add(std::to_string(1 - rr->speed_utilization_rate(suggested_extra_memory_)));
+        t.add(std::to_string(-1e9 * rr->speed_utilization_rate_d()));
+        t.add(std::to_string(-1e9 * rr->speed_utilization_rate_d(suggested_extra_memory_)));
         t.endOfRow();
       }
     }
@@ -738,16 +751,19 @@ struct Balancer {
       }
     }
   }
-  Ord compare_mu(double mu) {
-    assert(0 <= mu);
-    assert(mu <= 1);
-    if (mu < 1 - 1.1 * gc_rate) {
+  Ord compare(double lhs, double rhs) {
+    if (lhs < 0.9 * rhs) {
       return Ord::LT;
-    } else if (mu > 1 - 0.9 * gc_rate) {
+    } else if (lhs > 1.1 * rhs) {
       return Ord::GT;
     } else {
       return Ord::EQ;
     }
+  }
+  Ord compare_mu(double mu) {
+    assert(0 <= mu);
+    assert(mu <= 1);
+    return compare(gc_rate, 1 - mu);
   }
   using memory_suggestion_t = std::unordered_map<ConnectionState*, size_t>;
   memory_suggestion_t calculate_suggestion(size_t total_extra_memory, const Stat& st) {
@@ -763,6 +779,13 @@ struct Balancer {
     double u = 0;
     for (const auto& p : memory_suggestion) {
       u += p.first->speed_utilization_rate(p.second);
+    }
+    return u / memory_suggestion.size();
+  }
+  double utilization_d(const memory_suggestion_t& memory_suggestion) {
+    double u = 0;
+    for (const auto& p : memory_suggestion) {
+      u += p.first->speed_utilization_rate_d(p.second);
     }
     return u / memory_suggestion.size();
   }
@@ -791,7 +814,15 @@ struct Balancer {
                                            double mu = utilization(calculate_suggestion(extra_memory, st));
                                            return compare_mu(mu);
                                          });
-    } else {
+    } else if (resize_strategy == ResizeStrategy::gradient) {
+      total_extra_memory =
+        positive_binary_search_unbounded(std::max<size_t>(st.e, 1),
+                                         [&](double extra_memory) {
+                                           double mu = utilization_d(calculate_suggestion(extra_memory, st));
+                                           return compare(-gc_rate_d, -mu);
+                                         });
+    }
+    else {
       std::cout << "resize_strategy " << resize_strategy << " not implemented!" << std::endl;
       throw;
     }
@@ -862,7 +893,7 @@ struct Balancer {
             }
             suggested_extra_memory_ = std::max<size_t>(suggested_extra_memory_, 1048576 * 2);
             size_t total_memory_ = suggested_extra_memory_ + rr->working_memory;
-            if (big_change(extra_memory_, suggested_extra_memory_) && rr->heap_resize_snap(suggested_extra_memory_)) {
+            if (big_change(extra_memory_, suggested_extra_memory_) && (/*immediate_reclaim ||*/ rr->heap_resize_snap(suggested_extra_memory_))) {
               std::string str = to_string(tagged_json("heap", total_memory_));
               std::cout << "sending: " << str << "to: " << rr->name << std::endl;
               send_string(rr->fd, str);

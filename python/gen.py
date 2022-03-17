@@ -60,14 +60,16 @@ m = megaplot.anal_log()
 subpages = []
 for bench in m.keys():
     with dominate.document(title=str(bench)) as doc:
-        coords = megaplot.plot(m, [bench], summarize_baseline=False)
+        points = megaplot.plot(m, [bench], summarize_baseline=False)
         png_path = f"{png_counter()}.png"
         plt.savefig(str(path.joinpath(png_path)))
         plt.clf()
         img(src=png_path)
-        for ((x, y), name) in coords:
-            dirname = os.path.dirname(name)
-            li(f"{(round(x,2), round(y, 2))} -> ", a(dirname, href=gc_log_plot[bench][dirname]))
+        for point in points:
+            dirname = os.path.dirname(point.name)
+            with open(dirname + "/cfg") as f:
+                cfg = eval(f.read())
+            li(f"{(round(point.memory,2), round(point.time, 2))} {cfg['BALANCER_CFG']['RESIZE_CFG']} -> ", a(dirname, href=gc_log_plot[bench][dirname]))
     html_path = f"{html_counter()}.html"
     with open(str(path.joinpath(html_path)), "w") as f:
         f.write(str(doc))

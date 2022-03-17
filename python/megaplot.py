@@ -3,6 +3,7 @@ import json
 import os
 import collections
 import matplotlib.pyplot as plt
+import numpy as np
 
 class FrozenDict(collections.Mapping):
     """Don't forget the docstrings!!"""
@@ -79,12 +80,19 @@ def anal_log():
 
     return m
 
-def plot(m, benches, summarize_baseline=True):
+class Point:
+    def __init__(self, memory, time, name, is_baseline):
+        self.memory = memory
+        self.time = time
+        self.name = name
+        self.is_baseline = is_baseline
+
+def plot(m, benches, *, summarize_baseline=True, reciprocal_regression=True):
     p = "Average(PhysicalMemory)"
     p = "Average(BalancerMemory)"
     p = "Average(SizeOfObjects)"
 
-    coords = []
+    points = []
 
     for bench in benches:
         if summarize_baseline:
@@ -98,6 +106,7 @@ def plot(m, benches, summarize_baseline=True):
                     print(score)
                 memory = score[p]
                 time = score["MAJOR_GC_TIME"]
+                time /= 1e9
                 baseline_memorys.append(memory)
                 baseline_times.append(time)
                 baseline_memory = sum(baseline_memorys) / len(baseline_memorys)
@@ -111,25 +120,48 @@ def plot(m, benches, summarize_baseline=True):
                 for score, name in m[bench][balancer_cfg]:
                     memory = score[p]
                     time = score["MAJOR_GC_TIME"]
+                    time /= 1e9
                     if summarize_baseline:
                         memory /= baseline_memory
                         time /= baseline_time
+                    if reciprocal_regression:
+                        time = 1 / time
                     if balancer_cfg != BASELINE:
                         x.append(memory)
                         y.append(time)
                     else:
                         baseline_x.append(memory)
                         baseline_y.append(time)
-                    coords.append(((memory, time), name))
+                    points.append(Point(memory, time, name, balancer_cfg == BASELINE))
         plt.scatter(x, y, label=bench, linewidth=0.1)
         if len(baseline_x) != 0:
             plt.scatter(baseline_x, baseline_y, label=bench, linewidth=0.1, color="orange")
     plt.xlabel(p)
-    plt.ylabel("Time")
+    if reciprocal_regression:
+        plt.ylabel("Inversed time")
+    else:
+        plt.ylabel("Time")
     if summarize_baseline:
         plt.scatter([1], [1], label="baseline", color="black")
+    if reciprocal_regression:
+        x = []
+        y = []
+        # include baseline
+        memory = []
+        time = []
+        for p in points:
+            if not p.is_baseline:
+                x.append(p.memory)
+                y.append(p.time)
+            memory.append(p.memory)
+            time.append(p.time)
+        min_memory = min(*memory) if len(memory) > 1 else memory[0]
+        max_memory = max(*memory) if len(memory) > 1 else memory[0]
+        coef = np.polyfit(x,y,1)
+        poly1d_fn = np.poly1d(coef)
+        plt.plot([min_memory, max_memory], poly1d_fn([min_memory, max_memory]), "--k")
     plt.legend()
-    return coords
+    return points
 
 if __name__ == "__main__":
     m = anal_log()
