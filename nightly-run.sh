@@ -10,6 +10,8 @@
 
 
 #cleanup
+
+mkdir log
 rm -f /tmp/membalancer_socket
 
 #syncing with the main branch (for custom branches)
