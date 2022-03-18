@@ -250,7 +250,7 @@ struct ConnectionState {
     double garbage_duration = 10;
     for (size_t i = get_starting_index(aabad.size()); i < aabad.size(); ++i) {
       const auto& bad = aabad[i];
-      double decay = pow(0.95, bad.second / 1000000000);
+      double decay = pow(0.9, bad.second / 1000000000);
       garbage_bytes += bad.first;
       garbage_bytes *= decay;
       garbage_duration += bad.second;

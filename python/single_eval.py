@@ -375,6 +375,7 @@ with ProcessScope(subprocess.Popen(balancer_cmds, stdout=subprocess.PIPE, stderr
 
     if not RESIZE_STRATEGY == "ignore":
         v8_env_vars["SKIP_RECOMPUTE_LIMIT"] = "1"
+        #v8_env_vars["SKIP_MEMORY_REDUCER"] = "1"
 
     if LIMIT_MEMORY:
         v8_env_vars["MEMORY_LIMITER_TYPE"] = "ProcessWide"
