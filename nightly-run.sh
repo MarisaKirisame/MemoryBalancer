@@ -44,7 +44,7 @@ pip3 install pyppeteer
 
 echo "** running eval **"
 python3 python/eval.py "jetstream"
-
+sh python/upload.sh log
 
 # echo "**Running gclient sync**"
 # cd "../chromium/src"
