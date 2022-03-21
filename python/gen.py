@@ -20,7 +20,7 @@ class Counter:
         return ret
 
 path = Path("out/" + time.strftime("%Y-%m-%d-%H-%M-%S"))
-path.mkdir()
+path.mkdir(parents=True, exist_ok=True)
 
 png_counter = Counter()
 html_counter = Counter()
