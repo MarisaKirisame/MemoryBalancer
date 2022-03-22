@@ -184,6 +184,7 @@ def run_jetstream(v8_env_vars):
 		j["Peak(BalancerMemory)"] = calculate_peak_balancer_memory(result_directory)
 		j["Average(BalancerMemory)"] = calculate_peak_balancer_memory(result_directory)
         v8_log_path = os.path.join(result_directory, "v8_log")
+        
         total_time = None
         total_major_gc_time = None
         peak_memory = None
