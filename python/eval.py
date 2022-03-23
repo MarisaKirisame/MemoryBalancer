@@ -191,6 +191,7 @@ cfg_jetstream = {
     "DEBUG": True,
     "NAME": "jetstream",
     "MEMORY_LIMIT": 10000,
+    "BENCH": NONDET(*[[x] for x in bench]),
     "BALANCER_CFG": BALANCER_CFG
 }
 
