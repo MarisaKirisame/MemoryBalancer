@@ -14,13 +14,13 @@ ssh "uwplse.org" "mkdir /var/www/membalancer/$last"
 echo "** uploading files to membalancer.uwplse.org/$last **"
 scp -r $result_dir "uwplse.org:/var/www/membalancer/$last"
 echo "** uploaded files **"
-
+if command -v nightly-results &>/dev/null; then
+    nightly-results url "uwplse.org:/var/www/membalancer/$last"
+fi
 
 
 
 
 # scp plot.png "uwplse.org:/var/www/membalancer/$TIME.png"
 # 
-# if command -v nightly-results &>/dev/null; then
-#     nightly-results img https://membalancer.uwplse.org/$TIME.png
-# fi
+

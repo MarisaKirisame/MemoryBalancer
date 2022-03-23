@@ -22,30 +22,30 @@ mem_balancer_dir=$PWD
 set -e
 export PATH="$PWD/../depot_tools:$PATH"
 #must be in MemoryBalancer
-# echo "** Pulling latest changes in MemoryBalancer and v8 **"
-# cd $mem_balancer_dir
-# git submodule init
-# git submodule update
-# git submodule sync
-# echo "** pulling changes in MemoryBalancer"
-# 
-# echo "** pulling changes in v8 **"
-# cd ../v8/src
-# git checkout 2020-12-24
-# git pull origin
-# gclient sync -f --no-history
-# cd $mem_balancer_dir
-# 
-# echo "** building v8 **"
-# make v8
-# echo "** building memorybalancer **"
-# make
-# 
-# pip3 install pyppeteer
-# pip3 install dominate
-# 
-# echo "** running eval **"
-# python3 python/eval.py "jetstream"
+echo "** Pulling latest changes in MemoryBalancer and v8 **"
+cd $mem_balancer_dir
+git submodule init
+git submodule update
+git submodule sync
+echo "** pulling changes in MemoryBalancer"
+
+echo "** pulling changes in v8 **"
+cd ../v8/src
+git checkout 2020-12-24
+git pull origin
+gclient sync -f --no-history
+cd $mem_balancer_dir
+
+echo "** building v8 **"
+make v8
+echo "** building memorybalancer **"
+make
+
+pip3 install pyppeteer
+pip3 install dominate
+
+echo "** running eval **"
+python3 python/eval.py "jetstream"
 sh python/upload.sh
 
 # echo "**Running gclient sync**"
