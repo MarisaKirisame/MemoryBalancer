@@ -9,18 +9,11 @@ set -o errexit -o xtrace
 python3 python/gen.py --no-open
 last=`ls "out" | sort -r | head -1`
 result_dir="out/$last"
-echo "**creating $last directory"
-ssh "uwplse.org" "mkdir /var/www/membalancer/$last"
+#echo "**creating $last directory"
+#ssh "uwplse.org" "mkdir /var/www/membalancer/$last"
 echo "** uploading files to membalancer.uwplse.org/$last **"
-scp -r $result_dir "uwplse.org:/var/www/membalancer/$last"
+scp -r $result_dir "uwplse.org:/var/www/membalancer"
 echo "** uploaded files **"
 if command -v nightly-results &>/dev/null; then
-    nightly-results url "uwplse.org:/var/www/membalancer/$last"
+    nightly-results url "http://membalancer.uwplse.org/$last"
 fi
-
-
-
-
-# scp plot.png "uwplse.org:/var/www/membalancer/$TIME.png"
-# 
-
