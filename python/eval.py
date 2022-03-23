@@ -177,14 +177,30 @@ if(len(mode) == 0):
 
 bench = ["twitter", "cnn", "espn", "reddit"]
 choose_two = [random.sample(bench, k=2) for i in range(2)]
-cfg = {
+cfg_browser = {
     "LIMIT_MEMORY": True,
     "DEBUG": True,
-    "NAME": mode,
+    "NAME": "browser",
     "MEMORY_LIMIT": 10000,
     "BENCH": NONDET(*[[x] for x in bench]),
     "BALANCER_CFG": BALANCER_CFG
 }
+
+cfg_jetstream = {
+    "LIMIT_MEMORY": True,
+    "DEBUG": True,
+    "NAME": "jetstream",
+    "MEMORY_LIMIT": 10000,
+    "BALANCER_CFG": BALANCER_CFG
+}
+
+if mode == "jetstream":
+	cfg = cfg_jetstream
+elif mode == "browser":
+	cfg = cfg_browser
+else:
+	print(mode)
+	assert False
 
 def run(config, in_path):
     path = in_path.joinpath(time.strftime("%Y-%m-%d-%H-%M-%S"))
