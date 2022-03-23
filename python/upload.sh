@@ -7,7 +7,7 @@ set -o errexit -o xtrace
 #./clean_log
 
 python3 python/gen.py --no-open
-last=`ls "$1" | sort -r | head -1`
+last=`ls "out" | sort -r | head -1`
 result_dir="out/$last"
 echo "**creating $last directory"
 ssh "uwplse.org" "mkdir /var/www/membalancer/$last"
