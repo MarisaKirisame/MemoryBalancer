@@ -182,8 +182,7 @@ cfg = {
     "DEBUG": True,
     "NAME": mode,
     "MEMORY_LIMIT": 10000,
-    "BENCH": NONDET(*choose_two),
-    #"BENCH": NONDET(*[[x] for x in bench]),
+    "BENCH": NONDET(*[[x] for x in bench]),
     "BALANCER_CFG": BALANCER_CFG
 }
 
