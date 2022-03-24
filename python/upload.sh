@@ -9,4 +9,5 @@ scp -r $result_dir "uwplse.org:/var/www/membalancer"
 echo "** uploaded files **"
 if command -v nightly-results &>/dev/null; then
     nightly-results url "http://membalancer.uwplse.org/$last"
+    nightly-results img "http://membalancer.uwplse.org/$last/plot.png"
 fi
