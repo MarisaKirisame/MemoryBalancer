@@ -178,8 +178,11 @@ def run_jetstream(v8_env_vars):
         j = {}
         j["OK"] = True
         j["MAJOR_GC_TIME"] = calculate_total_major_gc_time(result_directory)
-        j["AVERAGE_HEAP_MEMORY"] = calculate_average(result_directory, "SizeOfObjects")
-        j["PEAK_HEAP_MEMORY"] = calculate_peak(result_directory, "SizeOfObjects")
+        for p in ["PhysicalMemory", "SizeOfObjects", "Limit"]:
+        	j[f"Peak({p})"] = calculate_peak(result_directory, p)
+        	j[f"Average({p})"] = calculate_average(result_directory, p)
+        j["Peak(BalancerMemory)"] = calculate_peak_balancer_memory(result_directory)
+        j["Average(BalancerMemory)"] = calculate_peak_balancer_memory(result_directory)
         v8_log_path = os.path.join(result_directory, "v8_log")
         total_time = None
         total_major_gc_time = None

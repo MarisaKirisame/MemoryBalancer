@@ -12,6 +12,7 @@
 #cleanup
 
 mkdir log
+
 rm -f /tmp/membalancer_socket
 
 #syncing with the main branch (for custom branches)
@@ -21,6 +22,7 @@ mem_balancer_dir=$PWD
 set -e
 export PATH="$PWD/../depot_tools:$PATH"
 #must be in MemoryBalancer
+./clean_log
 echo "** Pulling latest changes in MemoryBalancer and v8 **"
 cd $mem_balancer_dir
 git submodule init
@@ -41,10 +43,11 @@ echo "** building memorybalancer **"
 make
 
 pip3 install pyppeteer
+pip3 install dominate
 
 echo "** running eval **"
 python3 python/eval.py "jetstream"
-
+sh python/upload.sh
 
 # echo "**Running gclient sync**"
 # cd "../chromium/src"
