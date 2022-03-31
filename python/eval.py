@@ -4,6 +4,9 @@ import time
 import random
 import sys
 import json
+import shutil
+import os
+
 # list monad
 class NONDET:
     def __init__(self, *args):
@@ -171,12 +174,14 @@ BALANCER_CFG = QUOTE(NONDET({
     "RESIZE_CFG": {"RESIZE_STRATEGY": "ignore"},
     "BALANCE_FREQUENCY": 0
 }))
-mode = sys.argv[1]
-if(len(mode) == 0):
+
+if 1 < len(sys.argv):
+    mode = sys.argv[1]
+else:
     mode = "browser"
 
-bench = ["twitter", "cnn", "espn", "reddit"]
-choose_two = [random.sample(bench, k=2) for i in range(2)]
+bench = ["twitter", "cnn", "espn", "reddit", "yahoo", "facebook", "gmail", "foxnews", "medium"]
+choose_two = [random.sample(bench, k=2) for i in range(20)]
 cfg_browser = {
     "LIMIT_MEMORY": True,
     "DEBUG": True,
@@ -213,6 +218,14 @@ def run(config, in_path):
             run(x, path)
     else:
         cmd = f'python3 python/single_eval.py "{config}" {path}'
-        subprocess.run(cmd, shell=True, check=True)
+        for i in range(3):
+            try:
+                subprocess.run(cmd, shell=True, check=True)
+                break
+            except subprocess.CalledProcessError as e:
+                print(e.output)
+                subprocess.run("pkill -f chrome", shell=True)
+                if os.path.exists(path):
+                    shutil.rmtree(path)
 
 run(cfg, Path("log"))

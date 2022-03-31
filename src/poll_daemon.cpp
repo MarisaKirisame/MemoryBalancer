@@ -203,6 +203,12 @@ T nneg(const T& t) {
   return t;
 }
 
+// for our balancing purpose, we pretend the working memory is more then we measured.
+// this is because:
+// 0: the gc take some time to start up warm up, so gc time is not exactly an multiple of heap size
+// 1: pretending the working set is bigger allocate more memory to the beginning of the phase, which allower a quicker working set growth (which our model do not capture).
+constexpr size_t bias_in_working_memory = 5 * 1048576;
+
 // all duration is in milliseconds, and all speed is in bytes per milliseconds.
 struct ConnectionState {
   size_t wait_ack_count = 0;
@@ -250,7 +256,7 @@ struct ConnectionState {
     double garbage_duration = 10;
     for (size_t i = get_starting_index(aabad.size()); i < aabad.size(); ++i) {
       const auto& bad = aabad[i];
-      double decay = pow(0.9, bad.second / 1000000000);
+      double decay = pow(0.99, bad.second / 1000000000);
       garbage_bytes += bad.first;
       garbage_bytes *= decay;
       garbage_duration += bad.second;
@@ -279,6 +285,9 @@ struct ConnectionState {
     for (size_t i = get_starting_index(gc_bad.size()); i < gc_bad.size(); ++i) {
       const auto& bad = gc_bad[i];
       ret += bad.first;
+      if (bad.first != 1) {
+        ret += bias_in_working_memory;
+      }
     }
     return ret;
   }
@@ -359,7 +368,7 @@ struct ConnectionState {
         --wait_ack_count;
       } else if (type == "memory_timer") {
         memory_log.push_back(data);
-        current_memory = data["SizeOfObjects"];
+        current_memory = static_cast<int64_t>(data["SizeOfObjects"]) + static_cast<int64_t>(data["AllocatedExternalMemorySinceMarkCompact"]);
         max_memory = std::max(static_cast<size_t>(data["Limit"]), working_memory);
         assert(max_memory >= working_memory);
       }
@@ -394,7 +403,7 @@ struct ConnectionState {
     return sqrt(gt());
   }
   double speed_balance_factor() {
-    return sqrt(static_cast<double>(garbage_rate()) * static_cast<double>(working_memory) / static_cast<double>(gc_speed()));
+    return sqrt(static_cast<double>(garbage_rate()) * static_cast<double>(working_memory + bias_in_working_memory) / static_cast<double>(gc_speed()));
   }
   void report(TextTable& t, size_t epoch) {
     assert(should_balance());
@@ -424,7 +433,7 @@ struct ConnectionState {
     }
     assert(mutator_duration >= 0);
     auto useful_gc_duration = extra_memory / gc_speed();
-    auto wasteful_gc_duration = working_memory / gc_speed();
+    auto wasteful_gc_duration = (working_memory + bias_in_working_memory) / gc_speed();
     auto ret = (mutator_duration + useful_gc_duration) / (mutator_duration + useful_gc_duration + wasteful_gc_duration);
     if(!(ret >= 0)) {
       std::cout << mutator_duration << " " << useful_gc_duration << " " << wasteful_gc_duration << std::endl;

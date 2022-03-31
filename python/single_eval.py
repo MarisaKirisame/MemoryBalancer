@@ -62,7 +62,7 @@ def read_memory_log(directory):
                 if writeOnce:
                     time = j["time"] + 1
                     j = {"source": filename, "time": time}
-                    for p in ["Limit", "PhysicalMemory", "SizeOfObjects"]:
+                    for p in ["Limit", "PhysicalMemory", "SizeOfObjects", "BenchmarkMemory"]:
                         j[p] = 0
                     logs.append(j)
     logs.sort(key=lambda x: x["time"])
@@ -213,7 +213,7 @@ def run_browser(v8_env_vars):
         args = ["--no-sandbox", "--disable-notifications", "--start-maximized", "--user-data-dir=./membalancer_profile"]
         args.append("--noincremental-marking")
         args.append("--no-memory-reducer")
-        browseroptions = {"headless":True, "args":args}
+        browseroptions = {"headless":False, "args":args}
         browseroptions["executablePath"] = "../chromium/src/out/Release/chrome"
 
         # we need the environment variable for headless:False, because it include stuff such for graphics such as DISPLAY.
@@ -223,7 +223,10 @@ def run_browser(v8_env_vars):
 
         if DEBUG:
             browseroptions["dumpio"] = True
-        return await launch(browseroptions)
+        b = await launch(browseroptions)
+        if len(await b.pages()) != 1:
+            await b.close()
+        return b
 
     async def new_page(browser):
         page = await browser.newPage()
@@ -270,15 +273,20 @@ def run_browser(v8_env_vars):
             await asyncio.sleep(1)
     bench["cnn"] = cnn
 
-    async def gmail(browser):
+    async def gmail(browser, duration):
+        start = time.time()
         page = await new_page(browser)
-        await page.goto("https://www.gmail.com")
+        # cannot use domcontentloaded as that is too quick
+        await page.goto("https://www.gmail.com", timeout=duration*1000)
         await asyncio.sleep(5)
-        for i in range(5):
+        i = 0
+        while time.time() - start < duration:
             await page.evaluate(f'document.querySelectorAll(".zA")[{i}].click()')
             await asyncio.sleep(10)
             await page.evaluate('document.querySelector(".TN.bzz.aHS-bnt").click()')
             await asyncio.sleep(5)
+            i += 1
+    bench["gmail"] = gmail
 
     async def espn(browser, duration):
         start = time.time()
@@ -290,12 +298,57 @@ def run_browser(v8_env_vars):
             await asyncio.sleep(1)
     bench["espn"] = espn
 
+    async def facebook(browser, duration):
+        start = time.time()
+        page = await new_page(browser)
+        await page.goto("https://www.facebook.com/", timeout=duration*1000, waitUntil='domcontentloaded')
+        await asyncio.sleep(5)
+        groups = (await page.xpath("//*[text() = 'Groups']"))[0]
+        await page.evaluate("(g) => g.click()", groups)
+        await asyncio.sleep(5)
+        while time.time() - start < duration:
+            await page.evaluate("{window.scrollBy(0, 50);}")
+            await asyncio.sleep(1)
+    bench["facebook"] = facebook
+
+    # problem - doesnt seems to load as it scroll continuously
+    async def foxnews(browser, duration):
+        start = time.time()
+        page = await new_page(browser)
+        await page.goto("https://www.foxnews.com/", timeout=duration*1000, waitUntil='domcontentloaded')
+        await asyncio.sleep(1)
+        while time.time() - start < duration:
+            await page.evaluate("{window.scrollBy(0, 50);}")
+            await asyncio.sleep(1)
+    bench["foxnews"] = foxnews
+
+    async def yahoo(browser, duration):
+        start = time.time()
+        page = await new_page(browser)
+        await page.goto("https://www.news.yahoo.com/", timeout=duration*1000, waitUntil='domcontentloaded')
+        await asyncio.sleep(1)
+        while time.time() - start < duration:
+            await page.evaluate("{window.scrollBy(0, 50);}")
+            await asyncio.sleep(1)
+    bench["yahoo"] = yahoo
+
+    async def medium(browser, duration):
+        start = time.time()
+        page = await new_page(browser)
+        await page.goto("https://www.medium.com/", timeout=duration*1000, waitUntil='domcontentloaded')
+        await asyncio.sleep(1)
+        while time.time() - start < duration:
+            await page.evaluate("{window.scrollBy(0, 50);}")
+            await asyncio.sleep(1)
+    bench["medium"] = medium
+
     # problem - cannot watch twitch video
     async def twitch(browser):
         page = await new_page(browser)
         await page.goto("https://www.twitch.com/")
         await asyncio.sleep(100)
 
+    # problem - use too little memory
     async def cookie_clicker(browser, duration):
         start = time.time()
         page = await new_page(browser)
@@ -309,7 +362,8 @@ def run_browser(v8_env_vars):
                 await page.evaluate("(c) => c.click()", clickable)
                 await asyncio.sleep(1)
 
-    async def youtube(browser):
+    # problem - use too little memory
+    async def youtube(browser, duration):
         page = await new_page(browser)
         await page.goto("https://www.youtube.com/watch?v=dQw4w9WgXcQ", {'waitUntil' : 'domcontentloaded'})
         await asyncio.sleep(100)
@@ -360,7 +414,7 @@ def run_browser(v8_env_vars):
     j = {}
     j["OK"] = True
     j["MAJOR_GC_TIME"] = calculate_total_major_gc_time(result_directory)
-    for p in ["PhysicalMemory", "SizeOfObjects", "Limit"]:
+    for p in ["PhysicalMemory", "SizeOfObjects", "Limit", "BenchmarkMemory"]:
         j[f"Peak({p})"] = calculate_peak(result_directory, p)
         j[f"Average({p})"] = calculate_average(result_directory, p)
     j["Peak(BalancerMemory)"] = calculate_peak_balancer_memory(result_directory)

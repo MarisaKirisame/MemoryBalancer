@@ -4,6 +4,7 @@ import os
 import collections
 import matplotlib.pyplot as plt
 import numpy as np
+from scipy import stats
 
 class FrozenDict(collections.Mapping):
     """Don't forget the docstrings!!"""
@@ -86,11 +87,15 @@ class Point:
         self.time = time
         self.name = name
         self.is_baseline = is_baseline
+    def __repr__(self):
+        return f"Point{repr((self.memory, self.time, self.name, self.is_baseline))}"
 
 def plot(m, benches, *, summarize_baseline=True, reciprocal_regression=True):
+    ret = {}
     p = "Average(PhysicalMemory)"
     p = "Average(BalancerMemory)"
     p = "Average(SizeOfObjects)"
+    p = "Average(BenchmarkMemory)"
 
     points = []
 
@@ -118,6 +123,8 @@ def plot(m, benches, *, summarize_baseline=True, reciprocal_regression=True):
         for balancer_cfg in m[bench]:
             if not summarize_baseline or balancer_cfg != BASELINE:
                 for score, name in m[bench][balancer_cfg]:
+                    if p not in score:
+                        print(score)
                     memory = score[p]
                     time = score["MAJOR_GC_TIME"]
                     time /= 1e9
@@ -136,6 +143,7 @@ def plot(m, benches, *, summarize_baseline=True, reciprocal_regression=True):
         plt.scatter(x, y, label=bench, linewidth=0.1)
         if len(baseline_x) != 0:
             plt.scatter(baseline_x, baseline_y, label=bench, linewidth=0.1, color="orange")
+    ret["points"] = points
     plt.xlabel(p)
     if reciprocal_regression:
         plt.ylabel("Inversed time")
@@ -157,11 +165,16 @@ def plot(m, benches, *, summarize_baseline=True, reciprocal_regression=True):
             time.append(p.time)
         min_memory = min(*memory) if len(memory) > 1 else memory[0]
         max_memory = max(*memory) if len(memory) > 1 else memory[0]
-        coef = np.polyfit(x,y,1)
+        coef = np.polyfit(x,y, 1)
         poly1d_fn = np.poly1d(coef)
+        sd = sum(abs(poly1d_fn(x) - y)) / len(y)
+        ret["coef"] = coef
+        ret["sd"] = sd
         plt.plot([min_memory, max_memory], poly1d_fn([min_memory, max_memory]), "--k")
+        plt.plot([min_memory, max_memory], poly1d_fn([min_memory, max_memory]) + sd, "--k")
+        plt.plot([min_memory, max_memory], poly1d_fn([min_memory, max_memory]) - sd, "--k")
     plt.legend()
-    return points
+    return ret
 
 if __name__ == "__main__":
     m = anal_log()
