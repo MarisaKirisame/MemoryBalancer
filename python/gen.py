@@ -10,6 +10,7 @@ import glob
 import json
 import shutil
 from scipy import stats
+import math
 
 class Counter:
     def __init__(self):
@@ -97,8 +98,11 @@ with dominate.document(title='Plot') as doc:
     for point in points:
         assert not point.is_baseline
         improvement_over_baseline.append(get_deviate_in_sd(point.memory, point.time) - baseline_deviate)
-    plt.hist(improvement_over_baseline)
     p(f"""pvalue={stats.ttest_1samp(improvement_over_baseline, 0.0, alternative="greater").pvalue}""")
+    bin_width = 0.5
+    bin_start = math.floor(min(*improvement_over_baseline) / bin_width)
+    bin_stop = math.ceil(max(*improvement_over_baseline) / bin_width)
+    plt.hist(improvement_over_baseline, [x * bin_width for x in range(bin_start, bin_stop)], ec='black')
     png_path = f"{png_counter()}.png"
     plt.savefig(str(path.joinpath(png_path)))
     plt.clf()
