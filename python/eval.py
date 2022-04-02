@@ -180,14 +180,16 @@ if 1 < len(sys.argv):
 else:
     mode = "browser"
 
-bench = ["twitter", "cnn", "espn", "reddit", "yahoo", "facebook", "gmail", "foxnews", "medium"]
+# yahoo is removed as it is too flaky, and has too much variance
+bench = ["twitter", "cnn", "espn", "reddit", "facebook", "gmail", "foxnews", "medium"]
 choose_two = [random.sample(bench, k=2) for i in range(20)]
 cfg_browser = {
     "LIMIT_MEMORY": True,
     "DEBUG": True,
     "NAME": "browser",
     "MEMORY_LIMIT": 10000,
-    "BENCH": NONDET(*[[x] for x in bench]),
+    "BENCH": NONDET(*choose_two),
+    #"BENCH": NONDET(*[[x] for x in bench]),
     "BALANCER_CFG": BALANCER_CFG
 }
 

@@ -235,11 +235,13 @@ def run_browser(v8_env_vars):
     bench = {}
 
     async def reddit(browser, duration):
+        start = time.time()
         page = await new_page(browser)
         await page.goto("https://reddit.com", timeout=duration*1000, waitUntil='domcontentloaded')
         await page.waitForSelector("i.icon-comment")
         i = 0
         while time.time() - start < duration:
+            print("looping reddit")
             l = await page.querySelectorAll("i.icon-comment")
             assert i < len(l)
             await page.evaluate("(element) => element.scrollIntoView()", l[i])
@@ -259,6 +261,7 @@ def run_browser(v8_env_vars):
         await page.goto("https://www.twitter.com", timeout=duration*1000, waitUntil='domcontentloaded')
         await asyncio.sleep(1)
         while time.time() - start < duration:
+            print("looping twitter")
             await page.evaluate("{window.scrollBy(0, 50);}")
             await asyncio.sleep(1)
     bench["twitter"] = twitter
@@ -269,6 +272,7 @@ def run_browser(v8_env_vars):
         await page.goto("https://www.cnn.com/", timeout=duration*1000, waitUntil='domcontentloaded')
         await asyncio.sleep(1)
         while time.time() - start < duration:
+            print("looping cnn")
             await page.evaluate("{window.scrollBy(0, 50);}")
             await asyncio.sleep(1)
     bench["cnn"] = cnn
@@ -281,6 +285,7 @@ def run_browser(v8_env_vars):
         await asyncio.sleep(5)
         i = 0
         while time.time() - start < duration:
+            print("looping gmail")
             await page.evaluate(f'document.querySelectorAll(".zA")[{i}].click()')
             await asyncio.sleep(10)
             await page.evaluate('document.querySelector(".TN.bzz.aHS-bnt").click()')
@@ -294,6 +299,7 @@ def run_browser(v8_env_vars):
         await page.goto("https://www.espn.com/", timeout=duration*1000, waitUntil='domcontentloaded')
         await asyncio.sleep(1)
         while time.time() - start < duration:
+            print("looping espn")
             await page.evaluate("{window.scrollBy(0, 50);}")
             await asyncio.sleep(1)
     bench["espn"] = espn
@@ -307,6 +313,7 @@ def run_browser(v8_env_vars):
         await page.evaluate("(g) => g.click()", groups)
         await asyncio.sleep(5)
         while time.time() - start < duration:
+            print("looping facebook")
             await page.evaluate("{window.scrollBy(0, 50);}")
             await asyncio.sleep(1)
     bench["facebook"] = facebook
@@ -318,6 +325,7 @@ def run_browser(v8_env_vars):
         await page.goto("https://www.foxnews.com/", timeout=duration*1000, waitUntil='domcontentloaded')
         await asyncio.sleep(1)
         while time.time() - start < duration:
+            print("looping foxnews")
             await page.evaluate("{window.scrollBy(0, 50);}")
             await asyncio.sleep(1)
     bench["foxnews"] = foxnews
@@ -328,6 +336,7 @@ def run_browser(v8_env_vars):
         await page.goto("https://www.news.yahoo.com/", timeout=duration*1000, waitUntil='domcontentloaded')
         await asyncio.sleep(1)
         while time.time() - start < duration:
+            print("looping yahoo")
             await page.evaluate("{window.scrollBy(0, 50);}")
             await asyncio.sleep(1)
     bench["yahoo"] = yahoo
@@ -338,6 +347,7 @@ def run_browser(v8_env_vars):
         await page.goto("https://www.medium.com/", timeout=duration*1000, waitUntil='domcontentloaded')
         await asyncio.sleep(1)
         while time.time() - start < duration:
+            print("looping medium")
             await page.evaluate("{window.scrollBy(0, 50);}")
             await asyncio.sleep(1)
     bench["medium"] = medium
@@ -353,7 +363,7 @@ def run_browser(v8_env_vars):
         start = time.time()
         page = await new_page(browser)
         await page.goto("https://orteil.dashnet.org/cookieclicker/", timeout=duration*1000)
-        while time.time() - start > duration:
+        while time.time() - start < duration:
             bigCookie = await page.querySelector("#bigCookie")
             items = await page.querySelectorAll(".product.unlocked.enabled")
             upgrades = await page.querySelectorAll(".crate.upgrade")
