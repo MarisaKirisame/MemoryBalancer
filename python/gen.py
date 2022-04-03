@@ -82,31 +82,33 @@ for bench in m.keys():
 with dominate.document(title='Plot') as doc:
     mp = megaplot.plot(m, m.keys())
     points = mp["points"]
-    coef = mp["coef"]
-    slope, bias = coef
-    sd = mp["sd"]
+    if "coef" in mp:
+        coef = mp["coef"]
+        slope, bias = coef
+        sd = mp["sd"]
     plt.savefig(str(path.joinpath("plot.png")))
     plt.clf()
     img(src="plot.png")
-    p(f"{(1.0, slope+bias)}")
-    p(f"{((1-bias)/slope, 1.0)}")
     def get_deviate_in_sd(x, y):
         return (y - (x * slope + bias)) / sd
-    baseline_deviate = get_deviate_in_sd(1, 1)
-    print(baseline_deviate)
-    improvement_over_baseline = []
-    for point in points:
-        assert not point.is_baseline
-        improvement_over_baseline.append(get_deviate_in_sd(point.memory, point.time) - baseline_deviate)
-    p(f"""pvalue={stats.ttest_1samp(improvement_over_baseline, 0.0, alternative="greater").pvalue}""")
-    bin_width = 0.5
-    bin_start = math.floor(min(*improvement_over_baseline) / bin_width)
-    bin_stop = math.ceil(max(*improvement_over_baseline) / bin_width)
-    plt.hist(improvement_over_baseline, [x * bin_width for x in range(bin_start, bin_stop)], ec='black')
-    png_path = f"{png_counter()}.png"
-    plt.savefig(str(path.joinpath(png_path)))
-    plt.clf()
-    img(src=png_path)
+    if "coef" in mp:
+        p(f"{(1.0, slope+bias)}")
+        p(f"{((1-bias)/slope, 1.0)}")
+        baseline_deviate = get_deviate_in_sd(1, 1)
+        print(baseline_deviate)
+        improvement_over_baseline = []
+        for point in points:
+            assert not point.is_baseline
+            improvement_over_baseline.append(get_deviate_in_sd(point.memory, point.time) - baseline_deviate)
+        p(f"""pvalue={stats.ttest_1samp(improvement_over_baseline, 0.0, alternative="greater").pvalue}""")
+        bin_width = 0.5
+        bin_start = math.floor(min(*improvement_over_baseline) / bin_width)
+        bin_stop = math.ceil(max(*improvement_over_baseline) / bin_width)
+        plt.hist(improvement_over_baseline, [x * bin_width for x in range(bin_start, bin_stop)], ec='black')
+        png_path = f"{png_counter()}.png"
+        plt.savefig(str(path.joinpath(png_path)))
+        plt.clf()
+        img(src=png_path)
     for name, filepath in subpages:
         li(a(name, href=filepath))
 

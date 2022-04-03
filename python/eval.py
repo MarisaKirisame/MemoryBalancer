@@ -181,7 +181,9 @@ else:
     mode = "browser"
 
 # yahoo is removed as it is too flaky, and has too much variance
-bench = ["twitter", "cnn", "espn", "reddit", "facebook", "gmail", "foxnews", "medium"]
+# reddit is removed because the ip got banned
+# medium is removed because it allocate little memory in rare fashion
+bench = ["twitter", "cnn", "espn", "facebook", "gmail", "foxnews"]
 choose_two = [random.sample(bench, k=2) for i in range(20)]
 cfg_browser = {
     "LIMIT_MEMORY": True,

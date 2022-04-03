@@ -256,7 +256,7 @@ struct ConnectionState {
     double garbage_duration = 10;
     for (size_t i = get_starting_index(aabad.size()); i < aabad.size(); ++i) {
       const auto& bad = aabad[i];
-      double decay = pow(0.99, bad.second / 1000000000);
+      double decay = pow(0.95, bad.second / 1000000000);
       garbage_bytes += bad.first;
       garbage_bytes *= decay;
       garbage_duration += bad.second;
@@ -900,7 +900,8 @@ struct Balancer {
             }
             suggested_extra_memory_ = std::max<size_t>(suggested_extra_memory_, 1048576 * 2);
             size_t total_memory_ = suggested_extra_memory_ + rr->working_memory;
-            if (big_change(extra_memory_, suggested_extra_memory_) && (/*immediate_reclaim ||*/ rr->heap_resize_snap(suggested_extra_memory_))) {
+            //if (big_change(extra_memory_, suggested_extra_memory_) && (/*immediate_reclaim ||*/ rr->heap_resize_snap(suggested_extra_memory_))) {
+            if (true) {
               std::string str = to_string(tagged_json("heap", total_memory_));
               std::cout << "sending: " << str << "to: " << rr->name << std::endl;
               send_string(rr->fd, str);

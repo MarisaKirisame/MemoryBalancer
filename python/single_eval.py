@@ -48,25 +48,32 @@ def calculate_total_major_gc_time(directory):
                 total_major_gc_time += major_gc_time
     return total_major_gc_time
 
-def read_memory_log(directory):
-    logs = []
+def read_memory_log_separate(directory):
+    logs = {}
     for filename in os.listdir(directory):
         if filename.endswith(".memory.log"):
             with open(os.path.join(directory, filename)) as f:
-                writeOnce = False
                 for line in f.read().splitlines():
                     j = json.loads(line)
-                    j["source"] = filename
-                    logs.append(j)
-                    writeOnce = True
-                if writeOnce:
+                    if filename not in logs:
+                        logs[filename] = []
+                    logs[filename].append(j)
+                if filename in logs:
                     time = j["time"] + 1
                     j = {"source": filename, "time": time}
                     for p in ["Limit", "PhysicalMemory", "SizeOfObjects", "BenchmarkMemory"]:
                         j[p] = 0
-                    logs.append(j)
-    logs.sort(key=lambda x: x["time"])
+                    logs[filename].append(j)
     return logs
+
+def read_memory_log(directory):
+    ret = []
+    for filename, logs in read_memory_log_separate(directory).items():
+        for log in logs:
+            log["source"] = filename
+            ret.append(log)
+    ret.sort(key=lambda x: x["time"])
+    return ret
 
 def calculate_peak(directory, property_name):
     logs = read_memory_log(directory)
@@ -101,6 +108,16 @@ def calculate_average(directory, property_name):
     if len(logs) == 0:
         return memory_sum
     return memory_sum / len(logs)
+
+# positive variation
+def calculate_pv(directory, property_name):
+    ret = 0
+    for logs in read_memory_log_separate(directory).values():
+        last = 0
+        for log in logs:
+            ret += max(0, log[property_name] - last)
+            last = log[property_name]
+    return ret
 
 def calculate_peak_balancer_memory(directory):
     total_heap_memory = []
@@ -248,7 +265,7 @@ def run_browser(v8_env_vars):
             await asyncio.sleep(5)
             link = await page.evaluate("(element) => element.parentElement.href", l[i])
             sub_page = await new_page(browser)
-            await sub_page.goto(link, {"waitUntil" : "domcontentloaded"}, timeout=duration*1000, waitUntil='domcontentloaded')
+            await sub_page.goto(link, {"waitUntil" : "domcontentloaded"}, timeout=15*1000, waitUntil='networkidle2')
             await asyncio.sleep(10)
             await sub_page.close()
             await asyncio.sleep(5)
@@ -427,6 +444,7 @@ def run_browser(v8_env_vars):
     for p in ["PhysicalMemory", "SizeOfObjects", "Limit", "BenchmarkMemory"]:
         j[f"Peak({p})"] = calculate_peak(result_directory, p)
         j[f"Average({p})"] = calculate_average(result_directory, p)
+        j[f"PV({p})"] = calculate_pv(result_directory, p)
     j["Peak(BalancerMemory)"] = calculate_peak_balancer_memory(result_directory)
     j["Average(BalancerMemory)"] = calculate_peak_balancer_memory(result_directory)
     j["TOTAL_TIME"] = end - start
