@@ -32,6 +32,7 @@ BALANCE_FREQUENCY = BALANCER_CFG["BALANCE_FREQUENCY"]
 
 NAME = cfg["NAME"]
 
+wait_until = "networkidle2"
 def report_jetstream_score():
     with open(filename) as f:
         print(f.read())
@@ -254,7 +255,7 @@ def run_browser(v8_env_vars):
     async def reddit(browser, duration):
         start = time.time()
         page = await new_page(browser)
-        await page.goto("https://reddit.com", timeout=duration*1000, waitUntil='domcontentloaded')
+        await page.goto("https://reddit.com", timeout=duration*1000, waitUntil=wait_until)
         await page.waitForSelector("i.icon-comment")
         i = 0
         while time.time() - start < duration:
@@ -265,7 +266,7 @@ def run_browser(v8_env_vars):
             await asyncio.sleep(5)
             link = await page.evaluate("(element) => element.parentElement.href", l[i])
             sub_page = await new_page(browser)
-            await sub_page.goto(link, {"waitUntil" : "domcontentloaded"}, timeout=15*1000, waitUntil='networkidle2')
+            await sub_page.goto(link, timeout=15*1000, waitUntil=wait_until)
             await asyncio.sleep(10)
             await sub_page.close()
             await asyncio.sleep(5)
@@ -275,7 +276,7 @@ def run_browser(v8_env_vars):
     async def twitter(browser, duration):
         start = time.time()
         page = await new_page(browser)
-        await page.goto("https://www.twitter.com", timeout=duration*1000, waitUntil='domcontentloaded')
+        await page.goto("https://www.twitter.com", timeout=duration*1000, waitUntil=wait_until)
         await asyncio.sleep(1)
         while time.time() - start < duration:
             print("looping twitter")
@@ -286,7 +287,7 @@ def run_browser(v8_env_vars):
     async def cnn(browser, duration):
         start = time.time()
         page = await new_page(browser)
-        await page.goto("https://www.cnn.com/", timeout=duration*1000, waitUntil='domcontentloaded')
+        await page.goto("https://www.cnn.com/", timeout=duration*1000, waitUntil=wait_until)
         await asyncio.sleep(1)
         while time.time() - start < duration:
             print("looping cnn")
@@ -313,7 +314,7 @@ def run_browser(v8_env_vars):
     async def espn(browser, duration):
         start = time.time()
         page = await new_page(browser)
-        await page.goto("https://www.espn.com/", timeout=duration*1000, waitUntil='domcontentloaded')
+        await page.goto("https://www.espn.com/", timeout=duration*1000, waitUntil=wait_until)
         await asyncio.sleep(1)
         while time.time() - start < duration:
             print("looping espn")
@@ -324,7 +325,7 @@ def run_browser(v8_env_vars):
     async def facebook(browser, duration):
         start = time.time()
         page = await new_page(browser)
-        await page.goto("https://www.facebook.com/", timeout=duration*1000, waitUntil='domcontentloaded')
+        await page.goto("https://www.facebook.com/", timeout=duration*1000, waitUntil=wait_until)
         await asyncio.sleep(5)
         groups = (await page.xpath("//*[text() = 'Groups']"))[0]
         await page.evaluate("(g) => g.click()", groups)
@@ -339,7 +340,7 @@ def run_browser(v8_env_vars):
     async def foxnews(browser, duration):
         start = time.time()
         page = await new_page(browser)
-        await page.goto("https://www.foxnews.com/", timeout=duration*1000, waitUntil='domcontentloaded')
+        await page.goto("https://www.foxnews.com/", timeout=duration*1000, waitUntil=wait_until)
         await asyncio.sleep(1)
         while time.time() - start < duration:
             print("looping foxnews")
@@ -350,7 +351,7 @@ def run_browser(v8_env_vars):
     async def yahoo(browser, duration):
         start = time.time()
         page = await new_page(browser)
-        await page.goto("https://www.news.yahoo.com/", timeout=duration*1000, waitUntil='domcontentloaded')
+        await page.goto("https://www.news.yahoo.com/", timeout=duration*1000, waitUntil=wait_until)
         await asyncio.sleep(1)
         while time.time() - start < duration:
             print("looping yahoo")
@@ -361,7 +362,7 @@ def run_browser(v8_env_vars):
     async def medium(browser, duration):
         start = time.time()
         page = await new_page(browser)
-        await page.goto("https://www.medium.com/", timeout=duration*1000, waitUntil='domcontentloaded')
+        await page.goto("https://www.medium.com/", timeout=duration*1000, waitUntil=wait_until)
         await asyncio.sleep(1)
         while time.time() - start < duration:
             print("looping medium")
@@ -392,12 +393,12 @@ def run_browser(v8_env_vars):
     # problem - use too little memory
     async def youtube(browser, duration):
         page = await new_page(browser)
-        await page.goto("https://www.youtube.com/watch?v=dQw4w9WgXcQ", {'waitUntil' : 'domcontentloaded'})
+        await page.goto("https://www.youtube.com/watch?v=dQw4w9WgXcQ", {'waitUntil' : wait_until})
         await asyncio.sleep(100)
 
     async def gmap(browser):
         page = await new_page(browser)
-        await page.goto("https://www.google.com/maps", {'waitUntil' : 'domcontentloaded'})
+        await page.goto("https://www.google.com/maps", {'waitUntil' : wait_until})
         await page.evaluate("""document.querySelector("#searchboxinput").value='subway'""")
         await asyncio.sleep(2)
         await page.evaluate("""document.querySelector("[aria-label=Directions]").click()""")

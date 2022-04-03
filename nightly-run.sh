@@ -23,6 +23,7 @@ set -e
 export PATH="$PWD/../depot_tools:$PATH"
 #must be in MemoryBalancer
 ./clean_log
+./clean_out
 echo "** Pulling latest changes in MemoryBalancer and v8 **"
 cd $mem_balancer_dir
 git submodule init
