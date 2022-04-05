@@ -167,7 +167,7 @@ BALANCER_CFG = QUOTE(NONDET({
 
 BALANCER_CFG = QUOTE(NONDET({
     "BALANCE_STRATEGY": "classic",
-    "RESIZE_CFG": {"RESIZE_STRATEGY": "gradient", "GC_RATE_D":NONDET(*[x / -1e9for x in [0.02, 0.03, 0.05, 0.1, 0.2, 0.3, 0.5, 0.7, 0.9]])},
+    "RESIZE_CFG": {"RESIZE_STRATEGY": "gradient", "GC_RATE_D":NONDET(*[x / -1e9for x in [0.05, 0.1, 0.2, 0.3, 0.5, 0.7, 0.9]])},
     "BALANCE_FREQUENCY": 0
 }, {
     "BALANCE_STRATEGY": "ignore",

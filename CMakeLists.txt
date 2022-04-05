@@ -10,7 +10,7 @@ add_executable(MemoryBalancer ${SOURCES})
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(CMAKE_CXX_STANDARD 17)
 # somehow this does not work. add flag manually
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -L /usr/local/Cellar/boost/1.75.0_2/lib -g")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -L /usr/local/Cellar/boost/1.75.0_2/lib -g -DV8_COMPRESS_POINTERS")
 
 include_directories(/usr/local/Cellar/boost/1.75.0_2/include)
 include_directories(/Users/pavpan/Dropbox/Work/MemoryBalancer/third_party/json/nlohmann/include)

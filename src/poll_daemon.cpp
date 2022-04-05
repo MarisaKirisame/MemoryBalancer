@@ -274,6 +274,8 @@ struct ConnectionState {
     for (size_t i = get_starting_index(gc_bad.size()); i < gc_bad.size(); ++i) {
       const auto& bad = gc_bad[i];
       ret += bad.second;
+      // turned off smoothing
+      ret = bad.second;
     }
     return ret;
   }
@@ -285,8 +287,11 @@ struct ConnectionState {
     for (size_t i = get_starting_index(gc_bad.size()); i < gc_bad.size(); ++i) {
       const auto& bad = gc_bad[i];
       ret += bad.first;
+      // turned off smoothing
+      ret = bad.second;
       if (bad.first != 1) {
-        ret += bias_in_working_memory;
+        //ret += bias_in_working_memory;
+        //wtf
       }
     }
     return ret;
