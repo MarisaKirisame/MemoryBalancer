@@ -165,15 +165,17 @@ BALANCER_CFG = QUOTE(NONDET({
     "BALANCE_FREQUENCY": 0
 }))
 
-BALANCER_CFG = QUOTE(NONDET({
-    "BALANCE_STRATEGY": "classic",
-    "RESIZE_CFG": {"RESIZE_STRATEGY": "gradient", "GC_RATE_D":NONDET(*[x / -1e9for x in [0.05, 0.1, 0.2, 0.3, 0.5, 0.7, 0.9]])},
-    "BALANCE_FREQUENCY": 0
-}, {
+BALANCER_CFG = QUOTE(NONDET(
+    {
     "BALANCE_STRATEGY": "ignore",
     "RESIZE_CFG": {"RESIZE_STRATEGY": "ignore"},
     "BALANCE_FREQUENCY": 0
-}))
+    },
+    {
+    "BALANCE_STRATEGY": "classic",
+    "RESIZE_CFG": {"RESIZE_STRATEGY": "gradient", "GC_RATE_D":NONDET(*[x / -1e9for x in [0.05, 0.1, 0.2, 0.3, 0.5, 0.7, 0.9]])},
+    "BALANCE_FREQUENCY": 0
+    }))
 
 if 1 < len(sys.argv):
     mode = sys.argv[1]

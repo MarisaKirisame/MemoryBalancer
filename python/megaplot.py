@@ -163,16 +163,17 @@ def plot(m, benches, *, summarize_baseline=True, reciprocal_regression=True):
                 y.append(p.time)
             memory.append(p.memory)
             time.append(p.time)
-        min_memory = min(*memory) if len(memory) > 1 else memory[0]
-        max_memory = max(*memory) if len(memory) > 1 else memory[0]
-        coef = np.polyfit(x,y, 1)
-        poly1d_fn = np.poly1d(coef)
-        sd = sum(abs(poly1d_fn(x) - y)) / len(y)
-        ret["coef"] = coef
-        ret["sd"] = sd
-        plt.plot([min_memory, max_memory], poly1d_fn([min_memory, max_memory]), "k")
-        plt.plot([min_memory, max_memory], poly1d_fn([min_memory, max_memory]) + sd, "--k")
-        plt.plot([min_memory, max_memory], poly1d_fn([min_memory, max_memory]) - sd, "--k")
+        if len(x) > 0:
+            min_memory = min(*memory) if len(memory) > 1 else memory[0]
+            max_memory = max(*memory) if len(memory) > 1 else memory[0]
+            coef = np.polyfit(x,y, 1)
+            poly1d_fn = np.poly1d(coef)
+            sd = sum(abs(poly1d_fn(x) - y)) / len(y)
+            ret["coef"] = coef
+            ret["sd"] = sd
+            plt.plot([min_memory, max_memory], poly1d_fn([min_memory, max_memory]), "k")
+            plt.plot([min_memory, max_memory], poly1d_fn([min_memory, max_memory]) + sd, "--k")
+            plt.plot([min_memory, max_memory], poly1d_fn([min_memory, max_memory]) - sd, "--k")
     plt.legend()
     return ret
 
