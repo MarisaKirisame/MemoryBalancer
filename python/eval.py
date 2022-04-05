@@ -165,17 +165,18 @@ BALANCER_CFG = QUOTE(NONDET({
     "BALANCE_FREQUENCY": 0
 }))
 
-BALANCER_CFG = QUOTE(NONDET(
-    {
+BASELINE = {
     "BALANCE_STRATEGY": "ignore",
     "RESIZE_CFG": {"RESIZE_STRATEGY": "ignore"},
     "BALANCE_FREQUENCY": 0
-    },
-    {
-    "BALANCE_STRATEGY": "classic",
-    "RESIZE_CFG": {"RESIZE_STRATEGY": "gradient", "GC_RATE_D":NONDET(*[x / -1e9for x in [0.05, 0.1, 0.2, 0.3, 0.5, 0.7, 0.9]])},
-    "BALANCE_FREQUENCY": 0
-    }))
+}
+
+BALANCER_CFG = QUOTE(NONDET(BASELINE, BASELINE, BASELINE,
+                            {
+                                "BALANCE_STRATEGY": "classic",
+                                "RESIZE_CFG": {"RESIZE_STRATEGY": "gradient", "GC_RATE_D":NONDET(*[x / -1e9for x in [0.05, 0.1, 0.2, 0.3, 0.5, 0.7, 0.9]])},
+                                "BALANCE_FREQUENCY": 0
+                            }))
 
 if 1 < len(sys.argv):
     mode = sys.argv[1]
@@ -186,7 +187,7 @@ else:
 # reddit is removed because the ip got banned
 # medium is removed because it allocate little memory in rare fashion
 bench = ["twitter", "cnn", "espn", "facebook", "gmail", "foxnews"]
-choose_two = [random.sample(bench, k=2) for i in range(20)]
+choose_two = [(x, y) for x in bench for y in bench if x != y]
 cfg_browser = {
     "LIMIT_MEMORY": True,
     "DEBUG": True,
@@ -234,5 +235,7 @@ def run(config, in_path):
                 subprocess.run("pkill -f chrome", shell=True)
                 if os.path.exists(path):
                     shutil.rmtree(path)
+                path = in_path.joinpath(time.strftime("%Y-%m-%d-%H-%M-%S"))
+                path.mkdir()
 
 run(cfg, Path("log"))
