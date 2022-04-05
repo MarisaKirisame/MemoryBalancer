@@ -225,9 +225,9 @@ def run(config, in_path):
         for x in strip_quote(flatten_nondet(config)).l:
             run(x, path)
     else:
-        cmd = f'python3 python/single_eval.py "{config}" {path}'
         for i in range(3):
             try:
+                cmd = f'python3 python/single_eval.py "{config}" {path}'
                 subprocess.run(cmd, shell=True, check=True)
                 break
             except subprocess.CalledProcessError as e:
@@ -237,5 +237,8 @@ def run(config, in_path):
                     shutil.rmtree(path)
                 path = in_path.joinpath(time.strftime("%Y-%m-%d-%H-%M-%S"))
                 path.mkdir()
+                with open(path.joinpath("cfg"), "w") as f:
+                    f.write(str(config))
+
 
 run(cfg, Path("log"))
