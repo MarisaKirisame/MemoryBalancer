@@ -904,7 +904,7 @@ struct Balancer {
               suggested_extra_memory_ = extra_memory_ + (suggested_extra_memory_ - extra_memory_) * adjust_ratio;
             }
             suggested_extra_memory_ = std::max<size_t>(suggested_extra_memory_, 1048576 * 2);
-            size_t total_memory_ = suggested_extra_memory_ + rr->working_memory;
+            size_t total_memory_ = std::max<size_t>(suggested_extra_memory_ + rr->working_memory, 1048576*10);
             //if (big_change(extra_memory_, suggested_extra_memory_) && (/*immediate_reclaim ||*/ rr->heap_resize_snap(suggested_extra_memory_))) {
             if (true) {
               std::string str = to_string(tagged_json("heap", total_memory_));
