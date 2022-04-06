@@ -217,16 +217,20 @@ else:
 	assert False
 
 def run(config, in_path):
-    path = in_path.joinpath(time.strftime("%Y-%m-%d-%H-%M-%S"))
-    path.mkdir()
-    with open(path.joinpath("cfg"), "w") as f:
-        f.write(str(config))
+    def make_path():
+        path = in_path.joinpath(time.strftime("%Y-%m-%d-%H-%M-%S"))
+        path.mkdir()
+        with open(path.joinpath("cfg"), "w") as f:
+            f.write(str(config))
+        return path
     if has_meta(config):
+        path = make_path()
         for x in strip_quote(flatten_nondet(config)).l:
             run(x, path)
     else:
         for i in range(3):
             try:
+                path = make_path()
                 cmd = f'python3 python/single_eval.py "{config}" {path}'
                 subprocess.run(cmd, shell=True, check=True)
                 break
@@ -235,10 +239,5 @@ def run(config, in_path):
                 subprocess.run("pkill -f chrome", shell=True)
                 if os.path.exists(path):
                     shutil.rmtree(path)
-                path = in_path.joinpath(time.strftime("%Y-%m-%d-%H-%M-%S"))
-                path.mkdir()
-                with open(path.joinpath("cfg"), "w") as f:
-                    f.write(str(config))
-
 
 run(cfg, Path("log"))
