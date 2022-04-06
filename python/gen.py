@@ -96,9 +96,9 @@ with dominate.document(title='Plot') as doc:
         return (y - (x * slope + bias)) / sd
     if "coef" in mp:
         y_projection = slope+bias
-        tex += f"\def\speedup{{{(y_projection-1)*100}}}\%\n"
+        tex += f"\def\speedup{{{(y_projection-1)*100}\%}}\n"
         x_projection = (1-bias)/slope
-        tex += f"\def\memorySaving{{{(1-x_projection)*100}}}\%\n"
+        tex += f"\def\memorySaving{{{(1-x_projection)*100}\%}}\n"
         p(f"{(1.0, y_projection)}")
         p(f"{(x_projection, 1.0)}")
         baseline_deviate = get_deviate_in_sd(1, 1)
