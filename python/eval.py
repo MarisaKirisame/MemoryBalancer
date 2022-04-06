@@ -228,7 +228,7 @@ def run(config, in_path):
         for x in strip_quote(flatten_nondet(config)).l:
             run(x, path)
     else:
-        for i in range(3):
+        for i in range(5):
             try:
                 path = make_path()
                 cmd = f'python3 python/single_eval.py "{config}" {path}'
