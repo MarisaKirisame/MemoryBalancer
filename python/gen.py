@@ -11,6 +11,7 @@ import json
 import shutil
 from scipy import stats
 import math
+import subprocess
 
 class Counter:
     def __init__(self):
@@ -127,7 +128,7 @@ with open(str(path.joinpath("index.html")), "w") as f:
 
 with open("../membalancer-paper/web_2.tex", "w") as tex_file:
     tex_file.write(tex)
-os.system("git add -A")
-os.system("git commit -am 'sync file generated from eval'")
-os.system("git push")
+subprocess.call("git add -A", shell=True, cwd="../membalancer-paper")
+subprocess.call("git commit -am 'sync file generated from eval'", shell=True, cwd="../membalancer-paper")
+subprocess.call("git push", shell=True, cwd="../membalancer-paper")
 os.system(f"xdg-open {path.joinpath('index.html')}")
