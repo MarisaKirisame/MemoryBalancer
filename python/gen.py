@@ -94,19 +94,20 @@ with dominate.document(title='Plot') as doc:
     def get_deviate_in_sd(x, y):
         return (y - (x * slope + bias)) / sd
     if "coef" in mp:
-    	y_projection = slope+bias
-    	tex += f"\def\speedup{{{(y_projection-1)*100}}}\%\n"
-    	x_projection = (1-bias)/slope
-    	tex += f"\def\memorySaving{{{(1-x_projection)*100}}}\%\n"
-    	p(f"{(1.0, y_projection)}")
-    	p(f"{(x_projection, 1.0)}")
-    	baseline_deviate = get_deviate_in_sd(1, 1)
-    	tex += f"\def\improvementInSigma{{{-baseline_deviate}}}\n"
-    	improvement_over_baseline = []
-    	for point in points:
-    		assert not point.is_baseline
-    		improvement_over_baseline.append(get_deviate_in_sd(point.memory, point.time) - baseline_deviate)
-    	if len(improvement_over_baseline) > 1:
+        y_projection = slope+bias
+        tex += f"\def\speedup{{{(y_projection-1)*100}}}\%\n"
+        x_projection = (1-bias)/slope
+        tex += f"\def\memorySaving{{{(1-x_projection)*100}}}\%\n"
+        p(f"{(1.0, y_projection)}")
+        p(f"{(x_projection, 1.0)}")
+        baseline_deviate = get_deviate_in_sd(1, 1)
+        p(f"improvement = {baseline_deviate} sigma")
+        tex += f"\def\improvementInSigma{{{-baseline_deviate}}}\n"
+        improvement_over_baseline = []
+        for point in points:
+            assert not point.is_baseline
+            improvement_over_baseline.append(get_deviate_in_sd(point.memory, point.time) - baseline_deviate)
+        if len(improvement_over_baseline) > 1:
         	pvalue = stats.ttest_1samp(improvement_over_baseline, 0.0, alternative="greater").pvalue
         	tex += f"\def\pvalue{{{pvalue}}}\n"
         	p(f"""pvalue={pvalue}""")
@@ -124,9 +125,9 @@ with dominate.document(title='Plot') as doc:
 with open(str(path.joinpath("index.html")), "w") as f:
     f.write(str(doc))
 
-tex_file = open("web_2.tex", "w")
-n = tex_file.write(tex)
-tex_file.close()
-os.rename("./web_2.tex", "../membalancer-paper/web_2.tex")
-print(tex)
+with open("../membalancer-paper/web_2.tex", "w") as tex_file:
+    tex_file.write(tex)
+os.system("git add -A")
+os.system("git commit -am 'sync file generated from eval'")
+os.system("git push")
 os.system(f"xdg-open {path.joinpath('index.html')}")
