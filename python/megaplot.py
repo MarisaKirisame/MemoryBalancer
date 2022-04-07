@@ -140,9 +140,9 @@ def plot(m, benches, *, summarize_baseline=True, reciprocal_regression=True):
                         baseline_x.append(memory)
                         baseline_y.append(time)
                     points.append(Point(memory, time, name, balancer_cfg == BASELINE))
-        plt.scatter(x, y, label=bench, linewidth=0.1)
+        plt.scatter(x, y, label=bench, linewidth=0.1, s=20)
         if len(baseline_x) != 0:
-            plt.scatter(baseline_x, baseline_y, label=bench, linewidth=0.1, color="orange")
+            plt.scatter(baseline_x, baseline_y, label=bench, linewidth=0.1, color="orange", s=75)
     ret["points"] = points
     plt.xlabel(p)
     if reciprocal_regression:
@@ -150,7 +150,7 @@ def plot(m, benches, *, summarize_baseline=True, reciprocal_regression=True):
     else:
         plt.ylabel("Time")
     if summarize_baseline:
-        plt.scatter([1], [1], label="baseline", color="black")
+        plt.scatter([1], [1], label="baseline", color="black", s=75)
     if reciprocal_regression and len(points) > 0:
         x = []
         y = []
