@@ -99,23 +99,28 @@ with dominate.document(title='Plot') as doc:
         tex += f"\def\speedup{{{(y_projection-1)*100}\%}}\n"
         x_projection = (1-bias)/slope
         tex += f"\def\memorySaving{{{(1-x_projection)*100}\%}}\n"
+        tex += f"\def\memorySavingTwoX{{{2*(1-x_projection)*100}\%}}\n"
         p(f"{(1.0, y_projection)}")
         p(f"{(x_projection, 1.0)}")
         baseline_deviate = get_deviate_in_sd(1, 1)
-        p(f"improvement = {baseline_deviate} sigma")
-        tex += f"\def\improvementInSigma{{{-baseline_deviate}}}\n"
+        p(f"improvement = {-baseline_deviate} sigma")
+        tex += f"\def\improvement{{{-baseline_deviate} \sigma}}\n"
         improvement_over_baseline = []
         for point in points:
             assert not point.is_baseline
             improvement_over_baseline.append(get_deviate_in_sd(point.memory, point.time) - baseline_deviate)
         if len(improvement_over_baseline) > 1:
-        	pvalue = stats.ttest_1samp(improvement_over_baseline, 0.0, alternative="greater").pvalue
-        	tex += f"\def\pvalue{{{pvalue}}}\n"
-        	p(f"""pvalue={pvalue}""")
-        	bin_width = 0.5
-        	bin_start = math.floor(min(*improvement_over_baseline) / bin_width)
-        	bin_stop = math.ceil(max(*improvement_over_baseline) / bin_width)
-        	plt.hist(improvement_over_baseline, [x * bin_width for x in range(bin_start, bin_stop)], ec='black')
+            pvalue = stats.ttest_1samp(improvement_over_baseline, 0.0, alternative="greater").pvalue
+            tex += f"\def\pvalue{{{pvalue}}}\n"
+            p(f"""pvalue={pvalue}""")
+            bin_width = 0.5
+            min_improvement = min(*improvement_over_baseline)
+            tex += f"\def\maxRegress{{{-min_improvement} \sigma}}\n"
+            bin_start = math.floor(min_improvement / bin_width)
+            max_improvement = max(*improvement_over_baseline)
+            tex += f"\def\maxImprovement{{{max_improvement} \sigma}}\n"
+            bin_stop = math.ceil(max(*improvement_over_baseline) / bin_width)
+            plt.hist(improvement_over_baseline, [x * bin_width for x in range(bin_start, bin_stop)], ec='black')
         	plt.savefig(str(path.joinpath("sd.png")))
         	plt.clf()
         	img(src="sd.png")
@@ -125,6 +130,7 @@ with dominate.document(title='Plot') as doc:
 with open(str(path.joinpath("index.html")), "w") as f:
     f.write(str(doc))
 
+subprocess.call("git pull", shell=True, cwd="../membalancer-paper")
 with open("../membalancer-paper/web_2.tex", "w") as tex_file:
     tex_file.write(tex)
 
