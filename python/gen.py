@@ -81,6 +81,9 @@ for bench in m.keys():
         f.write(str(doc))
     subpages.append((str(bench), html_path))
 
+def fmt(x):
+    return "{0:.3g}".format(x)
+
 # as dominate do not support recursive call of document(), we have to do some weird plumbing and generate the inner doc before the outer doc.
 with dominate.document(title='Plot') as doc:
     mp = megaplot.plot(m, m.keys())
@@ -96,34 +99,34 @@ with dominate.document(title='Plot') as doc:
         return (y - (x * slope + bias)) / sd
     if "coef" in mp:
         y_projection = slope+bias
-        tex += f"\def\speedup{{{(y_projection-1)*100}\%}}\n"
+        tex += f"\def\speedup{{{fmt((y_projection-1)*100)}\%}}\n"
         x_projection = (1-bias)/slope
-        tex += f"\def\memorySaving{{{(1-x_projection)*100}\%}}\n"
-        tex += f"\def\memorySavingTwoX{{{2*(1-x_projection)*100}\%}}\n"
-        p(f"{(1.0, y_projection)}")
-        p(f"{(x_projection, 1.0)}")
+        tex += f"\def\memorySaving{{{fmt((1-x_projection)*100)}\%}}\n"
+        tex += f"\def\memorySavingTwoX{{{fmt(2*(1-x_projection)*100)}\%}}\n"
+        p(f"{(1.0, fmt(y_projection))}")
+        p(f"{(fmt(x_projection), 1.0)}")
         baseline_deviate = get_deviate_in_sd(1, 1)
-        p(f"improvement = {-baseline_deviate} sigma")
-        tex += f"\def\improvement{{{-baseline_deviate} \sigma}}\n"
+        p(f"improvement = {fmt(-baseline_deviate)} sigma")
+        tex += f"\def\improvement{{{fmt(-baseline_deviate)} \sigma}}\n"
         improvement_over_baseline = []
         for point in points:
             assert not point.is_baseline
             improvement_over_baseline.append(get_deviate_in_sd(point.memory, point.time) - baseline_deviate)
         if len(improvement_over_baseline) > 1:
             pvalue = stats.ttest_1samp(improvement_over_baseline, 0.0, alternative="greater").pvalue
-            tex += f"\def\pvalue{{{pvalue}}}\n"
-            p(f"""pvalue={pvalue}""")
+            tex += f"\def\pvalue{{{fmt(pvalue)}}}\n"
+            p(f"""pvalue={fmt(pvalue)}""")
             bin_width = 0.5
             min_improvement = min(*improvement_over_baseline)
-            tex += f"\def\maxRegress{{{-min_improvement} \sigma}}\n"
+            tex += f"\def\maxRegress{{{fmt(-min_improvement)} \sigma}}\n"
             bin_start = math.floor(min_improvement / bin_width)
             max_improvement = max(*improvement_over_baseline)
-            tex += f"\def\maxImprovement{{{max_improvement} \sigma}}\n"
+            tex += f"\def\maxImprovement{{{fmt(max_improvement)} \sigma}}\n"
             bin_stop = math.ceil(max(*improvement_over_baseline) / bin_width)
             plt.hist(improvement_over_baseline, [x * bin_width for x in range(bin_start, bin_stop)], ec='black')
-        	plt.savefig(str(path.joinpath("sd.png")))
-        	plt.clf()
-        	img(src="sd.png")
+            plt.savefig(str(path.joinpath("sd.png")))
+            plt.clf()
+            img(src="sd.png")
     for name, filepath in subpages:
     	li(a(name, href=filepath))
 
@@ -134,12 +137,9 @@ subprocess.call("git pull", shell=True, cwd="../membalancer-paper")
 with open("../membalancer-paper/web_2.tex", "w") as tex_file:
     tex_file.write(tex)
 
-
-
 dir = sorted(os.listdir("out"))[-1]
 shutil.copy(f"out/{dir}/plot.png", "../membalancer-paper/web_2_pareto.png")
 shutil.copy(f"out/{dir}/sd.png", "../membalancer-paper/web_2_sd.png")
-
 
 subprocess.call("git add -A", shell=True, cwd="../membalancer-paper")
 subprocess.call("git commit -am 'sync file generated from eval'", shell=True, cwd="../membalancer-paper")

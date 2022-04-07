@@ -204,7 +204,7 @@ cfg_jetstream = {
     "DEBUG": True,
     "NAME": "jetstream",
     "MEMORY_LIMIT": 10000,
-    "BENCH": ["pdfjs", "splay"],
+    "BENCH": ["pdfjs", "splay", "typescript"],
     "BALANCER_CFG": BALANCER_CFG
 }
 
