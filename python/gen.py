@@ -116,10 +116,9 @@ with dominate.document(title='Plot') as doc:
         	bin_start = math.floor(min(*improvement_over_baseline) / bin_width)
         	bin_stop = math.ceil(max(*improvement_over_baseline) / bin_width)
         	plt.hist(improvement_over_baseline, [x * bin_width for x in range(bin_start, bin_stop)], ec='black')
-        	png_path = f"{png_counter()}.png"
-        	plt.savefig(str(path.joinpath(png_path)))
+        	plt.savefig(str(path.joinpath("sd.png")))
         	plt.clf()
-        	img(src=png_path)
+        	img(src="sd.png")
     for name, filepath in subpages:
     	li(a(name, href=filepath))
 
@@ -128,6 +127,14 @@ with open(str(path.joinpath("index.html")), "w") as f:
 
 with open("../membalancer-paper/web_2.tex", "w") as tex_file:
     tex_file.write(tex)
+
+
+
+dir = sorted(os.listdir("out"))[-1]
+shutil.copy(f"out/{dir}/plot.png", "../membalancer-paper/web_2_pareto.png")
+shutil.copy(f"out/{dir}/sd.png", "../membalancer-paper/web_2_sd.png")
+
+
 subprocess.call("git add -A", shell=True, cwd="../membalancer-paper")
 subprocess.call("git commit -am 'sync file generated from eval'", shell=True, cwd="../membalancer-paper")
 subprocess.call("git push", shell=True, cwd="../membalancer-paper")
