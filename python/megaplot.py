@@ -91,8 +91,11 @@ class Point:
         return f"Point{repr((self.memory, self.time, self.name, self.is_baseline))}"
 
 def plot(m, benches, *, summarize_baseline=True, reciprocal_regression=True):
-    plt.axhline(y=1, color='k', lw=1, linestyle='-')
-    plt.axvline(x=1, color='k', lw=1, linestyle='-')
+    
+    if summarize_baseline:
+        plt.axhline(y=1, color='k', lw=1, linestyle='-')
+        plt.axvline(x=1, color='k', lw=1, linestyle='-')
+    
 
     ret = {}
     p = "Average(PhysicalMemory)"
