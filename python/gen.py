@@ -13,6 +13,7 @@ from scipy import stats
 import math
 import subprocess
 import sys
+import anal_work
 
 class Counter:
     def __init__(self):
@@ -30,10 +31,10 @@ else:
 
 assert eval_name in [
     "", # do not generate+upload tex or plot for the paper
-    "WEB1", # 1 website run
-    "WEB2BL", # 2 website run, baseline
-    "WEB2AB", # 2 website run, ablation study (turned off memory reducer and memory notification for baseline),
-    "WEB3", # 3 website run
+    "WEBI", # 1 website run
+    "WEBIIBL", # 2 website run, baseline
+    "WEBIIAB", # 2 website run, ablation study (turned off memory reducer and memory notification for baseline),
+    "WEBIII", # 3 website run
     "JS", # JetStream, embedded v8
 ]
 
@@ -117,7 +118,6 @@ with dominate.document(title='Plot') as doc:
         tex += f"\def\{eval_name}Speedup{{{fmt((y_projection-1)*100)}\%}}\n"
         x_projection = (1-bias)/slope
         tex += f"\def\{eval_name}MemorySaving{{{fmt((1-x_projection)*100)}\%}}\n"
-        tex += f"\def\{eval_name}MemorySavingTwoX{{{fmt(2*(1-x_projection)*100)}\%}}\n"
         p(f"{(1.0, fmt(y_projection))}")
         p(f"{(fmt(x_projection), 1.0)}")
         baseline_deviate = get_deviate_in_sd(1, 1)
@@ -145,17 +145,21 @@ with dominate.document(title='Plot') as doc:
     for name, filepath in subpages:
     	li(a(name, href=filepath))
 
+if eval_name == "WEBIIBL":
+    working_frac = anal_work.main()
+    tex += f"\def\{eval_name}WorkingFrac{{{fmt(working_frac * 100)}\%}}\n"
+    tex += f"\def\{eval_name}ExtraMemorySaving{{{fmt((1-x_projection)/(1-working_frac) * 100)}\%}}\n"
 with open(str(path.joinpath("index.html")), "w") as f:
     f.write(str(doc))
 
 if eval_name != "":
     subprocess.call("git pull", shell=True, cwd="../membalancer-paper")
-    with open("../membalancer-paper/{eval_name}.tex", "w") as tex_file:
+    with open(f"../membalancer-paper/{eval_name}.tex", "w") as tex_file:
         tex_file.write(tex)
 
     dir = sorted(os.listdir("out"))[-1]
-    shutil.copy(f"out/{dir}/plot.png", "../membalancer-paper/{eval_name}_pareto.png")
-    shutil.copy(f"out/{dir}/sd.png", "../membalancer-paper/{eval_name}_sd.png")
+    shutil.copy(f"out/{dir}/plot.png", f"../membalancer-paper/{eval_name}_pareto.png")
+    shutil.copy(f"out/{dir}/sd.png", f"../membalancer-paper/{eval_name}_sd.png")
 
     subprocess.call("git add -A", shell=True, cwd="../membalancer-paper")
     subprocess.call("git commit -am 'sync file generated from eval'", shell=True, cwd="../membalancer-paper")
