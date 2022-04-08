@@ -174,7 +174,7 @@ def plot(m, benches, *, summarize_baseline=True, reciprocal_regression=True):
             plt.plot([min_memory, max_memory], poly1d_fn([min_memory, max_memory]), "k")
             plt.plot([min_memory, max_memory], poly1d_fn([min_memory, max_memory]) + sd, "--k")
             plt.plot([min_memory, max_memory], poly1d_fn([min_memory, max_memory]) - sd, "--k")
-    plt.legend()
+    plt.legend(bbox_to_anchor=(1.04, 0.5), loc="center left")
     return ret
 
 if __name__ == "__main__":

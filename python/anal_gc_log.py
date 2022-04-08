@@ -159,7 +159,7 @@ def main(directory):
         instance_map[name].point(time, working_memory, current_memory, max_memory, gc_trigger)
 
     draw_stacks(instance_list)
-    plt.legend()
+    plt.legend(bbox_to_anchor=(1.04, 0.5), loc="center left")
     plt.title(title)
     with open(directory + "score") as f:
         score = json.load(f)

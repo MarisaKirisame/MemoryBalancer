@@ -183,7 +183,7 @@ def run_jetstream(v8_env_vars):
     main_process_result = subprocess.run(f"{env_vars_str(v8_env_vars)} {command}", shell=True, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     with open(os.path.join(result_directory, "v8_out"), "w") as f:
         f.write(main_process_result.stdout)
-    if main_process_result.returncode != 0:
+    if False and main_process_result.returncode != 0:
         if "Fatal javascript OOM" in main_process_result.stdout:
             j = {}
             j["OK"] = False
@@ -203,6 +203,9 @@ def run_jetstream(v8_env_vars):
         	j[f"PV({p})"] = calculate_pv(result_directory, p)
         j["Peak(BalancerMemory)"] = calculate_peak_balancer_memory(result_directory)
         j["Average(BalancerMemory)"] = calculate_peak_balancer_memory(result_directory)
+        with open(os.path.join(result_directory, "score"), "w") as f:
+            json.dump(j, f)
+        return
         v8_log_path = os.path.join(result_directory, "v8_log")
         total_time = None
         total_major_gc_time = None
@@ -465,9 +468,10 @@ with ProcessScope(subprocess.Popen(balancer_cmds, stdout=subprocess.PIPE, stderr
         v8_env_vars["SKIP_RECOMPUTE_LIMIT"] = "1"
         v8_env_vars["SKIP_MEMORY_REDUCER"] = "1"
 
-    if LIMIT_MEMORY:
-        v8_env_vars["MEMORY_LIMITER_TYPE"] = "ProcessWide"
-        v8_env_vars["MEMORY_LIMITER_VALUE"] = str(memory_limit)
+        #dead code as we dont do this experiment anymore.
+        #if LIMIT_MEMORY:
+        #v8_env_vars["MEMORY_LIMITER_TYPE"] = "ProcessWide"
+        #v8_env_vars["MEMORY_LIMITER_VALUE"] = str(memory_limit)
 
     if NAME == "jetstream":
         run_jetstream(v8_env_vars)

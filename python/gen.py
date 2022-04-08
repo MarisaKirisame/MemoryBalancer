@@ -12,6 +12,7 @@ import shutil
 from scipy import stats
 import math
 import subprocess
+import sys
 
 class Counter:
     def __init__(self):
@@ -21,6 +22,20 @@ class Counter:
         ret = self.count
         self.count += 1
         return ret
+
+if len(sys.argv) > 1:
+    eval_name = sys.argv[1]
+else:
+    eval_name = ""
+
+assert eval_name in [
+    "", # do not generate+upload tex or plot for the paper
+    "WEB1", # 1 website run
+    "WEB2BL", # 2 website run, baseline
+    "WEB2AB", # 2 website run, ablation study (turned off memory reducer and memory notification for baseline),
+    "WEB3", # 3 website run
+    "JS", # JetStream, embedded v8
+]
 
 tex = ""
 
@@ -42,7 +57,7 @@ for name in glob.glob('log/**/score', recursive=True):
         print(dirname)
         anal_gc_log.main(dirname + "/")
         png_path = f"{png_counter()}.png"
-        plt.savefig(str(path.joinpath(png_path)))
+        plt.savefig(str(path.joinpath(png_path)), bbox_inches='tight')
         plt.clf()
         img(src=png_path)
         p(f"cfg = {cfg}")
@@ -68,7 +83,7 @@ for bench in m.keys():
         mp = megaplot.plot(m, [bench], summarize_baseline=False)
         points = mp["points"]
         png_path = f"{png_counter()}.png"
-        plt.savefig(str(path.joinpath(png_path)))
+        plt.savefig(str(path.joinpath(png_path)), bbox_inches='tight')
         plt.clf()
         img(src=png_path)
         for point in points:
@@ -92,39 +107,39 @@ with dominate.document(title='Plot') as doc:
         coef = mp["coef"]
         slope, bias = coef
         sd = mp["sd"]
-    plt.savefig(str(path.joinpath("plot.png")))
+    plt.savefig(str(path.joinpath("plot.png")), bbox_inches='tight')
     plt.clf()
     img(src="plot.png")
     def get_deviate_in_sd(x, y):
         return (y - (x * slope + bias)) / sd
     if "coef" in mp:
         y_projection = slope+bias
-        tex += f"\def\speedup{{{fmt((y_projection-1)*100)}\%}}\n"
+        tex += f"\def\{eval_name}Speedup{{{fmt((y_projection-1)*100)}\%}}\n"
         x_projection = (1-bias)/slope
-        tex += f"\def\memorySaving{{{fmt((1-x_projection)*100)}\%}}\n"
-        tex += f"\def\memorySavingTwoX{{{fmt(2*(1-x_projection)*100)}\%}}\n"
+        tex += f"\def\{eval_name}MemorySaving{{{fmt((1-x_projection)*100)}\%}}\n"
+        tex += f"\def\{eval_name}MemorySavingTwoX{{{fmt(2*(1-x_projection)*100)}\%}}\n"
         p(f"{(1.0, fmt(y_projection))}")
         p(f"{(fmt(x_projection), 1.0)}")
         baseline_deviate = get_deviate_in_sd(1, 1)
         p(f"improvement = {fmt(-baseline_deviate)} sigma")
-        tex += f"\def\improvement{{{fmt(-baseline_deviate)} \sigma}}\n"
+        tex += f"\def\{eval_name}Improvement{{{fmt(-baseline_deviate)} \sigma}}\n"
         improvement_over_baseline = []
         for point in points:
             assert not point.is_baseline
             improvement_over_baseline.append(get_deviate_in_sd(point.memory, point.time) - baseline_deviate)
         if len(improvement_over_baseline) > 1:
             pvalue = stats.ttest_1samp(improvement_over_baseline, 0.0, alternative="greater").pvalue
-            tex += f"\def\pvalue{{{fmt(pvalue)}}}\n"
+            tex += f"\def\{eval_name}PValue{{{fmt(pvalue)}}}\n"
             p(f"""pvalue={fmt(pvalue)}""")
             bin_width = 0.5
             min_improvement = min(*improvement_over_baseline)
-            tex += f"\def\maxRegress{{{fmt(-min_improvement)} \sigma}}\n"
+            tex += f"\def\{eval_name}MaxRegress{{{fmt(-min_improvement)} \sigma}}\n"
             bin_start = math.floor(min_improvement / bin_width)
             max_improvement = max(*improvement_over_baseline)
-            tex += f"\def\maxImprovement{{{fmt(max_improvement)} \sigma}}\n"
+            tex += f"\def\{eval_name}MaxImprovement{{{fmt(max_improvement)} \sigma}}\n"
             bin_stop = math.ceil(max(*improvement_over_baseline) / bin_width)
             plt.hist(improvement_over_baseline, [x * bin_width for x in range(bin_start, bin_stop)], ec='black')
-            plt.savefig(str(path.joinpath("sd.png")))
+            plt.savefig(str(path.joinpath("sd.png")), bbox_inches='tight')
             plt.clf()
             img(src="sd.png")
     for name, filepath in subpages:
@@ -133,15 +148,16 @@ with dominate.document(title='Plot') as doc:
 with open(str(path.joinpath("index.html")), "w") as f:
     f.write(str(doc))
 
-subprocess.call("git pull", shell=True, cwd="../membalancer-paper")
-with open("../membalancer-paper/web_2.tex", "w") as tex_file:
-    tex_file.write(tex)
+if eval_name != "":
+    subprocess.call("git pull", shell=True, cwd="../membalancer-paper")
+    with open("../membalancer-paper/web_2.tex", "w") as tex_file:
+        tex_file.write(tex)
 
-dir = sorted(os.listdir("out"))[-1]
-shutil.copy(f"out/{dir}/plot.png", "../membalancer-paper/web_2_pareto.png")
-shutil.copy(f"out/{dir}/sd.png", "../membalancer-paper/web_2_sd.png")
+    dir = sorted(os.listdir("out"))[-1]
+    shutil.copy(f"out/{dir}/plot.png", "../membalancer-paper/web_2_pareto.png")
+    shutil.copy(f"out/{dir}/sd.png", "../membalancer-paper/web_2_sd.png")
 
-subprocess.call("git add -A", shell=True, cwd="../membalancer-paper")
-subprocess.call("git commit -am 'sync file generated from eval'", shell=True, cwd="../membalancer-paper")
-subprocess.call("git push", shell=True, cwd="../membalancer-paper")
+    subprocess.call("git add -A", shell=True, cwd="../membalancer-paper")
+    subprocess.call("git commit -am 'sync file generated from eval'", shell=True, cwd="../membalancer-paper")
+    subprocess.call("git push", shell=True, cwd="../membalancer-paper")
 os.system(f"xdg-open {path.joinpath('index.html')}")
