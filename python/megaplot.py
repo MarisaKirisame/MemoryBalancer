@@ -91,6 +91,9 @@ class Point:
         return f"Point{repr((self.memory, self.time, self.name, self.is_baseline))}"
 
 def plot(m, benches, *, summarize_baseline=True, reciprocal_regression=True):
+    plt.axhline(y=1, color='k', lw=1, linestyle='-')
+    plt.axvline(x=1, color='k', lw=1, linestyle='-')
+
     ret = {}
     p = "Average(PhysicalMemory)"
     p = "Average(BalancerMemory)"
@@ -151,8 +154,6 @@ def plot(m, benches, *, summarize_baseline=True, reciprocal_regression=True):
         plt.ylabel("Inversed time")
     else:
         plt.ylabel("Time")
-    if summarize_baseline:
-        plt.scatter([1], [1], label="baseline", color="black", s=35)
     if reciprocal_regression and len(points) > 0:
         x = []
         y = []
@@ -168,14 +169,17 @@ def plot(m, benches, *, summarize_baseline=True, reciprocal_regression=True):
         if len(x) > 0:
             min_memory = min(*memory) if len(memory) > 1 else memory[0]
             max_memory = max(*memory) if len(memory) > 1 else memory[0]
-            coef = np.polyfit(x,y, 1)
+            coef = np.polyfit(x, y, 1)
             poly1d_fn = np.poly1d(coef)
-            sd = sum(abs(poly1d_fn(x) - y)) / len(y)
+            sd = sum((poly1d_fn(x) - y) ** 2) ** 0.5 / (len(y) - 1) ** 0.5
+            se = sd / len(y) ** 0.5
             ret["coef"] = coef
             ret["sd"] = sd
-            plt.plot([min_memory, max_memory], poly1d_fn([min_memory, max_memory]), "k")
-            plt.plot([min_memory, max_memory], poly1d_fn([min_memory, max_memory]) + sd, "--k")
-            plt.plot([min_memory, max_memory], poly1d_fn([min_memory, max_memory]) - sd, "--k")
+            ret["se"] = se
+            ci_x = [min_memory, max_memory]
+            ci_y = poly1d_fn([min_memory, max_memory])
+            plt.plot(ci_x, ci_y, "k", color='b')
+            plt.fill_between(ci_x, (ci_y-2*se), (ci_y+2*se), color='b', alpha=.1)
     plt.legend(bbox_to_anchor=(1.04, 0.5), loc="center left")
     return ret
 
