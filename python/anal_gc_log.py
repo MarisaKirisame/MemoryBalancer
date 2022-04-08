@@ -164,7 +164,6 @@ def main(directory):
 
     draw_stacks(instance_list)
     plt.legend(bbox_to_anchor=(1.04, 0.5), loc="center left")
-    plt.title(title)
     with open(directory + "score") as f:
         score = json.load(f)
         plt.ylim([0, (score["Average(BenchmarkMemory)"] * 2.5)/1e6])
