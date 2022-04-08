@@ -148,9 +148,13 @@ def main(directory):
     for l in logs:
         name = l["name"]
         time = l["time"]
+        time /= 1e9
         working_memory = l["working-memory"]
         max_memory = l["max-memory"]
         current_memory = l["current-memory"]
+        working_memory /= 1e6
+        max_memory /= 1e6
+        current_memory /= 1e6
         if name not in instance_map:
             x = Process(name)
             instance_map[name] = x
@@ -163,7 +167,7 @@ def main(directory):
     plt.title(title)
     with open(directory + "score") as f:
         score = json.load(f)
-        plt.ylim([0, score["Average(BenchmarkMemory)"] * 2])
+        plt.ylim([0, (score["Average(BenchmarkMemory)"] * 2.5)/1e6])
 
 if __name__ == "__main__":
     assert(len(sys.argv) == 2)
