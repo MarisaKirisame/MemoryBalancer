@@ -150,12 +150,12 @@ with open(str(path.joinpath("index.html")), "w") as f:
 
 if eval_name != "":
     subprocess.call("git pull", shell=True, cwd="../membalancer-paper")
-    with open("../membalancer-paper/web_2.tex", "w") as tex_file:
+    with open("../membalancer-paper/{eval_name}.tex", "w") as tex_file:
         tex_file.write(tex)
 
     dir = sorted(os.listdir("out"))[-1]
-    shutil.copy(f"out/{dir}/plot.png", "../membalancer-paper/web_2_pareto.png")
-    shutil.copy(f"out/{dir}/sd.png", "../membalancer-paper/web_2_sd.png")
+    shutil.copy(f"out/{dir}/plot.png", "../membalancer-paper/{eval_name}_pareto.png")
+    shutil.copy(f"out/{dir}/sd.png", "../membalancer-paper/{eval_name}_sd.png")
 
     subprocess.call("git add -A", shell=True, cwd="../membalancer-paper")
     subprocess.call("git commit -am 'sync file generated from eval'", shell=True, cwd="../membalancer-paper")
