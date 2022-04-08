@@ -152,7 +152,7 @@ def plot(m, benches, *, summarize_baseline=True, reciprocal_regression=True):
     else:
         plt.ylabel("Time")
     if summarize_baseline:
-        plt.scatter([1], [1], label="baseline", color="black", s=75)
+        plt.scatter([1], [1], label="baseline", color="black", s=35)
     if reciprocal_regression and len(points) > 0:
         x = []
         y = []
