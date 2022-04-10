@@ -188,12 +188,13 @@ else:
 # medium is removed because it allocate little memory in rare fashion
 bench = ["twitter", "cnn", "espn", "facebook", "gmail", "foxnews"]
 choose_two = [(x, y) for x in bench for y in bench if x != y]
+choose_three = [random.sample(bench, 3) for _ in range(30)]
 cfg_browser = {
     "LIMIT_MEMORY": True,
     "DEBUG": True,
     "NAME": "browser",
     "MEMORY_LIMIT": 10000,
-    "BENCH": NONDET(*choose_two),
+    "BENCH": NONDET(*choose_three),
     #"BENCH": ["twitter"],
     #"BENCH": NONDET(*[[x] for x in bench]),
     "BALANCER_CFG": BALANCER_CFG

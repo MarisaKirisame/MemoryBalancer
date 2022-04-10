@@ -56,8 +56,6 @@ V8_Result run_v8(v8::Platform* platform, const std::vector<std::pair<size_t, std
   return {isolate->GetTotalMajorGCTime(), time};
 }
 
-constexpr bool single = true;
-
 struct Benchmark {
   std::string directory;
   std::string name;
@@ -83,21 +81,8 @@ void v8_experiment(v8::Platform* platform, const std::vector<char*>& args) {
   std::string sunspider_path = jetstream1_path + "sunspider/";
   std::vector<Benchmark> jetstream2_js_paths;
   std::vector<Benchmark> js_paths;
-  if (!single || true) {
-    jetstream2_js_paths.push_back({octane_path, "splay.js", 1000});
-  }
-  if (!single || true) {
-    jetstream2_js_paths.push_back({octane_path, "pdfjs.js", 1000});
-  }
-  if (!single) {
-    // js_paths.push_back(octane_path + "richards.js"); // not used because not memory heavy
-    jetstream2_js_paths.push_back({octane_path, "earley-boyer.js", 3000});
-    // js_paths.push_back(octane_path + "deltablue.js"); // not used because not memory heavy
-    jetstream2_js_paths.push_back({jetstream2_path, "simple/hash-map.js", 3000});
-    // jetstream2_js_paths.push_back({octane_path, "box2d.js"}); // not used because not memory heavy
-    // jetstream2_js_paths.push_back({jetstream2_path, "Seamonster/gaussian-blur.js"}); // not used because not memory heavy
-    js_paths.push_back({sunspider_path, "tagcloud.js", 3000});
-  }
+  jetstream2_js_paths.push_back({octane_path, "splay.js", 1000});
+  jetstream2_js_paths.push_back({octane_path, "pdfjs.js", 1000});
   Signal s;
   std::vector<std::thread> threads;
   std::vector<std::future<V8_Result>> futures;
@@ -116,15 +101,13 @@ void v8_experiment(v8::Platform* platform, const std::vector<char*>& args) {
     std::string header = "let performance = {now() { return 0; }};";
     std::string footer = "for(i = 0; i < 100; i++) {new Benchmark().runIteration();}";
     Signal* ps = &s;
-    if (!single || true) {
-      std::vector<std::pair<size_t, std::string>> input =
-        {{1, header},
-         {1, read_file(octane_path + "typescript-compiler.js")},
-         {1, read_file(octane_path + "typescript-input.js")},
-         {1, read_file(octane_path + "typescript.js")},
-         {1, footer}};
-      futures.push_back(std::async(std::launch::async, run_v8, platform, input, "typescript.js", heap_size, ps));
-    }
+    std::vector<std::pair<size_t, std::string>> input =
+      {{1, header},
+       {1, read_file(octane_path + "typescript-compiler.js")},
+       {1, read_file(octane_path + "typescript-input.js")},
+       {1, read_file(octane_path + "typescript.js")},
+       {1, footer}};
+    futures.push_back(std::async(std::launch::async, run_v8, platform, input, "typescript.js", heap_size, ps));
   }
 
   for (const Benchmark& b : js_paths) {

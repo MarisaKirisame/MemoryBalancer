@@ -90,12 +90,10 @@ class Point:
     def __repr__(self):
         return f"Point{repr((self.memory, self.time, self.name, self.is_baseline))}"
 
-def plot(m, benches, *, summarize_baseline=True, reciprocal_regression=True):
-    
+def plot(m, benches, *, summarize_baseline=True, reciprocal_regression=True, legend=True):
     if summarize_baseline:
         plt.axhline(y=1, color='k', lw=1, linestyle='-')
         plt.axvline(x=1, color='k', lw=1, linestyle='-')
-    
 
     ret = {}
     p = "Average(PhysicalMemory)"
@@ -183,7 +181,8 @@ def plot(m, benches, *, summarize_baseline=True, reciprocal_regression=True):
             ci_y = poly1d_fn([min_memory, max_memory])
             plt.plot(ci_x, ci_y, "k", color='b')
             plt.fill_between(ci_x, (ci_y-2*se), (ci_y+2*se), color='b', alpha=.1)
-    plt.legend(bbox_to_anchor=(1.04, 0.5), loc="center left")
+    if legend:
+        plt.legend(bbox_to_anchor=(1.04, 0.5), loc="center left")
     return ret
 
 if __name__ == "__main__":

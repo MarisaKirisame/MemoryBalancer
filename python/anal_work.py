@@ -28,7 +28,7 @@ def main():
     avg_of_div = baseline_average(lambda x: calculate_total(x, "working-memory")) / baseline_average(lambda x: calculate_total(x, "current-memory"))
     div_of_avg = baseline_average(lambda x: calculate_total(x, "working-memory") / calculate_total(x, "current-memory"))
     # no idea which one i should use... but the result is pretty similar so i guess it is not an issue
-    return avg_of_div
+    return div_of_avg
 
 if __name__ == "__main__":
     print(main())

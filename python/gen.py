@@ -100,6 +100,12 @@ for bench in m.keys():
 def fmt(x):
     return "{0:.3g}".format(x)
 
+def tex_fmt(x):
+    return f"\\num{{{fmt(x)}}}"
+
+def tex_def(name, definitions):
+    return f"\def\{eval_name}{name}{{{definitions}\\xspace}}\n"
+
 # as dominate do not support recursive call of document(), we have to do some weird plumbing and generate the inner doc before the outer doc.
 with dominate.document(title='Plot') as doc:
     mp = megaplot.plot(m, m.keys())
@@ -108,35 +114,39 @@ with dominate.document(title='Plot') as doc:
         coef = mp["coef"]
         slope, bias = coef
         sd = mp["sd"]
+    png_path = f"{png_counter()}.png"
+    plt.savefig(str(path.joinpath(png_path)), bbox_inches='tight')
+    plt.clf()
+    img(src=png_path)
+    megaplot.plot(m, m.keys(), legend=False)
     plt.savefig(str(path.joinpath("plot.png")), bbox_inches='tight')
     plt.clf()
-    img(src="plot.png")
     def get_deviate_in_sd(x, y):
         return (y - (x * slope + bias)) / sd
     if "coef" in mp:
         y_projection = slope+bias
-        tex += f"\def\{eval_name}Speedup{{{fmt((y_projection-1)*100)}\%}}\n"
+        tex += tex_def("Speedup", f"{tex_fmt((y_projection-1)*100)}\%")
         x_projection = (1-bias)/slope
-        tex += f"\def\{eval_name}MemorySaving{{{fmt((1-x_projection)*100)}\%}}\n"
+        tex += tex_def("MemorySaving", f"{tex_fmt((1-x_projection)*100)}\%")
         p(f"{(1.0, fmt(y_projection))}")
         p(f"{(fmt(x_projection), 1.0)}")
         baseline_deviate = get_deviate_in_sd(1, 1)
         p(f"improvement = {fmt(-baseline_deviate)} sigma")
-        tex += f"\def\{eval_name}Improvement{{{fmt(-baseline_deviate)} \sigma}}\n"
+        tex += tex_def("Improvement", f"{tex_fmt(-baseline_deviate)}\sigma")
         improvement_over_baseline = []
         for point in points:
             assert not point.is_baseline
             improvement_over_baseline.append(get_deviate_in_sd(point.memory, point.time) - baseline_deviate)
         if len(improvement_over_baseline) > 1:
             pvalue = stats.ttest_1samp(improvement_over_baseline, 0.0, alternative="greater").pvalue
-            tex += f"\def\{eval_name}PValue{{{fmt(pvalue)}}}\n"
+            tex += tex_def("PValue", f"{tex_fmt(pvalue)}")
             p(f"""pvalue={fmt(pvalue)}""")
             bin_width = 0.5
             min_improvement = min(*improvement_over_baseline)
-            tex += f"\def\{eval_name}MaxRegress{{{fmt(-min_improvement)} \sigma}}\n"
+            tex += tex_def("MaxRegress", f"{tex_fmt(-min_improvement)}\sigma")
             bin_start = math.floor(min_improvement / bin_width)
             max_improvement = max(*improvement_over_baseline)
-            tex += f"\def\{eval_name}MaxImprovement{{{fmt(max_improvement)} \sigma}}\n"
+            tex += tex_def("MaxImprovement", f"{tex_fmt(max_improvement)}\sigma")
             bin_stop = math.ceil(max(*improvement_over_baseline) / bin_width)
             plt.hist(improvement_over_baseline, [x * bin_width for x in range(bin_start, bin_stop)], ec='black')
             plt.savefig(str(path.joinpath("sd.png")), bbox_inches='tight')
@@ -147,8 +157,8 @@ with dominate.document(title='Plot') as doc:
 
 if eval_name == "WEBIIBL":
     working_frac = anal_work.main()
-    tex += f"\def\{eval_name}WorkingFrac{{{fmt(working_frac * 100)}\%}}\n"
-    tex += f"\def\{eval_name}ExtraMemorySaving{{{fmt((1-x_projection)/(1-working_frac) * 100)}\%}}\n"
+    tex += tex_def("WorkingFrac", f"{fmt(working_frac * 100)}\%")
+    tex += tex_def("ExtraMemorySaving", f"{fmt((1-x_projection)/(1-working_frac) * 100)}\%")
 with open(str(path.joinpath("index.html")), "w") as f:
     f.write(str(doc))
 
