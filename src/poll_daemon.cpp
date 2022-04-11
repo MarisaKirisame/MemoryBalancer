@@ -419,6 +419,13 @@ struct ConnectionState {
     t.add(std::to_string(max_memory));
     t.add(std::to_string(garbage_rate()));
     t.add(std::to_string(gc_speed()));
+    if(run_freq == 6) {
+		run_desc[size-1].push_back(std::to_string(name));
+		run_desc[size-1].push_back(std::to_string(extra_memory()/1e6));
+		run_desc[size-1].push_back(std::to_string(max_memory/1e6));
+		run_desc[size-1].push_back(std::to_string(garbage_rate()));
+		run_desc[size-1].push_back(std::to_string(gc_speed()));
+	}
   }
   double duration_utilization_rate(size_t extra_memory) {
     double mutator_duration = extra_memory / garbage_rate();
@@ -552,6 +559,8 @@ struct Balancer {
   double gc_rate; // only when resize_strategy == after-balance or before-balance
   double gc_rate_d;
   size_t epoch = 0;
+  int run_freq = 0; //table automation in paper
+  vector<vector<std::string>> run_desc;
   std::string log_path;
   Logger l;
   void check_config_consistency() {
@@ -715,6 +724,7 @@ struct Balancer {
     auto t = make_table();
     auto vec = vector();
     std::cout << "balancing " << st.instance_count << " heap, waiting for " << vec.size() - st.instance_count << " heap" << std::endl;
+	run_freq++;
     for (ConnectionState* rr: vector()) {
       if (rr->should_balance()) {
         rr->report(t, epoch);
@@ -726,6 +736,15 @@ struct Balancer {
         t.add(std::to_string(-1e9 * rr->speed_utilization_rate_d()));
         t.add(std::to_string(-1e9 * rr->speed_utilization_rate_d(suggested_extra_memory_)));
         t.endOfRow();
+		if(run_freq == 6) {
+			int size = (int) run_desc.size()-1;
+			run_desc[size-1].push_back(std::to_string(suggested_extra_memory_/1e6));
+			run_desc[size-1].push_back(std::to_string((suggested_extra_memory_ + rr->working_memory)/1e6));
+			run_desc[size-1].push_back(std::to_string(1 - rr->speed_utilization_rate()));
+			run_desc[size-1].push_back(std::to_string(1 - rr->speed_utilization_rate(suggested_extra_memory_)));
+			run_desc[size-1].push_back(std::to_string(-1e9 * rr->speed_utilization_rate_d()));
+			run_desc[size-1].push_back(std::to_string(-1e9 * rr->speed_utilization_rate_d(suggested_extra_memory_)));
+		}
       }
     }
     std::cout << t << std::endl;
