@@ -7,7 +7,7 @@ def get_commit(cwd):
     if out != "":
         print(f"Local change not committed in {cwd}: {out}!")
         raise
-    return run("git show -s --format=%H")
+    return run("git show -s --format=%H", cwd)
 
-get_commit("./")
-get_commit("../chromium/src/v8")
+print(get_commit("./"))
+print(get_commit("../chromium/src/v8"))
