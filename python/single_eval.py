@@ -7,6 +7,7 @@ import time
 from pathlib import Path
 from pyppeteer import launch
 from collections import defaultdict
+from git_check import get_commit
 
 assert(len(sys.argv) == 3)
 cfg = eval(sys.argv[1])
@@ -464,6 +465,12 @@ with ProcessScope(subprocess.Popen(balancer_cmds, stdout=subprocess.PIPE, stderr
 
     v8_env_vars = {"USE_MEMBALANCER": "1", "LOG_GC": "1", "LOG_DIRECTORY": result_directory}
 
+    j = {}
+    j["v8"] = get_commit("../chromium/src/v8")
+    j["membalancer"] = get_commit("./")
+    with open(os.path.join(result_directory, "commit"), "w") as f:
+        json.dump(j, f)
+
     if not RESIZE_STRATEGY == "ignore":
         v8_env_vars["SKIP_RECOMPUTE_LIMIT"] = "1"
         v8_env_vars["SKIP_MEMORY_REDUCER"] = "1"
@@ -472,7 +479,6 @@ with ProcessScope(subprocess.Popen(balancer_cmds, stdout=subprocess.PIPE, stderr
         #if LIMIT_MEMORY:
         #v8_env_vars["MEMORY_LIMITER_TYPE"] = "ProcessWide"
         #v8_env_vars["MEMORY_LIMITER_VALUE"] = str(memory_limit)
-    v8_env_vars["SKIP_MEMORY_REDUCER"] = "1"
     #v8_env_vars["SKIP_INCREMENTAL_MARKING"] = "1"
     if NAME == "jetstream":
         run_jetstream(v8_env_vars)
