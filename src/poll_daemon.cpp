@@ -284,7 +284,7 @@ struct ConnectionState {
     return gc_duration() / (gc_bad.size() - get_starting_index(gc_bad.size()));
   }
   size_t gc_bytes() {
-    size_t ret = 0;
+    double ret = 0;
     for (size_t i = get_starting_index(gc_bad.size()); i < gc_bad.size(); ++i) {
       const auto& bad = gc_bad[i];
       ret += bad.first;

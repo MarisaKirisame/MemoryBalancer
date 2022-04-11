@@ -218,6 +218,9 @@ else:
 	print(mode)
 	assert False
 
+subprocess.run("make", shell=True)
+subprocess.run("autoninja -C out/Release/ chrome", shell=True, cwd="../chromium/src")
+
 def run(config, in_path):
     def make_path():
         path = in_path.joinpath(time.strftime("%Y-%m-%d-%H-%M-%S"))
