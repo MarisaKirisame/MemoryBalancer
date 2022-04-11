@@ -283,7 +283,7 @@ struct ConnectionState {
   double average_gc_duration() {
     return gc_duration() / (gc_bad.size() - get_starting_index(gc_bad.size()));
   }
-  size_t gc_bytes() {
+  double gc_bytes() {
     double ret = 0;
     for (size_t i = get_starting_index(gc_bad.size()); i < gc_bad.size(); ++i) {
       const auto& bad = gc_bad[i];
