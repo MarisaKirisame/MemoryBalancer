@@ -9,5 +9,5 @@ def get_commit(cwd):
         raise
     return run("git show -s --format=%H", cwd)
 
-print(get_commit("./"))
+print(get_commit("./") + "lb")
 print(get_commit("../chromium/src/v8"))
