@@ -1,10 +1,13 @@
 import subprocess
 
-def check(cwd):
-    out = subprocess.check_output("git status -s", shell=True, cwd=cwd).decode(encoding='utf8', errors='strict')
+def run(cmd, cwd):
+    return subprocess.check_output(cmd, shell=True, cwd=cwd).decode(encoding='utf8', errors='strict')
+def get_commit(cwd):
+    out = run("git status -s", cwd)
     if out != "":
         print(f"Local change not committed in {cwd}: {out}!")
         raise
+    return run("git show -s --format=%H")
 
-check("./")
-check("../chromium/src/v8")
+get_commit("./")
+get_commit("../chromium/src/v8")
