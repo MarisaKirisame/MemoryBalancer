@@ -427,7 +427,7 @@ struct ConnectionState {
 	data["max_mem"] = max_memory/1e6;
 	data["gc_rate"] = garbage_rate()/1e3;
 	data["gc_speed"] = gc_speed()/1e3;
-	data["mem_diff"] = (max_memory - extra_memory)/1e6;
+	data["mem_diff"] = (max_memory - extra_memory())/1e6;
 	return data;
   }
   double duration_utilization_rate(size_t extra_memory) {
@@ -747,7 +747,7 @@ struct Balancer {
     }
 	std::string tex_data = data.dump();
 	std::ofstream tex_log;
-	tex_log.open(tex_path, ios::app);
+	tex_log.open(tex_path, std::ios::app);
 	tex_log << tex_data;
 	tex_log.close();
 	  
