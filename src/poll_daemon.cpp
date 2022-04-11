@@ -274,6 +274,7 @@ struct ConnectionState {
     for (size_t i = get_starting_index(gc_bad.size()); i < gc_bad.size(); ++i) {
       const auto& bad = gc_bad[i];
       ret += bad.second;
+      ret *= 0.5;
       // turned off smoothing
       //ret = bad.second;
     }
@@ -287,6 +288,7 @@ struct ConnectionState {
     for (size_t i = get_starting_index(gc_bad.size()); i < gc_bad.size(); ++i) {
       const auto& bad = gc_bad[i];
       ret += bad.first;
+      ret *= 0.5;
       // turned off smoothing
       //ret = bad.first;
       if (bad.first != 1) {
