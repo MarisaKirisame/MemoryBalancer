@@ -412,20 +412,23 @@ struct ConnectionState {
   double speed_balance_factor() {
     return sqrt(static_cast<double>(garbage_rate()) * static_cast<double>(working_memory + bias_in_working_memory) / static_cast<double>(gc_speed()));
   }
-  void report(TextTable& t, size_t epoch) {
+	
+  nlohmann::json report(TextTable& t, size_t epoch) {
     assert(should_balance());
     t.add(name);
     t.add(std::to_string(extra_memory()));
     t.add(std::to_string(max_memory));
     t.add(std::to_string(garbage_rate()));
     t.add(std::to_string(gc_speed()));
-    if(run_freq == 6) {
-		run_desc[size-1].push_back(std::to_string(name));
-		run_desc[size-1].push_back(std::to_string(extra_memory()/1e6));
-		run_desc[size-1].push_back(std::to_string(max_memory/1e6));
-		run_desc[size-1].push_back(std::to_string(garbage_rate()));
-		run_desc[size-1].push_back(std::to_string(gc_speed()));
-	}
+	
+	nlohmann::json data;
+	data[name] = name;
+	data["extra_mem"] = extra_memory()/1e6;
+	data["max_mem"] = max_memory/1e6;
+	data["gc_rate"] = garbage_rate()/1e3;
+	data["gc_speed"] = gc_speed()/1e3;
+	data["mem_diff"] = (max_memory - extra_memory)/1e6;
+	return data;
   }
   double duration_utilization_rate(size_t extra_memory) {
     double mutator_duration = extra_memory / garbage_rate();
@@ -559,9 +562,8 @@ struct Balancer {
   double gc_rate; // only when resize_strategy == after-balance or before-balance
   double gc_rate_d;
   size_t epoch = 0;
-  int run_freq = 0; //table automation in paper
-  vector<vector<std::string>> run_desc;
   std::string log_path;
+  std::string tex_path;
   Logger l;
   void check_config_consistency() {
     assert(resize_strategy != ResizeStrategy::constant || balance_strategy != BalanceStrategy::ignore);
@@ -624,6 +626,9 @@ struct Balancer {
     }
     if (result.count("log-path")) {
       log_path = result["log-path"].as<std::string>();
+	  int idx = log_path.find_last_of("/");
+	  tex_path = log_path.substr(0, idx);
+	  tex_path.append("/tex_data");
       l.f = std::ofstream(log_path);
     }
     balance_frequency = milliseconds(result["balance-frequency"].as<size_t>());
@@ -720,14 +725,16 @@ struct Balancer {
     t.endOfRow();
     return t;
   }
+	
   void report(const Stat& st, const std::function<size_t(ConnectionState*)>& suggested_extra_memory) {
     auto t = make_table();
     auto vec = vector();
     std::cout << "balancing " << st.instance_count << " heap, waiting for " << vec.size() - st.instance_count << " heap" << std::endl;
-	run_freq++;
+	  nlohmann::json data;
     for (ConnectionState* rr: vector()) {
       if (rr->should_balance()) {
-        rr->report(t, epoch);
+		nlohmann::json one_row = rr->report(t, epoch);
+		data.push_back(one_row);
         size_t suggested_extra_memory_ = suggested_extra_memory(rr);
         t.add(std::to_string(suggested_extra_memory_));
         t.add(std::to_string(suggested_extra_memory_ + rr->working_memory));
@@ -736,17 +743,15 @@ struct Balancer {
         t.add(std::to_string(-1e9 * rr->speed_utilization_rate_d()));
         t.add(std::to_string(-1e9 * rr->speed_utilization_rate_d(suggested_extra_memory_)));
         t.endOfRow();
-		if(run_freq == 6) {
-			int size = (int) run_desc.size()-1;
-			run_desc[size-1].push_back(std::to_string(suggested_extra_memory_/1e6));
-			run_desc[size-1].push_back(std::to_string((suggested_extra_memory_ + rr->working_memory)/1e6));
-			run_desc[size-1].push_back(std::to_string(1 - rr->speed_utilization_rate()));
-			run_desc[size-1].push_back(std::to_string(1 - rr->speed_utilization_rate(suggested_extra_memory_)));
-			run_desc[size-1].push_back(std::to_string(-1e9 * rr->speed_utilization_rate_d()));
-			run_desc[size-1].push_back(std::to_string(-1e9 * rr->speed_utilization_rate_d(suggested_extra_memory_)));
-		}
       }
     }
+	std::string tex_data = data.dump();
+	std::ofstream tex_log;
+	tex_log.open(tex_path, ios::app);
+	tex_log << tex_data;
+	tex_log.close();
+	  
+	  
     std::cout << t << std::endl;
     std::cout << "score mse: " << st.mse << std::endl;
     std::cout << "total memory: " << st.m << std::endl;
