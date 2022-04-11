@@ -746,10 +746,8 @@ struct Balancer {
       }
     }
 	std::string tex_data = data.dump();
-	std::ofstream tex_log;
-	tex_log.open(tex_path, std::ios::app);
+	std::ofstream tex_log(tex_path, std::ios::app);
 	tex_log << tex_data;
-	tex_log.close();
 	  
 	  
     std::cout << t << std::endl;
