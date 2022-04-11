@@ -228,7 +228,7 @@ def run(config, in_path):
         commit["v8"] = get_commit("../chromium/src/v8")
         commit["membalancer"] = get_commit("./")
         with open(path.joinpath("commit"), "w") as f:
-            json.dump(commit, commit)
+            f.write(str(commit))
         return path
     if has_meta(config):
         path = make_path()
