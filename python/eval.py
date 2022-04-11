@@ -227,7 +227,7 @@ def run(config, in_path):
         commit = {}
         commit["v8"] = get_commit("../chromium/src/v8")
         commit["membalancer"] = get_commit("./")
-        with open(os.path.join(result_directory, "commit"), "w") as f:
+        with open(path.joinpath("commit"), "w") as f:
             json.dump(j, commit)
         return path
     if has_meta(config):
