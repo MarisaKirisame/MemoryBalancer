@@ -6,6 +6,7 @@ import sys
 import json
 import shutil
 import os
+from git_check import get_commit
 
 # list monad
 class NONDET:
@@ -223,6 +224,11 @@ def run(config, in_path):
         path.mkdir()
         with open(path.joinpath("cfg"), "w") as f:
             f.write(str(config))
+        commit = {}
+        commit["v8"] = get_commit("../chromium/src/v8")
+        commit["membalancer"] = get_commit("./")
+        with open(os.path.join(result_directory, "commit"), "w") as f:
+            json.dump(j, commit)
         return path
     if has_meta(config):
         path = make_path()

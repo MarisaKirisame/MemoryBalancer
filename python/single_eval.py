@@ -7,7 +7,6 @@ import time
 from pathlib import Path
 from pyppeteer import launch
 from collections import defaultdict
-from git_check import get_commit
 
 assert(len(sys.argv) == 3)
 cfg = eval(sys.argv[1])
@@ -464,12 +463,6 @@ with ProcessScope(subprocess.Popen(balancer_cmds, stdout=subprocess.PIPE, stderr
     memory_limit = f"{MEMORY_LIMIT * MB_IN_BYTES}"
 
     v8_env_vars = {"USE_MEMBALANCER": "1", "LOG_GC": "1", "LOG_DIRECTORY": result_directory}
-
-    j = {}
-    j["v8"] = get_commit("../chromium/src/v8")
-    j["membalancer"] = get_commit("./")
-    with open(os.path.join(result_directory, "commit"), "w") as f:
-        json.dump(j, f)
 
     if not RESIZE_STRATEGY == "ignore":
         v8_env_vars["SKIP_RECOMPUTE_LIMIT"] = "1"
