@@ -1,8 +1,9 @@
 import subprocess
 
 def check(cwd):
-    if subprocess.check_output("git status -s", shell=True, cwd=cwd) != "":
-        print(f"Local change not committed in {cwd}!")
+    out = subprocess.check_output("git status -s", shell=True, cwd=cwd)
+    if out != "":
+        print(f"Local change not committed in {cwd}: {out}!")
         raise
 
 check("./")
