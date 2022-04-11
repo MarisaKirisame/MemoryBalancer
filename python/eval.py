@@ -194,7 +194,7 @@ cfg_browser = {
     "DEBUG": True,
     "NAME": "browser",
     "MEMORY_LIMIT": 10000,
-    "BENCH": NONDET(*choose_three),
+    "BENCH": NONDET(*choose_two),
     #"BENCH": ["twitter"],
     #"BENCH": NONDET(*[[x] for x in bench]),
     "BALANCER_CFG": BALANCER_CFG

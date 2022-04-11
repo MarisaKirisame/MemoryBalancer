@@ -472,7 +472,8 @@ with ProcessScope(subprocess.Popen(balancer_cmds, stdout=subprocess.PIPE, stderr
         #if LIMIT_MEMORY:
         #v8_env_vars["MEMORY_LIMITER_TYPE"] = "ProcessWide"
         #v8_env_vars["MEMORY_LIMITER_VALUE"] = str(memory_limit)
-
+    v8_env_vars["SKIP_MEMORY_REDUCER"] = "1"
+    #v8_env_vars["SKIP_INCREMENTAL_MARKING"] = "1"
     if NAME == "jetstream":
         run_jetstream(v8_env_vars)
     elif NAME == "browser":

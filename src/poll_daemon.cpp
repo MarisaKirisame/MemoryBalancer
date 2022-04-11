@@ -275,7 +275,7 @@ struct ConnectionState {
       const auto& bad = gc_bad[i];
       ret += bad.second;
       // turned off smoothing
-      ret = bad.second;
+      //ret = bad.second;
     }
     return ret;
   }
@@ -288,7 +288,7 @@ struct ConnectionState {
       const auto& bad = gc_bad[i];
       ret += bad.first;
       // turned off smoothing
-      ret = bad.first;
+      //ret = bad.first;
       if (bad.first != 1) {
         //ret += bias_in_working_memory;
         //wtf
