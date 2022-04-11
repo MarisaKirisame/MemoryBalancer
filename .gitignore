@@ -5,3 +5,4 @@ plot.png
 log
 __pycache__
 membalancer_profile
+*.zip
