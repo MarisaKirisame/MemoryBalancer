@@ -179,7 +179,7 @@ def plot(m, benches, *, summarize_baseline=True, reciprocal_regression=True, leg
             ret["se"] = se
             ci_x = [min_memory, max_memory]
             ci_y = poly1d_fn([min_memory, max_memory])
-            plt.plot(ci_x, ci_y, "k", color='b')
+            plt.plot(ci_x, ci_y, color='b')
             plt.fill_between(ci_x, (ci_y-2*se), (ci_y+2*se), color='b', alpha=.1)
     if legend:
         plt.legend(bbox_to_anchor=(1.04, 0.5), loc="center left")
