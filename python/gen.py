@@ -14,8 +14,9 @@ import math
 import subprocess
 import sys
 import anal_work
-import util
 import gen_tex_table
+import paper
+from util import tex_fmt, fmt
 
 from matplotlib.ticker import FormatStrFormatter
 from git_check import get_commit
@@ -33,6 +34,9 @@ if len(sys.argv) > 1:
     eval_name = sys.argv[1]
 else:
     eval_name = ""
+
+def tex_def(name, definition):
+    return util.tex_def(eval_name, name, definition)
 
 assert eval_name in [
     "", # do not generate+upload tex or plot for the paper
@@ -101,9 +105,6 @@ for bench in m.keys():
         f.write(str(doc))
     subpages.append((str(bench), html_path))
 
-def tex_def(name, definitions):
-    return f"\def\{eval_name}{name}{{{definitions}\\xspace}}\n"
-
 # as dominate do not support recursive call of document(), we have to do some weird plumbing and generate the inner doc before the outer doc.
 with dominate.document(title='Plot') as doc:
     mp = megaplot.plot(m, m.keys())
@@ -123,27 +124,27 @@ with dominate.document(title='Plot') as doc:
         return (y - (x * slope + bias)) / sd
     if "coef" in mp:
         y_projection = slope+bias
-        tex += tex_def("Speedup", f"{util.tex_fmt((y_projection-1)*100)}\%")
+        tex += tex_def("Speedup", f"{tex_fmt((y_projection-1)*100)}\%")
         x_projection = (1-bias)/slope
-        tex += tex_def("MemorySaving", f"{util.tex_fmt((1-x_projection)*100)}\%")
-        p(f"{(1.0, util.fmt(y_projection))}")
-        p(f"{(util.fmt(x_projection), 1.0)}")
+        tex += tex_def("MemorySaving", f"{tex_fmt((1-x_projection)*100)}\%")
+        p(f"{(1.0, fmt(y_projection))}")
+        p(f"{(fmt(x_projection), 1.0)}")
         baseline_deviate = get_deviate_in_sd(1, 1)
-        p(f"improvement = {util.fmt(-baseline_deviate)} sigma")
-        tex += tex_def("Improvement", f"{util.tex_fmt(-baseline_deviate)}\sigma")
+        p(f"improvement = {fmt(-baseline_deviate)} sigma")
+        tex += tex_def("Improvement", f"{tex_fmt(-baseline_deviate)}\sigma")
         improvement_over_baseline = []
         for point in points:
             assert not point.is_baseline
             improvement_over_baseline.append(get_deviate_in_sd(point.memory, point.time) - baseline_deviate)
         if len(improvement_over_baseline) > 1:
             pvalue = stats.ttest_1samp(improvement_over_baseline, 0.0, alternative="greater").pvalue
-            tex += tex_def("PValue", f"{util.tex_fmt(pvalue)}")
-            p(f"""pvalue={util.fmt(pvalue)}""")
+            tex += tex_def("PValue", f"{tex_fmt(pvalue)}")
+            p(f"""pvalue={fmt(pvalue)}""")
             bin_width = 0.5
             min_improvement = min(*improvement_over_baseline)
-            tex += tex_def("MaxRegress", f"{util.tex_fmt(-min_improvement)}\sigma")
+            tex += tex_def("MaxRegress", f"{tex_fmt(-min_improvement)}\sigma")
             max_improvement = max(*improvement_over_baseline)
-            tex += tex_def("MaxImprovement", f"{util.tex_fmt(max_improvement)}\sigma")
+            tex += tex_def("MaxImprovement", f"{tex_fmt(max_improvement)}\sigma")
             distance_from_zero = max(abs(min_improvement), abs(max_improvement))
             #bin_start = math.floor(min_improvement / bin_width)
             bin_start = math.floor(-distance_from_zero / bin_width)
@@ -170,8 +171,8 @@ with open(str(path.joinpath("index.html")), "w") as f:
 
 if eval_name == "WEBII":
     working_frac = anal_work.main()
-    tex += tex_def("WorkingFrac", f"{util.tex_fmt(working_frac * 100)}\%")
-    tex += tex_def("ExtraMemorySaving", f"{util.tex_fmt((1-x_projection)/(1-working_frac) * 100)}\%")
+    tex += tex_def("WorkingFrac", f"{tex_fmt(working_frac * 100)}\%")
+    tex += tex_def("ExtraMemorySaving", f"{tex_fmt((1-x_projection)/(1-working_frac) * 100)}\%")
 
 def calculate_extreme_improvement():
     mp = megaplot.plot(m, m.keys()) # todo - no plot only anal
@@ -186,8 +187,8 @@ def calculate_extreme_improvement():
             max_speedup = max(max_speedup, (bl_time / score["MAJOR_GC_TIME"]) - 1)
             max_saving = max(max_saving, 1 - (bl_memory / score["Average(BenchmarkMemory)"]))
     global tex
-    tex += tex_def("MaxSpeedup", f"{util.tex_fmt(max_speedup * 100)}\%")
-    tex += tex_def("MaxSaving", f"{util.tex_fmt(max_saving * 100)}\%")
+    tex += tex_def("MaxSpeedup", f"{tex_fmt(max_speedup * 100)}\%")
+    tex += tex_def("MaxSaving", f"{tex_fmt(max_saving * 100)}\%")
 
 if eval_name == "JS":
     calculate_extreme_improvement()
@@ -222,16 +223,13 @@ for name in glob.glob('log/**/score', recursive=True):
     pass # todo: write commit upload
 
 if eval_name != "":
-    subprocess.call("git pull", shell=True, cwd="../membalancer-paper")
+    paper.pull()
     with open(f"../membalancer-paper/{eval_name}.tex", "w") as tex_file:
         tex_file.write(tex)
 
     dir = sorted(os.listdir("out"))[-1]
     shutil.copy(f"out/{dir}/plot.png", f"../membalancer-paper/{eval_name}_pareto.png")
     shutil.copy(f"out/{dir}/sd.png", f"../membalancer-paper/{eval_name}_sd.png")
-
-    subprocess.call("git add -A", shell=True, cwd="../membalancer-paper")
-    subprocess.call("git commit -am 'sync file generated from eval'", shell=True, cwd="../membalancer-paper")
-    subprocess.call("git push", shell=True, cwd="../membalancer-paper")
+    paper.push()
 
 os.system(f"xdg-open {path.joinpath('index.html')}")

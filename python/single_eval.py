@@ -5,8 +5,29 @@ import subprocess
 import sys
 import time
 from pathlib import Path
-from pyppeteer import launch
 from collections import defaultdict
+from util import tex_def, tex_fmt
+import paper
+
+SCROLL_PIX = 50
+SCROLL_SLEEP = 1
+EVAL_SLEEP = 5
+GMAIL_WAIT_TIME = 5
+GMAIL_INBOX_TIME = 5
+GMAIL_EMAIL_TIME = 10
+
+if len(sys.argv) == 1:
+    print("generating tex file...")
+    tex = ""
+    for name in ["SCROLL_PIX", "SCROLL_SLEEP", "EVAL_SLEEP", "GMAIL_WAIT_TIME", "GMAIL_INBOX_TIME", "GMAIL_EMAIL_TIME"]:
+        tex += tex_def("SingleEval", name.replace('_', ''), f"{tex_fmt(eval(name))}")
+    paper.pull()
+    with open(f"../membalancer-paper/single_eval.tex", "w") as tex_file:
+        tex_file.write(tex)
+    paper.push()
+    sys.exit(0)
+
+from pyppeteer import launch
 
 assert(len(sys.argv) == 3)
 cfg = eval(sys.argv[1])
@@ -229,13 +250,6 @@ def run_jetstream(v8_env_vars):
         j["TOTAL_MAJOR_GC_TIME"] = total_major_gc_time
         with open(os.path.join(result_directory, "score"), "w") as f:
             json.dump(j, f)
-
-SCROLL_PIX = 50
-SCROLL_SLEEP = 1
-EVAL_SLEEP = 5
-GMAIL_WAIT_TIME = 5
-GMAIL_INBOX_TIME = 5
-GMAIL_EMAIL_TIME = 10
 
 def run_browser(v8_env_vars):
     async def new_browser():
