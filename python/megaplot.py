@@ -121,6 +121,8 @@ def plot(m, benches, *, summarize_baseline=True, reciprocal_regression=True, leg
                 baseline_times.append(time)
                 baseline_memory = sum(baseline_memorys) / len(baseline_memorys)
                 baseline_time = sum(baseline_times) / len(baseline_times)
+                ret["baseline_memory"] = baseline_memory
+                ret["baseline_time"] = baseline_time
         x = []
         y = []
         baseline_x = []

@@ -18,6 +18,7 @@ import util
 import gen_tex_table
 
 from matplotlib.ticker import FormatStrFormatter
+from git_check import get_commit
 
 class Counter:
     def __init__(self):
@@ -169,10 +170,27 @@ with open(str(path.joinpath("index.html")), "w") as f:
 
 if eval_name == "WEBII":
     working_frac = anal_work.main()
-    tex += tex_def("WorkingFrac", f"{util.fmt(working_frac * 100)}\%")
-    tex += tex_def("ExtraMemorySaving", f"{util.fmt((1-x_projection)/(1-working_frac) * 100)}\%")
+    tex += tex_def("WorkingFrac", f"{util.tex_fmt(working_frac * 100)}\%")
+    tex += tex_def("ExtraMemorySaving", f"{util.tex_fmt((1-x_projection)/(1-working_frac) * 100)}\%")
+
+def calculate_extreme_improvement():
+    mp = megaplot.plot(m, m.keys()) # todo - no plot only anal
+    plt.clf()
+    bl_time = mp["baseline_time"] * 1e9
+    bl_memory = mp["baseline_memory"] * 1e6
+    max_speedup = 0
+    max_saving = 0
+    for name in glob.glob('log/**/score', recursive=True):
+        with open(dirname + "/score") as f:
+            score = json.load(f)
+            max_speedup = max(max_speedup, (bl_time / score["MAJOR_GC_TIME"]) - 1)
+            max_saving = max(max_saving, 1 - (bl_memory / score["Average(BenchmarkMemory)"]))
+    global tex
+    tex += tex_def("MaxSpeedup", f"{util.tex_fmt(max_speedup * 100)}\%")
+    tex += tex_def("MaxSaving", f"{util.tex_fmt(max_saving * 100)}\%")
 
 if eval_name == "JS":
+    calculate_extreme_improvement()
     found_baseline = False
     tex_table_baseline_dir = None
     tex_table_membalancer_dir = None
@@ -180,8 +198,6 @@ if eval_name == "JS":
         dirname = os.path.dirname(name)
         with open(dirname + "/cfg") as f:
             cfg = eval(f.read())
-        with open(dirname + "/score") as f:
-            score = json.load(f)
         if cfg["BALANCER_CFG"]["BALANCE_STRATEGY"] == "ignore":
             if not found_baseline:
             	tex_table_baseline_dir = dirname
@@ -192,14 +208,16 @@ if eval_name == "JS":
             	plt.savefig(f"../membalancer-paper/js_baseline_anal.png", bbox_inches='tight')
             	plt.clf()
         elif cfg["BALANCER_CFG"]["RESIZE_CFG"]["GC_RATE_D"] == -5e-10:
-        	tex_table_membalancer_dir = dirname
-        	anal_gc_log.main(dirname + "/", legend=False)
-        	plt.xlim([0, 30])
-        	plt.ylim([0, 400])
-        	plt.savefig(f"../membalancer-paper/js_membalancer_anal.png", bbox_inches='tight')
-        	plt.clf()
-        	
+            tex_table_membalancer_dir = dirname
+            anal_gc_log.main(dirname + "/", legend=False)
+            plt.xlim([0, 30])
+            plt.ylim([0, 400])
+            plt.savefig(f"../membalancer-paper/js_membalancer_anal.png", bbox_inches='tight')
+            plt.clf()
     gen_tex_table.main(tex_table_membalancer_dir, tex_table_baseline_dir)
+
+tex += tex_def("GraphHash", get_commit("./"))
+
 for name in glob.glob('log/**/score', recursive=True):
     pass # todo: write commit upload
 
