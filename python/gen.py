@@ -14,6 +14,7 @@ import math
 import subprocess
 import sys
 import anal_work
+from matplotlib.ticker import FormatStrFormatter
 
 class Counter:
     def __init__(self):
@@ -32,8 +33,7 @@ else:
 assert eval_name in [
     "", # do not generate+upload tex or plot for the paper
     "WEBI", # 1 website run
-    "WEBIIBL", # 2 website run, baseline
-    "WEBIIAB", # 2 website run, ablation study (turned off memory reducer and memory notification for baseline),
+    "WEBII", # 2 website run
     "WEBIII", # 3 website run
     "JS", # JetStream, embedded v8
 ]
@@ -153,6 +153,11 @@ with dominate.document(title='Plot') as doc:
             bin_stop = math.ceil(distance_from_zero / bin_width)
             print((bin_start, bin_stop))
             plt.hist(improvement_over_baseline, [x * bin_width for x in range(bin_start, bin_stop + 1)], ec='black')
+            plt.axvline(x=0, color="black")
+            def format_sigma(x, pos):
+                sigma = '\u03C3'
+                return ("+" if x > 0 else "") + str(x) + sigma
+            plt.gca().xaxis.set_major_formatter(format_sigma)
             plt.savefig(str(path.joinpath("sd.png")), bbox_inches='tight')
             plt.clf()
             img(src="sd.png")
@@ -162,7 +167,7 @@ with dominate.document(title='Plot') as doc:
 with open(str(path.joinpath("index.html")), "w") as f:
     f.write(str(doc))
 
-if eval_name == "WEBIIBL":
+if eval_name == "WEBII":
     working_frac = anal_work.main()
     tex += tex_def("WorkingFrac", f"{fmt(working_frac * 100)}\%")
     tex += tex_def("ExtraMemorySaving", f"{fmt((1-x_projection)/(1-working_frac) * 100)}\%")

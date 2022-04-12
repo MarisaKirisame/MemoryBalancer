@@ -150,11 +150,12 @@ def plot(m, benches, *, summarize_baseline=True, reciprocal_regression=True, leg
         if len(baseline_x) != 0:
             plt.scatter(baseline_x, baseline_y, label=bench, linewidth=0.1, color="orange", s=35)
     ret["points"] = points
-    plt.xlabel(p)
-    if reciprocal_regression:
-        plt.ylabel("Inversed time")
-    else:
-        plt.ylabel("Time")
+    if legend:
+        plt.xlabel(p)
+        if reciprocal_regression:
+            plt.ylabel("Inversed time")
+        else:
+            plt.ylabel("Time")
     if reciprocal_regression and len(points) > 0:
         x = []
         y = []
