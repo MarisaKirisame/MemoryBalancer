@@ -38,11 +38,11 @@ def convert_to_tex(data):
 		mb_extra = data[key]["membalancer_exta_mem"]
 		curr_extra = data[key]['current_v8_extra_mem']
 		tex_str += tex_def(row, "name", key)
-		tex_str += tex_def(row, "w", f"{tex_fmt(w)}")
-		tex_str += tex_def(row, "g", f"{tex_fmt(g)}")
-		tex_str += tex_def(row, "s", f"{tex_fmt(s)}")
-		tex_str += tex_def(row, "mbextra", f"{tex_fmt(mb_extra)}")
-		tex_str += tex_def(row, "currextra", f"{tex_fmt(curr_extra)}")
+		tex_str += tex_def(row, "w", f"{util.tex_fmt(w)}")
+		tex_str += tex_def(row, "g", f"{util.tex_fmt(g)}")
+		tex_str += tex_def(row, "s", f"{util.tex_fmt(s)}")
+		tex_str += tex_def(row, "mbextra", f"{util.tex_fmt(mb_extra)}")
+		tex_str += tex_def(row, "currextra", f"{util.tex_fmt(curr_extra)}")
 		row = ord(row)
 		row += 1
 		row = chr(row)
