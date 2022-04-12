@@ -159,12 +159,39 @@ with dominate.document(title='Plot') as doc:
     for name, filepath in subpages:
     	li(a(name, href=filepath))
 
+with open(str(path.joinpath("index.html")), "w") as f:
+    f.write(str(doc))
+
 if eval_name == "WEBIIBL":
     working_frac = anal_work.main()
     tex += tex_def("WorkingFrac", f"{fmt(working_frac * 100)}\%")
     tex += tex_def("ExtraMemorySaving", f"{fmt((1-x_projection)/(1-working_frac) * 100)}\%")
-with open(str(path.joinpath("index.html")), "w") as f:
-    f.write(str(doc))
+
+if eval_name == "JS":
+    found_baseline = False
+    for name in glob.glob('log/**/score', recursive=True):
+        dirname = os.path.dirname(name)
+        with open(dirname + "/cfg") as f:
+            cfg = eval(f.read())
+        with open(dirname + "/score") as f:
+            score = json.load(f)
+        if cfg["BALANCER_CFG"]["BALANCE_STRATEGY"] == "ignore":
+            if not found_baseline:
+                found_baseline = True
+                anal_gc_log.main(dirname + "/", legend=False)
+                plt.xlim([0,30])
+                plt.ylim([0,400])
+                plt.savefig(f"../membalancer-paper/js_baseline_anal.png", bbox_inches='tight')
+                plt.clf()
+        elif cfg["BALANCER_CFG"]["RESIZE_CFG"]["GC_RATE_D"] == -5e-10:
+            anal_gc_log.main(dirname + "/", legend=False)
+            plt.xlim([0, 30])
+            plt.ylim([0, 400])
+            plt.savefig(f"../membalancer-paper/js_membalancer_anal.png", bbox_inches='tight')
+            plt.clf()
+
+for name in glob.glob('log/**/score', recursive=True):
+    pass # todo: write commit upload
 
 if eval_name != "":
     subprocess.call("git pull", shell=True, cwd="../membalancer-paper")
@@ -178,4 +205,5 @@ if eval_name != "":
     subprocess.call("git add -A", shell=True, cwd="../membalancer-paper")
     subprocess.call("git commit -am 'sync file generated from eval'", shell=True, cwd="../membalancer-paper")
     subprocess.call("git push", shell=True, cwd="../membalancer-paper")
+
 os.system(f"xdg-open {path.joinpath('index.html')}")
