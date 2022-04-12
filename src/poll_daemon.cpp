@@ -422,7 +422,7 @@ struct ConnectionState {
     t.add(std::to_string(gc_speed()));
 	
 	nlohmann::json data;
-	data[name] = name;
+	data["name"] = name;
 	data["extra_mem"] = extra_memory()/1e6;
 	data["max_mem"] = max_memory/1e6;
 	data["gc_rate"] = garbage_rate()/1e3;
@@ -564,6 +564,7 @@ struct Balancer {
   size_t epoch = 0;
   std::string log_path;
   std::string tex_path;
+  nlohmann::json tex_data;
   Logger l;
   void check_config_consistency() {
     assert(resize_strategy != ResizeStrategy::constant || balance_strategy != BalanceStrategy::ignore);
@@ -730,7 +731,7 @@ struct Balancer {
     auto t = make_table();
     auto vec = vector();
     std::cout << "balancing " << st.instance_count << " heap, waiting for " << vec.size() - st.instance_count << " heap" << std::endl;
-	  nlohmann::json data;
+	nlohmann::json data;
     for (ConnectionState* rr: vector()) {
       if (rr->should_balance()) {
 		nlohmann::json one_row = rr->report(t, epoch);
@@ -745,9 +746,10 @@ struct Balancer {
         t.endOfRow();
       }
     }
-	std::string tex_data = data.dump();
-	std::ofstream tex_log(tex_path, std::ios::app);
-	tex_log << tex_data;
+	tex_data.push_back(data);
+	std::string tex_data_string = tex_data.dump();
+	std::ofstream tex_log(tex_path);
+	tex_log << tex_data_string;
 	  
 	  
     std::cout << t << std::endl;
