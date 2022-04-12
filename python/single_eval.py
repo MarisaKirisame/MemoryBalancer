@@ -171,7 +171,6 @@ balancer_cmds.append(f"""--log-path={result_directory+"balancer_log"}""")
 def tee_log(cmd, log_path):
     return f"{cmd} 2>&1 | tee {log_path}"
 
-
 def env_vars_str(env_vars):
     ret = ""
     for k, v in env_vars.items():
@@ -231,6 +230,13 @@ def run_jetstream(v8_env_vars):
         with open(os.path.join(result_directory, "score"), "w") as f:
             json.dump(j, f)
 
+SCROLL_PIX = 50
+SCROLL_SLEEP = 1
+EVAL_SLEEP = 5
+GMAIL_WAIT_TIME = 5
+GMAIL_INBOX_TIME = 5
+GMAIL_EMAIL_TIME = 10
+
 def run_browser(v8_env_vars):
     async def new_browser():
         args = ["--no-sandbox", "--disable-notifications", "--start-maximized", "--user-data-dir=./membalancer_profile"]
@@ -278,26 +284,21 @@ def run_browser(v8_env_vars):
             i += 1
     bench["reddit"] = reddit
 
-    async def twitter(browser, duration):
+    async def scroll_website(browser, duration, website):
         start = time.time()
         page = await new_page(browser)
-        await page.goto("https://www.twitter.com", timeout=duration*1000, waitUntil=wait_until)
-        await asyncio.sleep(1)
+        await page.goto(website, timeout=duration*1000, waitUntil=wait_until)
         while time.time() - start < duration:
-            print("looping twitter")
-            await page.evaluate("{window.scrollBy(0, 50);}")
-            await asyncio.sleep(1)
+            print(f"looping {website}")
+            await page.evaluate(f"{{window.scrollBy(0, {SCROLL_PIX});}}")
+            await asyncio.sleep(SCROLL_SLEEP)
+
+    async def twitter(browser, duration):
+        await scroll_website(browser, duration, "https://www.twitter.com")
     bench["twitter"] = twitter
 
     async def cnn(browser, duration):
-        start = time.time()
-        page = await new_page(browser)
-        await page.goto("https://www.cnn.com/", timeout=duration*1000, waitUntil=wait_until)
-        await asyncio.sleep(1)
-        while time.time() - start < duration:
-            print("looping cnn")
-            await page.evaluate("{window.scrollBy(0, 50);}")
-            await asyncio.sleep(1)
+        await scroll_website(browser, duration, "https://www.cnn.com/")
     bench["cnn"] = cnn
 
     async def gmail(browser, duration):
@@ -305,52 +306,38 @@ def run_browser(v8_env_vars):
         page = await new_page(browser)
         # cannot use domcontentloaded as that is too quick
         await page.goto("https://www.gmail.com", timeout=duration*1000)
-        await asyncio.sleep(5)
+        await asyncio.sleep(GMAIL_WAIT_TIME)
         i = 0
         while time.time() - start < duration:
             print("looping gmail")
             await page.evaluate(f'document.querySelectorAll(".zA")[{i}].click()')
-            await asyncio.sleep(10)
+            await asyncio.sleep(GMAIL_INBOX_TIME)
             await page.evaluate('document.querySelector(".TN.bzz.aHS-bnt").click()')
-            await asyncio.sleep(5)
+            await asyncio.sleep(GMAIL_EMAIL_TIME)
             i += 1
     bench["gmail"] = gmail
 
     async def espn(browser, duration):
-        start = time.time()
-        page = await new_page(browser)
-        await page.goto("https://www.espn.com/", timeout=duration*1000, waitUntil=wait_until)
-        await asyncio.sleep(1)
-        while time.time() - start < duration:
-            print("looping espn")
-            await page.evaluate("{window.scrollBy(0, 50);}")
-            await asyncio.sleep(1)
+        await scroll_website(browser, duration, "https://www.espn.com/")
     bench["espn"] = espn
 
     async def facebook(browser, duration):
         start = time.time()
         page = await new_page(browser)
         await page.goto("https://www.facebook.com/", timeout=duration*1000, waitUntil=wait_until)
-        await asyncio.sleep(5)
+        await asyncio.sleep(EVAL_SLEEP)
         groups = (await page.xpath("//*[text() = 'Groups']"))[0]
         await page.evaluate("(g) => g.click()", groups)
-        await asyncio.sleep(5)
+        await asyncio.sleep(EVAL_SLEEP)
         while time.time() - start < duration:
-            print("looping facebook")
-            await page.evaluate("{window.scrollBy(0, 50);}")
-            await asyncio.sleep(1)
+            print(f"looping facebook")
+            await page.evaluate(f"{{window.scrollBy(0, {SCROLL_PIX});}}")
+            await asyncio.sleep(SCROLL_SLEEP)
     bench["facebook"] = facebook
 
     # problem - doesnt seems to load as it scroll continuously
     async def foxnews(browser, duration):
-        start = time.time()
-        page = await new_page(browser)
-        await page.goto("https://www.foxnews.com/", timeout=duration*1000, waitUntil=wait_until)
-        await asyncio.sleep(1)
-        while time.time() - start < duration:
-            print("looping foxnews")
-            await page.evaluate("{window.scrollBy(0, 50);}")
-            await asyncio.sleep(1)
+        await scroll_website(browser, duration, "https://www.foxnews.com/")
     bench["foxnews"] = foxnews
 
     async def yahoo(browser, duration):
