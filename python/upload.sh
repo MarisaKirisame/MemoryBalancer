@@ -1,7 +1,7 @@
 #!/bin/sh
 set -o errexit -o xtrace
 
-python3 python/gen.py
+python3 python/gen.py "JS"
 last=`ls "out" | sort -r | head -1`
 result_dir="out/$last"
 echo "** uploading files to membalancer.uwplse.org/$last **"
