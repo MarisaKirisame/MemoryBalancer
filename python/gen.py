@@ -17,6 +17,7 @@ import anal_work
 import gen_tex_table
 import paper
 from util import tex_fmt, fmt, tex_def_generic
+import util
 
 from matplotlib.ticker import FormatStrFormatter
 from git_check import get_commit
