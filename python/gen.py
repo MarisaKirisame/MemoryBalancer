@@ -14,6 +14,7 @@ import math
 import subprocess
 import sys
 import anal_work
+import util
 import gen_tex_table
 
 from matplotlib.ticker import FormatStrFormatter
@@ -98,12 +99,6 @@ for bench in m.keys():
     with open(str(path.joinpath(html_path)), "w") as f:
         f.write(str(doc))
     subpages.append((str(bench), html_path))
-
-def fmt(x):
-    return "{0:.3g}".format(x)
-
-def tex_fmt(x):
-    return f"\\num{{{fmt(x)}}}"
 
 def tex_def(name, definitions):
     return f"\def\{eval_name}{name}{{{definitions}\\xspace}}\n"

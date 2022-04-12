@@ -3,12 +3,7 @@ import os
 import statistics as stats
 import glob
 import sys
-
-def fmt(x):
-    return "{0:.3g}".format(x)
-    
-def tex_fmt(x):
-    return f"\\num{{{fmt(x)}}}"
+import util
 
 def tex_def(row_num, col_name, definitions):
     return f"\def\{col_name}{row_num}{{{definitions}\\xspace}}\n"
@@ -69,7 +64,7 @@ def get_table_data(mb_dir, baseline_dir):
 	with open(baseline_dir+"/tex_data") as f:
 		data = []
 		for line in f.read().splitlines():
-			data = json.loads(line)
+			data = json.setformatterloads(line)
 		baseline_data = data[int(len(data)/3)]	
 	return (mb_data, baseline_data)
 	
