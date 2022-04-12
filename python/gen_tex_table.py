@@ -4,10 +4,6 @@ import statistics as stats
 import glob
 import sys
 
-assert(len(sys.argv) == 3)
-membalancer_log_dir = sys.argv[1]
-baseline_log_dir = sys.argv[2]
-
 def fmt(x):
     return "{0:.3g}".format(x)
     
@@ -79,7 +75,9 @@ def get_table_data(mb_dir, baseline_dir):
 	
 
 if __name__ == "__main__":
-
+	assert(len(sys.argv) == 3)
+	membalancer_log_dir = sys.argv[1]
+	baseline_log_dir = sys.argv[2]
 	(data1, data2) = get_table_data(membalancer_log_dir, baseline_log_dir)
 	combined_data = combine(data1, data2, membalancer_log_dir, baseline_log_dir)
 	converted_tex = convert_to_tex(combined_data)
