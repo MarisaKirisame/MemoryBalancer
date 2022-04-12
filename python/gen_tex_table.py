@@ -59,7 +59,7 @@ def get_optimal_table(data):
 		for each_pgm in each_row:
 			if each_pgm["name"] == "pdfjs.js":
 				if each_pgm["mem_diff"] <= 55 and each_pgm["mem_diff"] >= 45:
-					print("choosing optimal table data")
+					print("optimal table_data: "+ str(each_row))
 					return each_row
 	return data[0]
 
