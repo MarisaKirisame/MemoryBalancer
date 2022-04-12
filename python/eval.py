@@ -188,6 +188,7 @@ else:
 # reddit is removed because the ip got banned
 # medium is removed because it allocate little memory in rare fashion
 bench = ["twitter", "cnn", "espn", "facebook", "gmail", "foxnews"]
+choose_one = [(x,) for x in bench]
 choose_two = [(x, y) for x in bench for y in bench if x != y]
 choose_three = [random.sample(bench, 3) for _ in range(30)]
 cfg_browser = {
@@ -195,9 +196,7 @@ cfg_browser = {
     "DEBUG": True,
     "NAME": "browser",
     "MEMORY_LIMIT": 10000,
-    "BENCH": NONDET(*choose_two),
-    #"BENCH": ["twitter"],
-    #"BENCH": NONDET(*[[x] for x in bench]),
+    "BENCH": NONDET(*choose_one),
     "BALANCER_CFG": BALANCER_CFG
 }
 
