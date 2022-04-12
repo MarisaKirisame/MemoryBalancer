@@ -14,6 +14,9 @@ import math
 import subprocess
 import sys
 import anal_work
+import util
+import gen_tex_table
+
 from matplotlib.ticker import FormatStrFormatter
 
 class Counter:
@@ -97,12 +100,6 @@ for bench in m.keys():
         f.write(str(doc))
     subpages.append((str(bench), html_path))
 
-def fmt(x):
-    return "{0:.3g}".format(x)
-
-def tex_fmt(x):
-    return f"\\num{{{fmt(x)}}}"
-
 def tex_def(name, definitions):
     return f"\def\{eval_name}{name}{{{definitions}\\xspace}}\n"
 
@@ -125,27 +122,27 @@ with dominate.document(title='Plot') as doc:
         return (y - (x * slope + bias)) / sd
     if "coef" in mp:
         y_projection = slope+bias
-        tex += tex_def("Speedup", f"{tex_fmt((y_projection-1)*100)}\%")
+        tex += tex_def("Speedup", f"{util.tex_fmt((y_projection-1)*100)}\%")
         x_projection = (1-bias)/slope
-        tex += tex_def("MemorySaving", f"{tex_fmt((1-x_projection)*100)}\%")
-        p(f"{(1.0, fmt(y_projection))}")
-        p(f"{(fmt(x_projection), 1.0)}")
+        tex += tex_def("MemorySaving", f"{util.tex_fmt((1-x_projection)*100)}\%")
+        p(f"{(1.0, util.fmt(y_projection))}")
+        p(f"{(util.fmt(x_projection), 1.0)}")
         baseline_deviate = get_deviate_in_sd(1, 1)
-        p(f"improvement = {fmt(-baseline_deviate)} sigma")
-        tex += tex_def("Improvement", f"{tex_fmt(-baseline_deviate)}\sigma")
+        p(f"improvement = {util.fmt(-baseline_deviate)} sigma")
+        tex += tex_def("Improvement", f"{util.tex_fmt(-baseline_deviate)}\sigma")
         improvement_over_baseline = []
         for point in points:
             assert not point.is_baseline
             improvement_over_baseline.append(get_deviate_in_sd(point.memory, point.time) - baseline_deviate)
         if len(improvement_over_baseline) > 1:
             pvalue = stats.ttest_1samp(improvement_over_baseline, 0.0, alternative="greater").pvalue
-            tex += tex_def("PValue", f"{tex_fmt(pvalue)}")
-            p(f"""pvalue={fmt(pvalue)}""")
+            tex += tex_def("PValue", f"{util.tex_fmt(pvalue)}")
+            p(f"""pvalue={util.fmt(pvalue)}""")
             bin_width = 0.5
             min_improvement = min(*improvement_over_baseline)
-            tex += tex_def("MaxRegress", f"{tex_fmt(-min_improvement)}\sigma")
+            tex += tex_def("MaxRegress", f"{util.tex_fmt(-min_improvement)}\sigma")
             max_improvement = max(*improvement_over_baseline)
-            tex += tex_def("MaxImprovement", f"{tex_fmt(max_improvement)}\sigma")
+            tex += tex_def("MaxImprovement", f"{util.tex_fmt(max_improvement)}\sigma")
             distance_from_zero = max(abs(min_improvement), abs(max_improvement))
             #bin_start = math.floor(min_improvement / bin_width)
             bin_start = math.floor(-distance_from_zero / bin_width)
@@ -169,11 +166,13 @@ with open(str(path.joinpath("index.html")), "w") as f:
 
 if eval_name == "WEBII":
     working_frac = anal_work.main()
-    tex += tex_def("WorkingFrac", f"{fmt(working_frac * 100)}\%")
-    tex += tex_def("ExtraMemorySaving", f"{fmt((1-x_projection)/(1-working_frac) * 100)}\%")
+    tex += tex_def("WorkingFrac", f"{util.fmt(working_frac * 100)}\%")
+    tex += tex_def("ExtraMemorySaving", f"{util.fmt((1-x_projection)/(1-working_frac) * 100)}\%")
 
 if eval_name == "JS":
     found_baseline = False
+    tex_table_baseline_dir = None
+    tex_table_membalancer_dir = None
     for name in glob.glob('log/**/score', recursive=True):
         dirname = os.path.dirname(name)
         with open(dirname + "/cfg") as f:
@@ -182,19 +181,22 @@ if eval_name == "JS":
             score = json.load(f)
         if cfg["BALANCER_CFG"]["BALANCE_STRATEGY"] == "ignore":
             if not found_baseline:
-                found_baseline = True
-                anal_gc_log.main(dirname + "/", legend=False)
-                plt.xlim([0,30])
-                plt.ylim([0,400])
-                plt.savefig(f"../membalancer-paper/js_baseline_anal.png", bbox_inches='tight')
-                plt.clf()
+            	tex_table_baseline_dir = dirname
+            	found_baseline = True
+            	anal_gc_log.main(dirname + "/", legend=False)
+            	plt.xlim([0,30])
+            	plt.ylim([0,400])
+            	plt.savefig(f"../membalancer-paper/js_baseline_anal.png", bbox_inches='tight')
+            	plt.clf()
         elif cfg["BALANCER_CFG"]["RESIZE_CFG"]["GC_RATE_D"] == -5e-10:
-            anal_gc_log.main(dirname + "/", legend=False)
-            plt.xlim([0, 30])
-            plt.ylim([0, 400])
-            plt.savefig(f"../membalancer-paper/js_membalancer_anal.png", bbox_inches='tight')
-            plt.clf()
-
+        	tex_table_membalancer_dir = dirname
+        	anal_gc_log.main(dirname + "/", legend=False)
+        	plt.xlim([0, 30])
+        	plt.ylim([0, 400])
+        	plt.savefig(f"../membalancer-paper/js_membalancer_anal.png", bbox_inches='tight')
+        	plt.clf()
+        	
+    gen_tex_table.main(tex_table_membalancer_dir, tex_table_baseline_dir)
 for name in glob.glob('log/**/score', recursive=True):
     pass # todo: write commit upload
 
