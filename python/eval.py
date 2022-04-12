@@ -196,7 +196,7 @@ cfg_browser = {
     "DEBUG": True,
     "NAME": "browser",
     "MEMORY_LIMIT": 10000,
-    "BENCH": NONDET(*choose_one),
+    "BENCH": NONDET(*choose_three),
     "BALANCER_CFG": BALANCER_CFG
 }
 
