@@ -53,15 +53,29 @@ def write_tex(tex_str, path):
 		tex_file.write(tex_str)
 
 
+# def get_optimal_table(data):
+# 	
+# 	for each_row in data:
+# 		for each_pgm in each_row:
+# 			if each_pgm["name"] == "pdfjs.js":
+# 				if each_pgm["mem_diff"] <= 55 and each_pgm["mem_diff"] >= 45:
+# 					print("optimal table_data: "+ str(each_row))
+# 					return each_row
+# 	return data[0]
+	
 def get_optimal_table(data):
 	
+	min_w = 100000
+	result = data[0]
 	for each_row in data:
 		for each_pgm in each_row:
 			if each_pgm["name"] == "pdfjs.js":
-				if each_pgm["mem_diff"] <= 55 and each_pgm["mem_diff"] >= 45:
-					print("optimal table_data: "+ str(each_row))
-					return each_row
-	return data[0]
+				diff_w = abs(each_pgm["mem_diff"] - 50)
+				if diff_w < min_w:
+					result = each_row
+					min_w = diff_w
+	print("optimal table_data: "+ str(result))
+	return result
 
 def get_tex_data(dirname):
 	with open(dirname+"/tex_data") as f:
