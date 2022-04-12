@@ -152,8 +152,11 @@ with dominate.document(title='Plot') as doc:
             plt.hist(improvement_over_baseline, [x * bin_width for x in range(bin_start, bin_stop + 1)], ec='black')
             plt.axvline(x=0, color="black")
             def format_sigma(x, pos):
-                sigma = '\u03C3'
-                return ("+" if x > 0 else "") + str(x) + sigma
+                if x == 0:
+                    return "baseline"
+                else:
+                    sigma = '\u03C3'
+                    return ("+" if x > 0 else "") + str(x) + sigma
             plt.gca().xaxis.set_major_formatter(format_sigma)
             plt.savefig(str(path.joinpath("sd.png")), bbox_inches='tight')
             plt.clf()
