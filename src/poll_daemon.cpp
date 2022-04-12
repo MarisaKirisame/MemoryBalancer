@@ -425,8 +425,8 @@ struct ConnectionState {
 	data["name"] = name;
 	data["extra_mem"] = extra_memory()/1e6;
 	data["max_mem"] = max_memory/1e6;
-	data["gc_rate"] = garbage_rate()/1e3;
-	data["gc_speed"] = gc_speed()/1e3;
+	data["gc_rate"] = garbage_rate()*1e3;
+	data["gc_speed"] = gc_speed()*1e3;
 	data["mem_diff"] = (max_memory - extra_memory())/1e6;
 	return data;
   }

@@ -47,7 +47,7 @@ def combine(membalancer_data, baseline_data, membalancer_dir, baseline_dir):
 		tex_data[name] = {}
 		tex_data[name]["w"] = data["mem_diff"]
 		tex_data[name]["g"] = data["gc_rate"]
-		tex_data[name]["c"] = data["gc_speed"]
+		tex_data[name]["s"] = data["gc_speed"]
 		tex_data[name]["membalancer_exta_mem"] = data["extra_mem"]
 		tex_data[name]["membalancer_dir"] = membalancer_dir
 		
@@ -58,18 +58,22 @@ def combine(membalancer_data, baseline_data, membalancer_dir, baseline_dir):
 	
 def convert_to_tex(data):
 	tex_str = ""
+	row = 'A'
 	for (idx, key) in enumerate(data.keys()):
-		tex_str += tex_def(idx, "name", key)
 		w = data[key]["w"]
 		g = data[key]["g"]
-		c = data[key]["c"]
+		s = data[key]["s"]
 		mb_extra = data[key]["membalancer_exta_mem"]
-		curr_extra = data[key]['membalancer_dir']
-		tex_str += tex_def('a'+idx, "w", f"{tex_fmt(w)}")
-		# tex_str += tex_def(idx, "g", f"{tex_fmt(g)}")
-# 		tex_str += tex_def(idx, "c", f"{tex_fmt(c)}")
-# 		tex_str += tex_def(idx, "mb_extra", f"{tex_fmt(mb_extra)}")
-# 		tex_str += tex_def(idx, "curr_extra", f"{tex_fmt(curr_extra)}")
+		curr_extra = data[key]['current_v8_extra_mem']
+		tex_str += tex_def(row, "name", key)
+		tex_str += tex_def(row, "w", f"{tex_fmt(w)}")
+		tex_str += tex_def(row, "g", f"{tex_fmt(g)}")
+		tex_str += tex_def(row, "s", f"{tex_fmt(s)}")
+		tex_str += tex_def(row, "mbextra", f"{tex_fmt(mb_extra)}")
+		tex_str += tex_def(row, "currextra", f"{tex_fmt(curr_extra)}")
+		row = ord(row)
+		row += 1
+		row = chr(row)
 	return tex_str
 
 def write_tex(tex_str, path):
