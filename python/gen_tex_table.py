@@ -64,7 +64,7 @@ def get_table_data(mb_dir, baseline_dir):
 	with open(baseline_dir+"/tex_data") as f:
 		data = []
 		for line in f.read().splitlines():
-			data = json.setformatterloads(line)
+			data = json.loads(line)
 		baseline_data = data[int(len(data)/3)]	
 	return (mb_data, baseline_data)
 	
