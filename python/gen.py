@@ -16,7 +16,7 @@ import sys
 import anal_work
 import gen_tex_table
 import paper
-from util import tex_fmt, fmt
+from util import tex_fmt, fmt, tex_def_generic
 
 from matplotlib.ticker import FormatStrFormatter
 from git_check import get_commit
@@ -36,7 +36,7 @@ else:
     eval_name = ""
 
 def tex_def(name, definition):
-    return util.tex_def(eval_name, name, definition)
+    return tex_def_generic(eval_name, name, definition)
 
 assert eval_name in [
     "", # do not generate+upload tex or plot for the paper

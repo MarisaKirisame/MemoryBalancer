@@ -6,7 +6,7 @@ import sys
 import time
 from pathlib import Path
 from collections import defaultdict
-from util import tex_def, tex_fmt
+from util import tex_def_generic, tex_fmt
 import paper
 
 SCROLL_PIX = 50
@@ -20,7 +20,7 @@ if len(sys.argv) == 1:
     print("generating tex file...")
     tex = ""
     for name in ["SCROLL_PIX", "SCROLL_SLEEP", "EVAL_SLEEP", "GMAIL_WAIT_TIME", "GMAIL_INBOX_TIME", "GMAIL_EMAIL_TIME"]:
-        tex += tex_def("SingleEval", name.replace('_', ''), f"{tex_fmt(eval(name))}")
+        tex += tex_def_generic("SingleEval", name.replace('_', ''), f"{tex_fmt(eval(name))}")
     paper.pull()
     with open(f"../membalancer-paper/single_eval.tex", "w") as tex_file:
         tex_file.write(tex)
