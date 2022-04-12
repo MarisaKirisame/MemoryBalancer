@@ -2,6 +2,7 @@ import dominate
 from dominate.tags import *
 import megaplot
 import anal_gc_log
+import matplotlib
 import matplotlib.pyplot as plt
 import os
 from pathlib import Path, PurePath
@@ -160,7 +161,7 @@ with dominate.document(title='Plot') as doc:
                 else:
                     sigma = '\u03C3'
                     return ("+" if x > 0 else "") + str(x) + sigma
-            plt.gca().xaxis.set_major_formatter(format_sigma)
+            plt.gca().xaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(format_sigma))
             plt.savefig(str(path.joinpath("sd.png")), bbox_inches='tight')
             plt.clf()
             img(src="sd.png")
