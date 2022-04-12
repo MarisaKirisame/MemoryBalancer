@@ -13,8 +13,8 @@ SCROLL_PIX = 50
 SCROLL_SLEEP = 1
 EVAL_SLEEP = 5
 GMAIL_WAIT_TIME = 5
-GMAIL_INBOX_TIME = 5
-GMAIL_EMAIL_TIME = 10
+GMAIL_INBOX_TIME = 10
+GMAIL_EMAIL_TIME = 5
 
 if len(sys.argv) == 1:
     print("generating tex file...")
@@ -325,9 +325,9 @@ def run_browser(v8_env_vars):
         while time.time() - start < duration:
             print("looping gmail")
             await page.evaluate(f'document.querySelectorAll(".zA")[{i}].click()')
-            await asyncio.sleep(GMAIL_INBOX_TIME)
-            await page.evaluate('document.querySelector(".TN.bzz.aHS-bnt").click()')
             await asyncio.sleep(GMAIL_EMAIL_TIME)
+            await page.evaluate('document.querySelector(".TN.bzz.aHS-bnt").click()')
+            await asyncio.sleep(GMAIL_INBOX_TIME)
             i += 1
     bench["gmail"] = gmail
 
