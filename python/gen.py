@@ -187,7 +187,7 @@ if eval_name == "JS":
         if cfg["BALANCER_CFG"]["BALANCE_STRATEGY"] == "ignore":
             if not found_baseline:
             	tex_table_baseline_dir = dirname
-                found_baseline = True
+            	found_baseline = True
                 anal_gc_log.main(dirname + "/", legend=False)
                 plt.xlim([0,30])
                 plt.ylim([0,400])
