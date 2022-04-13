@@ -187,7 +187,7 @@ def calculate_extreme_improvement():
         with open(name) as f:
             score = json.load(f)
             max_speedup = max(max_speedup, (bl_time / score["MAJOR_GC_TIME"]) - 1)
-            max_saving = max(max_saving, 1 - (bl_memory / score["Average(BenchmarkMemory)"]))
+            max_saving = max(max_saving, 1 - (score["Average(BenchmarkMemory)"] / bl_memory))
     global tex
     tex += tex_def("MaxSpeedup", f"{tex_fmt(max_speedup * 100)}\%")
     tex += tex_def("MaxSaving", f"{tex_fmt(max_saving * 100)}\%")
