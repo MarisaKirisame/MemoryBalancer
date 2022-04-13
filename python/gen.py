@@ -184,7 +184,7 @@ def calculate_extreme_improvement():
     max_speedup = 0
     max_saving = 0
     for name in glob.glob('log/**/score', recursive=True):
-        with open(dirname + "/score") as f:
+        with open(name) as f:
             score = json.load(f)
             max_speedup = max(max_speedup, (bl_time / score["MAJOR_GC_TIME"]) - 1)
             max_saving = max(max_saving, 1 - (bl_memory / score["Average(BenchmarkMemory)"]))
