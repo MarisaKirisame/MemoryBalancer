@@ -221,8 +221,15 @@ if eval_name == "JS":
 
 tex += tex_def("GraphHash", get_commit("./"))
 
-for name in glob.glob('log/**/score', recursive=True):
-    pass # todo: write commit upload
+for name in glob.glob('log/**/commit', recursive=True):
+    commit = None
+    with open(name) as f:
+        if commit == None:
+            commit = eval(f.read())
+        else:
+            assert commit == eval(f.read())
+    tex += tex_def("MBHash", commit["membalancer"])
+    tex += tex_def("V8Hash", commit["v8"])
 
 if eval_name != "":
     paper.pull()
