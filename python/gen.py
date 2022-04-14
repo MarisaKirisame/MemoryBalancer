@@ -229,7 +229,7 @@ for name in glob.glob('log/**/commit', recursive=True):
         else:
             assert commit == eval(f.read())
 tex += tex_def("MBHash", commit["membalancer"])
-tex += tex_def("V8Hash", commit["v8"])
+tex += tex_def("VEightHash", commit["v8"])
 
 if eval_name != "":
     paper.pull()
