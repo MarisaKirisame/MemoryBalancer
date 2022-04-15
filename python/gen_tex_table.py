@@ -118,8 +118,8 @@ def get_total_time(dir):
 	for name in glob.glob(path, recursive=True):
 		last_row = get_last_row(name)
 		name = last_row["name"]
-		total_gc_time = last_row["total_major_gc_time"]
-		total_run_time = last_row["after_time"]
+		total_gc_time = last_row["total_major_gc_time"]/1e9
+		total_run_time = last_row["after_time"]/1e9
 		data[name] = {"total_gc_time": total_gc_time, "total_run_time": total_run_time}
 	return data
 	
