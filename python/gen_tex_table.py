@@ -3,7 +3,7 @@ import os
 import statistics as stats
 import glob
 import sys
-from  util import tex_fmt, fmt
+from  util import tex_fmt, fmt, tex_fmt_bold
 TOTAL = "Total"
 def tex_def_table(row_num, col_name, definitions):
     return f"\def\{col_name}{row_num}{{{definitions}\\xspace}}\n"
@@ -80,7 +80,7 @@ def convert_to_tex(data):
 		if total_run_time_mb < total_run_time_baseline:
 			tex_str += tex_def_table(row, "mbruntime", f"{tex_fmt_bold(total_run_time_mb)}")
 			tex_str += tex_def_table(row, "baseruntime", f"{tex_fmt(total_run_time_baseline)}")
-		elif total_run_time_mb > total_run_time_baseline
+		elif total_run_time_mb > total_run_time_baseline:
 			tex_str += tex_def_table(row, "mbruntime", f"{tex_fmt(total_run_time_mb)}")
 			tex_str += tex_def_table(row, "baseruntime", f"{tex_fmt_bold(total_run_time_baseline)}")
 			
