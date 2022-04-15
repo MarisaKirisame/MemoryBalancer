@@ -111,6 +111,7 @@ for bench in m.keys():
 with dominate.document(title='Plot') as doc:
     mp = megaplot.plot(m, m.keys())
     points = mp["points"]
+    transformed_points = mp["transformed_points"]
     if "coef" in mp:
         coef = mp["coef"]
         slope, bias = coef
@@ -135,7 +136,7 @@ with dominate.document(title='Plot') as doc:
         p(f"improvement = {fmt(-baseline_deviate)} sigma")
         tex += tex_def("Improvement", f"{tex_fmt(-baseline_deviate)}\sigma")
         improvement_over_baseline = []
-        for point in points:
+        for point in transformed_points:
             assert not point.is_baseline
             improvement_over_baseline.append(get_deviate_in_sd(point.memory, point.time) - baseline_deviate)
         if len(improvement_over_baseline) > 1:
@@ -219,7 +220,8 @@ if eval_name == "JS":
             plt.clf()
     gen_tex_table.main(tex_table_membalancer_dir, tex_table_baseline_dir)
 
-tex += tex_def("GraphHash", get_commit("./"))
+if eval_name != "":
+    tex += tex_def("GraphHash", get_commit("./"))
 
 for name in glob.glob('log/**/commit', recursive=True):
     commit = None
