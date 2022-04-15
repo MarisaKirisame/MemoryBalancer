@@ -1,5 +1,6 @@
 def fmt(x):
-    return "{0:.3g}".format(x)
+	print("{0:.2f}".format(float(x)))
+	return "{0:.2f}".format(float(x))
 
 def tex_fmt(x):
     return f"\\num{{{fmt(x)}}}"
