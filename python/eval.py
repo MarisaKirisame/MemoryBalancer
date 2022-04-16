@@ -177,7 +177,7 @@ browser_c_range = [0.05, 0.1, 0.2, 0.3, 0.5, 0.7, 0.9]
 BALANCER_CFG = QUOTE(NONDET(BASELINE, BASELINE, BASELINE,
                             {
                                 "BALANCE_STRATEGY": "classic",
-                                "RESIZE_CFG": {"RESIZE_STRATEGY": "gradient", "GC_RATE_D":NONDET(*[x / -1e9 for x in browser_c_range])},
+                                "RESIZE_CFG": {"RESIZE_STRATEGY": "gradient", "GC_RATE_D":NONDET(*[x / -1e9 for x in js_c_range])},
                                 "BALANCE_FREQUENCY": 0
                             }))
 
