@@ -182,7 +182,7 @@ with open(str(path.joinpath("index.html")), "w") as f:
 if eval_name == "WEBII":
     working_frac = anal_work.main()
     tex += tex_def("WorkingFrac", f"{tex_fmt(working_frac * 100)}\%")
-    tex += tex_def("ExtraMemorySaving", f"{tex_fmt((1-x_projection)/(1-working_frac) * 100)}\%")
+    tex += tex_def("ExtraMemorySaving", f"{tex_fmt((1-1/x_projection)/(1-working_frac) * 100)}\%")
 
 def calculate_extreme_improvement():
     mp = megaplot.plot(m, m.keys()) # todo - no plot only anal
