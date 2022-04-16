@@ -37,7 +37,7 @@ def plot_c(all_c_vals, title):
             for v in val[name]:
                 plt.plot([p[0] for p in v], [p[1] for p in v], label=name)
     plt.title(title)
-    if eval_name == "JS":
+    if "JS" in title:
         plt.legend()
     filepath = "../membalancer-paper/c_plot_{}.png".format(title)
     plt.savefig(filepath, bbox_inches='tight')
