@@ -112,7 +112,7 @@ def g_fmt(x):
 	return "{0:.2g}".format(float(x))
 
 def tex_g_fmt(x):
-    return f"\\num{{{fmt(x)}}}"
+    return f"\\num{{{g_fmt(x)}}}"
 
 # as dominate do not support recursive call of document(), we have to do some weird plumbing and generate the inner doc before the outer doc.
 with dominate.document(title='Plot') as doc:
