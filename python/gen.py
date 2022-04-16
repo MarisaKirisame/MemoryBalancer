@@ -226,7 +226,7 @@ if eval_name == "JS":
             plt.savefig(f"../membalancer-paper/js_membalancer_anal.png", bbox_inches='tight')
             plt.clf()
     gen_tex_table.main(tex_table_membalancer_dir, tex_table_baseline_dir)
-    parse_gc_log.main(tex_table_membalancer_dir, tex_table_baseline_dir, "JS")
+    parse_gc_log.main([tex_table_membalancer_dir], [tex_table_baseline_dir], "JS")
 
 if eval_name != "":
     tex += tex_def("GraphHash", get_commit("./"))
