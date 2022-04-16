@@ -96,10 +96,10 @@ def plot(m, benches, *, summarize_baseline=True, reciprocal_regression=True, leg
         plt.axvline(x=1, color='k', lw=1, linestyle='-')
 
     ret = {}
-    p = "Average(PhysicalMemory)"
     p = "Average(BalancerMemory)"
     p = "Average(SizeOfObjects)"
     p = "Average(BenchmarkMemory)"
+    p = "Average(PhysicalMemory)"
 
     points = []
     transformed_points = []
