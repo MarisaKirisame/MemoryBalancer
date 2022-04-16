@@ -214,14 +214,14 @@ if eval_name == "JS":
             	tex_table_baseline_dir = dirname
             	found_baseline = True
             	anal_gc_log.main(dirname + "/", legend=False)
-            	plt.xlim([0,40])
-            	plt.ylim([0,400])
+            	plt.xlim([0, 50])
+            	plt.ylim([0, 400])
             	plt.savefig(f"../membalancer-paper/js_baseline_anal.png", bbox_inches='tight')
             	plt.clf()
         elif cfg["BALANCER_CFG"]["RESIZE_CFG"]["GC_RATE_D"] == -5e-10:
             tex_table_membalancer_dir = dirname
             anal_gc_log.main(dirname + "/", legend=False)
-            plt.xlim([0, 30])
+            plt.xlim([0, 50])
             plt.ylim([0, 400])
             plt.savefig(f"../membalancer-paper/js_membalancer_anal.png", bbox_inches='tight')
             plt.clf()
