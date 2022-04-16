@@ -19,6 +19,7 @@ import gen_tex_table
 import paper
 from util import tex_fmt, fmt, tex_def_generic
 import util
+import parse_gc_log
 
 from matplotlib.ticker import FormatStrFormatter
 from git_check import get_commit
@@ -218,6 +219,7 @@ if eval_name == "JS":
             plt.savefig(f"../membalancer-paper/js_membalancer_anal.png", bbox_inches='tight')
             plt.clf()
     gen_tex_table.main(tex_table_membalancer_dir, tex_table_baseline_dir)
+    parse_gc_log.main(tex_table_membalancer_dir, tex_table_baseline_dir)
 
 tex += tex_def("GraphHash", get_commit("./"))
 
