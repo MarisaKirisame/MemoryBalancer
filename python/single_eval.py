@@ -198,6 +198,10 @@ def env_vars_str(env_vars):
         ret = f"{k}={v} {ret}"
     return ret
 
+def hang():
+    while True:
+        pass
+
 def run_jetstream(v8_env_vars):
     command = f"""build/MemoryBalancer v8_experiment --heap-size={int(10 * 1000 * 1e6)} --log-path={result_directory+"v8_log"}""" # a very big heap size to essentially have no limit
     main_process_result = subprocess.run(f"{env_vars_str(v8_env_vars)} {command}", shell=True, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
@@ -213,6 +217,7 @@ def run_jetstream(v8_env_vars):
         else:
             print(main_process_result.stdout)
             print("UNKNOWN ERROR!")
+            hang()
     else:
         j = {}
         j["OK"] = True
