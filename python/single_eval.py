@@ -114,8 +114,14 @@ def calculate_peak(directory, property_name):
 
     return max_memory
 
+def hang():
+    while True:
+        pass
+
 def calculate_average(directory, property_name):
     ret = 0
+    print(read_memory_log_separate(directory))
+    hang()
     for logs in read_memory_log_separate(directory).values():
         acc = 0
         for log in logs:
