@@ -128,7 +128,6 @@ def calculate_average(directory, property_name):
         tmp = acc / len(logs)
         print(key, tmp)
         ret += tmp
-    hang()
     return ret
 
 # positive variation
