@@ -52,7 +52,7 @@ V8_Result run_v8(v8::Platform* platform, const std::vector<std::pair<size_t, std
       time = duration_cast<milliseconds>(end - begin).count();
     }
   }
-  auto major_gc_time = isolate->GetTotalMajorGCTime()
+  auto major_gc_time = isolate->GetTotalMajorGCTime();
   isolate->Dispose();
   return {major_gc_time, time};
 }
