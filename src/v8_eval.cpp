@@ -53,6 +53,7 @@ V8_Result run_v8(v8::Platform* platform, const std::vector<std::pair<size_t, std
     }
   }
   isolate->Dispose();
+  std::cout << "OK!" << std::endl;
   return {isolate->GetTotalMajorGCTime(), time};
 }
 
