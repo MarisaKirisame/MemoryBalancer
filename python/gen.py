@@ -19,6 +19,7 @@ import gen_tex_table
 import paper
 from util import tex_fmt, fmt, tex_def_generic
 import util
+import parse_gc_log
 
 from matplotlib.ticker import FormatStrFormatter
 from git_check import get_commit
@@ -107,10 +108,17 @@ for bench in m.keys():
         f.write(str(doc))
     subpages.append((str(bench), html_path))
 
+def g_fmt(x):
+	return "{0:.2g}".format(float(x))
+
+def tex_g_fmt(x):
+    return f"\\num{{{g_fmt(x)}}}"
+
 # as dominate do not support recursive call of document(), we have to do some weird plumbing and generate the inner doc before the outer doc.
 with dominate.document(title='Plot') as doc:
     mp = megaplot.plot(m, m.keys())
     points = mp["points"]
+    transformed_points = mp["transformed_points"]
     if "coef" in mp:
         coef = mp["coef"]
         slope, bias = coef
@@ -126,22 +134,22 @@ with dominate.document(title='Plot') as doc:
         return (y - (x * slope + bias)) / sd
     if "coef" in mp:
         y_projection = slope+bias
-        tex += tex_def("Speedup", f"{tex_fmt((y_projection-1)*100)}\%")
+        tex += tex_def("Speedup", f"{tex_fmt((1-1/y_projection)*100)}\%")
         x_projection = (1-bias)/slope
-        tex += tex_def("MemorySaving", f"{tex_fmt((1-x_projection)*100)}\%")
+        tex += tex_def("MemorySaving", f"{tex_fmt((1-1/x_projection)*100)}\%")
         p(f"{(1.0, fmt(y_projection))}")
         p(f"{(fmt(x_projection), 1.0)}")
         baseline_deviate = get_deviate_in_sd(1, 1)
         p(f"improvement = {fmt(-baseline_deviate)} sigma")
         tex += tex_def("Improvement", f"{tex_fmt(-baseline_deviate)}\sigma")
         improvement_over_baseline = []
-        for point in points:
+        for point in transformed_points:
             assert not point.is_baseline
             improvement_over_baseline.append(get_deviate_in_sd(point.memory, point.time) - baseline_deviate)
         if len(improvement_over_baseline) > 1:
             pvalue = stats.ttest_1samp(improvement_over_baseline, 0.0, alternative="greater").pvalue
-            tex += tex_def("PValue", f"{tex_fmt(pvalue)}")
-            p(f"""pvalue={fmt(pvalue)}""")
+            tex += tex_def("PValue", f"{tex_g_fmt(pvalue)}")
+            p(f"""pvalue={g_fmt(pvalue)}""")
             bin_width = 0.5
             min_improvement = min(*improvement_over_baseline)
             tex += tex_def("MaxRegress", f"{tex_fmt(-min_improvement)}\sigma")
@@ -206,7 +214,7 @@ if eval_name == "JS":
             	tex_table_baseline_dir = dirname
             	found_baseline = True
             	anal_gc_log.main(dirname + "/", legend=False)
-            	plt.xlim([0,30])
+            	plt.xlim([0,40])
             	plt.ylim([0,400])
             	plt.savefig(f"../membalancer-paper/js_baseline_anal.png", bbox_inches='tight')
             	plt.clf()
@@ -218,8 +226,10 @@ if eval_name == "JS":
             plt.savefig(f"../membalancer-paper/js_membalancer_anal.png", bbox_inches='tight')
             plt.clf()
     gen_tex_table.main(tex_table_membalancer_dir, tex_table_baseline_dir)
+    parse_gc_log.main([tex_table_membalancer_dir], [tex_table_baseline_dir], "JS")
 
-tex += tex_def("GraphHash", get_commit("./"))
+if eval_name != "":
+    tex += tex_def("GraphHash", get_commit("./"))
 
 for name in glob.glob('log/**/commit', recursive=True):
     commit = None

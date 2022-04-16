@@ -3,42 +3,62 @@ import os
 import statistics as stats
 import glob
 import sys
-from  util import tex_fmt, fmt
-
+from  util import tex_fmt, fmt, tex_fmt_bold
+TOTAL = "Total"
 def tex_def_table(row_num, col_name, definitions):
     return f"\def\{col_name}{row_num}{{{definitions}\\xspace}}\n"
 	
 def combine(membalancer_data, baseline_data, time_mb, time_baseline, membalancer_dir, baseline_dir):
-	tex_data = {}
+	tex_data = {TOTAL: {"w": 0, "g": 0, "s": 0, "membalancer_exta_mem": 0, "total_gc_time_mb": 0, "total_run_time_mb": 0, "total_gc_time_mb": 0, "total_run_time_mb": 0, "current_v8_extra_mem": 0, "total_gc_time_baseline": 0, "total_run_time_baseline": 0, "membalancer_dir": "", "baseline_dir": ""}}
 	
 	for data in membalancer_data:
 		name = data["name"]
 		tex_data[name] = {}
 		tex_data[name]["w"] = data["mem_diff"]
+		tex_data[TOTAL]["w"] += tex_data[name]["w"]
+		
 		tex_data[name]["g"] = data["gc_rate"]
+		tex_data[TOTAL]["g"] += tex_data[name]["g"]
+		
 		tex_data[name]["s"] = data["gc_speed"]
+		tex_data[TOTAL]["s"] += tex_data[name]["s"]
+		
 		tex_data[name]["membalancer_exta_mem"] = data["extra_mem"]
+		tex_data[TOTAL]["membalancer_exta_mem"] += tex_data[name]["membalancer_exta_mem"]
+		
 		tex_data[name]["membalancer_dir"] = membalancer_dir
 	
 	for name in time_mb.keys():
 		tex_data[name]["total_gc_time_mb"] = time_mb[name]["total_gc_time"]
+		tex_data[TOTAL]["total_gc_time_mb"] += tex_data[name]["total_gc_time_mb"]
+		
 		tex_data[name]["total_run_time_mb"] = time_mb[name]["total_run_time"]
+		tex_data[TOTAL]["total_run_time_mb"] += tex_data[name]["total_run_time_mb"]
 	
 	for data in baseline_data:
 		name = data["name"]
 		tex_data[name]["current_v8_extra_mem"] = data["extra_mem"]
+		tex_data[TOTAL]["current_v8_extra_mem"] += tex_data[name]["current_v8_extra_mem"]
+		
 		tex_data[name]["baseline_dir"] = baseline_dir
 		
 	for name in time_baseline.keys():
 		tex_data[name]["total_gc_time_baseline"] = time_baseline[name]["total_gc_time"]
+		tex_data[TOTAL]["total_gc_time_baseline"] += tex_data[name]["total_gc_time_baseline"]
+		
 		tex_data[name]["total_run_time_baseline"] = time_baseline[name]["total_run_time"]
+		tex_data[TOTAL]["total_run_time_baseline"] += tex_data[name]["total_run_time_baseline"]
 	return tex_data
 	
 def convert_to_tex(data):
-	one_key = list(data.keys())[0]
+	all_keys = list(data.keys())
+	all_keys.remove(TOTAL)
+	all_keys.append(TOTAL)
+	print(all_keys)
+	one_key = all_keys[0]
 	tex_str = "% membalancer_dir: "+ data[one_key]["membalancer_dir"]+ "\n % baseline_dir: "+data[one_key]["baseline_dir"]+" \n"
 	row = 'A'
-	for (idx, key) in enumerate(data.keys()):
+	for (idx, key) in enumerate(all_keys):
 		w = data[key]["w"]
 		g = data[key]["g"]
 		s = data[key]["s"]
@@ -56,10 +76,21 @@ def convert_to_tex(data):
 		tex_str += tex_def_table(row, "s", f"{tex_fmt(s)}")
 		tex_str += tex_def_table(row, "mbextra", f"{tex_fmt(mb_extra)}")
 		tex_str += tex_def_table(row, "baseextra", f"{tex_fmt(curr_extra)}")
-		tex_str += tex_def_table(row, "mbruntime", f"{tex_fmt(total_run_time_mb)}")
-		tex_str += tex_def_table(row, "mbgctime", f"{tex_fmt(total_gc_time_mb)}")
-		tex_str += tex_def_table(row, "baseruntime", f"{tex_fmt(total_run_time_baseline)}")
-		tex_str += tex_def_table(row, "basegctime", f"{tex_fmt(total_gc_time_baseline)}")
+		
+		if total_run_time_mb < total_run_time_baseline:
+			tex_str += tex_def_table(row, "mbruntime", f"{tex_fmt_bold(total_run_time_mb)}")
+			tex_str += tex_def_table(row, "baseruntime", f"{tex_fmt(total_run_time_baseline)}")
+		elif total_run_time_mb > total_run_time_baseline:
+			tex_str += tex_def_table(row, "mbruntime", f"{tex_fmt(total_run_time_mb)}")
+			tex_str += tex_def_table(row, "baseruntime", f"{tex_fmt_bold(total_run_time_baseline)}")
+			
+		if total_gc_time_mb < total_gc_time_baseline:
+			tex_str += tex_def_table(row, "mbgctime", f"{tex_fmt_bold(total_gc_time_mb)}")
+			tex_str += tex_def_table(row, "basegctime", f"{tex_fmt(total_gc_time_baseline)}")
+		elif total_gc_time_mb > total_gc_time_baseline:
+			tex_str += tex_def_table(row, "mbgctime", f"{tex_fmt(total_gc_time_mb)}")
+			tex_str += tex_def_table(row, "basegctime", f"{tex_fmt_bold(total_gc_time_baseline)}")
+		
 		row = ord(row)
 		row += 1
 		row = chr(row)

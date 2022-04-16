@@ -52,8 +52,10 @@ V8_Result run_v8(v8::Platform* platform, const std::vector<std::pair<size_t, std
       time = duration_cast<milliseconds>(end - begin).count();
     }
   }
+  auto major_gc_time = isolate->GetTotalMajorGCTime();
+  isolate->StopMB();
   isolate->Dispose();
-  return {isolate->GetTotalMajorGCTime(), time};
+  return {major_gc_time, time};
 }
 
 struct Benchmark {
@@ -81,7 +83,7 @@ void v8_experiment(v8::Platform* platform, const std::vector<char*>& args) {
   std::string sunspider_path = jetstream1_path + "sunspider/";
   std::vector<Benchmark> jetstream2_js_paths;
   std::vector<Benchmark> js_paths;
-  jetstream2_js_paths.push_back({octane_path, "splay.js", 1000});
+  jetstream2_js_paths.push_back({octane_path, "splay.js", 1500});
   jetstream2_js_paths.push_back({octane_path, "pdfjs.js", 1000});
   Signal s;
   std::vector<std::thread> threads;

@@ -102,6 +102,7 @@ def plot(m, benches, *, summarize_baseline=True, reciprocal_regression=True, leg
     p = "Average(BenchmarkMemory)"
 
     points = []
+    transformed_points = []
 
     for bench in benches:
         if summarize_baseline:
@@ -139,8 +140,6 @@ def plot(m, benches, *, summarize_baseline=True, reciprocal_regression=True, leg
                     if summarize_baseline:
                         memory /= baseline_memory
                         time /= baseline_time
-                    if reciprocal_regression:
-                        time = 1 / time
                     if balancer_cfg != BASELINE:
                         x.append(memory)
                         y.append(time)
@@ -148,23 +147,22 @@ def plot(m, benches, *, summarize_baseline=True, reciprocal_regression=True, leg
                         baseline_x.append(memory)
                         baseline_y.append(time)
                     points.append(Point(memory, time, name, balancer_cfg == BASELINE))
+                    transformed_points.append(Point(1 / memory, 1 / time, name, balancer_cfg == BASELINE))
         plt.scatter(x, y, label=bench, linewidth=0.1, s=20)
         if len(baseline_x) != 0:
             plt.scatter(baseline_x, baseline_y, label=bench, linewidth=0.1, color="orange", s=35)
     ret["points"] = points
+    ret["transformed_points"] = transformed_points
     if legend:
         plt.xlabel(p)
-        if reciprocal_regression:
-            plt.ylabel("Inversed time")
-        else:
-            plt.ylabel("Time")
+        plt.ylabel("Time")
     if reciprocal_regression and len(points) > 0:
         x = []
         y = []
         # include baseline
         memory = []
         time = []
-        for p in points:
+        for p in transformed_points:
             if not p.is_baseline:
                 x.append(p.memory)
                 y.append(p.time)
@@ -180,10 +178,10 @@ def plot(m, benches, *, summarize_baseline=True, reciprocal_regression=True, leg
             ret["coef"] = coef
             ret["sd"] = sd
             ret["se"] = se
-            ci_x = [min_memory, max_memory]
-            ci_y = poly1d_fn([min_memory, max_memory])
-            plt.plot(ci_x, ci_y, color='b')
-            plt.fill_between(ci_x, (ci_y-2*se), (ci_y+2*se), color='b', alpha=.1)
+            ci_x = np.linspace(min_memory, max_memory, 100)
+            ci_y = 1 / poly1d_fn(ci_x)
+            plt.plot(1 / ci_x, ci_y, color='b')
+            plt.fill_between(1 / ci_x, (1 / np.fmax(0.2, (poly1d_fn(ci_x) - 2*se))), (1 / (poly1d_fn(ci_x) + 2*se)), color='b', alpha=.1)
     if legend:
         plt.legend(bbox_to_anchor=(1.04, 0.5), loc="center left")
     return ret
