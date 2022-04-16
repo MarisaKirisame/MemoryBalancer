@@ -13,8 +13,11 @@ def get_data(filepath):
 
 def evaluate_c(file_data):
 	c_vals = [] #(time, c)
-	prev_w = 0
+	prev_w = None
 	for each_entry in file_data:
+		if prev_w == None:
+			prev_w = each_entry["after_memory"]
+			continue
 		g = each_entry["allocation_bytes"]/each_entry["allocation_duration"]
 		s = each_entry["gc_bytes"]/each_entry["gc_duration"]
 		m = each_entry["before_memory"]
@@ -30,10 +33,9 @@ def plot_c(all_c_vals, title):
 		plt.plot([p[0] for p in all_c_vals[name]], [p[1] for p in all_c_vals[name]], label=name)
 	plt.title(title)
 	plt.legend()
-	plt.show()
-	
-#	plt.legend()
-#	plt.show()
+	filepath = "../membalancer-paper/c_plot_{}.png".format(title)
+	plt.savefig(filepath, bbox_inches='tight')
+	plt.clf()
 	
 def parse_gc_logs(dir):
 	
@@ -45,8 +47,6 @@ def parse_gc_logs(dir):
 		all_c = evaluate_c(file_data)
 		data[name] = all_c
 	return data
-#		print(all_c)
-#		plot_c(all_c, name)
 		
 def main(mb_dir, base_dir):
 	mb_data = parse_gc_logs(mb_dir)
