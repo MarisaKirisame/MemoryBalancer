@@ -108,6 +108,12 @@ for bench in m.keys():
         f.write(str(doc))
     subpages.append((str(bench), html_path))
 
+def g_fmt(x):
+	return "{0:.2g}".format(float(x))
+
+def tex_g_fmt(x):
+    return f"\\num{{{fmt(x)}}}"
+
 # as dominate do not support recursive call of document(), we have to do some weird plumbing and generate the inner doc before the outer doc.
 with dominate.document(title='Plot') as doc:
     mp = megaplot.plot(m, m.keys())
@@ -142,8 +148,8 @@ with dominate.document(title='Plot') as doc:
             improvement_over_baseline.append(get_deviate_in_sd(point.memory, point.time) - baseline_deviate)
         if len(improvement_over_baseline) > 1:
             pvalue = stats.ttest_1samp(improvement_over_baseline, 0.0, alternative="greater").pvalue
-            tex += tex_def("PValue", f"{tex_fmt(pvalue)}")
-            p(f"""pvalue={fmt(pvalue)}""")
+            tex += tex_def("PValue", f"{tex_g_fmt(pvalue)}")
+            p(f"""pvalue={g_fmt(pvalue)}""")
             bin_width = 0.5
             min_improvement = min(*improvement_over_baseline)
             tex += tex_def("MaxRegress", f"{tex_fmt(-min_improvement)}\sigma")
