@@ -214,7 +214,7 @@ if eval_name == "JS":
             	tex_table_baseline_dir = dirname
             	found_baseline = True
             	anal_gc_log.main(dirname + "/", legend=False)
-            	plt.xlim([0,30])
+            	plt.xlim([0,40])
             	plt.ylim([0,400])
             	plt.savefig(f"../membalancer-paper/js_baseline_anal.png", bbox_inches='tight')
             	plt.clf()
@@ -226,7 +226,7 @@ if eval_name == "JS":
             plt.savefig(f"../membalancer-paper/js_membalancer_anal.png", bbox_inches='tight')
             plt.clf()
     gen_tex_table.main(tex_table_membalancer_dir, tex_table_baseline_dir)
-    parse_gc_log.main(tex_table_membalancer_dir, tex_table_baseline_dir)
+    parse_gc_log.main(tex_table_membalancer_dir, tex_table_baseline_dir, "JS")
 
 if eval_name != "":
     tex += tex_def("GraphHash", get_commit("./"))
