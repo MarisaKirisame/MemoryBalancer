@@ -174,6 +174,7 @@ BASELINE = {
 
 js_c_range = [0.01, 0.02, 0.03, 0.04, 0.05, 0.1, 0.2, 0.3, 0.5, 0.7, 0.9, 2, 3, 4]
 browser_c_range = [0.05, 0.1, 0.2, 0.3, 0.5, 0.7, 0.9]
+js_c_range = [3]
 BALANCER_CFG = QUOTE(NONDET({
                                 "BALANCE_STRATEGY": "classic",
                                 "RESIZE_CFG": {"RESIZE_STRATEGY": "gradient", "GC_RATE_D":NONDET(*[x / -1e9 for x in js_c_range])},
