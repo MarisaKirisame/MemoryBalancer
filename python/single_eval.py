@@ -119,14 +119,16 @@ def hang():
         pass
 
 def calculate_average(directory, property_name):
+    all_log = read_memory_log_separate(directory)
     ret = 0
-    print(read_memory_log_separate(directory))
-    hang()
-    for logs in read_memory_log_separate(directory).values():
+    for key, logs in all_log.items():
         acc = 0
         for log in logs:
             acc += log[property_name]
-        ret += acc / len(logs)
+        tmp = acc / len(logs)
+        print(key, tmp)
+        ret += tmp
+    hang()
     return ret
 
 # positive variation
