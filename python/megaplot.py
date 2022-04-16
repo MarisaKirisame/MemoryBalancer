@@ -181,7 +181,7 @@ def plot(m, benches, *, summarize_baseline=True, reciprocal_regression=True, leg
             ci_x = np.linspace(min_memory, max_memory, 100)
             ci_y = 1 / poly1d_fn(ci_x)
             plt.plot(1 / ci_x, ci_y, color='b')
-            plt.fill_between(1 / ci_x, (1 / (poly1d_fn(ci_x) - 2*se)), (1 / (poly1d_fn(ci_x) + 2*se)), color='b', alpha=.1)
+            plt.fill_between(1 / ci_x, (1 / np.fmax(0, (poly1d_fn(ci_x) - 2*se))), (1 / (poly1d_fn(ci_x) + 2*se)), color='b', alpha=.1)
     if legend:
         plt.legend(bbox_to_anchor=(1.04, 0.5), loc="center left")
     return ret
