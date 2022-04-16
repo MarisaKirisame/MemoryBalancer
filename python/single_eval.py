@@ -115,22 +115,13 @@ def calculate_peak(directory, property_name):
     return max_memory
 
 def calculate_average(directory, property_name):
-    logs = read_memory_log(directory)
-
-    memory_sum = 0
-    memory = 0
-    memory_breakdown = defaultdict(int)
-
-    for i in range(len(logs)):
-        l = logs[i]
-        memory -= memory_breakdown[l["source"]]
-        memory += l[property_name]
-        memory_breakdown[l["source"]] = l[property_name]
-        memory_sum += memory
-
-    if len(logs) == 0:
-        return memory_sum
-    return memory_sum / len(logs)
+    ret = 0
+    for logs in read_memory_log_separate(directory).values():
+        acc = 0
+        for log in logs:
+            acc += log[property_name]
+        ret += acc / len(logs)
+    return ret
 
 # positive variation
 def calculate_pv(directory, property_name):
