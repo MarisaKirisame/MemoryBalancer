@@ -203,7 +203,7 @@ def run_jetstream(v8_env_vars):
     main_process_result = subprocess.run(f"{env_vars_str(v8_env_vars)} {command}", shell=True, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     with open(os.path.join(result_directory, "v8_out"), "w") as f:
         f.write(main_process_result.stdout)
-    if False and main_process_result.returncode != 0:
+    if main_process_result.returncode != 0:
         if "Fatal javascript OOM" in main_process_result.stdout:
             j = {}
             j["OK"] = False
