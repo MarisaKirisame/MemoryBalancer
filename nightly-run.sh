@@ -33,6 +33,7 @@ echo "** pulling changes in MemoryBalancer"
 
 echo "** pulling changes in v8 **"
 cd ../v8/src
+git stash
 git checkout 2020-12-24
 git pull origin
 gclient sync -f --no-history
