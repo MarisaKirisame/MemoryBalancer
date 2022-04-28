@@ -39,6 +39,7 @@ git pull origin
 gclient sync -f --no-history
 cd $mem_balancer_dir
 
+
 echo "** building v8 **"
 make v8
 echo "** building memorybalancer **"
