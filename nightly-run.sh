@@ -52,6 +52,7 @@ pip3 install dominate
 
 echo "** running eval **"
 python3 python/eval.py "jetstream"
+echo "** uploading results **"
 sh python/upload.sh
 
 
