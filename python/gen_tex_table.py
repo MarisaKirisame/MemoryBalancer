@@ -4,7 +4,7 @@ import statistics as stats
 import glob
 import math
 import sys
-from  util import tex_fmt, fmt, tex_fmt_bold
+from  util import tex_fmt, fmt, tex_fmt_bold, tex_fmt, tex_def_generic, tex_fmt_int
 TOTAL = "Total"
 def tex_def_table(row_num, col_name, definitions):
     return f"\def\{col_name}{row_num}{{{definitions}\\xspace}}\n"
@@ -104,12 +104,14 @@ def write_tex(tex_str, path):
 def tex_compare_ts_splay(data):
 	splay_ts_g = math.floor(data["splay.js"]["g"]/data["typescript.js"]["g"])
 	splay_ts_s = math.floor(data["splay.js"]["s"]/data["typescript.js"]["s"])
-	splay_ts_extra_mem = math.floor(math.sqrt(splay_ts_g/splay_ts_s))
+	splay_ts_g_div_s = splay_ts_g/splay_ts_s
+	splay_ts_extra_mem = math.floor(math.sqrt(splay_ts_g_div_s))
 	
 	tex_str = ""
-	tex_str += tex_def("SplayTSg", f"{tex_fmt(splay_ts_g)}")
-	tex_str += tex_def("SplayTSs", f"{tex_fmt(splay_ts_s)}")
-	tex_str += tex_def("SplayTSExtraMem", f"{tex_fmt(splay_ts_extra_mem)}")
+	tex_str += tex_def_generic("JS", "SplayTSg", f"{tex_fmt_int(splay_ts_g)}")
+	tex_str += tex_def_generic("JS", "SplayTSs", f"{tex_fmt_int(splay_ts_s)}")
+	tex_str += tex_def_generic("JS", "SplayTSgDivs", f"{tex_fmt_int(splay_ts_g_div_s)}")
+	tex_str += tex_def_generic("JS", "SplayTSExtraMem", f"{tex_fmt_int(splay_ts_extra_mem)}")
 	return tex_str
 	
 	
