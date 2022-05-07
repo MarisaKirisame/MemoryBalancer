@@ -2,8 +2,9 @@ import json
 import os
 import statistics as stats
 import glob
+import math
 import sys
-from  util import tex_fmt, fmt, tex_fmt_bold
+from  util import tex_fmt, fmt, tex_fmt_bold, tex_fmt, tex_def_generic, tex_fmt_int
 TOTAL = "Total"
 def tex_def_table(row_num, col_name, definitions):
     return f"\def\{col_name}{row_num}{{{definitions}\\xspace}}\n"
@@ -99,6 +100,20 @@ def convert_to_tex(data):
 def write_tex(tex_str, path):
 	with open(path, "w") as tex_file:
 		tex_file.write(tex_str)
+		
+def tex_compare_ts_splay(data):
+	splay_ts_g = math.floor(data["splay.js"]["g"]/data["typescript.js"]["g"])
+	splay_ts_s = math.floor(data["splay.js"]["s"]/data["typescript.js"]["s"])
+	splay_ts_g_div_s = splay_ts_g/splay_ts_s
+	splay_ts_extra_mem = math.floor(math.sqrt(splay_ts_g_div_s))
+	
+	tex_str = ""
+	tex_str += tex_def_generic("JS", "SplayTSg", f"{tex_fmt_int(splay_ts_g)}")
+	tex_str += tex_def_generic("JS", "SplayTSs", f"{tex_fmt_int(splay_ts_s)}")
+	tex_str += tex_def_generic("JS", "SplayTSgDivs", f"{tex_fmt_int(splay_ts_g_div_s)}")
+	tex_str += tex_def_generic("JS", "SplayTSExtraMem", f"{tex_fmt_int(splay_ts_extra_mem)}")
+	return tex_str
+	
 	
 def get_optimal_table(data):
 	
@@ -161,6 +176,7 @@ def main(membalancer_log_dir, baseline_log_dir):
 	
 	combined_data = combine(data_mb, data_baseline, time_mb, time_baseline, membalancer_log_dir, baseline_log_dir)
 	converted_tex = convert_to_tex(combined_data)
+	converted_tex += tex_compare_ts_splay(combined_data)
 	write_tex(converted_tex, "../membalancer-paper/js_table.tex")
 	
 if __name__ == "__main__":
