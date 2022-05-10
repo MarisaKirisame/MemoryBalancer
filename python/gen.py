@@ -17,10 +17,29 @@ import sys
 import anal_work
 import gen_tex_table
 import paper
+import util
 from util import tex_fmt, fmt
 
 from matplotlib.ticker import FormatStrFormatter
 from git_check import get_commit
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument("--eval_name", default="", help="name of the evaluation")
+parser.add_argument("--action", default="", help="what to do to the generated html")
+args = parser.parse_args()
+eval_name = args.eval_name
+action = args.action
+
+assert eval_name in [
+    "", # do not generate+upload tex or plot for the paper
+    "WEBI", # 1 website run
+    "WEBII", # 2 website run
+    "WEBIII", # 3 website run
+    "JS", # JetStream, embedded v8
+]
+
+assert action in ["", "open", "upload"]
 
 class Counter:
     def __init__(self):
@@ -31,21 +50,8 @@ class Counter:
         self.count += 1
         return ret
 
-if len(sys.argv) > 1:
-    eval_name = sys.argv[1]
-else:
-    eval_name = ""
-
 def tex_def(name, definition):
     return util.tex_def(eval_name, name, definition)
-
-assert eval_name in [
-    "", # do not generate+upload tex or plot for the paper
-    "WEBI", # 1 website run
-    "WEBII", # 2 website run
-    "WEBIII", # 3 website run
-    "JS", # JetStream, embedded v8
-]
 
 tex = ""
 
@@ -233,4 +239,7 @@ if eval_name != "":
     shutil.copy(f"out/{dir}/sd.png", f"../membalancer-paper/{eval_name}_sd.png")
     paper.push()
 
-os.system(f"xdg-open {path.joinpath('index.html')}")
+if action == "open":
+    os.system(f"xdg-open {path.joinpath('index.html')}")
+elif action == "upload":
+    pass
