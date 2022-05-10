@@ -229,12 +229,15 @@ tex += tex_def("GraphHash", get_commit("./"))
 for name in glob.glob('log/**/score', recursive=True):
     pass # todo: write commit upload
 
+dir = sorted(os.listdir("out"))[-1]
+print(dir)
+print(str(path))
+raise
+
 if eval_name != "":
     paper.pull()
     with open(f"../membalancer-paper/{eval_name}.tex", "w") as tex_file:
         tex_file.write(tex)
-
-    dir = sorted(os.listdir("out"))[-1]
     shutil.copy(f"out/{dir}/plot.png", f"../membalancer-paper/{eval_name}_pareto.png")
     shutil.copy(f"out/{dir}/sd.png", f"../membalancer-paper/{eval_name}_sd.png")
     paper.push()
@@ -242,4 +245,6 @@ if eval_name != "":
 if action == "open":
     os.system(f"xdg-open {path.joinpath('index.html')}")
 elif action == "upload":
+    server_name = "uwplse.org:/var/www/membalancer"
+    os.system(f"scp -r {out/dir} {server_name}")
     pass
