@@ -62,8 +62,6 @@ def anal_log():
         dirname = os.path.dirname(name)
         with open(dirname + "/score") as f:
             score = json.load(f)
-            if score["Average(PhysicalMemory)"] > 300e6:
-                continue
         with open(dirname + "/cfg") as f:
             cfg = eval(f.read())
         data.append((score, cfg, name))

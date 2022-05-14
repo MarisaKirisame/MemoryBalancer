@@ -137,7 +137,7 @@ BASELINE = {
     "BALANCE_FREQUENCY": 0
 }
 
-js_c_range = [0.04, 0.05, 0.1, 0.2, 0.3, 0.5, 0.7, 0.9, 2, 3, 4]
+js_c_range = [0.5, 0.7, 0.9, 2, 3, 4] * 2
 js_c_range.reverse()
 browser_c_range = [0.05, 0.1, 0.2, 0.3, 0.5, 0.7, 0.9]
 BALANCER_CFG = QUOTE(NONDET({
