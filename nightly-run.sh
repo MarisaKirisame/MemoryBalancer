@@ -31,12 +31,16 @@ git submodule update
 git submodule sync
 echo "** pulling changes in MemoryBalancer"
 
+
+
 echo "** pulling changes in v8 **"
 cd ../v8/src
+git stash
 git checkout 2020-12-24
 git pull origin
 gclient sync -f --no-history
 cd $mem_balancer_dir
+
 
 echo "** building v8 **"
 make v8
@@ -48,8 +52,8 @@ pip3 install dominate
 
 echo "** running eval **"
 python3 python/eval.py "jetstream"
+echo "** uploading results **"
 sh python/upload.sh
-
 
 
 # echo "**Running gclient sync**"

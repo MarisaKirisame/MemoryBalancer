@@ -172,12 +172,14 @@ BASELINE = {
     "BALANCE_FREQUENCY": 0
 }
 
-BALANCER_CFG = QUOTE(NONDET(BASELINE, BASELINE, BASELINE,
-                            {
+js_c_range = [0.01, 0.02, 0.03, 0.04, 0.05, 0.1, 0.2, 0.3, 0.5, 0.7, 0.9, 2, 3, 4]
+js_c_range.reverse()
+browser_c_range = [0.05, 0.1, 0.2, 0.3, 0.5, 0.7, 0.9]
+BALANCER_CFG = QUOTE(NONDET({
                                 "BALANCE_STRATEGY": "classic",
-                                "RESIZE_CFG": {"RESIZE_STRATEGY": "gradient", "GC_RATE_D":NONDET(*[x / -1e9for x in [0.05, 0.1, 0.2, 0.3, 0.5, 0.7, 0.9]])},
+                                "RESIZE_CFG": {"RESIZE_STRATEGY": "gradient", "GC_RATE_D":NONDET(*[x / -1e9 for x in js_c_range])},
                                 "BALANCE_FREQUENCY": 0
-                            }))
+                            }, BASELINE, BASELINE, BASELINE))
 
 if 1 < len(sys.argv):
     mode = sys.argv[1]
@@ -188,6 +190,7 @@ else:
 # reddit is removed because the ip got banned
 # medium is removed because it allocate little memory in rare fashion
 bench = ["twitter", "cnn", "espn", "facebook", "gmail", "foxnews"]
+choose_one = [(x,) for x in bench]
 choose_two = [(x, y) for x in bench for y in bench if x != y]
 choose_three = [random.sample(bench, 3) for _ in range(30)]
 cfg_browser = {
@@ -195,9 +198,7 @@ cfg_browser = {
     "DEBUG": True,
     "NAME": "browser",
     "MEMORY_LIMIT": 10000,
-    "BENCH": NONDET(*choose_two),
-    #"BENCH": ["twitter"],
-    #"BENCH": NONDET(*[[x] for x in bench]),
+    "BENCH": NONDET(*choose_three),
     "BALANCER_CFG": BALANCER_CFG
 }
 

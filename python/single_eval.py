@@ -6,21 +6,21 @@ import sys
 import time
 from pathlib import Path
 from collections import defaultdict
-from util import tex_def, tex_fmt
+from util import tex_def_generic, tex_fmt
 import paper
 
 SCROLL_PIX = 50
 SCROLL_SLEEP = 1
 EVAL_SLEEP = 5
 GMAIL_WAIT_TIME = 5
-GMAIL_INBOX_TIME = 5
-GMAIL_EMAIL_TIME = 10
+GMAIL_INBOX_TIME = 10
+GMAIL_EMAIL_TIME = 5
 
 if len(sys.argv) == 1:
     print("generating tex file...")
     tex = ""
     for name in ["SCROLL_PIX", "SCROLL_SLEEP", "EVAL_SLEEP", "GMAIL_WAIT_TIME", "GMAIL_INBOX_TIME", "GMAIL_EMAIL_TIME"]:
-        tex += tex_def("SingleEval", name.replace('_', ''), f"{tex_fmt(eval(name))}")
+        tex += tex_def_generic("SingleEval", name.replace('_', ''), f"{tex_fmt(eval(name))}")
     paper.pull()
     with open(f"../membalancer-paper/single_eval.tex", "w") as tex_file:
         tex_file.write(tex)
@@ -114,23 +114,21 @@ def calculate_peak(directory, property_name):
 
     return max_memory
 
+def hang():
+    while True:
+        pass
+
 def calculate_average(directory, property_name):
-    logs = read_memory_log(directory)
-
-    memory_sum = 0
-    memory = 0
-    memory_breakdown = defaultdict(int)
-
-    for i in range(len(logs)):
-        l = logs[i]
-        memory -= memory_breakdown[l["source"]]
-        memory += l[property_name]
-        memory_breakdown[l["source"]] = l[property_name]
-        memory_sum += memory
-
-    if len(logs) == 0:
-        return memory_sum
-    return memory_sum / len(logs)
+    all_log = read_memory_log_separate(directory)
+    ret = 0
+    for key, logs in all_log.items():
+        acc = 0
+        for log in logs:
+            acc += log[property_name]
+        tmp = acc / len(logs)
+        print(key, tmp)
+        ret += tmp
+    return ret
 
 # positive variation
 def calculate_pv(directory, property_name):
@@ -198,12 +196,16 @@ def env_vars_str(env_vars):
         ret = f"{k}={v} {ret}"
     return ret
 
+def hang():
+    while True:
+        pass
+
 def run_jetstream(v8_env_vars):
     command = f"""build/MemoryBalancer v8_experiment --heap-size={int(10 * 1000 * 1e6)} --log-path={result_directory+"v8_log"}""" # a very big heap size to essentially have no limit
     main_process_result = subprocess.run(f"{env_vars_str(v8_env_vars)} {command}", shell=True, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     with open(os.path.join(result_directory, "v8_out"), "w") as f:
         f.write(main_process_result.stdout)
-    if False and main_process_result.returncode != 0:
+    if main_process_result.returncode != 0:
         if "Fatal javascript OOM" in main_process_result.stdout:
             j = {}
             j["OK"] = False
@@ -213,6 +215,7 @@ def run_jetstream(v8_env_vars):
         else:
             print(main_process_result.stdout)
             print("UNKNOWN ERROR!")
+            hang()
     else:
         j = {}
         j["OK"] = True
@@ -325,9 +328,9 @@ def run_browser(v8_env_vars):
         while time.time() - start < duration:
             print("looping gmail")
             await page.evaluate(f'document.querySelectorAll(".zA")[{i}].click()')
-            await asyncio.sleep(GMAIL_INBOX_TIME)
-            await page.evaluate('document.querySelector(".TN.bzz.aHS-bnt").click()')
             await asyncio.sleep(GMAIL_EMAIL_TIME)
+            await page.evaluate('document.querySelector(".TN.bzz.aHS-bnt").click()')
+            await asyncio.sleep(GMAIL_INBOX_TIME)
             i += 1
     bench["gmail"] = gmail
 
