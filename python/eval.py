@@ -95,41 +95,6 @@ def strip_quote(x):
         print(x)
         raise
 
-cfgs = flatten_nondet({
-    "LIMIT_MEMORY": True,
-    "DEBUG": False,
-    "NAME": "jetstream",
-    "MEMORY_LIMIT": NONDET(*[600 + 30 * i for i in range(10)]),
-    "BALANCER_CFG": NONDET({
-        "BALANCE_STRATEGY": NONDET("classic", "extra-memory", "ignore"),
-        "RESIZE_CFG": {"RESIZE_STRATEGY": "ignore"},
-        "SMOOTHING": {"TYPE": "no-smoothing"},
-        "BALANCE_FREQUENCY": 0
-    })
-}).l
-
-cfgs = flatten_nondet(NONDET({
-    "LIMIT_MEMORY": True,
-    "DEBUG": False,
-    "NAME": "jetstream",
-    "MEMORY_LIMIT": NONDET(10000),
-    "BALANCER_CFG": {
-        "BALANCE_STRATEGY": "classic",
-        "RESIZE_CFG": {"RESIZE_STRATEGY": "after-balance", "GC_RATE":NONDET(0.01, 0.015, 0.02, 0.03, 0.04, 0.06, 0.08, 0.10, 0.15, 0.2)},
-        "SMOOTHING": {"TYPE": "no-smoothing"},
-        "BALANCE_FREQUENCY": 0
-    }}, {
-        "LIMIT_MEMORY": True,
-        "DEBUG": False,
-        "NAME": "jetstream",
-        "MEMORY_LIMIT": NONDET(*[500 + 30 * i for i in range(16)], 10000),
-        "BALANCER_CFG": {
-            "BALANCE_STRATEGY": NONDET("ignore"),
-            "RESIZE_CFG": {"RESIZE_STRATEGY": "ignore"},
-            "SMOOTHING": {"TYPE": "no-smoothing"},
-            "BALANCE_FREQUENCY": 0
-        }})).l
-
 cfgs = [{
     "LIMIT_MEMORY": True,
     "DEBUG": True,
@@ -172,7 +137,7 @@ BASELINE = {
     "BALANCE_FREQUENCY": 0
 }
 
-js_c_range = [0.01, 0.02, 0.03, 0.04, 0.05, 0.1, 0.2, 0.3, 0.5, 0.7, 0.9, 2, 3, 4]
+js_c_range = [0.04, 0.05, 0.1, 0.2, 0.3, 0.5, 0.7, 0.9, 2, 3, 4]
 js_c_range.reverse()
 browser_c_range = [0.05, 0.1, 0.2, 0.3, 0.5, 0.7, 0.9]
 BALANCER_CFG = QUOTE(NONDET({
