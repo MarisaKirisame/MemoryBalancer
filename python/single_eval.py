@@ -256,7 +256,7 @@ def run_browser(v8_env_vars):
         args = ["--no-sandbox", "--disable-notifications", "--start-maximized", "--user-data-dir=./membalancer_profile"]
         args.append("--noincremental-marking")
         args.append("--no-memory-reducer")
-        browseroptions = {"headless":False, "args":args}
+        browseroptions = {"headless":True, "args":args}
         browseroptions["executablePath"] = "../chromium/src/out/Release/chrome"
 
         # we need the environment variable for headless:False, because it include stuff such for graphics such as DISPLAY.
@@ -437,9 +437,9 @@ def run_browser(v8_env_vars):
             await b.close()
 
     #for sign in and other configuration purpose
-    async def run_browser_main():
-        b = await new_browser()
-        hang()
+    #async def run_browser_main():
+    #    b = await new_browser()
+    #    hang()
 
     start = time.time()
     asyncio.get_event_loop().run_until_complete(run_browser_main())
