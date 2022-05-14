@@ -437,9 +437,9 @@ def run_browser(v8_env_vars):
             await b.close()
 
     #for sign in and other configuration purpose
-    #async def run_browser_main():
-    #    b = await new_browser()
-    #    hang()
+    async def run_browser_main():
+        b = await new_browser()
+        hang()
 
     start = time.time()
     asyncio.get_event_loop().run_until_complete(run_browser_main())
