@@ -23,6 +23,24 @@ import parse_gc_log
 
 from matplotlib.ticker import FormatStrFormatter
 from git_check import get_commit
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument("--eval_name", default="", help="name of the evaluation")
+parser.add_argument("--action", default="", help="what to do to the generated html")
+args = parser.parse_args()
+eval_name = args.eval_name
+action = args.action
+
+assert eval_name in [
+    "", # do not generate+upload tex or plot for the paper
+    "WEBI", # 1 website run
+    "WEBII", # 2 website run
+    "WEBIII", # 3 website run
+    "JS", # JetStream, embedded v8
+]
+
+assert action in ["", "open", "upload"]
 
 class Counter:
     def __init__(self):
@@ -33,21 +51,8 @@ class Counter:
         self.count += 1
         return ret
 
-if len(sys.argv) > 1:
-    eval_name = sys.argv[1]
-else:
-    eval_name = ""
-
 def tex_def(name, definition):
     return tex_def_generic(eval_name, name, definition)
-
-assert eval_name in [
-    "", # do not generate+upload tex or plot for the paper
-    "WEBI", # 1 website run
-    "WEBII", # 2 website run
-    "WEBIII", # 3 website run
-    "JS", # JetStream, embedded v8
-]
 
 tex = ""
 
@@ -241,14 +246,18 @@ for name in glob.glob('log/**/commit', recursive=True):
 tex += tex_def("MBHash", commit["membalancer"])
 tex += tex_def("VEightHash", commit["v8"])
 
+dir = str(path)
+
 if eval_name != "":
     paper.pull()
     with open(f"../membalancer-paper/{eval_name}.tex", "w") as tex_file:
         tex_file.write(tex)
-
-    dir = sorted(os.listdir("out"))[-1]
-    shutil.copy(f"out/{dir}/plot.png", f"../membalancer-paper/{eval_name}_pareto.png")
-    shutil.copy(f"out/{dir}/sd.png", f"../membalancer-paper/{eval_name}_sd.png")
+    shutil.copy(f"{dir}/plot.png", f"../membalancer-paper/{eval_name}_pareto.png")
+    shutil.copy(f"{dir}/sd.png", f"../membalancer-paper/{eval_name}_sd.png")
     paper.push()
 
-os.system(f"xdg-open {path.joinpath('index.html')}")
+if action == "open":
+    os.system(f"xdg-open {path.joinpath('index.html')}")
+elif action == "upload":
+    server_name = "uwplse.org:/var/www/membalancer"
+    os.system(f"scp -r {dir} {server_name}")

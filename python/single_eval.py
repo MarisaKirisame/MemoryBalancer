@@ -259,7 +259,7 @@ def run_browser(v8_env_vars):
         args = ["--no-sandbox", "--disable-notifications", "--start-maximized", "--user-data-dir=./membalancer_profile"]
         args.append("--noincremental-marking")
         args.append("--no-memory-reducer")
-        browseroptions = {"headless":False, "args":args}
+        browseroptions = {"headless":True, "args":args}
         browseroptions["executablePath"] = "../chromium/src/out/Release/chrome"
 
         # we need the environment variable for headless:False, because it include stuff such for graphics such as DISPLAY.
