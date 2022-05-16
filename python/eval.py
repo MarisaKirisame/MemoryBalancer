@@ -140,11 +140,19 @@ BASELINE = {
 js_c_range = [0.5, 0.7, 0.9, 2, 3] * 2
 js_c_range.reverse()
 browser_c_range = [0.05, 0.1, 0.2, 0.3, 0.5, 0.7, 0.9]
+if mode == "jetstream":
+    c_range = js_c_range
+elif mode == "browser":
+    c_range = browser_c_range
+else:
+    print(mode)
+    assert False
+
 BALANCER_CFG = QUOTE(NONDET({
-                                "BALANCE_STRATEGY": "classic",
-                                "RESIZE_CFG": {"RESIZE_STRATEGY": "gradient", "GC_RATE_D":NONDET(*[x / -1e9 for x in js_c_range])},
-                                "BALANCE_FREQUENCY": 0
-                            }, BASELINE, BASELINE, BASELINE))
+    "BALANCE_STRATEGY": "classic",
+    "RESIZE_CFG": {"RESIZE_STRATEGY": "gradient", "GC_RATE_D":NONDET(*[x / -1e9 for x in c_range])},
+    "BALANCE_FREQUENCY": 0
+}, BASELINE, BASELINE, BASELINE))
 
 if 1 < len(sys.argv):
     mode = sys.argv[1]
@@ -163,7 +171,7 @@ cfg_browser = {
     "DEBUG": True,
     "NAME": "browser",
     "MEMORY_LIMIT": 10000,
-    "BENCH": NONDET(*choose_three),
+    "BENCH": NONDET(*choose_two),
     "BALANCER_CFG": BALANCER_CFG
 }
 
