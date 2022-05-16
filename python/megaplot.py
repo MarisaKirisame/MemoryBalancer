@@ -98,8 +98,8 @@ def plot(m, benches, *, summarize_baseline=True, reciprocal_regression=True, leg
     ret = {}
     p = "Average(BalancerMemory)"
     p = "Average(SizeOfObjects)"
-    p = "Average(BenchmarkMemory)"
     p = "Average(PhysicalMemory)"
+    p = "Average(BenchmarkMemory)"
 
     points = []
     transformed_points = []
