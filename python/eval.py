@@ -95,6 +95,11 @@ def strip_quote(x):
         print(x)
         raise
 
+if 1 < len(sys.argv):
+    mode = sys.argv[1]
+else:
+    mode = "browser"
+
 cfgs = [{
     "LIMIT_MEMORY": True,
     "DEBUG": True,
@@ -153,11 +158,6 @@ BALANCER_CFG = QUOTE(NONDET({
     "RESIZE_CFG": {"RESIZE_STRATEGY": "gradient", "GC_RATE_D":NONDET(*[x / -1e9 for x in c_range])},
     "BALANCE_FREQUENCY": 0
 }, BASELINE, BASELINE, BASELINE))
-
-if 1 < len(sys.argv):
-    mode = sys.argv[1]
-else:
-    mode = "browser"
 
 # yahoo is removed as it is too flaky, and has too much variance
 # reddit is removed because the ip got banned
