@@ -260,4 +260,4 @@ if action == "open":
     os.system(f"xdg-open {path.joinpath('index.html')}")
 elif action == "upload":
     server_name = "uwplse.org:/var/www/membalancer"
-    os.system(f"scp -r {dir} {server_name}")
+    os.system(f"scp -r -C {dir} {server_name}")
