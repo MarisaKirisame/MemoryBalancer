@@ -6,7 +6,7 @@ import sys
 import time
 from pathlib import Path
 from collections import defaultdict
-from util import tex_def_generic, tex_fmt
+from util import tex_def_generic, tex_fmt, new_browser
 import paper
 
 SCROLL_PIX = 50
@@ -26,8 +26,6 @@ if len(sys.argv) == 1:
         tex_file.write(tex)
     paper.push()
     sys.exit(0)
-
-from pyppeteer import launch
 
 assert(len(sys.argv) == 3)
 cfg = eval(sys.argv[1])
@@ -255,25 +253,6 @@ def run_jetstream(v8_env_vars):
             json.dump(j, f)
 
 def run_browser(v8_env_vars):
-    async def new_browser():
-        args = ["--no-sandbox", "--disable-notifications", "--start-maximized", "--user-data-dir=./membalancer_profile"]
-        args.append("--noincremental-marking")
-        args.append("--no-memory-reducer")
-        browseroptions = {"headless":True, "args":args}
-        browseroptions["executablePath"] = "../chromium/src/out/Release/chrome"
-
-        # we need the environment variable for headless:False, because it include stuff such for graphics such as DISPLAY.
-        # todo: isolate them instead of passing the whole env var?
-        env = os.environ.copy()
-        browseroptions["env"] = {**os.environ.copy(), **v8_env_vars}
-
-        if DEBUG:
-            browseroptions["dumpio"] = True
-        b = await launch(browseroptions)
-        if len(await b.pages()) != 1:
-            await b.close()
-        return b
-
     async def new_page(browser):
         page = await browser.newPage()
         await page.setViewport({"width": 1280, "height": 1080})
@@ -423,16 +402,11 @@ def run_browser(v8_env_vars):
         while True:
             pass
 
-    # bug
-    async def two_browser_bug():
-        l = await new_browser()
-        r = await new_browser()
-
     def get_bench(bench_name):
         return bench[bench_name]
 
     async def run_browser_main():
-        b = await new_browser()
+        b = await new_browser(v8_env_vars)
         d = 180
         try:
             await asyncio.wait_for(asyncio.gather(*[get_bench(bench)(b, d) for bench in BENCH]), timeout=d*2)
@@ -471,11 +445,6 @@ with ProcessScope(subprocess.Popen(balancer_cmds, stdout=subprocess.PIPE, stderr
     if not RESIZE_STRATEGY == "ignore":
         v8_env_vars["SKIP_RECOMPUTE_LIMIT"] = "1"
         v8_env_vars["SKIP_MEMORY_REDUCER"] = "1"
-
-        #dead code as we dont do this experiment anymore.
-        #if LIMIT_MEMORY:
-        #v8_env_vars["MEMORY_LIMITER_TYPE"] = "ProcessWide"
-        #v8_env_vars["MEMORY_LIMITER_VALUE"] = str(memory_limit)
     #v8_env_vars["SKIP_INCREMENTAL_MARKING"] = "1"
     if NAME == "jetstream":
         run_jetstream(v8_env_vars)
