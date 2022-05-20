@@ -228,7 +228,7 @@ if eval_name == "JS":
         elif cfg["BALANCER_CFG"]["RESIZE_CFG"]["GC_RATE_D"] == JSCompareAt:
             if not found_compare:
                 found_compare = True
-                tex += tex_def("JSCompareAt", tex_fmt(JSCompareAt*1e9))
+                tex += tex_def("CompareAt", tex_fmt(JSCompareAt*-1e9))
                 tex_table_membalancer_dir = dirname
                 anal_gc_log.main(dirname + "/", legend=False)
                 plt.xlim([0, 50])
