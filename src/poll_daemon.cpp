@@ -21,6 +21,7 @@
 
 #include "util.hpp"
 #include "v8_util.hpp"
+#include "hyperparam.hpp"
 
 #include <cxxopts.hpp>
 
@@ -200,12 +201,6 @@ T nneg(const T& t) {
   return t;
 }
 
-// for our balancing purpose, we pretend the working memory is more then we measured.
-// this is because:
-// 0: the gc take some time to start up warm up, so gc time is not exactly an multiple of heap size
-// 1: pretending the working set is bigger allocate more memory to the beginning of the phase, which allower a quicker working set growth (which our model do not capture).
-constexpr size_t bias_in_working_memory = 5 * 1048576;
-
 // all duration is in milliseconds, and all speed is in bytes per milliseconds.
 struct ConnectionState {
   size_t wait_ack_count = 0;
@@ -249,11 +244,11 @@ struct ConnectionState {
   }
   double garbage_rate() {
     auto aabad = adjusted_allocation_bad();
-    double garbage_bytes = 1; // hack - start off with a small number to avoid nan and inf
-    double garbage_duration = 10;
+    double garbage_bytes = initial_garbage_bytes;
+    double garbage_duration = initial_garbage_duration;
     for (size_t i = get_starting_index(aabad.size()); i < aabad.size(); ++i) {
       const auto& bad = aabad[i];
-      double decay = pow(0.95, bad.second / 1000000000);
+      double decay = pow(garbage_rate_decay_per_sec, bad.second / 1000000000);
       garbage_bytes += bad.first;
       garbage_bytes *= decay;
       garbage_duration += bad.second;
@@ -271,9 +266,7 @@ struct ConnectionState {
     for (size_t i = get_starting_index(gc_bad.size()); i < gc_bad.size(); ++i) {
       const auto& bad = gc_bad[i];
       ret += bad.second;
-      ret *= 0.5;
-      // turned off smoothing
-      //ret = bad.second;
+      ret *= gc_speed_smoothing_per_sample;
     }
     return ret;
   }
@@ -285,13 +278,9 @@ struct ConnectionState {
     for (size_t i = get_starting_index(gc_bad.size()); i < gc_bad.size(); ++i) {
       const auto& bad = gc_bad[i];
       ret += bad.first;
-      ret *= 0.5;
-      // turned off smoothing
-      //ret = bad.first;
-      if (bad.first != 1) {
-        //ret += bias_in_working_memory;
-        //wtf
-      }
+      ret *= gc_speed_smoothing_per_sample;
+      // we should not add bias_in_working_memory here
+      // - this is only used in calculating gc_speed, and we should only change how size is measured.
     }
     return ret;
   }
@@ -418,14 +407,14 @@ struct ConnectionState {
     t.add(std::to_string(garbage_rate()));
     t.add(std::to_string(gc_speed()));
 	
-	nlohmann::json data;
-	data["name"] = name;
-	data["extra_mem"] = extra_memory()/1e6;
-	data["max_mem"] = max_memory/1e6;
-	data["gc_rate"] = garbage_rate()*1e3;
-	data["gc_speed"] = gc_speed()*1e3;
-	data["mem_diff"] = (max_memory - extra_memory())/1e6;
-	return data;
+    nlohmann::json data;
+    data["name"] = name;
+    data["extra_mem"] = extra_memory()/1e6;
+    data["max_mem"] = max_memory/1e6;
+    data["gc_rate"] = garbage_rate()*1e3;
+    data["gc_speed"] = gc_speed()*1e3;
+    data["mem_diff"] = (max_memory - extra_memory())/1e6;
+    return data;
   }
   double duration_utilization_rate(size_t extra_memory) {
     double mutator_duration = extra_memory / garbage_rate();
@@ -743,11 +732,11 @@ struct Balancer {
         t.endOfRow();
       }
     }
-	tex_data.push_back(data);
-	std::string tex_data_string = tex_data.dump();
-	std::ofstream tex_log(tex_path);
-	tex_log << tex_data_string;
-	  
+
+    tex_data.push_back(data);
+    std::string tex_data_string = tex_data.dump();
+    std::ofstream tex_log(tex_path);
+    tex_log << tex_data_string;
 	  
     std::cout << t << std::endl;
     std::cout << "score mse: " << st.mse << std::endl;
@@ -926,8 +915,8 @@ struct Balancer {
               // have to restrict the amount of allocation due to latency concern
               suggested_extra_memory_ = extra_memory_ + (suggested_extra_memory_ - extra_memory_) * adjust_ratio;
             }
-            suggested_extra_memory_ = std::max<size_t>(suggested_extra_memory_, 1048576 * 2);
-            size_t total_memory_ = std::max<size_t>(suggested_extra_memory_ + rr->working_memory, 1048576*10);
+            suggested_extra_memory_ = std::max<size_t>(suggested_extra_memory_, extra_memory_floor);
+            size_t total_memory_ = std::max<size_t>(suggested_extra_memory_ + rr->working_memory, total_memory_floor);
             //if (big_change(extra_memory_, suggested_extra_memory_) && (/*immediate_reclaim ||*/ rr->heap_resize_snap(suggested_extra_memory_))) {
             if (true) {
               std::string str = to_string(tagged_json("heap", total_memory_));
