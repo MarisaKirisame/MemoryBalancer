@@ -208,9 +208,10 @@ def calculate_extreme_improvement():
 if eval_name == "JS":
     calculate_extreme_improvement()
     found_baseline = False
+    found_compare = False
     tex_table_baseline_dir = None
     tex_table_membalancer_dir = None
-    JS_COMPARE_AT = -5e-10
+    JSCompareAt = -5e-10
     for name in glob.glob('log/**/score', recursive=True):
         dirname = os.path.dirname(name)
         with open(dirname + "/cfg") as f:
