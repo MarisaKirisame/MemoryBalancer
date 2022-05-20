@@ -7,6 +7,8 @@ import json
 import shutil
 import os
 from git_check import get_commit
+from util import tex_def_generic, tex_fmt
+import paper
 
 # list monad
 class NONDET:
@@ -95,46 +97,9 @@ def strip_quote(x):
         print(x)
         raise
 
-if 1 < len(sys.argv):
-    mode = sys.argv[1]
-else:
-    mode = "browser"
-
-cfgs = [{
-    "LIMIT_MEMORY": True,
-    "DEBUG": True,
-    "NAME": "browser",
-    "MEMORY_LIMIT": 10000,
-    "BALANCER_CFG": {
-        "BALANCE_STRATEGY": "ignore",
-        "RESIZE_CFG": {"RESIZE_STRATEGY": "ignore"},
-        "SMOOTHING": {"TYPE": "no-smoothing"},
-        "BALANCE_FREQUENCY": 0
-    }}]
-
-
-cfgs = flatten_nondet({
-    "LIMIT_MEMORY": True,
-    "DEBUG": True,
-    "NAME": "browser",
-    "MEMORY_LIMIT": NONDET(10000),
-    "BENCH": NONDET(["twitter"], ["twitter", "cnn"], ["twitter", "cnn", "espn"]),
-    "BALANCER_CFG": NONDET({
-        "BALANCE_STRATEGY": NONDET("ignore"),
-        "RESIZE_CFG": {"RESIZE_STRATEGY": "ignore"},
-        "SMOOTHING": {"TYPE": "no-smoothing"},
-        "BALANCE_FREQUENCY": 0
-    })}).l
-
-BALANCER_CFG = QUOTE(NONDET({
-    "BALANCE_STRATEGY": "classic",
-    "RESIZE_CFG": {"RESIZE_STRATEGY": "after-balance", "GC_RATE":NONDET(0.001, 0.002, 0.005, 0.01, 0.02, 0.04, 0.06)},
-    "BALANCE_FREQUENCY": 0
-}, {
-    "BALANCE_STRATEGY": "ignore",
-    "RESIZE_CFG": {"RESIZE_STRATEGY": "ignore"},
-    "BALANCE_FREQUENCY": 0
-}))
+assert len(sys.argv) == 2
+mode = sys.argv[1]
+assert mode in ["jetstream", "browser", "macro"]
 
 BASELINE = {
     "BALANCE_STRATEGY": "ignore",
@@ -145,6 +110,29 @@ BASELINE = {
 js_c_range = [0.5, 0.7, 0.9, 2, 3] * 2
 js_c_range.reverse()
 browser_c_range = [0.05, 0.1, 0.2, 0.3, 0.5, 0.7, 0.9]
+
+def tex_def(name, definition):
+    return tex_def_generic("", name, definition)
+
+tex = ""
+tex += tex_def("JSMinC", f"{tex_fmt(min(js_c_range))}\%/MB")
+tex += tex_def("JSMaxC", f"{tex_fmt(max(js_c_range))}\%/MB")
+tex += tex_def("WEBMinC", f"{tex_fmt(min(browser_c_range))}\%/MB")
+tex += tex_def("WEBMaxC", f"{tex_fmt(max(browser_c_range))}\%/MB")
+
+paper.pull()
+with open(f"../membalancer-paper/eval_param.tex", "w") as tex_file:
+    tex_file.write(tex)
+paper.push()
+
+if mode == "macro":
+    exit()
+    
+# yahoo is removed as it is too flaky, and has too much variance
+# reddit is removed because the ip got banned
+# medium is removed because it allocate little memory in rare fashion
+bench = ["twitter", "cnn", "espn", "facebook", "gmail", "foxnews"]
+
 if mode == "jetstream":
     c_range = js_c_range
 elif mode == "browser":
@@ -159,10 +147,6 @@ BALANCER_CFG = QUOTE(NONDET({
     "BALANCE_FREQUENCY": 0
 }, BASELINE, BASELINE, BASELINE))
 
-# yahoo is removed as it is too flaky, and has too much variance
-# reddit is removed because the ip got banned
-# medium is removed because it allocate little memory in rare fashion
-bench = ["twitter", "cnn", "espn", "facebook", "gmail", "foxnews"]
 choose_one = [(x,) for x in bench]
 choose_two = [(x, y) for x in bench for y in bench if x != y]
 choose_three = [random.sample(bench, 3) for _ in range(30)]

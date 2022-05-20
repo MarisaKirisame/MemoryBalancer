@@ -25,27 +25,27 @@ std::pair<std::vector<std::string>, std::string> split_string(const std::string&
 
 namespace nlohmann {
 
-	template <class T>
-	void to_json(nlohmann::json& j, const std::optional<T>& v)
-	{
-		if (v.has_value()) {
-			j["tag"] = "Some";
+  template <class T>
+  void to_json(nlohmann::json& j, const std::optional<T>& v)
+  {
+    if (v.has_value()) {
+      j["tag"] = "Some";
       j["value"] = *v;
     }
-		else {
+    else {
       j["tag"] = "None";
     }
-	}
-
-	template <class T>
-	void from_json(const nlohmann::json& j, std::optional<T>& v)
-	{
-		if (j["tag"] == "Some") {
+  }
+  
+  template <class T>
+  void from_json(const nlohmann::json& j, std::optional<T>& v)
+  {
+    if (j["tag"] == "Some") {
       j.at("value").get_to(*v);
     } else {
       v = std::nullopt;
     }
-	}
+  }
 } // namespace nlohmann
 
 using namespace nlohmann;

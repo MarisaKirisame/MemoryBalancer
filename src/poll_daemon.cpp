@@ -190,11 +190,8 @@ std::string gen_name() {
 
 using ByteDiffsAndDuration = std::pair<int64_t, double>;
 
-constexpr size_t average_window = 3;
-
 size_t get_starting_index(size_t len) {
   return 0;
-  return average_window > len ? 0 : len - average_window;
 }
 
 template<typename T>
