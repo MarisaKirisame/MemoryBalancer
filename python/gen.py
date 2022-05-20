@@ -211,7 +211,7 @@ if eval_name == "JS":
     found_compare = False
     tex_table_baseline_dir = None
     tex_table_membalancer_dir = None
-    JSCompareAt = -5e-10
+    JSCompareAt = -2e-9
     for name in glob.glob('log/**/score', recursive=True):
         dirname = os.path.dirname(name)
         with open(dirname + "/cfg") as f:
