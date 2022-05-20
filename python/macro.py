@@ -1,6 +1,7 @@
 import subprocess
 import json
 from util import tex_def_generic
+import paper
 
 j = json.loads(subprocess.check_output(["./build/MemoryBalancer", "macro"]))
 
