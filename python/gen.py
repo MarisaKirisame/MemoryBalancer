@@ -210,26 +210,30 @@ if eval_name == "JS":
     found_baseline = False
     tex_table_baseline_dir = None
     tex_table_membalancer_dir = None
+    JS_COMPARE_AT = -5e-10
     for name in glob.glob('log/**/score', recursive=True):
         dirname = os.path.dirname(name)
         with open(dirname + "/cfg") as f:
             cfg = eval(f.read())
         if cfg["BALANCER_CFG"]["BALANCE_STRATEGY"] == "ignore":
             if not found_baseline:
-            	tex_table_baseline_dir = dirname
             	found_baseline = True
+            	tex_table_baseline_dir = dirname
             	anal_gc_log.main(dirname + "/", legend=False)
             	plt.xlim([0, 50])
             	plt.ylim([0, 450])
             	plt.savefig(f"../membalancer-paper/js_baseline_anal.png", bbox_inches='tight')
             	plt.clf()
-        elif cfg["BALANCER_CFG"]["RESIZE_CFG"]["GC_RATE_D"] == -5e-10:
-            tex_table_membalancer_dir = dirname
-            anal_gc_log.main(dirname + "/", legend=False)
-            plt.xlim([0, 50])
-            plt.ylim([0, 450])
-            plt.savefig(f"../membalancer-paper/js_membalancer_anal.png", bbox_inches='tight')
-            plt.clf()
+        elif cfg["BALANCER_CFG"]["RESIZE_CFG"]["GC_RATE_D"] == JSCompareAt:
+            if not found_compare:
+                found_compare = True
+                tex += tex_def("JSCompareAt", tex_fmt(JSCompareAt*1e9))
+                tex_table_membalancer_dir = dirname
+                anal_gc_log.main(dirname + "/", legend=False)
+                plt.xlim([0, 50])
+                plt.ylim([0, 450])
+                plt.savefig(f"../membalancer-paper/js_membalancer_anal.png", bbox_inches='tight')
+                plt.clf()
     gen_tex_table.main(tex_table_membalancer_dir, tex_table_baseline_dir)
     parse_gc_log.main([tex_table_membalancer_dir], [tex_table_baseline_dir], "JS")
 
