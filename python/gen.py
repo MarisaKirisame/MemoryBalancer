@@ -139,11 +139,13 @@ with dominate.document(title='Plot') as doc:
         return (y - (x * slope + bias)) / sd
     if "coef" in mp:
         y_projection = slope+bias
-        tex += tex_def("Speedup", f"{tex_fmt((1-1/y_projection)*100)}\%")
+        speedup = (1-1/y_projection)
+        tex += tex_def("Speedup", f"{tex_fmt(speedup*100)}\%")
         x_projection = (1-bias)/slope
-        tex += tex_def("MemorySaving", f"{tex_fmt((1-1/x_projection)*100)}\%")
-        p(f"{(1.0, fmt(y_projection))}")
-        p(f"{(fmt(x_projection), 1.0)}")
+        memory_saving = (1-1/x_projection)
+        tex += tex_def("MemorySaving", f"{tex_fmt(memory_saving*100)}\%")
+        p(f"speedup = {fmt(speedup*100))}\%")
+        p(f"memory_saving = {fmt(memory_saving*100))}\%")
         baseline_deviate = get_deviate_in_sd(1, 1)
         p(f"improvement = {fmt(-baseline_deviate)} sigma")
         tex += tex_def("Improvement", f"{tex_fmt(-baseline_deviate)}\sigma")
