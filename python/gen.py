@@ -123,7 +123,7 @@ for bench in m.keys():
                 with tr():
                     td(round(point.memory,2))
                     td(round(point.time, 2))
-                    cfg = get_cfg_from_point(p)
+                    cfg = get_cfg_from_point(point)
                     resize_cfg = cfg["BALANCER_CFG"]["RESIZE_CFG"]
                     td("ignore" if resize_cfg["RESIZE_STRATEGY"] == "ignore" else resize_cfg["GC_RATE_D"])
                     td(a(dirname, href=gc_log_plot[bench][dirname]))
