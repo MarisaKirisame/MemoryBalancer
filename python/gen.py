@@ -107,14 +107,26 @@ for bench in m.keys():
         def sorted_by(p):
             cfg = get_cfg_from_point(p)
             resize_cfg = cfg["BALANCER_CFG"]["RESIZE_CFG"]
-            return 0 if resize_cfg["RESIZE_STRATEGY"] == "ignore" else -resize_cfg["GC_RATE_D"]
+            return 0 if resize_cfg["RESIZE_STRATEGY"] == "ignore" else 1/-resize_cfg["GC_RATE_D"]
         points.sort(key=sorted_by)
         png_path = f"{png_counter()}.png"
         plt.savefig(str(path.joinpath(png_path)), bbox_inches='tight')
         plt.clf()
         img(src=png_path)
-        for point in points:
-            li(f"{(round(point.memory,2), round(point.time, 2))} {get_cfg_from_point(point)['BALANCER_CFG']['RESIZE_CFG']} -> ", a(dirname, href=gc_log_plot[bench][dirname]))
+        with table():
+            with tr():
+                th("memory")
+                th("time")
+                th("GC_RATE_D")
+                th("link")
+            for point in points:
+                with tr():
+                    td(round(point.memory,2))
+                    td(round(point.time, 2))
+                    cfg = get_cfg_from_point(p)
+                    resize_cfg = cfg["BALANCER_CFG"]["RESIZE_CFG"]
+                    td("ignore" if resize_cfg["RESIZE_STRATEGY"] == "ignore" else resize_cfg["GC_RATE_D"])
+                    td(a(dirname, href=gc_log_plot[bench][dirname]))
     html_path = f"{html_counter()}.html"
     with open(str(path.joinpath(html_path)), "w") as f:
         f.write(str(doc))
