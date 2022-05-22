@@ -94,20 +94,27 @@ for name in glob.glob('log/**/score', recursive=True):
 
 m = megaplot.anal_log()
 
+def get_cfg_from_point(p):
+    dirname = os.path.dirname(p.name)
+    with open(dirname + "/cfg") as f:
+        return eval(f.read())
+    
 subpages = []
 for bench in m.keys():
     with dominate.document(title=str(bench)) as doc:
         mp = megaplot.plot(m, [bench], summarize_baseline=False)
         points = mp["points"]
+        def sorted_by(p):
+            cfg = get_cfg_from_point(p)
+            resize_cfg = cfg["BALANCER_CFG"]["RESIZE_CFG"]
+            return 0 if resize_cfg["RESIZE_STRATEGY"] == "ignore" else -resize_cfg["GC_RATE_D"]
+        points.sort(key=sorted_by)
         png_path = f"{png_counter()}.png"
         plt.savefig(str(path.joinpath(png_path)), bbox_inches='tight')
         plt.clf()
         img(src=png_path)
         for point in points:
-            dirname = os.path.dirname(point.name)
-            with open(dirname + "/cfg") as f:
-                cfg = eval(f.read())
-            li(f"{(round(point.memory,2), round(point.time, 2))} {cfg['BALANCER_CFG']['RESIZE_CFG']} -> ", a(dirname, href=gc_log_plot[bench][dirname]))
+            li(f"{(round(point.memory,2), round(point.time, 2))} {get_cfg_from_point(point)['BALANCER_CFG']['RESIZE_CFG']} -> ", a(dirname, href=gc_log_plot[bench][dirname]))
     html_path = f"{html_counter()}.html"
     with open(str(path.joinpath(html_path)), "w") as f:
         f.write(str(doc))
