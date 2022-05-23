@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 # #pass root dir which contains both chromium and memorybalancer
 # if [ -z $1 ]
 # 	then
@@ -19,19 +21,16 @@ rm -f /tmp/membalancer_socket
 git pull --rebase origin main
 
 mem_balancer_dir=$PWD
-set -e
+cd $mem_balancer_dir
+
 export PATH="$PWD/../depot_tools:$PATH"
-#must be in MemoryBalancer
 ./clean_log
 ./clean_out
 echo "** Pulling latest changes in MemoryBalancer and v8 **"
-cd $mem_balancer_dir
 git submodule init
 git submodule update
 git submodule sync
 echo "** pulling changes in MemoryBalancer"
-
-
 
 echo "** pulling changes in v8 **"
 cd ../v8/src
@@ -40,7 +39,6 @@ git checkout 2020-12-24
 git pull origin
 gclient sync -f --no-history
 cd $mem_balancer_dir
-
 
 echo "** building v8 **"
 make v8

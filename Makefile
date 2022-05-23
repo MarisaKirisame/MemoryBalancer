@@ -23,8 +23,3 @@ clean:
 
 nightly:
 	sh nightly-run.sh
-	# git submodule init
-	# git submodule update
-	# git submodule sync
-	# make run
-	# sh python/upload.sh logs
