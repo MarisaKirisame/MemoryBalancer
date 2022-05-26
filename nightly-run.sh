@@ -13,7 +13,7 @@ set -e
 
 #cleanup
 
-mkdir log
+mkdir -p log
 
 rm -f /tmp/membalancer_socket
 
