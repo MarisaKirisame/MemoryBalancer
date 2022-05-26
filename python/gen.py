@@ -42,6 +42,19 @@ assert eval_name in [
 
 assert action in ["", "open", "upload"]
 
+class page(dominate.document):
+    def __init__(self, path, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.path = path
+
+    def _add_to_ctx(self):
+        pass # don't add to contexts
+
+    def __exit__(self, *args):
+        super().__exit__(*args)
+        with open(str(self.path), "w") as f:
+            f.write(str(self))
+
 class Counter:
     def __init__(self):
         self.count = 0
@@ -63,14 +76,13 @@ png_counter = Counter()
 html_counter = Counter()
 txt_counter = Counter()
 
-gc_log_plot = {}
-for name in glob.glob('log/**/score', recursive=True):
-    dirname = os.path.dirname(name)
+def gen_anal_gc_log(dirname):
     with open(dirname + "/cfg") as f:
-        cfg = eval(f.read())
+        cfg = eval(f.read())["CFG"]
     with open(dirname + "/score") as f:
         score = json.load(f)
-    with dominate.document(title=dirname) as doc:
+    html_path = f"{html_counter()}.html"
+    with page(path=path.joinpath(html_path), title=dirname) as doc:
         print(dirname)
         anal_gc_log.main(dirname + "/")
         png_path = f"{png_counter()}.png"
@@ -84,24 +96,16 @@ for name in glob.glob('log/**/score', recursive=True):
                 txt_path = f"{txt_counter()}.txt"
                 shutil.copy(dirname + "/" + filename, path.joinpath(txt_path))
                 li(a(filename, href=txt_path))
-    html_path = f"{html_counter()}.html"
-    with open(str(path.joinpath(html_path)), "w") as f:
-        f.write(str(doc))
-    bench = tuple(cfg["BENCH"])
-    if bench not in gc_log_plot:
-        gc_log_plot[bench] = {}
-    gc_log_plot[bench][dirname] = html_path
-
-m = megaplot.anal_log()
+    return html_path
 
 def get_cfg_from_point(p):
     dirname = os.path.dirname(p.name)
     with open(dirname + "/cfg") as f:
-        return eval(f.read())
-    
-subpages = []
-for bench in m.keys():
-    with dominate.document(title=str(bench)) as doc:
+        return eval(f.read())["CFG"]
+
+def gen_megaplot_bench(m, bench):
+    html_path = f"{html_counter()}.html"
+    with page(path=path.joinpath(html_path), title=str(bench)) as doc:
         mp = megaplot.plot(m, [bench], summarize_baseline=False)
         points = mp["points"]
         def sorted_by(p):
@@ -123,14 +127,12 @@ for bench in m.keys():
                 with tr():
                     td(round(point.memory,2))
                     td(round(point.time, 2))
+                    dirname = os.path.dirname(point.name)
                     cfg = get_cfg_from_point(point)
                     resize_cfg = cfg["BALANCER_CFG"]["RESIZE_CFG"]
                     td("ignore" if resize_cfg["RESIZE_STRATEGY"] == "ignore" else resize_cfg["GC_RATE_D"])
-                    td(a(dirname, href=gc_log_plot[bench][dirname]))
-    html_path = f"{html_counter()}.html"
-    with open(str(path.joinpath(html_path)), "w") as f:
-        f.write(str(doc))
-    subpages.append((str(bench), html_path))
+                    td(a(dirname, href=gen_anal_gc_log(dirname)))
+    return html_path
 
 def g_fmt(x):
 	return "{0:.2g}".format(float(x))
@@ -138,72 +140,68 @@ def g_fmt(x):
 def tex_g_fmt(x):
     return f"\\num{{{g_fmt(x)}}}"
 
-# as dominate do not support recursive call of document(), we have to do some weird plumbing and generate the inner doc before the outer doc.
-with dominate.document(title='Plot') as doc:
-    mp = megaplot.plot(m, m.keys())
-    points = mp["points"]
-    transformed_points = mp["transformed_points"]
-    if "coef" in mp:
-        coef = mp["coef"]
-        slope, bias = coef
-        sd = mp["sd"]
-    png_path = f"{png_counter()}.png"
-    plt.savefig(str(path.joinpath(png_path)), bbox_inches='tight')
-    plt.clf()
-    img(src=png_path)
-    megaplot.plot(m, m.keys(), legend=False)
-    plt.savefig(str(path.joinpath("plot.png")), bbox_inches='tight')
-    plt.clf()
-    def get_deviate_in_sd(x, y):
-        return (y - (x * slope + bias)) / sd
-    if "coef" in mp:
-        y_projection = slope+bias
-        speedup = (1-1/y_projection)
-        tex += tex_def("Speedup", f"{tex_fmt(speedup*100)}\%")
-        x_projection = (1-bias)/slope
-        memory_saving = (1-1/x_projection)
-        tex += tex_def("MemorySaving", f"{tex_fmt(memory_saving*100)}\%")
-        p(f"speedup = {fmt(speedup*100)}%")
-        p(f"memory_saving = {fmt(memory_saving*100)}%")
-        baseline_deviate = get_deviate_in_sd(1, 1)
-        p(f"improvement = {fmt(-baseline_deviate)} sigma")
-        tex += tex_def("Improvement", f"{tex_fmt(-baseline_deviate)}\sigma")
-        improvement_over_baseline = []
-        for point in transformed_points:
-            assert not point.is_baseline
-            improvement_over_baseline.append(get_deviate_in_sd(point.memory, point.time) - baseline_deviate)
-        if len(improvement_over_baseline) > 1:
-            pvalue = stats.ttest_1samp(improvement_over_baseline, 0.0, alternative="greater").pvalue
-            tex += tex_def("PValue", f"{tex_g_fmt(pvalue)}")
-            p(f"""pvalue={g_fmt(pvalue)}""")
-            bin_width = 0.5
-            min_improvement = min(*improvement_over_baseline)
-            tex += tex_def("MaxRegress", f"{tex_fmt(-min_improvement)}\sigma")
-            max_improvement = max(*improvement_over_baseline)
-            tex += tex_def("MaxImprovement", f"{tex_fmt(max_improvement)}\sigma")
-            distance_from_zero = max(abs(min_improvement), abs(max_improvement))
-            #bin_start = math.floor(min_improvement / bin_width)
-            bin_start = math.floor(-distance_from_zero / bin_width)
-            #bin_stop = math.ceil(max_improvement / bin_width)
-            bin_stop = math.ceil(distance_from_zero / bin_width)
-            print((bin_start, bin_stop))
-            plt.hist(improvement_over_baseline, [x * bin_width for x in range(bin_start, bin_stop + 1)], ec='black')
-            plt.axvline(x=0, color="black")
-            def format_sigma(x, pos):
-                if x == 0:
-                    return "baseline"
-                else:
-                    sigma = '\u03C3'
-                    return ("+" if x > 0 else "") + str(x) + sigma
-            plt.gca().xaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(format_sigma))
-            plt.savefig(str(path.joinpath("sd.png")), bbox_inches='tight')
-            plt.clf()
-            img(src="sd.png")
-    for name, filepath in subpages:
-    	li(a(name, href=filepath))
+def format_sigma(x, pos):
+    if x == 0:
+        return "baseline"
+    else:
+        sigma = '\u03C3'
+        return ("+" if x > 0 else "") + str(x) + sigma
 
-with open(str(path.joinpath("index.html")), "w") as f:
-    f.write(str(doc))
+def gen_eval(d):
+    m = megaplot.anal_log(d)
+    html_path = f"{html_counter()}.html"
+    with page(path=path.joinpath(html_path), title='Plot') as doc:
+        mp = megaplot.plot(m, m.keys(), legend=False)
+        png_path = f"{png_counter()}.png"
+        plt.savefig(str(path.joinpath(png_path)), bbox_inches='tight')
+        plt.clf()
+        img(src=png_path)
+        points = mp["points"]
+        transformed_points = mp["transformed_points"]
+        if "coef" in mp:
+            coef = mp["coef"]
+            slope, bias = coef
+            sd = mp["sd"]
+            def get_deviate_in_sd(x, y):
+                return (y - (x * slope + bias)) / sd
+            y_projection = slope+bias
+            speedup = (1-1/y_projection)
+            global tex
+            tex += tex_def("Speedup", f"{tex_fmt(speedup*100)}\%")
+            x_projection = (1-bias)/slope
+            memory_saving = (1-1/x_projection)
+            tex += tex_def("MemorySaving", f"{tex_fmt(memory_saving*100)}\%")
+            p(f"speedup = {fmt(speedup*100)}%")
+            p(f"memory_saving = {fmt(memory_saving*100)}%")
+            baseline_deviate = get_deviate_in_sd(1, 1)
+            p(f"improvement = {fmt(-baseline_deviate)} sigma")
+            tex += tex_def("Improvement", f"{tex_fmt(-baseline_deviate)}\sigma")
+            improvement_over_baseline = []
+            for point in transformed_points:
+                assert not point.is_baseline
+                improvement_over_baseline.append(get_deviate_in_sd(point.memory, point.time) - baseline_deviate)
+            if len(improvement_over_baseline) > 1:
+                pvalue = stats.ttest_1samp(improvement_over_baseline, 0.0, alternative="greater").pvalue
+                tex += tex_def("PValue", f"{tex_g_fmt(pvalue)}")
+                p(f"""pvalue={g_fmt(pvalue)}""")
+                bin_width = 0.5
+                min_improvement = min(*improvement_over_baseline)
+                tex += tex_def("MaxRegress", f"{tex_fmt(-min_improvement)}\sigma")
+                max_improvement = max(*improvement_over_baseline)
+                tex += tex_def("MaxImprovement", f"{tex_fmt(max_improvement)}\sigma")
+                distance_from_zero = max(abs(min_improvement), abs(max_improvement))
+                bin_start = math.floor(-distance_from_zero / bin_width)
+                bin_stop = math.ceil(distance_from_zero / bin_width)
+                plt.hist(improvement_over_baseline, [x * bin_width for x in range(bin_start, bin_stop + 1)], ec='black')
+                plt.axvline(x=0, color="black")
+                plt.gca().xaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(format_sigma))
+                png_path = f"{png_counter()}.png"
+                plt.savefig(str(path.joinpath(png_path)), bbox_inches='tight')
+                plt.clf()
+                img(src=png_path)
+        for bench in m.keys():
+            li(a(str(bench), href=gen_megaplot_bench(m, bench)))
+    return html_path
 
 if eval_name == "WEBII":
     working_frac = anal_work.main()
@@ -225,6 +223,14 @@ def calculate_extreme_improvement():
     global tex
     tex += tex_def("MaxSpeedup", f"{tex_fmt(max_speedup * 100)}\%")
     tex += tex_def("MaxSaving", f"{tex_fmt(max_saving * 100)}\%")
+
+with page(path=path.joinpath("index.html"), title='Main') as doc:
+    d = list(Path("log/").iterdir())
+    assert len(d) == 1
+    d = d[0]
+    for dd in d.iterdir():
+        if dd.is_dir():
+            li(a(str(dd), href=gen_eval(dd)))
 
 if eval_name == "JS":
     calculate_extreme_improvement()

@@ -99,7 +99,7 @@ def strip_quote(x):
 
 assert len(sys.argv) == 2
 mode = sys.argv[1]
-assert mode in ["jetstream", "browser", "macro"]
+assert mode in ["jetstream", "browser", "all", "macro"]
 
 BASELINE = {
     "BALANCE_STRATEGY": "ignore",
@@ -127,25 +127,18 @@ paper.push()
 
 if mode == "macro":
     exit()
-    
+
 # yahoo is removed as it is too flaky, and has too much variance
 # reddit is removed because the ip got banned
 # medium is removed because it allocate little memory in rare fashion
 bench = ["twitter", "cnn", "espn", "facebook", "gmail", "foxnews"]
 
-if mode == "jetstream":
-    c_range = js_c_range
-elif mode == "browser":
-    c_range = browser_c_range
-else:
-    print(mode)
-    assert False
-
-BALANCER_CFG = QUOTE(NONDET({
-    "BALANCE_STRATEGY": "classic",
-    "RESIZE_CFG": {"RESIZE_STRATEGY": "gradient", "GC_RATE_D":NONDET(*[x / -1e9 for x in c_range])},
-    "BALANCE_FREQUENCY": 0
-}, BASELINE, BASELINE, BASELINE))
+def BALANCER_CFG(c_range):
+    return QUOTE(NONDET({
+        "BALANCE_STRATEGY": "classic",
+        "RESIZE_CFG": {"RESIZE_STRATEGY": "gradient", "GC_RATE_D":NONDET(*[x / -1e9 for x in c_range])},
+        "BALANCE_FREQUENCY": 0
+    }, BASELINE, BASELINE, BASELINE))
 
 choose_one = [(x,) for x in bench]
 choose_two = [(x, y) for x in bench for y in bench if x != y]
@@ -153,28 +146,36 @@ choose_three = [random.sample(bench, 3) for _ in range(30)]
 cfg_browser = {
     "LIMIT_MEMORY": True,
     "DEBUG": True,
-    "NAME": "browser",
+    "TYPE": "browser",
     "MEMORY_LIMIT": 10000,
-    "BENCH": NONDET(*choose_two),
-    "BALANCER_CFG": BALANCER_CFG
+    "BENCH": NONDET(*choose_one),
+    "BALANCER_CFG": BALANCER_CFG(browser_c_range)
+}
+
+eval_browser = {
+    "NAME": "browser",
+    "CFG": cfg_browser
 }
 
 cfg_jetstream = {
     "LIMIT_MEMORY": True,
     "DEBUG": True,
-    "NAME": "jetstream",
+    "TYPE": "jetstream",
     "MEMORY_LIMIT": 10000,
     "BENCH": ["pdfjs", "splay", "typescript"],
-    "BALANCER_CFG": BALANCER_CFG
+    "BALANCER_CFG": BALANCER_CFG(js_c_range)
 }
 
-if mode == "jetstream":
-	cfg = cfg_jetstream
-elif mode == "browser":
-	cfg = cfg_browser
-else:
-	print(mode)
-	assert False
+eval_jetstream = {
+    "NAME": "jetstream",
+    "CFG": cfg_jetstream
+}
+
+evaluation = []
+if mode in ["jetstream", "all"]:
+    evaluation.append(QUOTE(eval_jetstream))
+if mode in ["browser", "all"]:
+    evaluation.append(QUOTE(eval_browser))
 
 subprocess.run("make", shell=True)
 subprocess.run("autoninja -C out/Release/ chrome", shell=True, cwd="../chromium/src")
@@ -208,4 +209,4 @@ def run(config, in_path):
                 if os.path.exists(path):
                     shutil.rmtree(path)
 
-run(cfg, Path("log"))
+run(NONDET(*evaluation), Path("log"))

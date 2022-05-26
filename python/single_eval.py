@@ -28,7 +28,7 @@ if len(sys.argv) == 1:
     sys.exit(0)
 
 assert(len(sys.argv) == 3)
-cfg = eval(sys.argv[1])
+cfg = eval(sys.argv[1])["CFG"]
 result_directory = sys.argv[2] + "/"
 
 print(f"running: {cfg}")
@@ -49,7 +49,7 @@ if RESIZE_STRATEGY == "gradient":
     GC_RATE_D = RESIZE_CFG["GC_RATE_D"]
 BALANCE_FREQUENCY = BALANCER_CFG["BALANCE_FREQUENCY"]
 
-NAME = cfg["NAME"]
+TYPE = cfg["TYPE"]
 
 wait_until = "networkidle2"
 wait_until = "domcontentloaded"
@@ -194,26 +194,17 @@ def env_vars_str(env_vars):
         ret = f"{k}={v} {ret}"
     return ret
 
-def hang():
-    while True:
-        pass
-
 def run_jetstream(v8_env_vars):
     command = f"""build/MemoryBalancer v8_experiment --heap-size={int(10 * 1000 * 1e6)} --log-path={result_directory+"v8_log"}""" # a very big heap size to essentially have no limit
     main_process_result = subprocess.run(f"{env_vars_str(v8_env_vars)} {command}", shell=True, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     with open(os.path.join(result_directory, "v8_out"), "w") as f:
         f.write(main_process_result.stdout)
     if main_process_result.returncode != 0:
-        if "Fatal javascript OOM" in main_process_result.stdout:
-            j = {}
-            j["OK"] = False
-            j["CFG"] = cfg
-            with open(os.path.join(result_directory, "score"), "w") as f:
-                json.dump(j, f)
-        else:
-            print(main_process_result.stdout)
-            print("UNKNOWN ERROR!")
-            hang()
+        j = {}
+        j["OK"] = False
+        j["ERROR"] = main_process_result.stdout
+        with open(os.path.join(result_directory, "score"), "w") as f:
+            json.dump(j, f)
     else:
         j = {}
         j["OK"] = True
@@ -398,10 +389,6 @@ def run_browser(v8_env_vars):
         await page.keyboard.press('Enter');
         await asyncio.sleep(100)
 
-    def hang():
-        while True:
-            pass
-
     def get_bench(bench_name):
         return bench[bench_name]
 
@@ -412,11 +399,6 @@ def run_browser(v8_env_vars):
             await asyncio.wait_for(asyncio.gather(*[get_bench(bench)(b, d) for bench in BENCH]), timeout=d*2)
         finally:
             await b.close()
-
-    #for sign in and other configuration purpose
-    #async def run_browser_main():
-    #    b = await new_browser()
-    #    hang()
 
     start = time.time()
     asyncio.get_event_loop().run_until_complete(run_browser_main())
@@ -446,11 +428,11 @@ with ProcessScope(subprocess.Popen(balancer_cmds, stdout=subprocess.PIPE, stderr
         v8_env_vars["SKIP_RECOMPUTE_LIMIT"] = "1"
         v8_env_vars["SKIP_MEMORY_REDUCER"] = "1"
     #v8_env_vars["SKIP_INCREMENTAL_MARKING"] = "1"
-    if NAME == "jetstream":
+    if TYPE == "jetstream":
         run_jetstream(v8_env_vars)
-    elif NAME == "browser":
+    elif TYPE == "browser":
         run_browser(v8_env_vars)
     else:
         p.kill()
-        raise Exception(f"unknown benchmark name: {NAME}")
+        raise Exception(f"unknown benchmark type: {TYPE}")
     p.kill()

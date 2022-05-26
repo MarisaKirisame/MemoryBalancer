@@ -9,6 +9,8 @@ from util import FrozenDict, deep_freeze
 
 def filter_warn(x):
     score, cfg, name = x
+    if score["OK"] == False:
+        return False
     if score["MAJOR_GC_TIME"] == 0:
         print("WARNING: MAJOR_GC_TIME == 0 FOUND, FILTERING")
         return False
@@ -17,10 +19,10 @@ def filter_warn(x):
 
 BASELINE = deep_freeze({'BALANCE_STRATEGY': 'ignore', 'RESIZE_CFG': {'RESIZE_STRATEGY': 'ignore'}, 'BALANCE_FREQUENCY': 0})
 
-def anal_log():
+def anal_log(path):
     data = []
 
-    for name in glob.glob('log/**/score', recursive=True):
+    for name in glob.glob(f'{path}/**/score', recursive=True):
         dirname = os.path.dirname(name)
         with open(dirname + "/score") as f:
             score = json.load(f)
@@ -33,10 +35,10 @@ def anal_log():
     m = {}
 
     for d in data:
-        k = deep_freeze(d[1]["BENCH"])
+        k = deep_freeze(d[1]["CFG"]["BENCH"])
         if k not in m:
             m[k] = {}
-        k_k = deep_freeze(d[1]["BALANCER_CFG"])
+        k_k = deep_freeze(d[1]["CFG"]["BALANCER_CFG"])
         if k_k not in m[k]:
             m[k][k_k] = []
         m[k][k_k].append((d[0], d[2]))
@@ -149,6 +151,6 @@ def plot(m, benches, *, summarize_baseline=True, reciprocal_regression=True, leg
     return ret
 
 if __name__ == "__main__":
-    m = anal_log()
+    m = anal_log("log/")
     plot(m, m.keys())
     plt.show()

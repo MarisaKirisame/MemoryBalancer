@@ -137,7 +137,7 @@ def main(directory, legend=True):
                     memory_msg_logs.append(j["data"])
 
     with open(directory + "cfg") as f:
-        title = eval(f.read())["BALANCER_CFG"]
+        title = eval(f.read())["CFG"]["BALANCER_CFG"]
 
     print(f"{len(logs)} point in total")
     assert all(logs[i]["time"] <= logs[i+1]["time"] for i in range(len(logs)-1))
