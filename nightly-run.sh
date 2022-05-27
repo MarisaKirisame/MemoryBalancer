@@ -3,22 +3,12 @@
 set -e
 set -x
 
-# #pass root dir which contains both chromium and memorybalancer
-# if [ -z $1 ]
-# 	then
-# 		mem_balancer_dir=$PWD
-# 	else
-# 		mem_balancer_dir=$1
-# fi
-
-
 #cleanup
-
 mkdir -p log
 
 rm -f /tmp/membalancer_socket
 
-#syncing with the main branch (for custom branches)
+#sync with the main branch (for custom branches)
 git pull --rebase origin main
 
 mem_balancer_dir=$PWD
@@ -63,9 +53,3 @@ sh python/upload.sh
 #
 # echo "** building chrome **"
 # autoninja -C out/Release chrome
-
-
-#echo "**Starting eval script**"
-#cd $mem_balancer_dir
-# python3 eval.py
-#sh python/upload.sh log
