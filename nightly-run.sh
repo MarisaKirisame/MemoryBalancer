@@ -1,6 +1,7 @@
 #!/bin/bash
 
 set -e
+set -x
 
 # #pass root dir which contains both chromium and memorybalancer
 # if [ -z $1 ]
