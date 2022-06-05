@@ -40,18 +40,8 @@ pip3 install pyppeteer
 pip3 install dominate
 
 echo "** running eval **"
-python3 python/eval.py "jetstream"
-python3 python/gen.py --eval_name=JS --action=upload
-echo "** uploading results **"
-last=`ls "out" | sort -r | head -1`
-result_dir="out/$last"
-if command -v nightly-results &>/dev/null; then
-    nightly-results url "http://membalancer.uwplse.org/$last"
-    nightly-results img "http://membalancer.uwplse.org/$last/plot.png"
-fi
-./clean_log
-python3 python/eval.py "browser"
-python3 python/gen.py --eval_name=WEBII --action=upload
+python3 python/eval.py "all"
+python3 python/gen.py --action=upload
 echo "** uploading results **"
 last=`ls "out" | sort -r | head -1`
 result_dir="out/$last"
