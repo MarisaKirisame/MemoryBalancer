@@ -140,15 +140,12 @@ def BALANCER_CFG(c_range):
         "BALANCE_FREQUENCY": 0
     }, BASELINE, BASELINE, BASELINE))
 
-choose_one = [(x,) for x in bench]
-choose_two = [(x, y) for x in bench for y in bench if x != y]
-choose_three = [random.sample(bench, 3) for _ in range(30)]
 cfg_browser = {
     "LIMIT_MEMORY": True,
     "DEBUG": True,
     "TYPE": "browser",
     "MEMORY_LIMIT": 10000,
-    "BENCH": NONDET(*choose_two),
+    "BENCH": NONDET(*bench),
     "BALANCER_CFG": BALANCER_CFG(browser_c_range)
 }
 
