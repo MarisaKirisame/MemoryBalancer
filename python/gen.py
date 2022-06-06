@@ -231,7 +231,15 @@ with page(path=path.joinpath("index.html"), title='Main') as doc:
     d = d[0]
     for dd in d.iterdir():
         if dd.is_dir():
-            li(a(str(dd), href=gen_eval(dd)))
+            with open(f"{dd}/cfg", "r") as f:
+                cfg = eval(f.read())
+            name = cfg["NAME"]
+            if name == "jetstream":
+                li(a("jetstream", href=gen_eval(dd)))
+            elif name == "browser":
+                li(a("browser", href=gen_eval(dd)))
+            else:
+                raise
 
 if eval_name == "JS":
     calculate_extreme_improvement()
