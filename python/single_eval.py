@@ -208,13 +208,6 @@ def run_jetstream(v8_env_vars):
     else:
         j = {}
         j["OK"] = True
-        j["MAJOR_GC_TIME"] = calculate_total_major_gc_time(result_directory)
-        for p in ["PhysicalMemory", "SizeOfObjects", "Limit", "BenchmarkMemory"]:
-        	j[f"Peak({p})"] = calculate_peak(result_directory, p)
-        	j[f"Average({p})"] = calculate_average(result_directory, p)
-        	j[f"PV({p})"] = calculate_pv(result_directory, p)
-        j["Peak(BalancerMemory)"] = calculate_peak_balancer_memory(result_directory)
-        j["Average(BalancerMemory)"] = calculate_peak_balancer_memory(result_directory)
         with open(os.path.join(result_directory, "score"), "w") as f:
             json.dump(j, f)
         return
@@ -406,13 +399,6 @@ def run_browser(v8_env_vars):
 
     j = {}
     j["OK"] = True
-    j["MAJOR_GC_TIME"] = calculate_total_major_gc_time(result_directory)
-    for p in ["PhysicalMemory", "SizeOfObjects", "Limit", "BenchmarkMemory"]:
-        j[f"Peak({p})"] = calculate_peak(result_directory, p)
-        j[f"Average({p})"] = calculate_average(result_directory, p)
-        j[f"PV({p})"] = calculate_pv(result_directory, p)
-    j["Peak(BalancerMemory)"] = calculate_peak_balancer_memory(result_directory)
-    j["Average(BalancerMemory)"] = calculate_peak_balancer_memory(result_directory)
     j["TOTAL_TIME"] = end - start
     with open(os.path.join(result_directory, "score"), "w") as f:
         json.dump(j, f)
