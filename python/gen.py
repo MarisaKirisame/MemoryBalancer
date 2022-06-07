@@ -84,7 +84,6 @@ def gen_anal_gc_log(dirname):
         score = json.load(f)
     html_path = f"{html_counter()}.html"
     with page(path=path.joinpath(html_path), title=dirname) as doc:
-        print(dirname)
         anal_gc_log.main(dirname + "/")
         png_path = f"{png_counter()}.png"
         plt.savefig(str(path.joinpath(png_path)), bbox_inches='tight')
@@ -111,7 +110,6 @@ def gen_megaplot_bench(m, bench):
         points = mp["points"]
         def sorted_by(p):
             cfg = get_cfg_from_point(p)
-            print(cfg)
             resize_cfg = cfg["BALANCER_CFG"]["RESIZE_CFG"]
             return 0 if resize_cfg["RESIZE_STRATEGY"] == "ignore" else 1/-resize_cfg["GC_RATE_D"]
         points.sort(key=sorted_by)
