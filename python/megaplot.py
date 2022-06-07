@@ -45,6 +45,10 @@ def anal_log(path):
 
     return m
 
+class Experiment:
+    def __init__(self):
+        pass
+
 class Point:
     def __init__(self, memory, time, name, is_baseline):
         self.memory = memory

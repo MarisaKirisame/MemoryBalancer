@@ -210,31 +210,6 @@ def run_jetstream(v8_env_vars):
         j["OK"] = True
         with open(os.path.join(result_directory, "score"), "w") as f:
             json.dump(j, f)
-        return
-        v8_log_path = os.path.join(result_directory, "v8_log")
-        total_time = None
-        total_major_gc_time = None
-        peak_memory = None
-        with open(v8_log_path) as f:
-            for line in f.read().splitlines():
-                tmp = json.loads(line)
-                if tmp["type"] == "total_time":
-                    assert(total_time == None)
-                    total_time = tmp["data"]
-                elif tmp["type"] == "total_major_gc_time":
-                    assert(total_major_gc_time == None)
-                    total_major_gc_time = tmp["data"]
-                elif tmp["type"] == "peak_memory":
-                    assert(peak_memory == None)
-                    peak_memory = tmp["data"]
-        assert(peak_memory != None)
-        j["PEAK_MEMORY"] = peak_memory
-        assert(total_time != None)
-        j["TOTAL_TIME"] = total_time
-        assert(total_major_gc_time != None)
-        j["TOTAL_MAJOR_GC_TIME"] = total_major_gc_time
-        with open(os.path.join(result_directory, "score"), "w") as f:
-            json.dump(j, f)
 
 def run_browser(v8_env_vars):
     async def new_page(browser):
