@@ -53,114 +53,14 @@ TYPE = cfg["TYPE"]
 
 wait_until = "networkidle2"
 wait_until = "domcontentloaded"
+
 def report_jetstream_score():
     with open(filename) as f:
         print(f.read())
 
-def calculate_total_major_gc_time(directory):
-    total_major_gc_time = 0
-    for filename in os.listdir(directory):
-        if filename.endswith(".gc.log"):
-            with open(os.path.join(directory, filename)) as f:
-                major_gc_time = 0
-                for line in f.read().splitlines():
-                    j = json.loads(line)
-                    major_gc_time = j["total_major_gc_time"]
-                total_major_gc_time += major_gc_time
-    return total_major_gc_time
-
-def read_memory_log_separate(directory):
-    logs = {}
-    for filename in os.listdir(directory):
-        if filename.endswith(".memory.log"):
-            with open(os.path.join(directory, filename)) as f:
-                for line in f.read().splitlines():
-                    j = json.loads(line)
-                    if filename not in logs:
-                        logs[filename] = []
-                    logs[filename].append(j)
-                if filename in logs:
-                    time = j["time"] + 1
-                    j = {"source": filename, "time": time}
-                    for p in ["Limit", "PhysicalMemory", "SizeOfObjects", "BenchmarkMemory"]:
-                        j[p] = 0
-                    logs[filename].append(j)
-    return logs
-
-def read_memory_log(directory):
-    ret = []
-    for filename, logs in read_memory_log_separate(directory).items():
-        for log in logs:
-            log["source"] = filename
-            ret.append(log)
-    ret.sort(key=lambda x: x["time"])
-    return ret
-
-def calculate_peak(directory, property_name):
-    logs = read_memory_log(directory)
-
-    max_memory = 0
-    memory = 0
-    memory_breakdown = defaultdict(int)
-
-    for i in range(len(logs)):
-        l = logs[i]
-        memory -= memory_breakdown[l["source"]]
-        memory += l[property_name]
-        memory_breakdown[l["source"]] = l[property_name]
-        max_memory = max(max_memory, memory)
-
-    return max_memory
-
 def hang():
     while True:
         pass
-
-def calculate_average(directory, property_name):
-    all_log = read_memory_log_separate(directory)
-    ret = 0
-    for key, logs in all_log.items():
-        acc = 0
-        for log in logs:
-            acc += log[property_name]
-        tmp = acc / len(logs)
-        print(key, tmp)
-        ret += tmp
-    return ret
-
-# positive variation
-def calculate_pv(directory, property_name):
-    ret = 0
-    for logs in read_memory_log_separate(directory).values():
-        last = 0
-        for log in logs:
-            ret += max(0, log[property_name] - last)
-            last = log[property_name]
-    return ret
-
-def calculate_peak_balancer_memory(directory):
-    total_heap_memory = []
-    with open(os.path.join(directory, "balancer_log")) as f:
-        for line in f.read().splitlines():
-            tmp = json.loads(line)
-            if tmp["type"] == "total-memory":
-                total_heap_memory.append(tmp["data"])
-    if len(total_heap_memory) == 0:
-        return 0
-    else:
-        return max(total_heap_memory)
-
-def calculate_average_balancer_memory(directory):
-    total_heap_memory = []
-    with open(os.path.join(directory, "balancer_log")) as f:
-        for line in f.read().splitlines():
-            tmp = json.loads(line)
-            if tmp["type"] == "total-memory":
-                total_heap_memory.append(tmp["data"])
-    if len(total_heap_memory) == 0:
-        return 0
-    else:
-        return sum(total_heap_memory) / len(total_heap_memory)
 
 # weird error: terminate does not work when exception is raised. fix this.
 class ProcessScope:

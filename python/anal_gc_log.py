@@ -3,6 +3,7 @@ import sys
 from pathlib import Path
 import json
 import matplotlib.pyplot as plt
+from anal_common import *
 
 def interpol(pl, pr, x):
     plx, ply = pl
@@ -165,9 +166,8 @@ def main(directory, legend=True):
     draw_stacks(instance_list)
     if legend:
         plt.legend(bbox_to_anchor=(1.04, 0.5), loc="center left")
-    with open(directory + "score") as f:
-        score = json.load(f)
-        plt.ylim([0, (score["Average(BenchmarkMemory)"] * 2.5)/1e6])
+    r = Run(directory)
+    plt.ylim([0, (r.average_benchmark_memory() * 2.5)/1e6])
 
 if __name__ == "__main__":
     assert(len(sys.argv) == 2)

@@ -100,7 +100,7 @@ def gen_anal_gc_log(dirname):
     return html_path
 
 def get_cfg_from_point(p):
-    dirname = os.path.dirname(p.name)
+    dirname = p.name
     with open(dirname + "/cfg") as f:
         return eval(f.read())["CFG"]
 
@@ -111,6 +111,7 @@ def gen_megaplot_bench(m, bench):
         points = mp["points"]
         def sorted_by(p):
             cfg = get_cfg_from_point(p)
+            print(cfg)
             resize_cfg = cfg["BALANCER_CFG"]["RESIZE_CFG"]
             return 0 if resize_cfg["RESIZE_STRATEGY"] == "ignore" else 1/-resize_cfg["GC_RATE_D"]
         points.sort(key=sorted_by)
@@ -128,7 +129,7 @@ def gen_megaplot_bench(m, bench):
                 with tr():
                     td(round(point.memory,2))
                     td(round(point.time, 2))
-                    dirname = os.path.dirname(point.name)
+                    dirname = point.name
                     cfg = get_cfg_from_point(point)
                     resize_cfg = cfg["BALANCER_CFG"]["RESIZE_CFG"]
                     td("ignore" if resize_cfg["RESIZE_STRATEGY"] == "ignore" else resize_cfg["GC_RATE_D"])

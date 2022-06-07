@@ -6,16 +6,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from scipy import stats
 from util import FrozenDict, deep_freeze
-
-def filter_warn(x):
-    score, cfg, name = x
-    if score["OK"] == False:
-        return False
-    if score["MAJOR_GC_TIME"] == 0:
-        print("WARNING: MAJOR_GC_TIME == 0 FOUND, FILTERING")
-        return False
-    else:
-        return True
+from anal_common import *
 
 BASELINE = deep_freeze({'BALANCE_STRATEGY': 'ignore', 'RESIZE_CFG': {'RESIZE_STRATEGY': 'ignore'}, 'BALANCE_FREQUENCY': 0})
 
@@ -24,30 +15,22 @@ def anal_log(path):
 
     for name in glob.glob(f'{path}/**/score', recursive=True):
         dirname = os.path.dirname(name)
-        with open(dirname + "/score") as f:
-            score = json.load(f)
-        with open(dirname + "/cfg") as f:
-            cfg = eval(f.read())
-        data.append((score, cfg, name))
-
-    data = [x for x in data if filter_warn(x)]
+        r = Run(dirname)
+        if r.ok():
+            data.append(r)
 
     m = {}
 
-    for d in data:
-        k = deep_freeze(d[1]["CFG"]["BENCH"])
+    for r in data:
+        k = deep_freeze(r.cfg["CFG"]["BENCH"])
         if k not in m:
             m[k] = {}
-        k_k = deep_freeze(d[1]["CFG"]["BALANCER_CFG"])
+        k_k = deep_freeze(r.cfg["CFG"]["BALANCER_CFG"])
         if k_k not in m[k]:
             m[k][k_k] = []
-        m[k][k_k].append((d[0], d[2]))
+        m[k][k_k].append(r)
 
     return m
-
-class Experiment:
-    def __init__(self):
-        pass
 
 class Point:
     def __init__(self, memory, time, name, is_baseline):
@@ -64,10 +47,6 @@ def plot(m, benches, *, summarize_baseline=True, reciprocal_regression=True, leg
         plt.axvline(x=1, color='k', lw=1, linestyle='-')
 
     ret = {}
-    p = "Average(BalancerMemory)"
-    p = "Average(SizeOfObjects)"
-    p = "Average(PhysicalMemory)"
-    p = "Average(BenchmarkMemory)"
 
     points = []
     transformed_points = []
@@ -79,12 +58,10 @@ def plot(m, benches, *, summarize_baseline=True, reciprocal_regression=True, leg
                 continue
             baseline_memorys = []
             baseline_times = []
-            for score, name in m[bench][BASELINE]:
-                if p not in score:
-                    print(score)
-                memory = score[p]
+            for run in m[bench][BASELINE]:
+                memory = run.average_benchmark_memory()
                 memory /= 1e6
-                time = score["MAJOR_GC_TIME"]
+                time = run.total_major_gc_time()
                 time /= 1e9
                 baseline_memorys.append(memory)
                 baseline_times.append(time)
@@ -98,12 +75,10 @@ def plot(m, benches, *, summarize_baseline=True, reciprocal_regression=True, leg
         baseline_y = []
         for balancer_cfg in m[bench]:
             if not summarize_baseline or balancer_cfg != BASELINE:
-                for score, name in m[bench][balancer_cfg]:
-                    if p not in score:
-                        print(score)
-                    memory = score[p]
+                for run in m[bench][balancer_cfg]:
+                    memory = run.average_benchmark_memory()
                     memory /= 1e6
-                    time = score["MAJOR_GC_TIME"]
+                    time = run.total_major_gc_time()
                     time /= 1e9
                     if summarize_baseline:
                         memory /= baseline_memory
@@ -114,15 +89,15 @@ def plot(m, benches, *, summarize_baseline=True, reciprocal_regression=True, leg
                     else:
                         baseline_x.append(memory)
                         baseline_y.append(time)
-                    points.append(Point(memory, time, name, balancer_cfg == BASELINE))
-                    transformed_points.append(Point(1 / memory, 1 / time, name, balancer_cfg == BASELINE))
+                    points.append(Point(memory, time, run.dirname, balancer_cfg == BASELINE))
+                    transformed_points.append(Point(1 / memory, 1 / time, run.dirname, balancer_cfg == BASELINE))
         plt.scatter(x, y, label=bench, linewidth=0.1, s=20)
         if len(baseline_x) != 0:
             plt.scatter(baseline_x, baseline_y, label=bench, linewidth=0.1, color="orange", s=35)
     ret["points"] = points
     ret["transformed_points"] = transformed_points
     if legend:
-        plt.xlabel(p)
+        plt.xlabel("AverageBenchmarkMemory")
         plt.ylabel("Time")
     if reciprocal_regression and len(points) > 0:
         x = []
