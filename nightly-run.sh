@@ -29,8 +29,16 @@ git stash
 git checkout 2020-12-24
 git pull origin
 gclient sync -f --no-history
-cd $mem_balancer_dir
 
+echo "**pulling changes in chrome **"
+cd "../chromium/src"
+git checkout master
+git pull
+gclient sync -f --no-history
+echo "** building chrome **"
+autoninja -C out/Release chrome
+
+cd $mem_balancer_dir
 echo "** building v8 **"
 make v8
 echo "** building memorybalancer **"
@@ -49,11 +57,3 @@ if command -v nightly-results &>/dev/null; then
     nightly-results url "http://membalancer.uwplse.org/$last"
     nightly-results img "http://membalancer.uwplse.org/$last/plot.png"
 fi
-# echo "**Running gclient sync**"
-# cd "../chromium/src"
-# git checkout master
-# git pull
-# gclient sync -f --no-history
-#
-# echo "** building chrome **"
-# autoninja -C out/Release chrome

@@ -78,44 +78,52 @@ class Run:
     def ok(self):
         return self.score["OK"]
 
-    def average_benchmark_memory(self):
-        return calculate_average(self.dirname, "BenchmarkMemory")
-
-    def total_major_gc_time(self):
-        return calculate_total_major_gc_time(self.dirname)
-
 class Experiment:
     def __init__(self, runs):
+        for run in runs:
+            assert(isinstance(run, Run))
         self.runs = runs
 
-def calculate_total_major_gc_time(directory):
+    def all_dirname(self):
+        return [x.dirname for x in self.runs]
+
+    def average_benchmark_memory(self):
+        return calculate_average(self.all_dirname(), "BenchmarkMemory")
+
+    def total_major_gc_time(self):
+        return calculate_total_major_gc_time(self.all_dirname())
+
+
+def calculate_total_major_gc_time(directory_list):
     total_major_gc_time = 0
-    for filename in os.listdir(directory):
-        if filename.endswith(".gc.log"):
-            with open(os.path.join(directory, filename)) as f:
-                major_gc_time = 0
-                for line in f.read().splitlines():
-                    j = json.loads(line)
-                    major_gc_time = j["total_major_gc_time"]
-                total_major_gc_time += major_gc_time
+    for directory in directory_list:
+        for filename in os.listdir(directory):
+            if filename.endswith(".gc.log"):
+                with open(os.path.join(directory, filename)) as f:
+                    major_gc_time = 0
+                    for line in f.read().splitlines():
+                        j = json.loads(line)
+                        major_gc_time = j["total_major_gc_time"]
+                    total_major_gc_time += major_gc_time
     return total_major_gc_time
 
-def read_memory_log_separate(directory):
+def read_memory_log_separate(directory_list):
     logs = {}
-    for filename in os.listdir(directory):
-        if filename.endswith(".memory.log"):
-            with open(os.path.join(directory, filename)) as f:
-                for line in f.read().splitlines():
-                    j = json.loads(line)
-                    if filename not in logs:
-                        logs[filename] = []
-                    logs[filename].append(j)
-                if filename in logs:
-                    time = j["time"] + 1
-                    j = {"source": filename, "time": time}
-                    for p in ["Limit", "PhysicalMemory", "SizeOfObjects", "BenchmarkMemory"]:
-                        j[p] = 0
-                    logs[filename].append(j)
+    for directory in directory_list:
+        for filename in os.listdir(directory):
+            if filename.endswith(".memory.log"):
+                with open(os.path.join(directory, filename)) as f:
+                    for line in f.read().splitlines():
+                        j = json.loads(line)
+                        if filename not in logs:
+                            logs[filename] = []
+                        logs[filename].append(j)
+                    if filename in logs:
+                        time = j["time"] + 1
+                        j = {"source": filename, "time": time}
+                        for p in ["Limit", "PhysicalMemory", "SizeOfObjects", "BenchmarkMemory"]:
+                            j[p] = 0
+                        logs[filename].append(j)
     return logs
 
 def read_memory_log(directory):

@@ -123,50 +123,46 @@ class Process(Stackable):
     def stack(self, baseline):
         return stack(baseline, self.max_memory)
 
-def main(directory, legend=True):
-    memory_msg_logs = []
-
-    logs = []
-    with open(directory + "balancer_log") as f:
-        for line in f.readlines():
-            j = json.loads(line)
-            if j["type"] == "memory-msg":
-                memory_msg_logs.append(j["data"])
-            if j["type"] == "heap-stat":
-                logs.append(j["data"])
-                if j["data"]["msg-type"] == "close":
-                    memory_msg_logs.append(j["data"])
-
-    with open(directory + "cfg") as f:
-        title = eval(f.read())["CFG"]["BALANCER_CFG"]
-
-    assert all(logs[i]["time"] <= logs[i+1]["time"] for i in range(len(logs)-1))
-
-    instance_map = {}
+def main(cfg, exp, legend=True):
     instance_list = []
 
-    for l in logs:
-        name = l["name"]
-        time = l["time"]
-        time /= 1e9
-        working_memory = l["working-memory"]
-        max_memory = l["max-memory"]
-        current_memory = l["current-memory"]
-        working_memory /= 1e6
-        max_memory /= 1e6
-        current_memory /= 1e6
-        if name not in instance_map:
-            x = Process(name)
-            instance_map[name] = x
-            instance_list.append(x)
-        gc_trigger = l["msg-type"] in ["gc", "close"]
-        instance_map[name].point(time, working_memory, current_memory, max_memory, gc_trigger)
+    title = str(cfg)
+    for directory in exp.all_dirname():
+        memory_msg_logs = []
+        logs = []
+        with open(directory + "/balancer_log") as f:
+            for line in f.readlines():
+                j = json.loads(line)
+                if j["type"] == "memory-msg":
+                    memory_msg_logs.append(j["data"])
+                if j["type"] == "heap-stat":
+                    logs.append(j["data"])
+                    if j["data"]["msg-type"] == "close":
+                        memory_msg_logs.append(j["data"])
+        assert all(logs[i]["time"] <= logs[i+1]["time"] for i in range(len(logs)-1))
+
+        instance_map = {}
+        for l in logs:
+            name = l["name"]
+            time = l["time"]
+            time /= 1e9
+            working_memory = l["working-memory"]
+            max_memory = l["max-memory"]
+            current_memory = l["current-memory"]
+            working_memory /= 1e6
+            max_memory /= 1e6
+            current_memory /= 1e6
+            if name not in instance_map:
+                x = Process(name)
+                instance_map[name] = x
+                instance_list.append(x)
+            gc_trigger = l["msg-type"] in ["gc", "close"]
+            instance_map[name].point(time, working_memory, current_memory, max_memory, gc_trigger)
 
     draw_stacks(instance_list)
     if legend:
         plt.legend(bbox_to_anchor=(1.04, 0.5), loc="center left")
-    r = Run(directory)
-    plt.ylim([0, (r.average_benchmark_memory() * 2.5)/1e6])
+    plt.ylim([0, (exp.average_benchmark_memory() * 2.5)/1e6])
 
 if __name__ == "__main__":
     assert(len(sys.argv) == 2)

@@ -33,13 +33,15 @@ def anal_log(path):
     return m
 
 class Point:
-    def __init__(self, memory, time, name, is_baseline):
+    # todo: remove is_baseline. the info is in cfg.
+    def __init__(self, memory, time, cfg, exp, is_baseline):
         self.memory = memory
         self.time = time
-        self.name = name
+        self.cfg = cfg
+        self.exp = exp
         self.is_baseline = is_baseline
     def __repr__(self):
-        return f"Point{repr((self.memory, self.time, self.name, self.is_baseline))}"
+        return f"Point{repr((self.memory, self.time, self.exp, self.is_baseline))}"
 
 def plot(m, benches, *, summarize_baseline=True, reciprocal_regression=True, legend=True):
     if summarize_baseline:
@@ -58,10 +60,10 @@ def plot(m, benches, *, summarize_baseline=True, reciprocal_regression=True, leg
                 continue
             baseline_memorys = []
             baseline_times = []
-            for run in m[bench][BASELINE]:
-                memory = run.average_benchmark_memory()
+            for exp in m[bench][BASELINE]:
+                memory = exp.average_benchmark_memory()
                 memory /= 1e6
-                time = run.total_major_gc_time()
+                time = exp.total_major_gc_time()
                 time /= 1e9
                 baseline_memorys.append(memory)
                 baseline_times.append(time)
@@ -75,10 +77,10 @@ def plot(m, benches, *, summarize_baseline=True, reciprocal_regression=True, leg
         baseline_y = []
         for balancer_cfg in m[bench]:
             if not summarize_baseline or balancer_cfg != BASELINE:
-                for run in m[bench][balancer_cfg]:
-                    memory = run.average_benchmark_memory()
+                for exp in m[bench][balancer_cfg]:
+                    memory = exp.average_benchmark_memory()
                     memory /= 1e6
-                    time = run.total_major_gc_time()
+                    time = exp.total_major_gc_time()
                     time /= 1e9
                     if summarize_baseline:
                         memory /= baseline_memory
@@ -89,8 +91,8 @@ def plot(m, benches, *, summarize_baseline=True, reciprocal_regression=True, leg
                     else:
                         baseline_x.append(memory)
                         baseline_y.append(time)
-                    points.append(Point(memory, time, run.dirname, balancer_cfg == BASELINE))
-                    transformed_points.append(Point(1 / memory, 1 / time, run.dirname, balancer_cfg == BASELINE))
+                    points.append(Point(memory, time, balancer_cfg, exp, balancer_cfg == BASELINE))
+                    transformed_points.append(Point(1 / memory, 1 / time, balancer_cfg, exp, balancer_cfg == BASELINE))
         plt.scatter(x, y, label=bench, linewidth=0.1, s=20)
         if len(baseline_x) != 0:
             plt.scatter(baseline_x, baseline_y, label=bench, linewidth=0.1, color="orange", s=35)

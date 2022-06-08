@@ -21,6 +21,7 @@ from util import tex_fmt, fmt, tex_def_generic
 import util
 import parse_gc_log
 from EVAL import *
+from anal_common import Run, Experiment
 
 from matplotlib.ticker import FormatStrFormatter
 from git_check import get_commit
@@ -77,31 +78,24 @@ png_counter = Counter()
 html_counter = Counter()
 txt_counter = Counter()
 
-def gen_anal_gc_log(dirname):
-    with open(dirname + "/cfg") as f:
-        cfg = eval(f.read())["CFG"]
-    with open(dirname + "/score") as f:
-        score = json.load(f)
+def gen_anal_gc_log(cfg, exp):
     html_path = f"{html_counter()}.html"
-    with page(path=path.joinpath(html_path), title=dirname) as doc:
-        anal_gc_log.main(dirname + "/")
+    with page(path=path.joinpath(html_path), title=str(cfg)) as doc:
+        anal_gc_log.main(cfg, exp)
         png_path = f"{png_counter()}.png"
         plt.savefig(str(path.joinpath(png_path)), bbox_inches='tight')
         plt.clf()
         img(src=png_path)
         p(f"cfg = {cfg}")
-        p(f"score = {score}")
-        for filename in os.listdir(dirname):
-            if filename not in ["cfg", "score"]:
-                txt_path = f"{txt_counter()}.txt"
-                shutil.copy(dirname + "/" + filename, path.joinpath(txt_path))
-                li(a(filename, href=txt_path))
+        p(f"memory = {exp.average_benchmark_memory()}")
+        p(f"time = {exp.total_major_gc_time()}")
+        for dirname in exp.all_dirname():
+            for filename in os.listdir(dirname):
+                if filename not in ["cfg", "score"]:
+                    txt_path = f"{txt_counter()}.txt"
+                    shutil.copy(dirname + "/" + filename, path.joinpath(txt_path))
+                    li(a(filename, href=txt_path))
     return html_path
-
-def get_cfg_from_point(p):
-    dirname = p.name
-    with open(dirname + "/cfg") as f:
-        return eval(f.read())["CFG"]
 
 def gen_megaplot_bench(m, bench):
     html_path = f"{html_counter()}.html"
@@ -109,8 +103,7 @@ def gen_megaplot_bench(m, bench):
         mp = megaplot.plot(m, [bench], summarize_baseline=False)
         points = mp["points"]
         def sorted_by(p):
-            cfg = get_cfg_from_point(p)
-            resize_cfg = cfg["BALANCER_CFG"]["RESIZE_CFG"]
+            resize_cfg = p.cfg["RESIZE_CFG"]
             return 0 if resize_cfg["RESIZE_STRATEGY"] == "ignore" else 1/-resize_cfg["GC_RATE_D"]
         points.sort(key=sorted_by)
         png_path = f"{png_counter()}.png"
@@ -127,11 +120,9 @@ def gen_megaplot_bench(m, bench):
                 with tr():
                     td(round(point.memory,2))
                     td(round(point.time, 2))
-                    dirname = point.name
-                    cfg = get_cfg_from_point(point)
-                    resize_cfg = cfg["BALANCER_CFG"]["RESIZE_CFG"]
+                    resize_cfg = point.cfg["RESIZE_CFG"]
                     td("ignore" if resize_cfg["RESIZE_STRATEGY"] == "ignore" else resize_cfg["GC_RATE_D"])
-                    td(a(dirname, href=gen_anal_gc_log(dirname)))
+                    td(a(str(cfg), href=gen_anal_gc_log(cfg, point.exp)))
     return html_path
 
 def g_fmt(x):
@@ -147,8 +138,7 @@ def format_sigma(x, pos):
         sigma = '\u03C3'
         return ("+" if x > 0 else "") + str(x) + sigma
 
-def gen_eval(d):
-    m = megaplot.anal_log(d)
+def gen_eval(m):
     html_path = f"{html_counter()}.html"
     with page(path=path.joinpath(html_path), title='Plot') as doc:
         mp = megaplot.plot(m, m.keys(), legend=False)
@@ -234,9 +224,37 @@ with page(path=path.joinpath("index.html"), title='Main') as doc:
                 cfg = eval(f.read())
             name = cfg["NAME"]
             if name == "jetstream":
-                li(a("jetstream", href=gen_eval(dd)))
+                m = megaplot.anal_log(dd)
+                m_exp = {benches: {cfg: [Experiment(x) for x in aggregated_runs if len(x) == i] for cfg, aggregated_runs in per_benches_m.items()} for benches, per_batches_m in m.items()}
+                li(a("jetstream", href=gen_eval(m_exp)))
             elif name == "browser":
-                li(a("browser", href=gen_eval(dd)))
+                m = megaplot.anal_log(dd)
+                def n_choose_k(n, k):
+                    if k == 0:
+                        return ((),)
+                    elif len(n) == 0:
+                        return ()
+                    else:
+                        return n_choose_k(n[1:], k) + tuple(x + (n[0],) for x in n_choose_k(n[1:], k-1))
+                def un_1_tuple(x):
+                    assert len(x) == 1
+                    return x[0]
+                all_bench = list([un_1_tuple(x) for x in m.keys()])
+                for i in [1, 2, 3]:
+                    real_m = {}
+                    for benches in n_choose_k(all_bench, i):
+                        per_benches_m = {}
+                        for bench in benches:
+                            m_bench = m[(bench,)]
+                            for cfg, runs in m_bench.items():
+                                if cfg not in per_benches_m:
+                                    per_benches_m[cfg] = [[x] for x in runs]
+                                else:
+                                    pbmcfg = per_benches_m[cfg]
+                                    for j in range(min(len(pbmcfg), len(runs))):
+                                        pbmcfg[j].append(runs[j])
+                        real_m[benches] = {cfg: [Experiment(x) for x in aggregated_runs if len(x) == i] for cfg, aggregated_runs in per_benches_m.items()}
+                    li(a(f"browser_{i}", href=gen_eval(real_m)))
             else:
                 raise
 
