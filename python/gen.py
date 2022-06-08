@@ -17,7 +17,7 @@ import sys
 import anal_work
 import gen_tex_table
 import paper
-from util import tex_fmt, fmt, tex_def_generic
+from util import tex_fmt, fmt, tex_def
 import util
 import parse_gc_log
 from EVAL import *
@@ -28,19 +28,9 @@ from git_check import get_commit
 import argparse
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--eval_name", default="", help="name of the evaluation")
 parser.add_argument("--action", default="", help="what to do to the generated html")
 args = parser.parse_args()
-eval_name = args.eval_name
 action = args.action
-
-assert eval_name in [
-    "", # do not generate+upload tex or plot for the paper
-    "WEBI", # 1 website run
-    "WEBII", # 2 website run
-    "WEBIII", # 3 website run
-    "JS", # JetStream, embedded v8
-]
 
 assert action in ["", "open", "upload"]
 
@@ -65,9 +55,6 @@ class Counter:
         ret = self.count
         self.count += 1
         return ret
-
-def tex_def(name, definition):
-    return tex_def_generic(eval_name, name, definition)
 
 tex = ""
 
@@ -138,7 +125,7 @@ def format_sigma(x, pos):
         sigma = '\u03C3'
         return ("+" if x > 0 else "") + str(x) + sigma
 
-def gen_eval(m):
+def gen_eval(tex_name, m):
     html_path = f"{html_counter()}.html"
     with page(path=path.joinpath(html_path), title='Plot') as doc:
         mp = megaplot.plot(m, m.keys(), legend=False)
@@ -157,10 +144,10 @@ def gen_eval(m):
             y_projection = slope+bias
             speedup = (1-1/y_projection)
             global tex
-            tex += tex_def("Speedup", f"{tex_fmt(speedup*100)}\%")
+            tex += tex_def(tex_name + "Speedup", f"{tex_fmt(speedup*100)}\%")
             x_projection = (1-bias)/slope
             memory_saving = (1-1/x_projection)
-            tex += tex_def("MemorySaving", f"{tex_fmt(memory_saving*100)}\%")
+            tex += tex_def(tex_name + "MemorySaving", f"{tex_fmt(memory_saving*100)}\%")
             p(f"speedup = {fmt(speedup*100)}%")
             p(f"memory_saving = {fmt(memory_saving*100)}%")
             baseline_deviate = get_deviate_in_sd(1, 1)
@@ -172,13 +159,13 @@ def gen_eval(m):
                 improvement_over_baseline.append(get_deviate_in_sd(point.memory, point.time) - baseline_deviate)
             if len(improvement_over_baseline) > 1:
                 pvalue = stats.ttest_1samp(improvement_over_baseline, 0.0, alternative="greater").pvalue
-                tex += tex_def("PValue", f"{tex_g_fmt(pvalue)}")
+                tex += tex_def(tex_name + "PValue", f"{tex_g_fmt(pvalue)}")
                 p(f"""pvalue={g_fmt(pvalue)}""")
                 bin_width = 0.5
                 min_improvement = min(*improvement_over_baseline)
-                tex += tex_def("MaxRegress", f"{tex_fmt(-min_improvement)}\sigma")
+                tex += tex_def(tex_name + "MaxRegress", f"{tex_fmt(-min_improvement)}\sigma")
                 max_improvement = max(*improvement_over_baseline)
-                tex += tex_def("MaxImprovement", f"{tex_fmt(max_improvement)}\sigma")
+                tex += tex_def(tex_name + "MaxImprovement", f"{tex_fmt(max_improvement)}\sigma")
                 distance_from_zero = max(abs(min_improvement), abs(max_improvement))
                 bin_start = math.floor(-distance_from_zero / bin_width)
                 bin_stop = math.ceil(distance_from_zero / bin_width)
@@ -198,7 +185,7 @@ if eval_name == "WEBII":
     tex += tex_def("WorkingFrac", f"{tex_fmt(working_frac * 100)}\%")
     tex += tex_def("ExtraMemorySaving", f"{tex_fmt((1-1/x_projection)/(1-working_frac) * 100)}\%")
 
-def calculate_extreme_improvement():
+def calculate_extreme_improvement(name):
     mp = megaplot.plot(m, m.keys()) # todo - no plot only anal
     plt.clf()
     bl_time = mp["baseline_time"] * 1e9
@@ -211,8 +198,42 @@ def calculate_extreme_improvement():
             max_speedup = max(max_speedup, (bl_time / score["MAJOR_GC_TIME"]) - 1)
             max_saving = max(max_saving, 1 - (score["Average(BenchmarkMemory)"] / bl_memory))
     global tex
-    tex += tex_def("MaxSpeedup", f"{tex_fmt(max_speedup * 100)}\%")
-    tex += tex_def("MaxSaving", f"{tex_fmt(max_saving * 100)}\%")
+    tex += tex_def(name + "MaxSpeedup", f"{tex_fmt(max_speedup * 100)}\%")
+    tex += tex_def(name + "MaxSaving", f"{tex_fmt(max_saving * 100)}\%")
+
+def gen_jetstream(directory):
+    m = megaplot.anal_log(directory)
+    m_exp = {benches: {cfg: [Experiment(x) for x in aggregated_runs if len(x) == i] for cfg, aggregated_runs in per_benches_m.items()} for benches, per_batches_m in m.items()}
+    return gen_eval(directory)
+
+def gen_browser(directory, i):
+    m = megaplot.anal_log(dd)
+    def n_choose_k(n, k):
+        if k == 0:
+            return ((),)
+        elif len(n) == 0:
+            return ()
+        else:
+            return n_choose_k(n[1:], k) + tuple(x + (n[0],) for x in n_choose_k(n[1:], k-1))
+    def un_1_tuple(x):
+        assert len(x) == 1
+        return x[0]
+    all_bench = list([un_1_tuple(x) for x in m.keys()])
+    real_m = {}
+    for benches in n_choose_k(all_bench, i):
+        per_benches_m = {}
+        for bench in benches:
+            m_bench = m[(bench,)]
+            for cfg, runs in m_bench.items():
+                if cfg not in per_benches_m:
+                    per_benches_m[cfg] = [[x] for x in runs]
+                else:
+                    pbmcfg = per_benches_m[cfg]
+                    for j in range(min(len(pbmcfg), len(runs))):
+                        pbmcfg[j].append(runs[j])
+        real_m[benches] = {cfg: [Experiment(x) for x in aggregated_runs if len(x) == i] for cfg, aggregated_runs in per_benches_m.items()}
+    return gen_eval(real_m)
+
 
 with page(path=path.joinpath("index.html"), title='Main') as doc:
     d = list(Path("log/").iterdir())
@@ -224,37 +245,10 @@ with page(path=path.joinpath("index.html"), title='Main') as doc:
                 cfg = eval(f.read())
             name = cfg["NAME"]
             if name == "jetstream":
-                m = megaplot.anal_log(dd)
-                m_exp = {benches: {cfg: [Experiment(x) for x in aggregated_runs if len(x) == i] for cfg, aggregated_runs in per_benches_m.items()} for benches, per_batches_m in m.items()}
-                li(a("jetstream", href=gen_eval(m_exp)))
+                li(a("jetstream", href=gen_jetstream(dd)))
             elif name == "browser":
-                m = megaplot.anal_log(dd)
-                def n_choose_k(n, k):
-                    if k == 0:
-                        return ((),)
-                    elif len(n) == 0:
-                        return ()
-                    else:
-                        return n_choose_k(n[1:], k) + tuple(x + (n[0],) for x in n_choose_k(n[1:], k-1))
-                def un_1_tuple(x):
-                    assert len(x) == 1
-                    return x[0]
-                all_bench = list([un_1_tuple(x) for x in m.keys()])
                 for i in [1, 2, 3]:
-                    real_m = {}
-                    for benches in n_choose_k(all_bench, i):
-                        per_benches_m = {}
-                        for bench in benches:
-                            m_bench = m[(bench,)]
-                            for cfg, runs in m_bench.items():
-                                if cfg not in per_benches_m:
-                                    per_benches_m[cfg] = [[x] for x in runs]
-                                else:
-                                    pbmcfg = per_benches_m[cfg]
-                                    for j in range(min(len(pbmcfg), len(runs))):
-                                        pbmcfg[j].append(runs[j])
-                        real_m[benches] = {cfg: [Experiment(x) for x in aggregated_runs if len(x) == i] for cfg, aggregated_runs in per_benches_m.items()}
-                    li(a(f"browser_{i}", href=gen_eval(real_m)))
+                    li(a(f"browser_{i}", href=gen_browser(dd, i)))
             else:
                 raise
 
@@ -291,8 +285,7 @@ if eval_name == "JS":
     gen_tex_table.main(tex_table_membalancer_dir, tex_table_baseline_dir)
     parse_gc_log.main([tex_table_membalancer_dir], [tex_table_baseline_dir], "JS")
 
-if eval_name != "":
-    tex += tex_def("GraphHash", get_commit("./"))
+tex += tex_def_generic("GraphHash", get_commit("./"))
 
 for name in glob.glob('log/**/commit', recursive=True):
     commit = None

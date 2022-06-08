@@ -10,15 +10,15 @@ def fmt_int(x):
 
 def tex_fmt(x):
     return f"\\num{{{fmt(x)}}}"
-    
+
 def tex_fmt_int(x):
 	return f"\\num{{{fmt_int(x)}}}"
 
 def tex_fmt_bold(x):
     return f"\\textbf{{{fmt(x)}}}"
 
-def tex_def_generic(eval_name, name, definition):
-    return f"\def\{eval_name}{name}{{{definition}\\xspace}}\n"
+def tex_def(name, definition):
+    return f"\def\{name}{{{definition}\\xspace}}\n"
 
 async def new_browser(*, env_vars={}, headless=True, debug=True):
     args = ["--no-sandbox", "--disable-notifications", "--start-maximized", "--user-data-dir=./membalancer_profile"]

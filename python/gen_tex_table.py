@@ -4,53 +4,46 @@ import statistics as stats
 import glob
 import math
 import sys
-from  util import tex_fmt, fmt, tex_fmt_bold, tex_fmt, tex_def_generic, tex_fmt_int
+from  util import tex_fmt, fmt, tex_fmt_bold, tex_fmt, tex_def, tex_fmt_int
 TOTAL = "Total"
 def tex_def_table(row_num, col_name, definitions):
     return f"\def\{col_name}{row_num}{{{definitions}\\xspace}}\n"
-	
+
 def combine(membalancer_data, baseline_data, time_mb, time_baseline, membalancer_dir, baseline_dir):
 	tex_data = {TOTAL: {"w": 0, "g": 0, "s": 0, "membalancer_exta_mem": 0, "total_gc_time_mb": 0, "total_run_time_mb": 0, "total_gc_time_mb": 0, "total_run_time_mb": 0, "current_v8_extra_mem": 0, "total_gc_time_baseline": 0, "total_run_time_baseline": 0, "membalancer_dir": "", "baseline_dir": ""}}
-	
 	for data in membalancer_data:
 		name = data["name"]
 		tex_data[name] = {}
 		tex_data[name]["w"] = data["mem_diff"]
 		tex_data[TOTAL]["w"] += tex_data[name]["w"]
-		
 		tex_data[name]["g"] = data["gc_rate"]
 		tex_data[TOTAL]["g"] += tex_data[name]["g"]
-		
 		tex_data[name]["s"] = data["gc_speed"]
 		tex_data[TOTAL]["s"] += tex_data[name]["s"]
-		
+
 		tex_data[name]["membalancer_exta_mem"] = data["extra_mem"]
 		tex_data[TOTAL]["membalancer_exta_mem"] += tex_data[name]["membalancer_exta_mem"]
-		
 		tex_data[name]["membalancer_dir"] = membalancer_dir
-	
+
 	for name in time_mb.keys():
 		tex_data[name]["total_gc_time_mb"] = time_mb[name]["total_gc_time"]
 		tex_data[TOTAL]["total_gc_time_mb"] += tex_data[name]["total_gc_time_mb"]
-		
 		tex_data[name]["total_run_time_mb"] = time_mb[name]["total_run_time"]
 		tex_data[TOTAL]["total_run_time_mb"] += tex_data[name]["total_run_time_mb"]
-	
+
 	for data in baseline_data:
 		name = data["name"]
 		tex_data[name]["current_v8_extra_mem"] = data["extra_mem"]
 		tex_data[TOTAL]["current_v8_extra_mem"] += tex_data[name]["current_v8_extra_mem"]
-		
 		tex_data[name]["baseline_dir"] = baseline_dir
-		
+
 	for name in time_baseline.keys():
 		tex_data[name]["total_gc_time_baseline"] = time_baseline[name]["total_gc_time"]
 		tex_data[TOTAL]["total_gc_time_baseline"] += tex_data[name]["total_gc_time_baseline"]
-		
 		tex_data[name]["total_run_time_baseline"] = time_baseline[name]["total_run_time"]
 		tex_data[TOTAL]["total_run_time_baseline"] += tex_data[name]["total_run_time_baseline"]
 	return tex_data
-	
+
 def convert_to_tex(data):
 	all_keys = list(data.keys())
 	all_keys.remove(TOTAL)
@@ -69,29 +62,24 @@ def convert_to_tex(data):
 		total_gc_time_mb = data[key]["total_gc_time_mb"]
 		total_run_time_baseline = data[key]["total_run_time_baseline"]
 		total_gc_time_baseline = data[key]["total_gc_time_baseline"]
-		
-		
 		tex_str += tex_def_table(row, "name", key)
 		tex_str += tex_def_table(row, "w", f"{tex_fmt(w)}")
 		tex_str += tex_def_table(row, "g", f"{tex_fmt(g)}")
 		tex_str += tex_def_table(row, "s", f"{tex_fmt(s)}")
 		tex_str += tex_def_table(row, "mbextra", f"{tex_fmt(mb_extra)}")
 		tex_str += tex_def_table(row, "baseextra", f"{tex_fmt(curr_extra)}")
-		
 		if total_run_time_mb < total_run_time_baseline:
 			tex_str += tex_def_table(row, "mbruntime", f"{tex_fmt_bold(total_run_time_mb)}")
 			tex_str += tex_def_table(row, "baseruntime", f"{tex_fmt(total_run_time_baseline)}")
 		elif total_run_time_mb > total_run_time_baseline:
 			tex_str += tex_def_table(row, "mbruntime", f"{tex_fmt(total_run_time_mb)}")
 			tex_str += tex_def_table(row, "baseruntime", f"{tex_fmt_bold(total_run_time_baseline)}")
-			
 		if total_gc_time_mb < total_gc_time_baseline:
 			tex_str += tex_def_table(row, "mbgctime", f"{tex_fmt_bold(total_gc_time_mb)}")
 			tex_str += tex_def_table(row, "basegctime", f"{tex_fmt(total_gc_time_baseline)}")
 		elif total_gc_time_mb > total_gc_time_baseline:
 			tex_str += tex_def_table(row, "mbgctime", f"{tex_fmt(total_gc_time_mb)}")
 			tex_str += tex_def_table(row, "basegctime", f"{tex_fmt_bold(total_gc_time_baseline)}")
-		
 		row = ord(row)
 		row += 1
 		row = chr(row)
@@ -100,24 +88,21 @@ def convert_to_tex(data):
 def write_tex(tex_str, path):
 	with open(path, "w") as tex_file:
 		tex_file.write(tex_str)
-		
+
 def tex_compare_ts_splay(data):
 	splay_ts_g = math.floor(data["splay.js"]["g"]/data["typescript.js"]["g"])
 	splay_ts_s = math.floor(data["splay.js"]["s"]/data["typescript.js"]["s"])
 	splay_ts_g_div_s = splay_ts_g/splay_ts_s
 	splay_ts_extra_mem = math.floor(math.sqrt(splay_ts_g_div_s))
-	
 	tex_str = ""
-	tex_str += tex_def_generic("JS", "SplayTSg", f"{tex_fmt_int(splay_ts_g)}")
-	tex_str += tex_def_generic("JS", "SplayTSs", f"{tex_fmt_int(splay_ts_s)}")
-	tex_str += tex_def_generic("JS", "SplayTSgDivs", f"{tex_fmt_int(splay_ts_g_div_s)}")
-	tex_str += tex_def_generic("JS", "SplayTSExtraMem", f"{tex_fmt_int(splay_ts_extra_mem)}")
+	tex_str += tex_def_generic("JSSplayTSg", f"{tex_fmt_int(splay_ts_g)}")
+	tex_str += tex_def_generic("JSSplayTSs", f"{tex_fmt_int(splay_ts_s)}")
+	tex_str += tex_def_generic("JSSplayTSgDivs", f"{tex_fmt_int(splay_ts_g_div_s)}")
+	tex_str += tex_def_generic("JSSplayTSExtraMem", f"{tex_fmt_int(splay_ts_extra_mem)}")
 	return tex_str
-	
-	
+
 def get_optimal_table(data):
-	
-	min_w = 100000
+	min_w = math.inf
 	result = data[0]
 	for each_row in data:
 		for each_pgm in each_row:
@@ -146,11 +131,9 @@ def get_last_row(filepath):
 	return {}
 
 def get_table_data(mb_dir, baseline_dir):
-	
 	mb_raw_data = get_tex_data(mb_dir, "tex_data")
 	sz = int(len(mb_raw_data)/3)
 	mb_data =  get_optimal_table(mb_raw_data[sz:])
-	
 	baseline_raw_data = get_tex_data(baseline_dir, "tex_data")
 	sz = int(len(baseline_raw_data)/3)
 	baseline_data = get_optimal_table(baseline_raw_data[sz:])
@@ -168,24 +151,19 @@ def get_total_time(dir):
 		total_run_time = last_row["after_time"]/1e9
 		data[name] = {"total_gc_time": total_gc_time, "total_run_time": total_run_time}
 	return data
-	
+
 def main(membalancer_log_dir, baseline_log_dir):
 	(data_mb, data_baseline) = get_table_data(membalancer_log_dir, baseline_log_dir)
 	time_mb = get_total_time(membalancer_log_dir)
 	time_baseline = get_total_time(baseline_log_dir)
-	
 	combined_data = combine(data_mb, data_baseline, time_mb, time_baseline, membalancer_log_dir, baseline_log_dir)
 	converted_tex = convert_to_tex(combined_data)
 	converted_tex += tex_compare_ts_splay(combined_data)
 	write_tex(converted_tex, "../membalancer-paper/js_table.tex")
-	
+
 if __name__ == "__main__":
 	assert(len(sys.argv) == 3)
 	membalancer_log_dir = sys.argv[1]
 	baseline_log_dir = sys.argv[2]
 	main(membalancer_log_dir, baseline_log_dir)
 	print("done creating tex file for table!")
-
-		
-		
-	
