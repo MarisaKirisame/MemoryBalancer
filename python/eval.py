@@ -7,7 +7,7 @@ import json
 import shutil
 import os
 from git_check import get_commit
-from util import tex_def_generic, tex_fmt
+from util import tex_def, tex_fmt
 import paper
 from EVAL import *
 
@@ -24,9 +24,6 @@ BASELINE = {
 js_c_range = [0.5, 0.7, 0.9, 2, 3] * 2
 js_c_range.reverse()
 browser_c_range = [0.05, 0.1, 0.2, 0.3, 0.5, 0.7, 0.9]
-
-def tex_def(name, definition):
-    return tex_def_generic("", name, definition)
 
 tex = ""
 tex += tex_def("JSMinC", f"{tex_fmt(min(js_c_range))}\%/MB")
@@ -59,7 +56,7 @@ cfg_browser = {
     "DEBUG": True,
     "TYPE": "browser",
     "MEMORY_LIMIT": 10000,
-    "BENCH": NONDET(*[(x,) for x in bench]),
+    "BENCH": NONDET(*[(x, y) for x in bench for y in bench if x != y]),
     "BALANCER_CFG": BALANCER_CFG(browser_c_range)
 }
 
