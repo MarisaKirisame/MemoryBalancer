@@ -27,6 +27,8 @@ from matplotlib.ticker import FormatStrFormatter
 from git_check import get_commit
 import argparse
 
+paper.pull()
+
 parser = argparse.ArgumentParser()
 parser.add_argument("--action", default="", help="what to do to the generated html")
 args = parser.parse_args()
@@ -57,6 +59,16 @@ class Counter:
         return ret
 
 tex = ""
+
+commit = None
+for name in glob.glob('log/**/commit', recursive=True):
+    with open(name) as f:
+        if commit == None:
+            commit = eval(f.read())
+        else:
+            assert commit == eval(f.read())
+tex += tex_def("MBHash", commit["membalancer"])
+tex += tex_def("VEightHash", commit["v8"])
 
 path = Path("out/" + time.strftime("%Y-%m-%d-%H-%M-%S"))
 path.mkdir(parents=True, exist_ok=True)
@@ -125,11 +137,11 @@ def format_sigma(x, pos):
         sigma = '\u03C3'
         return ("+" if x > 0 else "") + str(x) + sigma
 
-def gen_eval(tex_name, m):
+def gen_eval(tex_name, m, anal_frac=None):
     html_path = f"{html_counter()}.html"
     with page(path=path.joinpath(html_path), title='Plot') as doc:
         mp = megaplot.plot(m, m.keys(), legend=False)
-        png_path = f"{png_counter()}.png"
+        png_path = f"{tex_name}plot.png"
         plt.savefig(str(path.joinpath(png_path)), bbox_inches='tight')
         plt.clf()
         img(src=png_path)
@@ -152,7 +164,10 @@ def gen_eval(tex_name, m):
             p(f"memory_saving = {fmt(memory_saving*100)}%")
             baseline_deviate = get_deviate_in_sd(1, 1)
             p(f"improvement = {fmt(-baseline_deviate)} sigma")
-            tex += tex_def("Improvement", f"{tex_fmt(-baseline_deviate)}\sigma")
+            tex += tex_def(tex_name + "Improvement", f"{tex_fmt(-baseline_deviate)}\sigma")
+            if anal_frac is not None:
+                tex += tex_def("WorkingFrac", f"{tex_fmt(anal_frac * 100)}\%")
+                tex += tex_def("ExtraMemorySaving", f"{tex_fmt((1-1/x_projection)/(1-anal_frac) * 100)}\%")
             improvement_over_baseline = []
             for point in transformed_points:
                 assert not point.is_baseline
@@ -172,7 +187,7 @@ def gen_eval(tex_name, m):
                 plt.hist(improvement_over_baseline, [x * bin_width for x in range(bin_start, bin_stop + 1)], ec='black')
                 plt.axvline(x=0, color="black")
                 plt.gca().xaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(format_sigma))
-                png_path = f"{png_counter()}.png"
+                png_path = f"{tex_name}sd.png"
                 plt.savefig(str(path.joinpath(png_path)), bbox_inches='tight')
                 plt.clf()
                 img(src=png_path)
@@ -180,31 +195,58 @@ def gen_eval(tex_name, m):
             li(a(str(bench), href=gen_megaplot_bench(m, bench)))
     return html_path
 
-if eval_name == "WEBII":
-    working_frac = anal_work.main()
-    tex += tex_def("WorkingFrac", f"{tex_fmt(working_frac * 100)}\%")
-    tex += tex_def("ExtraMemorySaving", f"{tex_fmt((1-1/x_projection)/(1-working_frac) * 100)}\%")
-
-def calculate_extreme_improvement(name):
+def calculate_extreme_improvement(directory, m):
     mp = megaplot.plot(m, m.keys()) # todo - no plot only anal
     plt.clf()
     bl_time = mp["baseline_time"] * 1e9
     bl_memory = mp["baseline_memory"] * 1e6
     max_speedup = 0
     max_saving = 0
-    for name in glob.glob('log/**/score', recursive=True):
-        with open(name) as f:
-            score = json.load(f)
-            max_speedup = max(max_speedup, (bl_time / score["MAJOR_GC_TIME"]) - 1)
-            max_saving = max(max_saving, 1 - (score["Average(BenchmarkMemory)"] / bl_memory))
+    for name in glob.glob(f'{directory}/**/score', recursive=True):
+        dirname = os.path.dirname(name)
+        e = Experiment([Run(dirname)])
+        max_speedup = max(max_speedup, (bl_time / e.total_major_gc_time()) - 1)
+        max_saving = max(max_saving, 1 - (e.average_benchmark_memory() / bl_memory))
     global tex
-    tex += tex_def(name + "MaxSpeedup", f"{tex_fmt(max_speedup * 100)}\%")
-    tex += tex_def(name + "MaxSaving", f"{tex_fmt(max_saving * 100)}\%")
+    tex += tex_def("JSMaxSpeedup", f"{tex_fmt(max_speedup * 100)}\%")
+    tex += tex_def("JSMaxSaving", f"{tex_fmt(max_saving * 100)}\%")
 
 def gen_jetstream(directory):
     m = megaplot.anal_log(directory)
-    m_exp = {benches: {cfg: [Experiment(x) for x in aggregated_runs if len(x) == i] for cfg, aggregated_runs in per_benches_m.items()} for benches, per_batches_m in m.items()}
-    return gen_eval(directory)
+    m_exp = {benches: {cfg: [Experiment([x]) for x in aggregated_runs] for cfg, aggregated_runs in per_benches_m.items()} for benches, per_benches_m in m.items()}
+    calculate_extreme_improvement(directory, m_exp)
+    found_baseline = False
+    found_compare = False
+    tex_table_baseline_dir = None
+    tex_table_membalancer_dir = None
+    JSCompareAt = -2e-9
+    for name in glob.glob(f'{directory}/**/score', recursive=True):
+        dirname = os.path.dirname(name)
+        with open(dirname + "/cfg") as f:
+            cfg = eval(f.read())
+        if cfg["CFG"]["BALANCER_CFG"]["BALANCE_STRATEGY"] == "ignore":
+            if not found_baseline:
+            	found_baseline = True
+            	tex_table_baseline_dir = dirname
+            	anal_gc_log.main(cfg, Experiment([Run(dirname + "/")]), legend=False)
+            	plt.xlim([0, 50])
+            	plt.ylim([0, 450])
+            	plt.savefig(f"../membalancer-paper/js_baseline_anal.png", bbox_inches='tight')
+            	plt.clf()
+        elif cfg["CFG"]["BALANCER_CFG"]["RESIZE_CFG"]["GC_RATE_D"] == JSCompareAt:
+            if not found_compare:
+                found_compare = True
+                global tex
+                tex += tex_def("CompareAt", tex_fmt(JSCompareAt*-1e9))
+                tex_table_membalancer_dir = dirname
+                anal_gc_log.main(cfg, Experiment([Run(dirname + "/")]), legend=False)
+                plt.xlim([0, 50])
+                plt.ylim([0, 450])
+                plt.savefig(f"../membalancer-paper/js_membalancer_anal.png", bbox_inches='tight')
+                plt.clf()
+    gen_tex_table.main(tex_table_membalancer_dir, tex_table_baseline_dir)
+    parse_gc_log.main([tex_table_membalancer_dir], [tex_table_baseline_dir], "JS")
+    return gen_eval("jetstream", m_exp)
 
 def gen_browser(directory, i):
     m = megaplot.anal_log(dd)
@@ -232,7 +274,7 @@ def gen_browser(directory, i):
                     for j in range(min(len(pbmcfg), len(runs))):
                         pbmcfg[j].append(runs[j])
         real_m[benches] = {cfg: [Experiment(x) for x in aggregated_runs if len(x) == i] for cfg, aggregated_runs in per_benches_m.items()}
-    return gen_eval(real_m)
+    return gen_eval(f"WEB{i * 'I'}", real_m, anal_frac=(anal_work.main(directory) if i == 1 else None))
 
 
 with page(path=path.joinpath("index.html"), title='Main') as doc:
@@ -251,64 +293,17 @@ with page(path=path.joinpath("index.html"), title='Main') as doc:
                     li(a(f"browser_{i}", href=gen_browser(dd, i)))
             else:
                 raise
-
-if eval_name == "JS":
-    calculate_extreme_improvement()
-    found_baseline = False
-    found_compare = False
-    tex_table_baseline_dir = None
-    tex_table_membalancer_dir = None
-    JSCompareAt = -2e-9
-    for name in glob.glob('log/**/score', recursive=True):
-        dirname = os.path.dirname(name)
-        with open(dirname + "/cfg") as f:
-            cfg = eval(f.read())
-        if cfg["BALANCER_CFG"]["BALANCE_STRATEGY"] == "ignore":
-            if not found_baseline:
-            	found_baseline = True
-            	tex_table_baseline_dir = dirname
-            	anal_gc_log.main(dirname + "/", legend=False)
-            	plt.xlim([0, 50])
-            	plt.ylim([0, 450])
-            	plt.savefig(f"../membalancer-paper/js_baseline_anal.png", bbox_inches='tight')
-            	plt.clf()
-        elif cfg["BALANCER_CFG"]["RESIZE_CFG"]["GC_RATE_D"] == JSCompareAt:
-            if not found_compare:
-                found_compare = True
-                tex += tex_def("CompareAt", tex_fmt(JSCompareAt*-1e9))
-                tex_table_membalancer_dir = dirname
-                anal_gc_log.main(dirname + "/", legend=False)
-                plt.xlim([0, 50])
-                plt.ylim([0, 450])
-                plt.savefig(f"../membalancer-paper/js_membalancer_anal.png", bbox_inches='tight')
-                plt.clf()
-    gen_tex_table.main(tex_table_membalancer_dir, tex_table_baseline_dir)
-    parse_gc_log.main([tex_table_membalancer_dir], [tex_table_baseline_dir], "JS")
-
-tex += tex_def_generic("GraphHash", get_commit("./"))
-
-for name in glob.glob('log/**/commit', recursive=True):
-    commit = None
-    with open(name) as f:
-        if commit == None:
-            commit = eval(f.read())
-        else:
-            assert commit == eval(f.read())
-tex += tex_def("MBHash", commit["membalancer"])
-tex += tex_def("VEightHash", commit["v8"])
-
-dir = str(path)
-
-if eval_name != "":
-    paper.pull()
-    with open(f"../membalancer-paper/{eval_name}.tex", "w") as tex_file:
+    tex_file_name = "EVAL.tex.txt"
+    with open(path.joinpath(tex_file_name), "w") as tex_file:
         tex_file.write(tex)
-    shutil.copy(f"{dir}/plot.png", f"../membalancer-paper/{eval_name}_pareto.png")
-    shutil.copy(f"{dir}/sd.png", f"../membalancer-paper/{eval_name}_sd.png")
-    paper.push()
+    li(a("tex", href=tex_file_name))
 
 if action == "open":
     os.system(f"xdg-open {path.joinpath('index.html')}")
 elif action == "upload":
+    with open(f"../membalancer-paper/EVAL.tex", "w") as tex_file:
+        tex += tex_def("GraphHash", get_commit("./"))
+        tex_file.write(tex)
+    paper.push()
     server_name = "uwplse.org:/var/www/membalancer"
     os.system(f"scp -r -C {dir} {server_name}")

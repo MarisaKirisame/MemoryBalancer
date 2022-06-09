@@ -95,10 +95,10 @@ def tex_compare_ts_splay(data):
 	splay_ts_g_div_s = splay_ts_g/splay_ts_s
 	splay_ts_extra_mem = math.floor(math.sqrt(splay_ts_g_div_s))
 	tex_str = ""
-	tex_str += tex_def_generic("JSSplayTSg", f"{tex_fmt_int(splay_ts_g)}")
-	tex_str += tex_def_generic("JSSplayTSs", f"{tex_fmt_int(splay_ts_s)}")
-	tex_str += tex_def_generic("JSSplayTSgDivs", f"{tex_fmt_int(splay_ts_g_div_s)}")
-	tex_str += tex_def_generic("JSSplayTSExtraMem", f"{tex_fmt_int(splay_ts_extra_mem)}")
+	tex_str += tex_def("JSSplayTSg", f"{tex_fmt_int(splay_ts_g)}")
+	tex_str += tex_def("JSSplayTSs", f"{tex_fmt_int(splay_ts_s)}")
+	tex_str += tex_def("JSSplayTSgDivs", f"{tex_fmt_int(splay_ts_g_div_s)}")
+	tex_str += tex_def("JSSplayTSExtraMem", f"{tex_fmt_int(splay_ts_extra_mem)}")
 	return tex_str
 
 def get_optimal_table(data):

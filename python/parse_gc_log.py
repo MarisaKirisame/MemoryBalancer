@@ -59,12 +59,10 @@ def parse_gc_logs(dir):
 def main(mb_dir, base_dir, header):
     assert isinstance(mb_dir, list)
     assert isinstance(base_dir, list)
-    paper.pull()
     mb_data = [parse_gc_logs(d) for d in mb_dir]
     plot_c(mb_data, header + "Membalancer")
     base_data = [parse_gc_logs(d) for d in base_dir]
     plot_c(base_data, header + "Baseline")
-    paper.push()
 
 if __name__ == "__main__":
     eval_name = sys.argv[1]

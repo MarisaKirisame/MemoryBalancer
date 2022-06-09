@@ -29,38 +29,38 @@ def calculate_total(dirname, property_name):
                     ret += v
         return ret
 
-def baseline_average(func):
+def baseline_average(directory, func):
     val = []
-    for name in glob.glob('log/**/score', recursive=True):
+    for name in glob.glob(f'{directory}/**/score', recursive=True):
         dirname = os.path.dirname(name)
         with open(dirname + "/cfg") as f:
             cfg = eval(f.read())
-        if cfg["BALANCER_CFG"]["BALANCE_STRATEGY"] == "ignore":
+        if cfg["CFG"]["BALANCER_CFG"]["BALANCE_STRATEGY"] == "ignore":
             val.append(func(dirname))
     return sum(val) / len(val)
 
-def old_calculation():
-    avg_of_div = baseline_average(lambda x: calculate_total(x, "working-memory")) / baseline_average(lambda x: calculate_total(x, "current-memory"))
-    div_of_avg = baseline_average(lambda x: calculate_total(x, "working-memory") / calculate_total(x, "current-memory"))
+def old_calculation(directory):
+    avg_of_div = baseline_average(directory, lambda x: calculate_total(x, "working-memory")) / baseline_average(directory, lambda x: calculate_total(x, "current-memory"))
+    div_of_avg = baseline_average(directory, lambda x: calculate_total(x, "working-memory") / calculate_total(x, "current-memory"))
     # no idea which one i should use... but the result is pretty similar so i guess it is not an issue
     return div_of_avg
-    
-def new_calculation():
+
+def new_calculation(directory):
     before_memory_sum = 0
     after_memory_sum = 0
-    for name in glob.glob('log/**/score', recursive=True):
+    for name in glob.glob(f'{directory}/**/score', recursive=True):
         dirname = os.path.dirname(name)
         with open(dirname + "/cfg") as f:
             cfg = eval(f.read())
-        if cfg["BALANCER_CFG"]["BALANCE_STRATEGY"] == "ignore":
+        if cfg["CFG"]["BALANCER_CFG"]["BALANCE_STRATEGY"] == "ignore":
             (before_memory, after_memory) = read_gc_log(dirname)
             if before_memory != None:
                 before_memory_sum += before_memory
                 after_memory_sum += after_memory
     return after_memory_sum / before_memory_sum
-    
-def main():
-    return old_calculation()
+
+def main(directory):
+    return old_calculation(directory)
 
 if __name__ == "__main__":
     print(main())
