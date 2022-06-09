@@ -116,17 +116,9 @@ def run_jetstream(v8_env_vars):
 
 def run_browser(v8_env_vars):
     async def new_page(browser):
-        async with lock:
-            pages = await browser.pages()
-            await pages[0].evaluate("() => window.open('http://www.example.com/', '', 'popup=True')", )
-            new_pages = await browser.pages()
-            print(len(pages))
-            print(len(new_pages))
-            while True:
-                pass
-            assert len(new_pages) == len(pages) + 1
-            page = (new_pages)[-1]
+            page = await browser.newPage()
             await page.setViewport({"width": 1280, "height": 1080})
+            await (await browser.pages[0]).bringToFront()
             return page
     bench = {}
 
