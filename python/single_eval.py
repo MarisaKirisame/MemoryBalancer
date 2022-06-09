@@ -114,12 +114,9 @@ def run_jetstream(v8_env_vars):
 
 def run_browser(v8_env_vars):
     async def new_page(browser):
-        print("here!")
         pages = await browser.pages()
-        window = await pages[0].evaluate("() => window.open()", )
-        print(window)
-        raise
-        page = await ctx.newPage()
+        await pages[0].evaluate("() => window.open('', '', 'popup=True')", )
+        page = (await browser.pages())[-1]
         await page.setViewport({"width": 1280, "height": 1080})
         return page
     bench = {}
