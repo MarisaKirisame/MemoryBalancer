@@ -6,7 +6,7 @@ import sys
 import time
 from pathlib import Path
 from collections import defaultdict
-from util import tex_def_generic, tex_fmt, new_browser
+from util import tex_def, tex_fmt, new_browser
 import paper
 
 SCROLL_PIX = 50
@@ -20,7 +20,7 @@ if len(sys.argv) == 1:
     print("generating tex file...")
     tex = ""
     for name in ["SCROLL_PIX", "SCROLL_SLEEP", "EVAL_SLEEP", "GMAIL_WAIT_TIME", "GMAIL_INBOX_TIME", "GMAIL_EMAIL_TIME"]:
-        tex += tex_def_generic("SingleEval", name.replace('_', ''), f"{tex_fmt(eval(name))}")
+        tex += tex_def("SingleEval" + name.replace('_', ''), f"{tex_fmt(eval(name))}")
     paper.pull()
     with open(f"../membalancer-paper/single_eval.tex", "w") as tex_file:
         tex_file.write(tex)
@@ -261,7 +261,7 @@ def run_browser(v8_env_vars):
         return bench[bench_name]
 
     async def run_browser_main():
-        b = await new_browser(env_vars=v8_env_vars)
+        b = await new_browser(env_vars=v8_env_vars, headless=False)
         d = 180
         try:
             await asyncio.wait_for(asyncio.gather(*[get_bench(bench)(b, d) for bench in BENCH]), timeout=d*2)
