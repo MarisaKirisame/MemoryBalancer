@@ -306,4 +306,4 @@ elif action == "upload":
         tex_file.write(tex)
     paper.push()
     server_name = "uwplse.org:/var/www/membalancer"
-    os.system(f"scp -r -C {dir} {server_name}")
+    os.system(f"scp -r -C {os.path.dirname(str(path))} {server_name}")
