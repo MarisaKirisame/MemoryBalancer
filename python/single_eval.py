@@ -10,6 +10,8 @@ from util import tex_def, tex_fmt, new_browser
 import paper
 import pyppeteer
 
+lock = asyncio.Lock()
+
 SCROLL_PIX = 50
 SCROLL_SLEEP = 1
 EVAL_SLEEP = 5
@@ -114,15 +116,14 @@ def run_jetstream(v8_env_vars):
 
 def run_browser(v8_env_vars):
     async def new_page(browser):
-        pages = await browser.pages()
-        await pages[0].evaluate("() => window.open('example.com', '', 'popup=True')", )
-        new_pages = await browser.pages()
-        while True:
-            pass
-        assert len(new_pages) == len(pages) + 1
-        page = (new_pages)[-1]
-        await page.setViewport({"width": 1280, "height": 1080})
-        return page
+        async with lock:
+            pages = await browser.pages()
+            await pages[0].evaluate("() => window.open('', '', 'popup=True')", )
+            new_pages = await browser.pages()
+            assert len(new_pages) == len(pages) + 1
+            page = (new_pages)[-1]
+            await page.setViewport({"width": 1280, "height": 1080})
+            return page
     bench = {}
 
     async def reddit(browser, duration):
