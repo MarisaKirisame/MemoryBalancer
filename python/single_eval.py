@@ -116,7 +116,9 @@ def run_browser(v8_env_vars):
     async def new_page(browser):
         pages = await browser.pages()
         await pages[0].evaluate("() => window.open('', '', 'popup=True')", )
-        page = (await browser.pages())[-1]
+        new_pages = await browser.pages()
+        assert len(new_pages) == len(pages) + 1
+        page = (new_pages)[-1]
         await page.setViewport({"width": 1280, "height": 1080})
         return page
     bench = {}
