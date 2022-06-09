@@ -21,7 +21,7 @@ def tex_def(name, definition):
     return f"\def\{name}{{{definition}\\xspace}}\n"
 
 async def new_browser(*, env_vars={}, headless=True, debug=True):
-    args = ["--no-sandbox", "--disable-notifications", "--user-data-dir=./membalancer_profile"]
+    args = ["--no-sandbox", "--disable-notifications", "--user-data-dir=./membalancer_profile", "--disable-popup-blocking"]
     browseroptions = {"headless":headless, "args":args}
     browseroptions["executablePath"] = "../chromium/src/out/Release/chrome"
 
