@@ -118,7 +118,7 @@ def run_browser(v8_env_vars):
     async def new_page(browser):
             page = await browser.newPage()
             await page.setViewport({"width": 1280, "height": 1080})
-            await (await browser.pages[0]).bringToFront()
+            await (await browser.pages())[0].bringToFront()
             return page
     bench = {}
 
