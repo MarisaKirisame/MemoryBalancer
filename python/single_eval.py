@@ -8,6 +8,7 @@ from pathlib import Path
 from collections import defaultdict
 from util import tex_def, tex_fmt, new_browser
 import paper
+import pyppeteer
 
 SCROLL_PIX = 50
 SCROLL_SLEEP = 1
@@ -113,7 +114,8 @@ def run_jetstream(v8_env_vars):
 
 def run_browser(v8_env_vars):
     async def new_page(browser):
-        page = await browser.newPage()
+        ctx = await pyppeteer.browser.BrowserContext(browser)
+        page = await ctx.newPage()
         await page.setViewport({"width": 1280, "height": 1080})
         return page
     bench = {}
