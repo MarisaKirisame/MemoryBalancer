@@ -114,7 +114,7 @@ def run_jetstream(v8_env_vars):
 
 def run_browser(v8_env_vars):
     async def new_page(browser):
-        ctx = await pyppeteer.browser.BrowserContext(browser)
+        ctx = await pyppeteer.browser.BrowserContext(browser, None)
         page = await ctx.newPage()
         await page.setViewport({"width": 1280, "height": 1080})
         return page
