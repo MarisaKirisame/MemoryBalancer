@@ -10,8 +10,6 @@ from util import tex_def, tex_fmt, new_browser
 import paper
 import pyppeteer
 
-lock = asyncio.Lock()
-
 SCROLL_PIX = 50
 SCROLL_SLEEP = 1
 EVAL_SLEEP = 5
