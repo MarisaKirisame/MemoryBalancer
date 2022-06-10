@@ -31,6 +31,7 @@ git pull origin
 gclient sync -f --no-history
 
 echo "**pulling changes in chrome **"
+cd $mem_balancer_dir
 cd "../chromium/src"
 git checkout master
 git pull
