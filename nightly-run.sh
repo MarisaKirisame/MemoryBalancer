@@ -41,6 +41,7 @@ autoninja -C out/Release chrome
 
 cd $mem_balancer_dir
 echo "** building v8 **"
+make clean
 make v8
 echo "** building memorybalancer **"
 make
