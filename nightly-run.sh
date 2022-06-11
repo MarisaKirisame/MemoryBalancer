@@ -30,7 +30,7 @@ git checkout 2020-12-24
 git pull origin
 gclient sync -f --no-history
 
-echo "**pulling changes in chrome **"
+echo "** pulling changes in chrome **"
 cd $mem_balancer_dir
 cd "../chromium/src"
 git checkout master
@@ -38,6 +38,11 @@ git pull
 gclient sync -f --no-history
 echo "** building chrome **"
 autoninja -C out/Release chrome
+
+echo "** cloning membalancer-paper **"
+cd $mem_balancer_dir
+cd "../"
+[ ! -d "membalancer-paper" ] && git clone git@github.com:cputah/membalancer-paper.git
 
 cd $mem_balancer_dir
 echo "** building v8 **"
