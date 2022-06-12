@@ -61,5 +61,5 @@ echo "** uploading results **"
 last=`ls "out" | sort -r | head -1`
 result_dir="out/$last"
 if command -v nightly-results &>/dev/null; then
-    nightly-results url "http://membalancer.uwplse.org/$last"
+    nightly-results url "http://membalancer.uwplse.org/$result_dir"
 fi
