@@ -56,7 +56,7 @@ cfg_browser = {
     "DEBUG": True,
     "TYPE": "browser",
     "MEMORY_LIMIT": 10000,
-    "BENCH": NONDET(*[(x,) for x in bench]),
+    "BENCH": NONDET(*[(x, y) for x in bench for y in bench if x != y]),
     "BALANCER_CFG": BALANCER_CFG(browser_c_range)
 }
 
