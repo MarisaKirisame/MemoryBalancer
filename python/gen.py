@@ -276,7 +276,6 @@ def gen_browser(directory, i):
         real_m[benches] = {cfg: [Experiment(x) for x in aggregated_runs if len(x) == i] for cfg, aggregated_runs in per_benches_m.items()}
     return gen_eval(f"WEB{i * 'I'}", real_m, anal_frac=(anal_work.main(directory) if i == 1 else None))
 
-
 with page(path=path.joinpath("index.html"), title='Main') as doc:
     d = list(Path("log/").iterdir())
     assert len(d) == 1
@@ -289,8 +288,11 @@ with page(path=path.joinpath("index.html"), title='Main') as doc:
             if name == "jetstream":
                 li(a("jetstream", href=gen_jetstream(dd)))
             elif name == "browser":
-                for i in [1, 2, 3]:
-                    li(a(f"browser_{i}", href=gen_browser(dd, i)))
+                m = megaplot.anal_log(directory)
+                m_exp = {benches: {cfg: [Experiment([x]) for x in aggregated_runs] for cfg, aggregated_runs in per_benches_m.items()} for benches, per_benches_m in m.items()}
+                li(a(f"browser", href=gen_eval("browser", m_exp)))
+                #for i in [1, 2, 3]:
+                #    li(a(f"browser_{i}", href=gen_browser(dd, i)))
             else:
                 raise
     tex_file_name = "EVAL.tex.txt"
