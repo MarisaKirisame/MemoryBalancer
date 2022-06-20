@@ -86,9 +86,6 @@ if RESIZE_STRATEGY == "gradient":
 balancer_cmds.append(f"--balance-frequency={BALANCE_FREQUENCY}")
 balancer_cmds.append(f"""--log-path={result_directory+"balancer_log"}""")
 
-def tee_log(cmd, log_path):
-    return f"{cmd} 2>&1 | tee {log_path}"
-
 def env_vars_str(env_vars):
     ret = ""
     for k, v in env_vars.items():
@@ -280,22 +277,22 @@ def run_browser(v8_env_vars):
     with open(os.path.join(result_directory, "score"), "w") as f:
         json.dump(j, f)
 
-with ProcessScope(subprocess.Popen(balancer_cmds, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)) as p:
-    subprocess.Popen(["tee", result_directory+"balancer_out"], stdin=p.stdout)
-    time.sleep(1) # make sure the balancer is running
-    memory_limit = f"{MEMORY_LIMIT * MB_IN_BYTES}"
+with open(result_directory+"balancer_out", "w") as balancer_out:
+    with ProcessScope(subprocess.Popen(balancer_cmds, stdout=balancer_out, stderr=subprocess.STDOUT)) as p:
+        time.sleep(1) # make sure the balancer is running
+        memory_limit = f"{MEMORY_LIMIT * MB_IN_BYTES}"
 
-    v8_env_vars = {"USE_MEMBALANCER": "1", "LOG_GC": "1", "LOG_DIRECTORY": result_directory}
+        v8_env_vars = {"USE_MEMBALANCER": "1", "LOG_GC": "1", "LOG_DIRECTORY": result_directory}
 
-    if not RESIZE_STRATEGY == "ignore":
-        v8_env_vars["SKIP_RECOMPUTE_LIMIT"] = "1"
-        v8_env_vars["SKIP_MEMORY_REDUCER"] = "1"
-    #v8_env_vars["SKIP_INCREMENTAL_MARKING"] = "1"
-    if TYPE == "jetstream":
-        run_jetstream(v8_env_vars)
-    elif TYPE == "browser":
-        run_browser(v8_env_vars)
-    else:
+        if not RESIZE_STRATEGY == "ignore":
+            v8_env_vars["SKIP_RECOMPUTE_LIMIT"] = "1"
+            v8_env_vars["SKIP_MEMORY_REDUCER"] = "1"
+            #v8_env_vars["SKIP_INCREMENTAL_MARKING"] = "1"
+        if TYPE == "jetstream":
+            run_jetstream(v8_env_vars)
+        elif TYPE == "browser":
+            run_browser(v8_env_vars)
+        else:
+            p.kill()
+            raise Exception(f"unknown benchmark type: {TYPE}")
         p.kill()
-        raise Exception(f"unknown benchmark type: {TYPE}")
-    p.kill()
