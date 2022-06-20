@@ -124,7 +124,6 @@ def run_browser(v8_env_vars):
         await page.waitForSelector("i.icon-comment")
         i = 0
         while time.time() - start < duration:
-            print("looping reddit")
             l = await page.querySelectorAll("i.icon-comment")
             assert i < len(l)
             await page.evaluate("(element) => element.scrollIntoView()", l[i])
@@ -143,7 +142,6 @@ def run_browser(v8_env_vars):
         page = await new_page(browser)
         await page.goto(website, timeout=duration*1000, waitUntil=wait_until)
         while time.time() - start < duration:
-            print(f"looping {website}")
             await page.evaluate(f"{{window.scrollBy(0, {SCROLL_PIX});}}")
             await asyncio.sleep(SCROLL_SLEEP)
 
@@ -163,7 +161,6 @@ def run_browser(v8_env_vars):
         await asyncio.sleep(GMAIL_WAIT_TIME)
         i = 0
         while time.time() - start < duration:
-            print("looping gmail")
             await page.evaluate(f'document.querySelectorAll(".zA")[{i}].click()')
             await asyncio.sleep(GMAIL_EMAIL_TIME)
             await page.evaluate('document.querySelector(".TN.bzz.aHS-bnt").click()')
@@ -184,7 +181,6 @@ def run_browser(v8_env_vars):
         await page.evaluate("(g) => g.click()", groups)
         await asyncio.sleep(EVAL_SLEEP)
         while time.time() - start < duration:
-            print(f"looping facebook")
             await page.evaluate(f"{{window.scrollBy(0, {SCROLL_PIX});}}")
             await asyncio.sleep(SCROLL_SLEEP)
     bench["facebook"] = facebook
@@ -200,7 +196,6 @@ def run_browser(v8_env_vars):
         await page.goto("https://www.news.yahoo.com/", timeout=duration*1000, waitUntil=wait_until)
         await asyncio.sleep(1)
         while time.time() - start < duration:
-            print("looping yahoo")
             await page.evaluate("{window.scrollBy(0, 50);}")
             await asyncio.sleep(1)
     bench["yahoo"] = yahoo
@@ -211,7 +206,6 @@ def run_browser(v8_env_vars):
         await page.goto("https://www.medium.com/", timeout=duration*1000, waitUntil=wait_until)
         await asyncio.sleep(1)
         while time.time() - start < duration:
-            print("looping medium")
             await page.evaluate("{window.scrollBy(0, 50);}")
             await asyncio.sleep(1)
     bench["medium"] = medium
