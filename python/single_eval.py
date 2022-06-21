@@ -86,9 +86,6 @@ if RESIZE_STRATEGY == "gradient":
 balancer_cmds.append(f"--balance-frequency={BALANCE_FREQUENCY}")
 balancer_cmds.append(f"""--log-path={result_directory+"balancer_log"}""")
 
-def tee_log(cmd, log_path):
-    return f"{cmd} 2>&1 | tee {log_path}"
-
 def env_vars_str(env_vars):
     ret = ""
     for k, v in env_vars.items():
@@ -127,7 +124,6 @@ def run_browser(v8_env_vars):
         await page.waitForSelector("i.icon-comment")
         i = 0
         while time.time() - start < duration:
-            print("looping reddit")
             l = await page.querySelectorAll("i.icon-comment")
             assert i < len(l)
             await page.evaluate("(element) => element.scrollIntoView()", l[i])
@@ -146,7 +142,6 @@ def run_browser(v8_env_vars):
         page = await new_page(browser)
         await page.goto(website, timeout=duration*1000, waitUntil=wait_until)
         while time.time() - start < duration:
-            print(f"looping {website}")
             await page.evaluate(f"{{window.scrollBy(0, {SCROLL_PIX});}}")
             await asyncio.sleep(SCROLL_SLEEP)
 
@@ -166,7 +161,6 @@ def run_browser(v8_env_vars):
         await asyncio.sleep(GMAIL_WAIT_TIME)
         i = 0
         while time.time() - start < duration:
-            print("looping gmail")
             await page.evaluate(f'document.querySelectorAll(".zA")[{i}].click()')
             await asyncio.sleep(GMAIL_EMAIL_TIME)
             await page.evaluate('document.querySelector(".TN.bzz.aHS-bnt").click()')
@@ -187,7 +181,6 @@ def run_browser(v8_env_vars):
         await page.evaluate("(g) => g.click()", groups)
         await asyncio.sleep(EVAL_SLEEP)
         while time.time() - start < duration:
-            print(f"looping facebook")
             await page.evaluate(f"{{window.scrollBy(0, {SCROLL_PIX});}}")
             await asyncio.sleep(SCROLL_SLEEP)
     bench["facebook"] = facebook
@@ -203,7 +196,6 @@ def run_browser(v8_env_vars):
         await page.goto("https://www.news.yahoo.com/", timeout=duration*1000, waitUntil=wait_until)
         await asyncio.sleep(1)
         while time.time() - start < duration:
-            print("looping yahoo")
             await page.evaluate("{window.scrollBy(0, 50);}")
             await asyncio.sleep(1)
     bench["yahoo"] = yahoo
@@ -214,7 +206,6 @@ def run_browser(v8_env_vars):
         await page.goto("https://www.medium.com/", timeout=duration*1000, waitUntil=wait_until)
         await asyncio.sleep(1)
         while time.time() - start < duration:
-            print("looping medium")
             await page.evaluate("{window.scrollBy(0, 50);}")
             await asyncio.sleep(1)
     bench["medium"] = medium
@@ -263,7 +254,7 @@ def run_browser(v8_env_vars):
         return bench[bench_name]
 
     async def run_browser_main():
-        b = await new_browser(env_vars=v8_env_vars, headless=True)
+        b = await new_browser(env_vars=v8_env_vars, headless=True, debug=False)
         d = 180
         try:
             await asyncio.wait_for(asyncio.gather(*[get_bench(bench)(b, d) for bench in BENCH]), timeout=d*2)
@@ -280,22 +271,22 @@ def run_browser(v8_env_vars):
     with open(os.path.join(result_directory, "score"), "w") as f:
         json.dump(j, f)
 
-with ProcessScope(subprocess.Popen(balancer_cmds, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)) as p:
-    subprocess.Popen(["tee", result_directory+"balancer_out"], stdin=p.stdout)
-    time.sleep(1) # make sure the balancer is running
-    memory_limit = f"{MEMORY_LIMIT * MB_IN_BYTES}"
+with open(result_directory+"balancer_out", "w") as balancer_out:
+    with ProcessScope(subprocess.Popen(balancer_cmds, stdout=balancer_out, stderr=subprocess.STDOUT)) as p:
+        time.sleep(1) # make sure the balancer is running
+        memory_limit = f"{MEMORY_LIMIT * MB_IN_BYTES}"
 
-    v8_env_vars = {"USE_MEMBALANCER": "1", "LOG_GC": "1", "LOG_DIRECTORY": result_directory}
+        v8_env_vars = {"USE_MEMBALANCER": "1", "LOG_GC": "1", "LOG_DIRECTORY": result_directory}
 
-    if not RESIZE_STRATEGY == "ignore":
-        v8_env_vars["SKIP_RECOMPUTE_LIMIT"] = "1"
-        v8_env_vars["SKIP_MEMORY_REDUCER"] = "1"
-    #v8_env_vars["SKIP_INCREMENTAL_MARKING"] = "1"
-    if TYPE == "jetstream":
-        run_jetstream(v8_env_vars)
-    elif TYPE == "browser":
-        run_browser(v8_env_vars)
-    else:
+        if not RESIZE_STRATEGY == "ignore":
+            v8_env_vars["SKIP_RECOMPUTE_LIMIT"] = "1"
+            v8_env_vars["SKIP_MEMORY_REDUCER"] = "1"
+            #v8_env_vars["SKIP_INCREMENTAL_MARKING"] = "1"
+        if TYPE == "jetstream":
+            run_jetstream(v8_env_vars)
+        elif TYPE == "browser":
+            run_browser(v8_env_vars)
+        else:
+            p.kill()
+            raise Exception(f"unknown benchmark type: {TYPE}")
         p.kill()
-        raise Exception(f"unknown benchmark type: {TYPE}")
-    p.kill()
