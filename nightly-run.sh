@@ -36,6 +36,9 @@ cd "../chromium/src"
 git checkout master
 git pull
 gclient sync -f --no-history
+cd "v8"
+git pull
+cd "../"
 echo "** building chrome **"
 autoninja -C out/Release chrome
 
