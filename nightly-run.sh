@@ -37,7 +37,7 @@ git checkout master
 git pull
 gclient sync -f --no-history
 cd "v8"
-git pull
+git pull origin 2020-12-24
 cd "../"
 echo "** building chrome **"
 autoninja -C out/Release chrome
