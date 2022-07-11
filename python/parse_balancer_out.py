@@ -3,7 +3,7 @@ import sys
 def get_index(col_name):
 	if col_name == "gc_rate_d":
 		return
-		
+
 def chunking(filtered_logs):
 	chunks = []
 	tmp = []
@@ -17,21 +17,17 @@ def chunking(filtered_logs):
 	if len(tmp) > 0:
 		chunks.append(tmp)
 	return chunks
-	
+
 def convert_each_chunk(chunk):
-	
 	for pgm_line in chunk:
 		split_lines = pgm_line.split('|')
 		print(split_lines)
 
 # [{"ts": {"name": <name>,"gc_rate_d": <rate>, "": }, "pdfjs": {"name": <name>,"gc_rate_d": <rate>, }}]
 def convert_to_dict(chunks):
-	
 	data = []
 	for chunk in chunks:
 		convert_each_chunk(chunk)
-		
-
 
 def filter_log(filepath):
 	filtered_log = []
@@ -40,7 +36,7 @@ def filter_log(filepath):
 			if len(line) > 0 and line.startswith("|"):
 				filtered_log.append(line)
 	return filtered_log
-	
+
 def display(chunks):
 	for chunk in chunks:
 		print(chunk)
@@ -50,7 +46,6 @@ def main(filepath):
 	chunks = chunking(filtered_logs)
 	convert_to_dict(chunks)
 #	display(chunks)
-
 
 if __name__ == "__main__":
     assert(len(sys.argv) == 2)
