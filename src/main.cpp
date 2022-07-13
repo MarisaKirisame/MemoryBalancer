@@ -12,6 +12,7 @@
 #include "v8_util.hpp"
 #include "poll_daemon.hpp"
 #include "macro.hpp"
+#include "acdc.hpp"
 
 #include <cxxopts.hpp>
 
@@ -31,6 +32,8 @@ int main(int argc, char* argv[]) {
     pareto_curve("../gc_log");
   } else if (command == "macro") {
     macro();
+  } else if (command == "acdc") {
+    acdc(v8.platform.get(), command_args);
   } else {
     std::cout << "unknown command: " << command << std::endl;
   }
