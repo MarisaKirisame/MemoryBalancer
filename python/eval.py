@@ -13,7 +13,7 @@ from EVAL import *
 
 assert len(sys.argv) == 2
 mode = sys.argv[1]
-assert mode in ["jetstream", "browser", "all", "acdc", "macro"]
+assert mode in ["jetstream", "browser", "acdc", "all", "macro"]
 
 BASELINE = {
     "BALANCE_STRATEGY": "ignore",
