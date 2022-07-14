@@ -87,7 +87,6 @@ void acdc(v8::Platform* platform, const std::vector<char*>& args) {
                                platform,
                                Input {/*size=*/"128", /*liveness=*/"16", /*duration=*/"4000"},
                                &s));
-
   s.signal();
   for (auto& f: futures) {
     f.get();
