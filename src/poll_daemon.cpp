@@ -130,7 +130,6 @@ using socket_t = int;
 void send_string(socket_t s, const std::string& msg) {
   if (::send(s, msg.c_str(), msg.size(), 0) != msg.size()) {
     ERROR_STREAM << strerror(errno) << std::endl;
-    throw;
   }
 }
 
