@@ -128,9 +128,11 @@ int get_listener() {
 using socket_t = int;
 
 void send_string(socket_t s, const std::string& msg) {
+  std::cout << "try send" << std::endl;
   if (::send(s, msg.c_str(), msg.size(), 0) != msg.size()) {
     ERROR_STREAM << strerror(errno) << std::endl;
   }
+  std::cout << "send ok" << std::endl;
 }
 
 // channel over idempotent message.
