@@ -286,6 +286,8 @@ with open(result_directory+"balancer_out", "w") as balancer_out:
             run_jetstream(v8_env_vars)
         elif TYPE == "browser":
             run_browser(v8_env_vars)
+        elif TYPE == "acdc":
+            run_acdc(v8_env_vars)
         else:
             p.kill()
             raise Exception(f"unknown benchmark type: {TYPE}")
