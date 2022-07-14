@@ -92,7 +92,7 @@ cfg_acdc = {
 
 eval_acdc = {
     "NAME": "acdc",
-    "CFG": 1,
+    "CFG": cfg_acdc,
 }
 
 evaluation = []
