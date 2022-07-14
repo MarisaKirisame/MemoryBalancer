@@ -248,6 +248,11 @@ def gen_jetstream(directory):
     parse_gc_log.main([tex_table_membalancer_dir], [tex_table_baseline_dir], "JS")
     return gen_eval("jetstream", m_exp)
 
+def gen_acdc(directory):
+    m = megaplot.anal_log(directory)
+    m_exp = {benches: {cfg: [Experiment([x]) for x in aggregated_runs] for cfg, aggregated_runs in per_benches_m.items()} for benches, per_benches_m in m.items()}
+    return gen_eval("acdc", m_exp)
+
 def gen_browser(directory, i):
     m = megaplot.anal_log(dd)
     def n_choose_k(n, k):
@@ -287,6 +292,8 @@ with page(path=path.joinpath("index.html"), title='Main') as doc:
             name = cfg["NAME"]
             if name == "jetstream":
                 li(a("jetstream", href=gen_jetstream(dd)))
+            elif name == "acdc":
+                li(a("acdc"), href=gen_acdc(dd))
             elif name == "browser":
                 m = megaplot.anal_log(dd)
                 m_exp = {benches: {cfg: [Experiment([x]) for x in aggregated_runs] for cfg, aggregated_runs in per_benches_m.items()} for benches, per_benches_m in m.items()}
