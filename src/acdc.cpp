@@ -55,8 +55,12 @@ void run_acdc(v8::Platform* platform, const Input& input, Signal* s) {
       script->Run(context);
     }
   }
+  std::cout << "try isolate->stopmb!" << std::endl;
   isolate->StopMB();
+  std::cout << "isolate->stopmb ok!" << std::endl;
+  std::cout << "try isolate->dispose!" << std::endl;
   isolate->Dispose();
+  std::cout << "isolate->dispose ok!" << std::endl;
 }
 
 void acdc(v8::Platform* platform, const std::vector<char*>& args) {
