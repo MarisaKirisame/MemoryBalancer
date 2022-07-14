@@ -109,6 +109,21 @@ def run_jetstream(v8_env_vars):
         with open(os.path.join(result_directory, "score"), "w") as f:
             json.dump(j, f)
 
+def run_acdc(v8_env_vars):
+    command = f"""build/MemoryBalancer acdc""" # a very big heap size to essentially have no limit
+    main_process_result = subprocess.run(f"{env_vars_str(v8_env_vars)} {command}", shell=True, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    with open(os.path.join(result_directory, "v8_out"), "w") as f:
+        f.write(main_process_result.stdout)
+        j = {}
+    if main_process_result.returncode == 0:
+        j["OK"] = True
+    else:
+        j["OK"] = False
+        j["ERROR"] = main_process_result.stdout
+    with open(os.path.join(result_directory, "score"), "w") as f:
+        json.dump(j, f)
+
+
 def run_browser(v8_env_vars):
     async def new_page(browser):
             page = await browser.newPage()
