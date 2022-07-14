@@ -13,7 +13,7 @@ from EVAL import *
 
 assert len(sys.argv) == 2
 mode = sys.argv[1]
-assert mode in ["jetstream", "browser", "all", "macro"]
+assert mode in ["jetstream", "browser", "all", "acdc", "macro"]
 
 BASELINE = {
     "BALANCE_STRATEGY": "ignore",
@@ -22,8 +22,8 @@ BASELINE = {
 }
 
 js_c_range = [0.5, 0.7, 0.9, 2, 3] * 2
-js_c_range.reverse()
 browser_c_range = [0.05, 0.1, 0.2, 0.3, 0.5, 0.7, 0.9]
+acdc_c_range = [0.01 * i for i in range(1, 11)] + [0.1 * i for i in range(1, 11)] + [1 * i for i in range(1, 11)]
 
 tex = ""
 tex += tex_def("JSMinC", f"{tex_fmt(min(js_c_range))}\%/MB")
@@ -79,11 +79,29 @@ eval_jetstream = {
     "CFG": cfg_jetstream
 }
 
+acdc_c_range = []
+
+cfg_acdc = {
+    "LIMIT_MEMORY": True,
+    "DEBUG": True,
+    "TYPE": "acdc",
+    "MEMORY_LIMIT": 10000,
+    "BENCH": ["acdc"],
+    "BALANCER_CFG": BALANCER_CFG(js_c_range)
+}
+
+eval_acdc = {
+    "NAME": "acdc",
+    "CFG": 1,
+}
+
 evaluation = []
 if mode in ["jetstream", "all"]:
     evaluation.append(QUOTE(eval_jetstream))
 if mode in ["browser", "all"]:
     evaluation.append(QUOTE(eval_browser))
+if mode in ["acdc", "all"]:
+    evaluation.append(QUOTE(eval_acdc))
 
 subprocess.run("make", shell=True)
 subprocess.run("autoninja -C out/Release/ chrome", shell=True, cwd="../chromium/src")
