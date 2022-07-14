@@ -95,7 +95,7 @@ void v8_experiment(v8::Platform* platform, const std::vector<char*>& args) {
       std::string footer = "for(i = 0; i < " + std::to_string(b.repeat_time) + "; i++) {new Benchmark().runIteration();}";
       Signal* ps = &s;
       std::vector<std::pair<size_t, std::string>> input = {{1, header}, {1, read_file(js_path)}, {1, footer}};
-      futures.push_back(std::async(std::launch::async, run_v8, platform, input, b.name, heap_size, ps));
+      futures.push_back(std::async(std::launch::async, run_v8, platform, input, b.name, heap_size, &s));
     }
   }
 
@@ -109,14 +109,14 @@ void v8_experiment(v8::Platform* platform, const std::vector<char*>& args) {
        {1, read_file(octane_path + "typescript-input.js")},
        {1, read_file(octane_path + "typescript.js")},
        {1, footer}};
-    futures.push_back(std::async(std::launch::async, run_v8, platform, input, "typescript.js", heap_size, ps));
+    futures.push_back(std::async(std::launch::async, run_v8, platform, input, "typescript.js", heap_size, &s));
   }
 
   for (const Benchmark& b : js_paths) {
     std::string js_path = b.directory + b.name;
     Signal* ps = &s;
     std::vector<std::pair<size_t, std::string>> input = {{1, std::string("for(i = 0; i < " + std::to_string(b.repeat_time) + "; i++) {") + read_file(js_path) + "}"}};
-    futures.push_back(std::async(std::launch::async, run_v8, platform, input, b.name, heap_size, ps));
+    futures.push_back(std::async(std::launch::async, run_v8, platform, input, b.name, heap_size, &s));
   }
 
   s.signal();
