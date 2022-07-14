@@ -293,7 +293,7 @@ with page(path=path.joinpath("index.html"), title='Main') as doc:
             if name == "jetstream":
                 li(a("jetstream", href=gen_jetstream(dd)))
             elif name == "acdc":
-                li(a("acdc"), href=gen_acdc(dd))
+                li(a("acdc", href=gen_acdc(dd)))
             elif name == "browser":
                 m = megaplot.anal_log(dd)
                 m_exp = {benches: {cfg: [Experiment([x]) for x in aggregated_runs] for cfg, aggregated_runs in per_benches_m.items()} for benches, per_benches_m in m.items()}

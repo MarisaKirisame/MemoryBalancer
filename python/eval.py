@@ -79,15 +79,13 @@ eval_jetstream = {
     "CFG": cfg_jetstream
 }
 
-acdc_c_range = []
-
 cfg_acdc = {
     "LIMIT_MEMORY": True,
     "DEBUG": True,
     "TYPE": "acdc",
     "MEMORY_LIMIT": 10000,
     "BENCH": ["acdc"],
-    "BALANCER_CFG": BALANCER_CFG(js_c_range)
+    "BALANCER_CFG": BALANCER_CFG(acdc_c_range)
 }
 
 eval_acdc = {

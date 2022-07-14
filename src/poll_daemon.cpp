@@ -398,7 +398,7 @@ struct ConnectionState {
   double speed_balance_factor() {
     return sqrt(static_cast<double>(garbage_rate()) * static_cast<double>(working_memory + bias_in_working_memory) / static_cast<double>(gc_speed()));
   }
-	
+
   nlohmann::json report(TextTable& t, size_t epoch) {
     assert(should_balance());
     t.add(name);
@@ -406,7 +406,7 @@ struct ConnectionState {
     t.add(std::to_string(max_memory));
     t.add(std::to_string(garbage_rate()));
     t.add(std::to_string(gc_speed()));
-	
+
     nlohmann::json data;
     data["name"] = name;
     data["extra_mem"] = extra_memory()/1e6;
@@ -712,16 +712,16 @@ struct Balancer {
     t.endOfRow();
     return t;
   }
-	
+
   void report(const Stat& st, const std::function<size_t(ConnectionState*)>& suggested_extra_memory) {
     auto t = make_table();
     auto vec = vector();
     std::cout << "balancing " << st.instance_count << " heap, waiting for " << vec.size() - st.instance_count << " heap" << std::endl;
-	nlohmann::json data;
+    nlohmann::json data;
     for (ConnectionState* rr: vector()) {
       if (rr->should_balance()) {
-		nlohmann::json one_row = rr->report(t, epoch);
-		data.push_back(one_row);
+        nlohmann::json one_row = rr->report(t, epoch);
+        data.push_back(one_row);
         size_t suggested_extra_memory_ = suggested_extra_memory(rr);
         t.add(std::to_string(suggested_extra_memory_));
         t.add(std::to_string(suggested_extra_memory_ + rr->working_memory));
@@ -737,7 +737,7 @@ struct Balancer {
     std::string tex_data_string = tex_data.dump();
     std::ofstream tex_log(tex_path);
     tex_log << tex_data_string;
-	  
+
     std::cout << t << std::endl;
     std::cout << "score mse: " << st.mse << std::endl;
     std::cout << "total memory: " << st.m << std::endl;
