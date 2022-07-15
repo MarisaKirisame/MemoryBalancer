@@ -127,12 +127,12 @@ int get_listener() {
 
 using socket_t = int;
 
-void send_string(socket_t s, const std::string& msg) {
-  std::cout << "try send" << std::endl;
-  if (::send(s, msg.c_str(), msg.size(), 0) != msg.size()) {
+bool send_string(socket_t s, const std::string& msg) {
+  if (::send(s, msg.c_str(), msg.size(), MSG_NOSIGNAL) != msg.size()) {
     ERROR_STREAM << strerror(errno) << std::endl;
+    return false;
   }
-  std::cout << "send ok" << std::endl;
+  return true;
 }
 
 // channel over idempotent message.
@@ -626,16 +626,19 @@ struct Balancer {
     while (true) {
       int num_events = poll(pfds.data(), pfds.size(), -1);
       if (num_events != 0) {
+        auto connection_closed = [&](size_t i) {
+                                   map.at(pfds[i].fd).max_memory = 0;
+                                   map.at(pfds[i].fd).current_memory = 0;
+                                   map.at(pfds[i].fd).working_memory = 0;
+                                   map.at(pfds[i].fd).try_log(l, "close");
+                                   map.erase(pfds[i].fd);
+                                   pfds[i] = pfds.back();
+                                   pfds.pop_back();
+                                 };
         auto close_connection = [&](size_t i) {
                                   std::cout << "peer closed!" << std::endl;
                                   close(pfds[i].fd);
-                                  map.at(pfds[i].fd).max_memory = 0;
-                                  map.at(pfds[i].fd).current_memory = 0;
-                                  map.at(pfds[i].fd).working_memory = 0;
-                                  map.at(pfds[i].fd).try_log(l, "close");
-                                  map.erase(pfds[i].fd);
-                                  pfds[i] = pfds.back();
-                                  pfds.pop_back();
+                                  connection_closed(i);
                                 };
         for (size_t i = 0; i < pfds.size();) {
           auto fd = pfds[i].fd;
@@ -922,17 +925,20 @@ struct Balancer {
             if (true) {
               std::string str = to_string(tagged_json("heap", total_memory_));
               std::cout << "sending: " << str << "to: " << rr->name << std::endl;
-              send_string(rr->fd, str);
-              if (immediate_reclaim) {
-                rr->max_memory = total_memory_;
-                assert(rr->max_memory >= rr->working_memory);
+              if (!send_string(rr->fd, str)) {
+                // todo: actually close the connection. right now i am hoping the poll code will close it.
+              } else {
+                if (immediate_reclaim) {
+                  rr->max_memory = total_memory_;
+                  assert(rr->max_memory >= rr->working_memory);
+                }
+                nlohmann::json j;
+                j["name"] = rr->name;
+                j["working-memory"] = rr->working_memory;
+                j["max-memory"] = total_memory_;
+                j["time"] = (steady_clock::now() - program_begin).count();
+                l.log(tagged_json("memory-msg", j));
               }
-              nlohmann::json j;
-              j["name"] = rr->name;
-              j["working-memory"] = rr->working_memory;
-              j["max-memory"] = total_memory_;
-              j["time"] = (steady_clock::now() - program_begin).count();
-              l.log(tagged_json("memory-msg", j));
             }
           }
         }
