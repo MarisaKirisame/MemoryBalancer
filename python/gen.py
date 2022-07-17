@@ -313,7 +313,7 @@ with page(path=path.joinpath("index.html"), title='Main') as doc:
 
 if action == "open":
     os.system(f"xdg-open {path.joinpath('index.html')}")
-elif action == "upload":
+elif action == "upload" or action == "paper":
     with open(f"../membalancer-paper/data/EVAL.tex", "w") as tex_file:
         tex += tex_def("GraphHash", get_commit("./"))
         tex_file.write(tex)

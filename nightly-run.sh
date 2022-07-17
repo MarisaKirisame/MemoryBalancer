@@ -56,7 +56,7 @@ pip3 install dominate
 
 echo "** running eval **"
 python3 python/eval.py "acdc"
-python3 python/gen.py --action=upload
+python3 python/gen.py --action=paper
 echo "** uploading results **"
 result_dir=`ls "out" | sort -r | head -1`
 if command -v nightly-results &>/dev/null; then
