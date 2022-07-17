@@ -72,17 +72,16 @@ void acdc(v8::Platform* platform, const std::vector<char*>& args) {
   std::string duration = "1000";
   std::vector<std::future<void>> futures;
   Signal s;
-  if (false) {
-    futures.push_back(std::async(std::launch::async,
-                                 run_acdc,
-                                 platform,
-                                 Input {/*size=*/"8", /*liveness=*/"16", /*duration=*/"400"},
-                                 &s));
-    futures.push_back(std::async(std::launch::async,
-                                 run_acdc,
-                                 platform,
-                                 Input {/*size=*/"128", /*liveness=*/"16", /*duration=*/"4000"},
-                                 &s));
+  futures.push_back(std::async(std::launch::async,
+                               run_acdc,
+                               platform,
+                               Input {/*size=*/"8", /*liveness=*/"16", /*duration=*/"400"},
+                               &s));
+  futures.push_back(std::async(std::launch::async,
+                               run_acdc,
+                               platform,
+                               Input {/*size=*/"128", /*liveness=*/"16", /*duration=*/"4000"},
+                               &s));
   futures.push_back(std::async(std::launch::async,
                                run_acdc,
                                platform,
@@ -93,27 +92,29 @@ void acdc(v8::Platform* platform, const std::vector<char*>& args) {
                                platform,
                                Input {/*size=*/"128", /*liveness=*/"1", /*duration=*/"18000"},
                                &s));
+  if (false) {
+    // an attempt at less extreme parameter
+    futures.push_back(std::async(std::launch::async,
+                                 run_acdc,
+                                 platform,
+                                 Input {/*size=*/"8", /*liveness=*/"4", /*duration=*/"600"},
+                                 &s));
+    futures.push_back(std::async(std::launch::async,
+                                 run_acdc,
+                                 platform,
+                                 Input {/*size=*/"32", /*liveness=*/"4", /*duration=*/"2500"},
+                                 &s));
+    futures.push_back(std::async(std::launch::async,
+                                 run_acdc,
+                                 platform,
+                                 Input {/*size=*/"8", /*liveness=*/"1", /*duration=*/"750"},
+                                 &s));
+    futures.push_back(std::async(std::launch::async,
+                                 run_acdc,
+                                 platform,
+                                 Input {/*size=*/"32", /*liveness=*/"1", /*duration=*/"4500"},
+                                 &s));
   }
-  futures.push_back(std::async(std::launch::async,
-                               run_acdc,
-                               platform,
-                               Input {/*size=*/"8", /*liveness=*/"4", /*duration=*/"600"},
-                               &s));
-  futures.push_back(std::async(std::launch::async,
-                               run_acdc,
-                               platform,
-                               Input {/*size=*/"32", /*liveness=*/"4", /*duration=*/"2500"},
-                               &s));
-  futures.push_back(std::async(std::launch::async,
-                               run_acdc,
-                               platform,
-                               Input {/*size=*/"8", /*liveness=*/"1", /*duration=*/"750"},
-                               &s));
-  futures.push_back(std::async(std::launch::async,
-                               run_acdc,
-                               platform,
-                               Input {/*size=*/"32", /*liveness=*/"1", /*duration=*/"4500"},
-                               &s));
   s.signal();
   for (auto& f: futures) {
     f.get();
