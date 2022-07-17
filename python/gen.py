@@ -27,6 +27,8 @@ from matplotlib.ticker import FormatStrFormatter
 from git_check import get_commit
 import argparse
 
+server_name = "uwplse.org:/var/www/membalancer/"
+
 paper.pull()
 
 parser = argparse.ArgumentParser()
@@ -34,7 +36,7 @@ parser.add_argument("--action", default="", help="what to do to the generated ht
 args = parser.parse_args()
 action = args.action
 
-assert action in ["", "open", "upload"]
+assert action in ["check", "open", "upload", "paper"]
 
 class page(dominate.document):
     def __init__(self, path, *args, **kwargs):
@@ -58,7 +60,12 @@ class Counter:
         self.count += 1
         return ret
 
+pre_path = time.strftime("%Y-%m-%d-%H-%M-%S")
+path = Path("out/" + pre_path)
+path.mkdir(parents=True, exist_ok=True)
+
 tex = ""
+tex += f"% path: {server_name + str(pre_path)}"
 
 commit = None
 for name in glob.glob('log/**/commit', recursive=True):
@@ -70,9 +77,6 @@ for name in glob.glob('log/**/commit', recursive=True):
 tex += tex_def("MBHash", commit["membalancer"])
 tex += tex_def("VEightHash", commit["v8"])
 
-path = Path("out/" + time.strftime("%Y-%m-%d-%H-%M-%S"))
-path.mkdir(parents=True, exist_ok=True)
-
 png_counter = Counter()
 html_counter = Counter()
 txt_counter = Counter()
@@ -81,7 +85,7 @@ def gen_anal_gc_log(cfg, exp):
     html_path = f"{html_counter()}.html"
     with page(path=path.joinpath(html_path), title=str(cfg)) as doc:
         anal_gc_log.main(cfg, exp)
-        png_path = f"{png_counter()}.png"
+        png_path = f"img/{png_counter()}.png"
         plt.savefig(str(path.joinpath(png_path)), bbox_inches='tight')
         plt.clf()
         img(src=png_path)
@@ -105,7 +109,7 @@ def gen_megaplot_bench(m, bench):
             resize_cfg = p.cfg["RESIZE_CFG"]
             return 0 if resize_cfg["RESIZE_STRATEGY"] == "ignore" else 1/-resize_cfg["GC_RATE_D"]
         points.sort(key=sorted_by)
-        png_path = f"{png_counter()}.png"
+        png_path = f"img/{png_counter()}.png"
         plt.savefig(str(path.joinpath(png_path)), bbox_inches='tight')
         plt.clf()
         img(src=png_path)
@@ -141,7 +145,7 @@ def gen_eval(tex_name, m, anal_frac=None):
     html_path = f"{html_counter()}.html"
     with page(path=path.joinpath(html_path), title='Plot') as doc:
         mp = megaplot.plot(m, m.keys(), legend=False)
-        png_path = f"{tex_name}plot.png"
+        png_path = f"img/{tex_name}plot.png"
         plt.savefig(str(path.joinpath(png_path)), bbox_inches='tight')
         plt.clf()
         img(src=png_path)
@@ -187,7 +191,7 @@ def gen_eval(tex_name, m, anal_frac=None):
                 plt.hist(improvement_over_baseline, [x * bin_width for x in range(bin_start, bin_stop + 1)], ec='black')
                 plt.axvline(x=0, color="black")
                 plt.gca().xaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(format_sigma))
-                png_path = f"{tex_name}sd.png"
+                png_path = f"img/{tex_name}sd.png"
                 plt.savefig(str(path.joinpath(png_path)), bbox_inches='tight')
                 plt.clf()
                 img(src=png_path)
@@ -231,7 +235,7 @@ def gen_jetstream(directory):
             	anal_gc_log.main(cfg, Experiment([Run(dirname + "/")]), legend=False)
             	plt.xlim([0, 50])
             	plt.ylim([0, 450])
-            	plt.savefig(f"../membalancer-paper/js_baseline_anal.png", bbox_inches='tight')
+            	plt.savefig(f"../membalancer-paper/img/js_baseline_anal.png", bbox_inches='tight')
             	plt.clf()
         elif cfg["CFG"]["BALANCER_CFG"]["RESIZE_CFG"]["GC_RATE_D"] == JSCompareAt:
             if not found_compare:
@@ -242,16 +246,16 @@ def gen_jetstream(directory):
                 anal_gc_log.main(cfg, Experiment([Run(dirname + "/")]), legend=False)
                 plt.xlim([0, 50])
                 plt.ylim([0, 450])
-                plt.savefig(f"../membalancer-paper/js_membalancer_anal.png", bbox_inches='tight')
+                plt.savefig(f"../membalancer-paper/img/js_membalancer_anal.png", bbox_inches='tight')
                 plt.clf()
     gen_tex_table.main(tex_table_membalancer_dir, tex_table_baseline_dir)
     parse_gc_log.main([tex_table_membalancer_dir], [tex_table_baseline_dir], "JS")
-    return gen_eval("jetstream", m_exp)
+    return gen_eval("JETSTREAM", m_exp)
 
 def gen_acdc(directory):
     m = megaplot.anal_log(directory)
     m_exp = {benches: {cfg: [Experiment([x]) for x in aggregated_runs] for cfg, aggregated_runs in per_benches_m.items()} for benches, per_benches_m in m.items()}
-    return gen_eval("acdc", m_exp)
+    return gen_eval("ACDC", m_exp)
 
 def gen_browser(directory, i):
     m = megaplot.anal_log(dd)
@@ -294,10 +298,10 @@ with page(path=path.joinpath("index.html"), title='Main') as doc:
                 li(a("jetstream", href=gen_jetstream(dd)))
             elif name == "acdc":
                 li(a("acdc", href=gen_acdc(dd)))
-            elif name == "browser":
+            elif name in ["browseri", "browserii", "browseriii"]:
                 m = megaplot.anal_log(dd)
                 m_exp = {benches: {cfg: [Experiment([x]) for x in aggregated_runs] for cfg, aggregated_runs in per_benches_m.items()} for benches, per_benches_m in m.items()}
-                li(a(f"browser", href=gen_eval("browser", m_exp)))
+                li(a(name, href=gen_eval(name.upper(), m_exp)))
                 #for i in [1, 2, 3]:
                 #    li(a(f"browser_{i}", href=gen_browser(dd, i)))
             else:
@@ -310,9 +314,9 @@ with page(path=path.joinpath("index.html"), title='Main') as doc:
 if action == "open":
     os.system(f"xdg-open {path.joinpath('index.html')}")
 elif action == "upload":
-    with open(f"../membalancer-paper/EVAL.tex", "w") as tex_file:
+    with open(f"../membalancer-paper/data/EVAL.tex", "w") as tex_file:
         tex += tex_def("GraphHash", get_commit("./"))
         tex_file.write(tex)
-    paper.push()
-    server_name = "uwplse.org:/var/www/membalancer"
     os.system(f"scp -r -C {path} {server_name}")
+if action == "paper":
+    paper.push()

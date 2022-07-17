@@ -9,7 +9,7 @@ mkdir -p log
 rm -f /tmp/membalancer_socket
 
 #sync with the main branch (for custom branches)
-git pull --rebase origin main
+#git pull --rebase origin main
 
 mem_balancer_dir=$PWD
 cd $mem_balancer_dir

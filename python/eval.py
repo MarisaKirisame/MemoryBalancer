@@ -50,7 +50,16 @@ def BALANCER_CFG(c_range, baseline_time=3):
         "BALANCE_FREQUENCY": 0
     }] + baseline_time * [BASELINE]))
 
-cfg_browser = {
+cfg_browseri = {
+    "LIMIT_MEMORY": True,
+    "DEBUG": True,
+    "TYPE": "browser",
+    "MEMORY_LIMIT": 10000,
+    "BENCH": NONDET(*[(x,) for x in bench]),
+    "BALANCER_CFG": BALANCER_CFG(browser_c_range)
+}
+
+cfg_browserii = {
     "LIMIT_MEMORY": True,
     "DEBUG": True,
     "TYPE": "browser",
@@ -59,9 +68,28 @@ cfg_browser = {
     "BALANCER_CFG": BALANCER_CFG(browser_c_range)
 }
 
-eval_browser = {
+cfg_browseriii = {
+    "LIMIT_MEMORY": True,
+    "DEBUG": True,
+    "TYPE": "browser",
+    "MEMORY_LIMIT": 10000,
+    "BENCH": NONDET(*[random.sample(bench, 3) for _ in range(30)]),
+    "BALANCER_CFG": BALANCER_CFG(browser_c_range)
+}
+
+eval_browseri = {
     "NAME": "browser",
-    "CFG": cfg_browser
+    "CFG": cfg_browseri
+}
+
+eval_browserii = {
+    "NAME": "browser",
+    "CFG": cfg_browserii
+}
+
+eval_browseriii = {
+    "NAME": "browser",
+    "CFG": cfg_browseriii
 }
 
 cfg_jetstream = {
@@ -95,8 +123,12 @@ eval_acdc = {
 evaluation = []
 if mode in ["jetstream", "all"]:
     evaluation.append(QUOTE(eval_jetstream))
-if mode in ["browser", "all"]:
-    evaluation.append(QUOTE(eval_browser))
+if mode in ["browseri", "all"]:
+    evaluation.append(QUOTE(eval_browseri))
+if mode in ["browserii", "all"]:
+    evaluation.append(QUOTE(eval_browserii))
+if mode in ["browseriii", "all"]:
+    evaluation.append(QUOTE(eval_browseriii))
 if mode in ["acdc", "all"]:
     evaluation.append(QUOTE(eval_acdc))
 

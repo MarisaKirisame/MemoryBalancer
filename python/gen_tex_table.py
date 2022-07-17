@@ -50,7 +50,9 @@ def convert_to_tex(data):
 	all_keys.append(TOTAL)
 	print(all_keys)
 	one_key = all_keys[0]
-	tex_str = "% membalancer_dir: "+ data[one_key]["membalancer_dir"]+ "\n % baseline_dir: "+data[one_key]["baseline_dir"]+" \n"
+    tex_str = ""
+	tex_str += f"% membalancer_dir: {data[one_key]['membalancer_dir']}\n"
+	tex_str += f"% baseline_dir: {data[one_key]['baseline_dir']}\n"
 	row = 'A'
 	for (idx, key) in enumerate(all_keys):
 		w = data[key]["w"]
