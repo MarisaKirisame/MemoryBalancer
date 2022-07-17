@@ -24,7 +24,6 @@ BASELINE = {
 js_c_range = [0.5, 0.7, 0.9, 2, 3] * 2
 browser_c_range = [0.05, 0.1, 0.2, 0.3, 0.5, 0.7, 0.9]
 acdc_c_range = [0.01 * i for i in range(1, 11)] + [0.1 * i for i in range(1, 11)] + [1 * i for i in range(1, 11)]
-acdc_c_range = [0.01, 0.1, 1]
 tex = ""
 tex += tex_def("JSMinC", f"{tex_fmt(min(js_c_range))}\%/MB")
 tex += tex_def("JSMaxC", f"{tex_fmt(max(js_c_range))}\%/MB")
@@ -44,12 +43,12 @@ if mode == "macro":
 # medium is removed because it allocate little memory in rare fashion
 bench = ["twitter", "cnn", "espn", "facebook", "gmail", "foxnews"]
 
-def BALANCER_CFG(c_range):
-    return QUOTE(NONDET({
+def BALANCER_CFG(c_range, baseline_time=3):
+    return QUOTE(NONDET(*[{
         "BALANCE_STRATEGY": "classic",
         "RESIZE_CFG": {"RESIZE_STRATEGY": "gradient", "GC_RATE_D":NONDET(*[x / -1e9 for x in c_range])},
         "BALANCE_FREQUENCY": 0
-    }, BASELINE, BASELINE, BASELINE))
+    }] + baseline_time * [BASELINE]))
 
 cfg_browser = {
     "LIMIT_MEMORY": True,
@@ -85,7 +84,7 @@ cfg_acdc = {
     "TYPE": "acdc",
     "MEMORY_LIMIT": 10000,
     "BENCH": ["acdc"],
-    "BALANCER_CFG": BALANCER_CFG(acdc_c_range)
+    "BALANCER_CFG": BALANCER_CFG(acdc_c_range, baseline_time = 20)
 }
 
 eval_acdc = {
