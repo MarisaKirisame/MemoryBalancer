@@ -67,6 +67,7 @@ void run_acdc(v8::Platform* platform, const Input& input, Signal* s) {
 void acdc(v8::Platform* platform, const std::vector<char*>& args) {
   std::vector<std::future<void>> futures;
   Signal s;
+  if (false) {
   futures.push_back(std::async(std::launch::async,
                                run_acdc,
                                platform,
@@ -87,7 +88,8 @@ void acdc(v8::Platform* platform, const std::vector<char*>& args) {
                                platform,
                                Input {/*size=*/"128", /*liveness=*/"1", /*duration=*/"18000"},
                                &s));
-  if (false) {
+  }
+  if (true) {
     // an attempt at less extreme parameter
     futures.push_back(std::async(std::launch::async,
                                  run_acdc,
