@@ -55,11 +55,10 @@ pip3 install pyppeteer
 pip3 install dominate
 
 echo "** running eval **"
-python3 python/eval.py "all"
+python3 python/eval.py "acdc"
 python3 python/gen.py --action=upload
 echo "** uploading results **"
-last=`ls "out" | sort -r | head -1`
-result_dir="out/$last"
+result_dir=`ls "out" | sort -r | head -1`
 if command -v nightly-results &>/dev/null; then
     nightly-results url "http://membalancer.uwplse.org/$result_dir"
 fi

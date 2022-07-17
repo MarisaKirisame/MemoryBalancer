@@ -24,7 +24,7 @@ BASELINE = {
 js_c_range = [0.5, 0.7, 0.9, 2, 3] * 2
 browser_c_range = [0.05, 0.1, 0.2, 0.3, 0.5, 0.7, 0.9]
 acdc_c_range = [0.01 * i for i in range(1, 11)] + [0.1 * i for i in range(1, 11)] + [1 * i for i in range(1, 11)]
-
+acdc_c_range = [0.01, 0.1, 1]
 tex = ""
 tex += tex_def("JSMinC", f"{tex_fmt(min(js_c_range))}\%/MB")
 tex += tex_def("JSMaxC", f"{tex_fmt(max(js_c_range))}\%/MB")
