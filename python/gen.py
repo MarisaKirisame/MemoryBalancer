@@ -85,7 +85,7 @@ def gen_anal_gc_log(cfg, exp):
     html_path = f"{html_counter()}.html"
     with page(path=path.joinpath(html_path), title=str(cfg)) as doc:
         anal_gc_log.main(cfg, exp)
-        png_path = f"img/{png_counter()}.png"
+        png_path = f"{png_counter()}.png"
         plt.savefig(str(path.joinpath(png_path)), bbox_inches='tight')
         plt.clf()
         img(src=png_path)
@@ -109,7 +109,7 @@ def gen_megaplot_bench(m, bench):
             resize_cfg = p.cfg["RESIZE_CFG"]
             return 0 if resize_cfg["RESIZE_STRATEGY"] == "ignore" else 1/-resize_cfg["GC_RATE_D"]
         points.sort(key=sorted_by)
-        png_path = f"img/{png_counter()}.png"
+        png_path = f"{png_counter()}.png"
         plt.savefig(str(path.joinpath(png_path)), bbox_inches='tight')
         plt.clf()
         img(src=png_path)
@@ -145,7 +145,7 @@ def gen_eval(tex_name, m, anal_frac=None):
     html_path = f"{html_counter()}.html"
     with page(path=path.joinpath(html_path), title='Plot') as doc:
         mp = megaplot.plot(m, m.keys(), legend=False)
-        png_path = f"img/{tex_name}plot.png"
+        png_path = f"{tex_name}plot.png"
         plt.savefig(str(path.joinpath(png_path)), bbox_inches='tight')
         plt.clf()
         img(src=png_path)
@@ -191,7 +191,7 @@ def gen_eval(tex_name, m, anal_frac=None):
                 plt.hist(improvement_over_baseline, [x * bin_width for x in range(bin_start, bin_stop + 1)], ec='black')
                 plt.axvline(x=0, color="black")
                 plt.gca().xaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(format_sigma))
-                png_path = f"img/{tex_name}sd.png"
+                png_path = f"{tex_name}sd.png"
                 plt.savefig(str(path.joinpath(png_path)), bbox_inches='tight')
                 plt.clf()
                 img(src=png_path)
