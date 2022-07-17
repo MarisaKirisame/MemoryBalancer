@@ -67,10 +67,10 @@ def plot(m, benches, *, summarize_baseline=True, reciprocal_regression=True, leg
                 time /= 1e9
                 baseline_memorys.append(memory)
                 baseline_times.append(time)
-                baseline_memory = sum(baseline_memorys) / len(baseline_memorys)
-                baseline_time = sum(baseline_times) / len(baseline_times)
-                ret["baseline_memory"] = baseline_memory
-                ret["baseline_time"] = baseline_time
+            baseline_memory = sum(baseline_memorys) / len(baseline_memorys)
+            baseline_time = sum(baseline_times) / len(baseline_times)
+            ret["baseline_memory"] = baseline_memory
+            ret["baseline_time"] = baseline_time
         x = []
         y = []
         baseline_x = []
@@ -126,7 +126,12 @@ def plot(m, benches, *, summarize_baseline=True, reciprocal_regression=True, leg
             ci_x = np.linspace(min_memory, max_memory, 100)
             ci_y = 1 / poly1d_fn(ci_x)
             plt.plot(1 / ci_x, ci_y, color='b')
-            plt.fill_between(1 / ci_x, (1 / np.fmax(0.2, (poly1d_fn(ci_x) - 2*se))), (1 / (poly1d_fn(ci_x) + 2*se)), color='b', alpha=.1)
+            for ci_xx in ci_x:
+                assert poly1d_fn(ci_xx) > 2*se
+            if summarize_baseline:
+                plt.fill_between(1 / ci_x, (1 / np.fmax(0.2, (poly1d_fn(ci_x) - 2*se))), (1 / (poly1d_fn(ci_x) + 2*se)), color='b', alpha=.1)
+            else:
+                plt.fill_between(1 / ci_x, (1 / (poly1d_fn(ci_x) - 2*se)), (1 / (poly1d_fn(ci_x) + 2*se)), color='b', alpha=.1)
     if legend:
         plt.legend(bbox_to_anchor=(1.04, 0.5), loc="center left")
     return ret
