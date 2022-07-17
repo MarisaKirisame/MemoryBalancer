@@ -65,11 +65,6 @@ void run_acdc(v8::Platform* platform, const Input& input, Signal* s) {
 }
 
 void acdc(v8::Platform* platform, const std::vector<char*>& args) {
-  //std::string size = "8";
-  std::string size = "128";
-  //std::string liveness = "1";
-  std::string liveness = "16";
-  std::string duration = "1000";
   std::vector<std::future<void>> futures;
   Signal s;
   futures.push_back(std::async(std::launch::async,
