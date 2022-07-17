@@ -159,6 +159,7 @@ def main(cfg, exp, legend=True):
             gc_trigger = l["msg-type"] in ["gc", "close"]
             instance_map[name].point(time, working_memory, current_memory, max_memory, gc_trigger)
 
+    instance_list.sort(key=lambda x: x.name)
     draw_stacks(instance_list)
     if legend:
         plt.legend(bbox_to_anchor=(1.04, 0.5), loc="center left")

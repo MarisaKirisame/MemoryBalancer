@@ -129,6 +129,7 @@ def plot(m, benches, *, summarize_baseline=True, reciprocal_regression=True, leg
             for ci_xx in ci_x:
                 assert poly1d_fn(ci_xx) > 2*se
             if summarize_baseline:
+                # todo: use plt.xlim over this ad hoc solution
                 plt.fill_between(1 / ci_x, (1 / np.fmax(0.2, (poly1d_fn(ci_x) - 2*se))), (1 / (poly1d_fn(ci_x) + 2*se)), color='b', alpha=.1)
             else:
                 plt.fill_between(1 / ci_x, (1 / (poly1d_fn(ci_x) - 2*se)), (1 / (poly1d_fn(ci_x) + 2*se)), color='b', alpha=.1)
