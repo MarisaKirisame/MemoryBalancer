@@ -94,22 +94,22 @@ void acdc(v8::Platform* platform, const std::vector<char*>& args) {
     futures.push_back(std::async(std::launch::async,
                                  run_acdc,
                                  platform,
-                                 Input {/*size=*/"8", /*liveness=*/"4", /*duration=*/"600"},
+                                 Input {/*size=*/"8", /*liveness=*/"4", /*duration=*/"300"},
                                  &s));
     futures.push_back(std::async(std::launch::async,
                                  run_acdc,
                                  platform,
-                                 Input {/*size=*/"32", /*liveness=*/"4", /*duration=*/"2500"},
+                                 Input {/*size=*/"32", /*liveness=*/"4", /*duration=*/"1250"},
                                  &s));
     futures.push_back(std::async(std::launch::async,
                                  run_acdc,
                                  platform,
-                                 Input {/*size=*/"8", /*liveness=*/"1", /*duration=*/"750"},
+                                 Input {/*size=*/"8", /*liveness=*/"1", /*duration=*/"375"},
                                  &s));
     futures.push_back(std::async(std::launch::async,
                                  run_acdc,
                                  platform,
-                                 Input {/*size=*/"32", /*liveness=*/"1", /*duration=*/"4500"},
+                                 Input {/*size=*/"32", /*liveness=*/"1", /*duration=*/"2250"},
                                  &s));
   }
   s.signal();
