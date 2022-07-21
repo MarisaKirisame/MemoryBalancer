@@ -1,6 +1,7 @@
 import subprocess
 
 def pull():
+    subprocess.call("git reset --hard HEAD", shell=True, cwd="../membalancer-paper")
     subprocess.call("git pull", shell=True, cwd="../membalancer-paper")
 
 def push():
