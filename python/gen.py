@@ -27,8 +27,6 @@ from matplotlib.ticker import FormatStrFormatter
 from git_check import get_commit
 import argparse
 
-server_name = "uwplse.org:/var/www/membalancer/"
-
 paper.pull()
 
 parser = argparse.ArgumentParser()
@@ -65,7 +63,7 @@ path = Path("out/" + pre_path)
 path.mkdir(parents=True, exist_ok=True)
 
 tex = ""
-tex += f"% path: {server_name + str(pre_path)}"
+tex += f"% path: membalancer.uwplse.org/{pre_path}\n"
 
 commit = None
 for name in glob.glob('log/**/commit', recursive=True):
@@ -317,6 +315,6 @@ elif action == "upload" or action == "paper":
     with open(f"../membalancer-paper/data/EVAL.tex", "w") as tex_file:
         tex += tex_def("GraphHash", get_commit("./"))
         tex_file.write(tex)
-    os.system(f"scp -r -C {path} {server_name}")
+    os.system(f"scp -r -C {path} uwplse.org:/var/www/membalancer/")
 if action == "paper":
     paper.push()
