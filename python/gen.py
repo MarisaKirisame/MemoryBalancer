@@ -65,6 +65,7 @@ path.mkdir(parents=True, exist_ok=True)
 tex = ""
 tex += f"% path: membalancer.uwplse.org/{pre_path}\n"
 
+# todo - this for every separate eval
 commit = None
 for name in glob.glob('log/**/commit', recursive=True):
     with open(name) as f:
@@ -145,6 +146,7 @@ def gen_eval(tex_name, m, anal_frac=None):
         mp = megaplot.plot(m, m.keys(), legend=False)
         png_path = f"{tex_name}plot.png"
         plt.savefig(str(path.joinpath(png_path)), bbox_inches='tight')
+        plt.savefig(f"../membalancer-paper/img/{png_path}", bbox_inches='tight')
         plt.clf()
         img(src=png_path)
         points = mp["points"]
@@ -191,6 +193,7 @@ def gen_eval(tex_name, m, anal_frac=None):
                 plt.gca().xaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(format_sigma))
                 png_path = f"{tex_name}sd.png"
                 plt.savefig(str(path.joinpath(png_path)), bbox_inches='tight')
+                plt.savefig(f"../membalancer-paper/img/{png_path}", bbox_inches='tight')
                 plt.clf()
                 img(src=png_path)
         for bench in m.keys():
