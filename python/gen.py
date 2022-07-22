@@ -65,7 +65,6 @@ path.mkdir(parents=True, exist_ok=True)
 tex = ""
 tex += f"% path: membalancer.uwplse.org/{pre_path}\n"
 
-# todo - this for every separate eval
 commit = None
 for name in glob.glob('log/**/commit', recursive=True):
     with open(name) as f:
