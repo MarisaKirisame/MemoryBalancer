@@ -78,17 +78,17 @@ cfg_browseriii = {
 }
 
 eval_browseri = {
-    "NAME": "browser",
+    "NAME": "browseri",
     "CFG": cfg_browseri
 }
 
 eval_browserii = {
-    "NAME": "browser",
+    "NAME": "browserii",
     "CFG": cfg_browserii
 }
 
 eval_browseriii = {
-    "NAME": "browser",
+    "NAME": "browseriii",
     "CFG": cfg_browseriii
 }
 
