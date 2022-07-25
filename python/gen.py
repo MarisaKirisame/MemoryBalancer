@@ -290,24 +290,24 @@ with page(path=path.joinpath("index.html"), title='Main') as doc:
     d = list(Path("log/").iterdir())
     #assert len(d) == 1
     #d = d[0]
-    #for dd in d.iterdir():
-    for dd in d:
-        if dd.is_dir():
-            with open(f"{dd}/cfg", "r") as f:
-                cfg = eval(f.read())
-            name = cfg["NAME"]
-            if name == "jetstream":
-                li(a("jetstream", href=gen_jetstream(dd)))
-            elif name == "acdc":
-                li(a("acdc", href=gen_acdc(dd)))
-            elif name in ["browseri", "browserii", "browseriii"]:
-                m = megaplot.anal_log(dd)
-                m_exp = {benches: {cfg: [Experiment([x]) for x in aggregated_runs] for cfg, aggregated_runs in per_benches_m.items()} for benches, per_benches_m in m.items()}
-                li(a(name, href=gen_eval(name.upper(), m_exp)))
-                #for i in [1, 2, 3]:
-                #    li(a(f"browser_{i}", href=gen_browser(dd, i)))
-            else:
-                raise
+    for d_elem in d:
+        for dd in d_elem.iterdir():
+            if dd.is_dir():
+                with open(f"{dd}/cfg", "r") as f:
+                    cfg = eval(f.read())
+                    name = cfg["NAME"]
+                if name == "jetstream":
+                    li(a("jetstream", href=gen_jetstream(dd)))
+                elif name == "acdc":
+                    li(a("acdc", href=gen_acdc(dd)))
+                elif name in ["browseri", "browserii", "browseriii"]:
+                    m = megaplot.anal_log(dd)
+                    m_exp = {benches: {cfg: [Experiment([x]) for x in aggregated_runs] for cfg, aggregated_runs in per_benches_m.items()} for benches, per_benches_m in m.items()}
+                    li(a(name, href=gen_eval(name.upper(), m_exp)))
+                    #for i in [1, 2, 3]:
+                    #    li(a(f"browser_{i}", href=gen_browser(dd, i)))
+                else:
+                    raise
     tex_file_name = "EVAL.tex.txt"
     with open(path.joinpath(tex_file_name), "w") as tex_file:
         tex_file.write(tex)
