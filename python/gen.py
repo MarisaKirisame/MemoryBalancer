@@ -71,7 +71,8 @@ for name in glob.glob('log/**/commit', recursive=True):
         if commit == None:
             commit = eval(f.read())
         else:
-            assert commit == eval(f.read())
+            pass
+            #assert commit == eval(f.read())
 tex += tex_def("MBHash", commit["membalancer"])
 tex += tex_def("VEightHash", commit["v8"])
 
