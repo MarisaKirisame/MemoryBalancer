@@ -290,7 +290,8 @@ with page(path=path.joinpath("index.html"), title='Main') as doc:
     d = list(Path("log/").iterdir())
     #assert len(d) == 1
     #d = d[0]
-    for dd in d.iterdir():
+    #for dd in d.iterdir():
+    for dd in d:
         if dd.is_dir():
             with open(f"{dd}/cfg", "r") as f:
                 cfg = eval(f.read())
