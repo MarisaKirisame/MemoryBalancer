@@ -29,6 +29,8 @@ tex += tex_def("JSMinC", f"{tex_fmt(min(js_c_range))}\%/MB")
 tex += tex_def("JSMaxC", f"{tex_fmt(max(js_c_range))}\%/MB")
 tex += tex_def("WEBMinC", f"{tex_fmt(min(browser_c_range))}\%/MB")
 tex += tex_def("WEBMaxC", f"{tex_fmt(max(browser_c_range))}\%/MB")
+tex += tex_def("ACDCMinC", f"{tex_fmt(min(acdc_c_range))}\%/MB")
+tex += tex_def("ACDCMaxC", f"{tex_fmt(max(acdc_c_range))}\%/MB")
 
 paper.pull()
 with open(f"../membalancer-paper/eval_param.tex", "w") as tex_file:
