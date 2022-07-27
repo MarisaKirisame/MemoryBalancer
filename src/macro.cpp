@@ -14,6 +14,7 @@ void macro() {
   nlohmann::json j;
   j["MinHeapExtraSizeInMB"] = v8::Isolate::MinHeapExtraSizeInMB();
   j["BiasInWorkingMemoryInMB"] = bytes_to_mb(bias_in_working_memory);
+  // B->MB = /1e6, NS->S=*1e9
   j["InitialGCSpeedInMBPerSec"] = initial_garbage_bytes / initial_garbage_duration * 1000;
   j["GarbageRateDecayPerSec"] = garbage_rate_decay_per_sec;
   j["GCSpeedSmoothingPerSample"] = gc_speed_smoothing_per_sample;
