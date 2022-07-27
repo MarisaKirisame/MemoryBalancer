@@ -33,7 +33,7 @@ tex += tex_def("ACDCMinC", f"{tex_fmt(min(acdc_c_range))}\%/MB")
 tex += tex_def("ACDCMaxC", f"{tex_fmt(max(acdc_c_range))}\%/MB")
 
 paper.pull()
-with open(f"../membalancer-paper/eval_param.tex", "w") as tex_file:
+with open(f"../membalancer-paper/data/eval_param.tex", "w") as tex_file:
     tex_file.write(tex)
 paper.push()
 
