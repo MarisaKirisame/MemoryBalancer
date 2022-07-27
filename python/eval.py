@@ -80,16 +80,19 @@ cfg_browseriii = {
 }
 
 eval_browseri = {
+    "Description": "Browser one-tab experiment",
     "NAME": "browseri",
     "CFG": cfg_browseri
 }
 
 eval_browserii = {
+    "Description": "Browser two-tab experiment",
     "NAME": "browserii",
     "CFG": cfg_browserii
 }
 
 eval_browseriii = {
+    "Description": "Browser three-tab experiment",
     "NAME": "browseriii",
     "CFG": cfg_browseriii
 }
@@ -104,6 +107,7 @@ cfg_jetstream = {
 }
 
 eval_jetstream = {
+    "Description": "Jetstream2 experiment",
     "NAME": "jetstream",
     "CFG": cfg_jetstream
 }
@@ -118,6 +122,7 @@ cfg_acdc = {
 }
 
 eval_acdc = {
+    "Description": "ACDC-JS experiment",
     "NAME": "acdc",
     "CFG": cfg_acdc,
 }
