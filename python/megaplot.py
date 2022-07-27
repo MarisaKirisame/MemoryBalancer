@@ -45,8 +45,9 @@ class Point:
 
 def plot(m, benches, name, *, summarize_baseline=True, reciprocal_regression=True, legend=True):
     plt.title(name)
-    plt.xlabel('memory consumption')
-    plt.ylabel('time taken' if reciprocal_regression else 'speedup')
+    # todo: fix for other path
+    plt.xlabel('Memory consumption (relative to current v8)')
+    plt.ylabel('Time taken (relative to current v8)' if reciprocal_regression else 'Speedup (relative to current v8)')
     if summarize_baseline:
         plt.axhline(y=1, color='k', lw=1, linestyle='-')
         plt.axvline(x=1, color='k', lw=1, linestyle='-')
