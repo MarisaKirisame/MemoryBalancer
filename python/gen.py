@@ -102,7 +102,7 @@ def gen_anal_gc_log(cfg, exp):
 def gen_megaplot_bench(m, bench):
     html_path = f"{html_counter()}.html"
     with page(path=path.joinpath(html_path), title=str(bench)) as doc:
-        mp = megaplot.plot(m, [bench], summarize_baseline=False)
+        mp = megaplot.plot(m, [bench], str(bench), summarize_baseline=False)
         points = mp["points"]
         def sorted_by(p):
             resize_cfg = p.cfg["RESIZE_CFG"]
@@ -143,7 +143,7 @@ def format_sigma(x, pos):
 def gen_eval(tex_name, m, anal_frac=None):
     html_path = f"{html_counter()}.html"
     with page(path=path.joinpath(html_path), title='Plot') as doc:
-        mp = megaplot.plot(m, m.keys(), legend=False)
+        mp = megaplot.plot(m, m.keys(), tex_name, legend=False)
         png_path = f"{tex_name}plot.png"
         plt.savefig(str(path.joinpath(png_path)), bbox_inches='tight')
         plt.savefig(f"../membalancer-paper/img/{png_path}", bbox_inches='tight')
@@ -201,7 +201,7 @@ def gen_eval(tex_name, m, anal_frac=None):
     return html_path
 
 def calculate_extreme_improvement(directory, m):
-    mp = megaplot.plot(m, m.keys()) # todo - no plot only anal
+    mp = megaplot.plot(m, m.keys(), "extreme") # todo - no plot only anal
     plt.clf()
     bl_time = mp["baseline_time"] * 1e9
     bl_memory = mp["baseline_memory"] * 1e6

@@ -43,11 +43,13 @@ class Point:
     def __repr__(self):
         return f"Point{repr((self.memory, self.time, self.exp, self.is_baseline))}"
 
-def plot(m, benches, *, summarize_baseline=True, reciprocal_regression=True, legend=True):
+def plot(m, benches, name, *, summarize_baseline=True, reciprocal_regression=True, legend=True):
+    plt.title(name)
+    plt.xlabel('memory consumption')
+    plt.ylabel('time taken' if reciprocal_regression else 'speedup')
     if summarize_baseline:
         plt.axhline(y=1, color='k', lw=1, linestyle='-')
         plt.axvline(x=1, color='k', lw=1, linestyle='-')
-
     ret = {}
 
     points = []
