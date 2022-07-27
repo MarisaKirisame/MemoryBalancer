@@ -39,7 +39,7 @@ def plot_c(all_c_vals, title):
     plt.title(title)
     if "JS" in title:
         plt.legend()
-    filepath = "../membalancer-paper/c_plot_{}.png".format(title)
+    filepath = "../membalancer-paper/img/c_plot_{}.png".format(title)
     plt.savefig(filepath, bbox_inches='tight')
     plt.clf()
 

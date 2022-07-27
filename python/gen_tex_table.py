@@ -161,7 +161,7 @@ def main(membalancer_log_dir, baseline_log_dir):
     combined_data = combine(data_mb, data_baseline, time_mb, time_baseline, membalancer_log_dir, baseline_log_dir)
     converted_tex = convert_to_tex(combined_data)
     converted_tex += tex_compare_ts_splay(combined_data)
-    write_tex(converted_tex, "../membalancer-paper/js_table.tex")
+    write_tex(converted_tex, "../membalancer-paper/data/js_table.tex")
 
 if __name__ == "__main__":
     assert(len(sys.argv) == 3)
