@@ -3,7 +3,7 @@ from pyppeteer import launch
 import collections
 
 def fmt(x):
-	return "{0:.2g}".format(float(x))
+	return "%s".format(float("{0:.2g}".format(float(x))))
 
 def fmt_int(x):
 	return "{}".format(int(x))
