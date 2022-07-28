@@ -44,11 +44,16 @@ class Point:
         return f"Point{repr((self.memory, self.time, self.exp, self.is_baseline))}"
 
 def hack(name):
-    return {"browseri": "Browser one-tab experiment",
+    table = {"browseri": "Browser one-tab experiment",
             "browserii": "Browser two-tab experiment",
             "browseriii": "Browser three-tab experiment",
             "jetstream": "Jetstream2 experiment",
-            "acdc": "ACDC-JS experiment"}[name.lower()]
+            "acdc": "ACDC-JS experiment"}
+    nl = name.lower()
+    if nl in table:
+        return table[nl]
+    else:
+        return name
 
 def plot(m, benches, name, *, summarize_baseline=True, reciprocal_regression=True, legend=True):
     plt.title(hack(name))
