@@ -43,8 +43,15 @@ class Point:
     def __repr__(self):
         return f"Point{repr((self.memory, self.time, self.exp, self.is_baseline))}"
 
+def hack(name):
+    return {"browseri": "Browser one-tab experiment",
+            "browserii": "Browser two-tab experiment",
+            "browseriii": "Browser three-tab experiment",
+            "jetstream": "Jetstream2 experiment",
+            "acdc": "ACDC-JS experiment"}[name.lower()]
+
 def plot(m, benches, name, *, summarize_baseline=True, reciprocal_regression=True, legend=True):
-    plt.title(name)
+    plt.title(hack(name))
     # todo: fix for other path
     plt.xlabel('Memory consumption (relative to current v8)')
     plt.ylabel('Time taken (relative to current v8)' if reciprocal_regression else 'Speedup (relative to current v8)')
