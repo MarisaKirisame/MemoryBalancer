@@ -4,8 +4,22 @@ import statistics as stats
 import glob
 import math
 import sys
-from  util import tex_fmt, fmt, tex_fmt_bold, tex_fmt, tex_def, tex_fmt_int
+from util import tex_def
+
 TOTAL = "Total"
+
+def fmt(x):
+    if x > 10:
+        return str(int(x))
+    else:
+        return "{:.1f}".format(x)
+
+def tex_fmt(x):
+    return f"\\num{{{fmt(x)}}}"
+
+def tex_fmt_bold(x):
+    return f"\\textbf{{{fmt(x)}}}"
+
 def tex_def_table(row_num, col_name, definitions):
     return f"\def\{col_name}{row_num}{{{definitions}\\xspace}}\n"
 
