@@ -124,7 +124,7 @@ def gen_megaplot_bench(m, bench):
                     td(round(point.time, 2))
                     resize_cfg = point.cfg["RESIZE_CFG"]
                     td("ignore" if resize_cfg["RESIZE_STRATEGY"] == "ignore" else resize_cfg["GC_RATE_D"])
-                    td(a(str(cfg), href=gen_anal_gc_log(cfg, point.exp)))
+                    td(a(str(point.cfg), href=gen_anal_gc_log(point.cfg, point.exp)))
     return html_path
 
 def g_fmt(x):
