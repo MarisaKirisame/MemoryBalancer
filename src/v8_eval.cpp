@@ -101,7 +101,7 @@ void v8_experiment(v8::Platform* platform, const std::vector<char*>& args) {
 
   {
     std::string header = "let performance = {now() { return 0; }};";
-    std::string footer = "for(i = 0; i < 100; i++) {new Benchmark().runIteration();}";
+    std::string footer = "for(i = 0; i < 90; i++) {new Benchmark().runIteration();}";
     Signal* ps = &s;
     std::vector<std::pair<size_t, std::string>> input =
       {{1, header},
