@@ -109,8 +109,18 @@ def plot(m, benches, name, *, summarize_baseline=True, reciprocal_regression=Tru
                     points.append(Point(memory, time, balancer_cfg, exp, balancer_cfg == BASELINE))
                     transformed_points.append(Point(1 / memory, 1 / time, balancer_cfg, exp, balancer_cfg == BASELINE))
         plt.scatter(x, y, label=bench, linewidth=0.1, s=20)
+        xmin = min(*x)
+        xmax = max(*x)
+        ymin = min(*y)
+        ymax = max(*y)
         if len(baseline_x) != 0:
             plt.scatter(baseline_x, baseline_y, label=bench, linewidth=0.1, color="orange", s=35)
+            xmin = min(xmin, min(*baseline_x))
+            xmax = max(xmax, max(*baseline_x))
+            ymin = min(ymin, min(*baseline_y))
+            ymax = max(ymax, max(*baseline_y))
+        plt.xlim([xmin, xmax])
+        plt.ylim([ymin, ymax])
     ret["points"] = points
     ret["transformed_points"] = transformed_points
     if legend:
@@ -143,7 +153,7 @@ def plot(m, benches, name, *, summarize_baseline=True, reciprocal_regression=Tru
             plt.plot(1 / ci_x, ci_y, color='b')
             for ci_xx in ci_x:
                 assert poly1d_fn(ci_xx) > 2*se
-            if summarize_baseline:
+            if summarize_baseline and False:
                 # todo: use plt.xlim over this ad hoc solution
                 plt.fill_between(1 / ci_x, (1 / np.fmax(0.2, (poly1d_fn(ci_x) - 2*se))), (1 / (poly1d_fn(ci_x) + 2*se)), color='b', alpha=.1)
             else:
