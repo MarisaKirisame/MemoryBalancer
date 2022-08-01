@@ -109,16 +109,12 @@ def plot(m, benches, name, *, summarize_baseline=True, reciprocal_regression=Tru
                     points.append(Point(memory, time, balancer_cfg, exp, balancer_cfg == BASELINE))
                     transformed_points.append(Point(1 / memory, 1 / time, balancer_cfg, exp, balancer_cfg == BASELINE))
         plt.scatter(x, y, label=bench, linewidth=0.1, s=20)
-        xmin = min(*x)
-        xmax = max(*x)
-        ymin = min(*y)
-        ymax = max(*y)
         if len(baseline_x) != 0:
             plt.scatter(baseline_x, baseline_y, label=bench, linewidth=0.1, color="orange", s=35)
-            xmin = min(xmin, min(*baseline_x))
-            xmax = max(xmax, max(*baseline_x))
-            ymin = min(ymin, min(*baseline_y))
-            ymax = max(ymax, max(*baseline_y))
+        xmin = min(*x, *baseline_x)
+        xmax = max(*x, *baseline_x)
+        ymin = min(*y, *baseline_y)
+        ymax = max(*y, *baseline_y)
         xmargin = (xmax - xmin) * 0.1
         ymargin = (ymax - ymin) * 0.1
         plt.xlim([xmin - xmargin, xmax + xmargin])
