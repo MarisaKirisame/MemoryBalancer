@@ -119,8 +119,10 @@ def plot(m, benches, name, *, summarize_baseline=True, reciprocal_regression=Tru
             xmax = max(xmax, max(*baseline_x))
             ymin = min(ymin, min(*baseline_y))
             ymax = max(ymax, max(*baseline_y))
-        plt.xlim([xmin / 1.1, xmax * 1.1])
-        plt.ylim([ymin / 1.1, ymax * 1.1])
+        xmargin = (xmax - xmin) * 0.05
+        ymargin = (ymax - ymin) * 0.05
+        plt.xlim([xmin - xmargin, xmax + xmargin])
+        plt.ylim([ymin - ymargin, ymax + ymargin])
     ret["points"] = points
     ret["transformed_points"] = transformed_points
     if legend:
