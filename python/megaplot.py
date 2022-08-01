@@ -119,8 +119,8 @@ def plot(m, benches, name, *, summarize_baseline=True, reciprocal_regression=Tru
             xmax = max(xmax, max(*baseline_x))
             ymin = min(ymin, min(*baseline_y))
             ymax = max(ymax, max(*baseline_y))
-        plt.xlim([xmin, xmax])
-        plt.ylim([ymin, ymax])
+        plt.xlim([xmin * 1.1, xmax * 1.1])
+        plt.ylim([ymin * 1.1, ymax * 1.1])
     ret["points"] = points
     ret["transformed_points"] = transformed_points
     if legend:
@@ -153,11 +153,7 @@ def plot(m, benches, name, *, summarize_baseline=True, reciprocal_regression=Tru
             plt.plot(1 / ci_x, ci_y, color='b')
             for ci_xx in ci_x:
                 assert poly1d_fn(ci_xx) > 2*se
-            if summarize_baseline and False:
-                # todo: use plt.xlim over this ad hoc solution
-                plt.fill_between(1 / ci_x, (1 / np.fmax(0.2, (poly1d_fn(ci_x) - 2*se))), (1 / (poly1d_fn(ci_x) + 2*se)), color='b', alpha=.1)
-            else:
-                plt.fill_between(1 / ci_x, (1 / (poly1d_fn(ci_x) - 2*se)), (1 / (poly1d_fn(ci_x) + 2*se)), color='b', alpha=.1)
+            plt.fill_between(1 / ci_x, (1 / (poly1d_fn(ci_x) - 2*se)), (1 / (poly1d_fn(ci_x) + 2*se)), color='b', alpha=.1)
     if legend:
         plt.legend(bbox_to_anchor=(1.04, 0.5), loc="center left")
     return ret
