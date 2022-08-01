@@ -55,12 +55,12 @@ def hack(name):
     else:
         return name
 
-def plot(m, benches, name, *, summarize_baseline=True, reciprocal_regression=True, legend=True):
+def plot(m, benches, name, *, show_baseline=True, normalize_baseline=True, reciprocal_regression=True, legend=True):
     plt.title(hack(name))
     # todo: fix for other path
     plt.xlabel('Memory consumption (relative to current v8)')
     plt.ylabel('Time taken (relative to current v8)' if reciprocal_regression else 'Speedup (relative to current v8)')
-    if summarize_baseline:
+    if normalize_baseline:
         plt.axhline(y=1, color='k', lw=1, linestyle='-')
         plt.axvline(x=1, color='k', lw=1, linestyle='-')
     ret = {}
@@ -72,35 +72,34 @@ def plot(m, benches, name, *, summarize_baseline=True, reciprocal_regression=Tru
     ymins = []
     ymaxs = []
     for bench in benches:
-        if summarize_baseline:
-            if BASELINE not in m[bench]:
-                print("WARNING: BASELINE NOT FOUND")
-                continue
-            baseline_memorys = []
-            baseline_times = []
-            for exp in m[bench][BASELINE]:
-                memory = exp.average_benchmark_memory()
-                memory /= 1e6
-                time = exp.total_major_gc_time()
-                time /= 1e9
-                baseline_memorys.append(memory)
-                baseline_times.append(time)
-            baseline_memory = sum(baseline_memorys) / len(baseline_memorys)
-            baseline_time = sum(baseline_times) / len(baseline_times)
-            ret["baseline_memory"] = baseline_memory
-            ret["baseline_time"] = baseline_time
+        if BASELINE not in m[bench]:
+            print("WARNING: BASELINE NOT FOUND")
+            continue
+        baseline_memorys = []
+        baseline_times = []
+        for exp in m[bench][BASELINE]:
+            memory = exp.average_benchmark_memory()
+            memory /= 1e6
+            time = exp.total_major_gc_time()
+            time /= 1e9
+            baseline_memorys.append(memory)
+            baseline_times.append(time)
+        baseline_memory = sum(baseline_memorys) / len(baseline_memorys)
+        baseline_time = sum(baseline_times) / len(baseline_times)
+        ret["baseline_memory"] = baseline_memory
+        ret["baseline_time"] = baseline_time
         x = []
         y = []
         baseline_x = []
         baseline_y = []
         for balancer_cfg in m[bench]:
-            if not summarize_baseline or balancer_cfg != BASELINE:
+            if show_baseline or balancer_cfg != BASELINE:
                 for exp in m[bench][balancer_cfg]:
                     memory = exp.average_benchmark_memory()
                     memory /= 1e6
                     time = exp.total_major_gc_time()
                     time /= 1e9
-                    if summarize_baseline:
+                    if normalize_baseline:
                         memory /= baseline_memory
                         time /= baseline_time
                     if balancer_cfg != BASELINE:
@@ -153,10 +152,10 @@ def plot(m, benches, name, *, summarize_baseline=True, reciprocal_regression=Tru
             plt.fill_between(1 / ci_x, (1 / (poly1d_fn(ci_x) - 2*se)), (1 / (poly1d_fn(ci_x) + 2*se)), color='b', alpha=.1)
     if legend:
         plt.legend(bbox_to_anchor=(1.04, 0.5), loc="center left")
-    xmin = min(xmins[0], *xmins)
-    xmax = max(xmaxs[0], *xmaxs)
-    ymin = min(ymins[0], *ymins)
-    ymax = max(ymaxs[0], *ymaxs)
+    xmin = min(xmins)
+    xmax = max(xmaxs)
+    ymin = min(ymins)
+    ymax = max(ymaxs)
     xmargin = (xmax - xmin) * 0.05
     ymargin = (ymax - ymin) * 0.05
     plt.xlim([xmin - xmargin, xmax + xmargin])

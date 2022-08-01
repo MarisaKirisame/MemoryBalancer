@@ -102,7 +102,7 @@ def gen_anal_gc_log(cfg, exp):
 def gen_megaplot_bench(m, bench):
     html_path = f"{html_counter()}.html"
     with page(path=path.joinpath(html_path), title=str(bench)) as doc:
-        mp = megaplot.plot(m, [bench], str(bench), summarize_baseline=False)
+        mp = megaplot.plot(m, [bench], str(bench), normalize_baseline=False)
         points = mp["points"]
         def sorted_by(p):
             resize_cfg = p.cfg["RESIZE_CFG"]
