@@ -119,8 +119,8 @@ def plot(m, benches, name, *, summarize_baseline=True, reciprocal_regression=Tru
             xmax = max(xmax, max(*baseline_x))
             ymin = min(ymin, min(*baseline_y))
             ymax = max(ymax, max(*baseline_y))
-        xmargin = (xmax - xmin) * 0.05
-        ymargin = (ymax - ymin) * 0.05
+        xmargin = (xmax - xmin) * 0.1
+        ymargin = (ymax - ymin) * 0.1
         plt.xlim([xmin - xmargin, xmax + xmargin])
         plt.ylim([ymin - ymargin, ymax + ymargin])
     ret["points"] = points
