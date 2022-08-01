@@ -140,10 +140,10 @@ def format_sigma(x, pos):
         sigma = '\u03C3'
         return ("+" if x > 0 else "") + str(x) + sigma
 
-def gen_eval(tex_name, m, anal_frac=None):
+def gen_eval(tex_name, m, *, anal_frac=None, show_baseline=True, reciprocal_regression=True):
     html_path = f"{html_counter()}.html"
     with page(path=path.joinpath(html_path), title='Plot') as doc:
-        mp = megaplot.plot(m, m.keys(), tex_name, legend=False)
+        mp = megaplot.plot(m, m.keys(), tex_name, legend=False, show_baseline=show_baseline, reciprocal_regression=reciprocal_regression)
         png_path = f"{tex_name}plot.png"
         plt.savefig(str(path.joinpath(png_path)), bbox_inches='tight')
         plt.savefig(f"../membalancer-paper/img/{png_path}", bbox_inches='tight')
@@ -256,7 +256,7 @@ def gen_jetstream(directory):
 def gen_acdc(directory):
     m = megaplot.anal_log(directory)
     m_exp = {benches: {cfg: [Experiment([x]) for x in aggregated_runs] for cfg, aggregated_runs in per_benches_m.items()} for benches, per_benches_m in m.items()}
-    return gen_eval("ACDC", m_exp)
+    return gen_eval("ACDC", m_exp, show_baseline=False, reciprocal_regression=False)
 
 def gen_browser(directory, i):
     m = megaplot.anal_log(dd)

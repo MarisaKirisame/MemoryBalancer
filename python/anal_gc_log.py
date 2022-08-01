@@ -118,7 +118,7 @@ class Process(Stackable):
         assert len(gc_line_low) == len(gc_line_high)
         for (x_low, y_low), (x_high, y_high) in zip(gc_line_low, gc_line_high):
             assert x_low == x_high
-            plt.vlines(x_low, ymin=y_low, ymax=y_high, color="black", zorder=100)
+            plt.vlines(x_low, ymin=y_low, ymax=y_high, color="black", zorder=100, linewidth=0.5)
 
     def stack(self, baseline):
         return stack(baseline, self.max_memory)

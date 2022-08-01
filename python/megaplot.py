@@ -112,7 +112,7 @@ def plot(m, benches, name, *, show_baseline=True, normalize_baseline=True, recip
                     transformed_points.append(Point(1 / memory, 1 / time, balancer_cfg, exp, balancer_cfg == BASELINE))
         plt.scatter(x, y, label=bench, linewidth=0.1, s=20)
         if len(baseline_x) != 0:
-            plt.scatter(baseline_x, baseline_y, label=bench, linewidth=0.1, color="orange", s=35)
+            plt.scatter(baseline_x, baseline_y, label=bench, linewidth=0.1, color="black", s=35)
         xmins.append(min(*x, *baseline_x))
         xmaxs.append(max(*x, *baseline_x))
         ymins.append(min(*y, *baseline_y))

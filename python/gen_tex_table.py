@@ -72,8 +72,6 @@ def convert_to_tex(data):
         w = data[key]["w"]
         g = data[key]["g"]
         s = data[key]["s"]
-        mb_extra = data[key]["membalancer_exta_mem"]
-        curr_extra = data[key]["current_v8_extra_mem"]
         total_run_time_mb = data[key]["total_run_time_mb"]
         total_gc_time_mb = data[key]["total_gc_time_mb"]
         total_run_time_baseline = data[key]["total_run_time_baseline"]
@@ -82,20 +80,35 @@ def convert_to_tex(data):
         tex_str += tex_def_table(row, "w", f"{tex_fmt(w)}")
         tex_str += tex_def_table(row, "g", f"{tex_fmt(g)}")
         tex_str += tex_def_table(row, "s", f"{tex_fmt(s)}")
-        tex_str += tex_def_table(row, "mbextra", f"{tex_fmt(mb_extra)}")
-        tex_str += tex_def_table(row, "baseextra", f"{tex_fmt(curr_extra)}")
+        mb_extra = data[key]["membalancer_exta_mem"]
+        curr_extra = data[key]["current_v8_extra_mem"]
+        if mb_extra < curr_extra:
+            tex_str += tex_def_table(row, "mbextra", f"{tex_fmtbold(mb_extra)}")
+            tex_str += tex_def_table(row, "baseextra", f"{tex_fmt(curr_extra)}")
+        elif mb_extra > curr_extra:
+            tex_str += tex_def_table(row, "mbextra", f"{tex_fmt(mb_extra)}")
+            tex_str += tex_def_table(row, "baseextra", f"{tex_fmtbold(curr_extra)}")
+        else:
+            tex_str += tex_def_table(row, "mbextra", f"{tex_fmt(mb_extra)}")
+            tex_str += tex_def_table(row, "baseextra", f"{tex_fmt(curr_extra)}")
         if total_run_time_mb < total_run_time_baseline:
             tex_str += tex_def_table(row, "mbruntime", f"{tex_fmt_bold(total_run_time_mb)}")
             tex_str += tex_def_table(row, "baseruntime", f"{tex_fmt(total_run_time_baseline)}")
         elif total_run_time_mb > total_run_time_baseline:
             tex_str += tex_def_table(row, "mbruntime", f"{tex_fmt(total_run_time_mb)}")
             tex_str += tex_def_table(row, "baseruntime", f"{tex_fmt_bold(total_run_time_baseline)}")
+        else:
+            tex_str += tex_def_table(row, "mbruntime", f"{tex_fmt(total_run_time_mb)}")
+            tex_str += tex_def_table(row, "baseruntime", f"{tex_fmt(total_run_time_baseline)}")
         if total_gc_time_mb < total_gc_time_baseline:
             tex_str += tex_def_table(row, "mbgctime", f"{tex_fmt_bold(total_gc_time_mb)}")
             tex_str += tex_def_table(row, "basegctime", f"{tex_fmt(total_gc_time_baseline)}")
         elif total_gc_time_mb > total_gc_time_baseline:
             tex_str += tex_def_table(row, "mbgctime", f"{tex_fmt(total_gc_time_mb)}")
             tex_str += tex_def_table(row, "basegctime", f"{tex_fmt_bold(total_gc_time_baseline)}")
+        else:
+            tex_str += tex_def_table(row, "mbgctime", f"{tex_fmt(total_gc_time_mb)}")
+            tex_str += tex_def_table(row, "basegctime", f"{tex_fmt(total_gc_time_baseline)}")
         row = ord(row)
         row += 1
         row = chr(row)
