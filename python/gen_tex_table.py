@@ -83,11 +83,11 @@ def convert_to_tex(data):
         mb_extra = data[key]["membalancer_exta_mem"]
         curr_extra = data[key]["current_v8_extra_mem"]
         if mb_extra < curr_extra:
-            tex_str += tex_def_table(row, "mbextra", f"{tex_fmtbold(mb_extra)}")
+            tex_str += tex_def_table(row, "mbextra", f"{tex_fmt_bold(mb_extra)}")
             tex_str += tex_def_table(row, "baseextra", f"{tex_fmt(curr_extra)}")
         elif mb_extra > curr_extra:
             tex_str += tex_def_table(row, "mbextra", f"{tex_fmt(mb_extra)}")
-            tex_str += tex_def_table(row, "baseextra", f"{tex_fmtbold(curr_extra)}")
+            tex_str += tex_def_table(row, "baseextra", f"{tex_fmt_bold(curr_extra)}")
         else:
             tex_str += tex_def_table(row, "mbextra", f"{tex_fmt(mb_extra)}")
             tex_str += tex_def_table(row, "baseextra", f"{tex_fmt(curr_extra)}")
