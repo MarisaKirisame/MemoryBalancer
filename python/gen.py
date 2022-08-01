@@ -174,8 +174,8 @@ def gen_eval(tex_name, m, anal_frac=None):
                 tex += tex_def("ExtraMemorySaving", f"{tex_fmt((1-1/x_projection)/(1-anal_frac) * 100)}\%")
             improvement_over_baseline = []
             for point in transformed_points:
-                assert not point.is_baseline
-                improvement_over_baseline.append(get_deviate_in_sd(point.memory, point.time) - baseline_deviate)
+                if not point.is_baseline:
+                    improvement_over_baseline.append(get_deviate_in_sd(point.memory, point.time) - baseline_deviate)
             if len(improvement_over_baseline) > 1:
                 pvalue = stats.ttest_1samp(improvement_over_baseline, 0.0, alternative="greater").pvalue
                 tex += tex_def(tex_name + "PValue", f"{tex_g_fmt(pvalue)}")
