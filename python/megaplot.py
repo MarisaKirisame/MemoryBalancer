@@ -67,7 +67,10 @@ def plot(m, benches, name, *, summarize_baseline=True, reciprocal_regression=Tru
 
     points = []
     transformed_points = []
-
+    xmins = []
+    xmaxs = []
+    ymins = []
+    ymaxs = []
     for bench in benches:
         if summarize_baseline:
             if BASELINE not in m[bench]:
@@ -111,14 +114,10 @@ def plot(m, benches, name, *, summarize_baseline=True, reciprocal_regression=Tru
         plt.scatter(x, y, label=bench, linewidth=0.1, s=20)
         if len(baseline_x) != 0:
             plt.scatter(baseline_x, baseline_y, label=bench, linewidth=0.1, color="orange", s=35)
-        xmin = min(*x, *baseline_x)
-        xmax = max(*x, *baseline_x)
-        ymin = min(*y, *baseline_y)
-        ymax = max(*y, *baseline_y)
-        xmargin = (xmax - xmin) * 0.1 + 1
-        ymargin = (ymax - ymin) * 0.1 + 1
-        plt.xlim([xmin - xmargin, xmax + xmargin])
-        plt.ylim([ymin - ymargin, ymax + ymargin])
+        xmins.append(min(*x, *baseline_x))
+        xmaxs.append(max(*x, *baseline_x))
+        ymins.append(min(*y, *baseline_y))
+        ymaxs.append(max(*y, *baseline_y))
     ret["points"] = points
     ret["transformed_points"] = transformed_points
     if legend:
@@ -154,6 +153,14 @@ def plot(m, benches, name, *, summarize_baseline=True, reciprocal_regression=Tru
             plt.fill_between(1 / ci_x, (1 / (poly1d_fn(ci_x) - 2*se)), (1 / (poly1d_fn(ci_x) + 2*se)), color='b', alpha=.1)
     if legend:
         plt.legend(bbox_to_anchor=(1.04, 0.5), loc="center left")
+    xmin = min(xmins[0], *xmins)
+    xmax = max(xmaxs[0], *xmaxs)
+    ymin = min(ymins[0], *ymins)
+    ymax = max(ymaxs[0], *ymaxs)
+    xmargin = (xmax - xmin) * 0.05
+    ymargin = (ymax - ymin) * 0.05
+    plt.xlim([xmin - xmargin, xmax + xmargin])
+    plt.ylim([ymin - ymargin, ymax + ymargin])
     return ret
 
 if __name__ == "__main__":
