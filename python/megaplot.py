@@ -131,7 +131,9 @@ def plot(m, benches, name, *, show_baseline=True, normalize_baseline=True, recip
         ret["sd"] = sd
         ret["se"] = se
         if reciprocal_regression:
-            ci_x = np.linspace(min(transformed_points, key=lambda p: p.memory), max(transformed_points, key=lambda p: p.memory), 100)
+            ci_x = np.linspace(min(transformed_points, key=lambda p: p.memory).memory,
+                               max(transformed_points, key=lambda p: p.memory).memory,
+                               100)
             ci_y = 1 / poly1d_fn(ci_x)
             plt.plot(1 / ci_x, ci_y, color='b')
             for ci_xx in ci_x:
