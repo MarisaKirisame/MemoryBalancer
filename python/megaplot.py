@@ -60,7 +60,7 @@ def plot(m, benches, name, *, show_baseline=True, normalize_baseline=True, recip
     # todo: fix for other path
     rel = "relative to current v8"
     plt.xlabel(f'Average heap usage ({rel if normalize_baseline else "MB"})')
-    plt.ylabel(f'Garbage collection time ({rel if normalize_baseline else "s"})' if reciprocal_regression else 'Speedup (relative to current v8)')
+    plt.ylabel(f'Garbage collection time ({rel if normalize_baseline else "s"})')
     if normalize_baseline:
         plt.axhline(y=1, color='k', lw=1, linestyle='-')
         plt.axvline(x=1, color='k', lw=1, linestyle='-')
