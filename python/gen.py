@@ -140,10 +140,10 @@ def format_sigma(x, pos):
         sigma = '\u03C3'
         return ("+" if x > 0 else "") + str(x) + sigma
 
-def gen_eval(tex_name, m, *, anal_frac=None, show_baseline=True, reciprocal_regression=True):
+def gen_eval(tex_name, m, *, anal_frac=None, show_baseline=True, reciprocal_regression=True, normalize_baseline=True):
     html_path = f"{html_counter()}.html"
     with page(path=path.joinpath(html_path), title='Plot') as doc:
-        mp = megaplot.plot(m, m.keys(), tex_name, legend=False, show_baseline=show_baseline, reciprocal_regression=reciprocal_regression)
+        mp = megaplot.plot(m, m.keys(), tex_name, legend=False, show_baseline=show_baseline, reciprocal_regression=reciprocal_regression, normalize_baseline=normalize_baseline)
         png_path = f"{tex_name}plot.png"
         plt.savefig(str(path.joinpath(png_path)), bbox_inches='tight')
         plt.savefig(f"../membalancer-paper/img/{png_path}", bbox_inches='tight')
@@ -234,7 +234,7 @@ def gen_jetstream(directory):
             	found_baseline = True
             	tex_table_baseline_dir = dirname
             	anal_gc_log.main(cfg, Experiment([Run(dirname + "/")]), legend=False)
-            	plt.xlim([0, 50])
+            	plt.xlim([0, 40])
             	plt.ylim([0, 450])
             	plt.savefig(f"../membalancer-paper/img/js_baseline_anal.png", bbox_inches='tight')
             	plt.clf()
@@ -245,7 +245,7 @@ def gen_jetstream(directory):
                 tex += tex_def("CompareAt", tex_fmt(JSCompareAt*-1e9))
                 tex_table_membalancer_dir = dirname
                 anal_gc_log.main(cfg, Experiment([Run(dirname + "/")]), legend=False)
-                plt.xlim([0, 50])
+                plt.xlim([0, 40])
                 plt.ylim([0, 450])
                 plt.savefig(f"../membalancer-paper/img/js_membalancer_anal.png", bbox_inches='tight')
                 plt.clf()
@@ -256,7 +256,7 @@ def gen_jetstream(directory):
 def gen_acdc(directory):
     m = megaplot.anal_log(directory)
     m_exp = {benches: {cfg: [Experiment([x]) for x in aggregated_runs] for cfg, aggregated_runs in per_benches_m.items()} for benches, per_benches_m in m.items()}
-    return gen_eval("ACDC", m_exp, show_baseline=False, reciprocal_regression=False)
+    return gen_eval("ACDC", m_exp, normalize_baseline=False, reciprocal_regression=False)
 
 def gen_browser(directory, i):
     m = megaplot.anal_log(dd)

@@ -58,8 +58,9 @@ def hack(name):
 def plot(m, benches, name, *, show_baseline=True, normalize_baseline=True, reciprocal_regression=True, legend=True):
     plt.title(hack(name))
     # todo: fix for other path
-    plt.xlabel('Memory consumption (relative to current v8)')
-    plt.ylabel('Time taken (relative to current v8)' if reciprocal_regression else 'Speedup (relative to current v8)')
+    rel = "relative to current v8"
+    plt.xlabel(f'Average heap usage ({rel if normalize_baseline else "MB"})')
+    plt.ylabel(f'Garbage collection time ({rel if normalize_baseline else "s"})' if reciprocal_regression else 'Speedup (relative to current v8)')
     if normalize_baseline:
         plt.axhline(y=1, color='k', lw=1, linestyle='-')
         plt.axvline(x=1, color='k', lw=1, linestyle='-')
@@ -119,32 +120,18 @@ def plot(m, benches, name, *, show_baseline=True, normalize_baseline=True, recip
         ymaxs.append(max(*y, *baseline_y))
     ret["points"] = points
     ret["transformed_points"] = transformed_points
-    if legend:
-        plt.xlabel("AverageBenchmarkMemory")
-        plt.ylabel("Time")
-    if reciprocal_regression and len(points) > 0:
-        x = []
-        y = []
-        # include baseline
-        memory = []
-        time = []
-        for p in transformed_points:
-            if not p.is_baseline:
-                x.append(p.memory)
-                y.append(p.time)
-            memory.append(p.memory)
-            time.append(p.time)
-        if len(x) > 0:
-            min_memory = min(*memory) if len(memory) > 1 else memory[0]
-            max_memory = max(*memory) if len(memory) > 1 else memory[0]
-            coef = np.polyfit(x, y, 1)
-            poly1d_fn = np.poly1d(coef)
-            sd = sum((poly1d_fn(x) - y) ** 2) ** 0.5 / (len(y) - 1) ** 0.5
-            se = sd / len(y) ** 0.5
-            ret["coef"] = coef
-            ret["sd"] = sd
-            ret["se"] = se
-            ci_x = np.linspace(min_memory, max_memory, 100)
+    x = list([p.memory for p in transformed_points if not p.is_baseline])
+    y = list([p.time for p in transformed_points if not p.is_baseline])
+    if len(x) > 0:
+        coef = np.polyfit(x, y, 1)
+        poly1d_fn = np.poly1d(coef)
+        sd = sum((poly1d_fn(x) - y) ** 2) ** 0.5 / (len(y) - 1) ** 0.5
+        se = sd / len(y) ** 0.5
+        ret["coef"] = coef
+        ret["sd"] = sd
+        ret["se"] = se
+        if reciprocal_regression:
+            ci_x = np.linspace(min(transformed_points, key=lambda p: p.memory), max(transformed_points, key=lambda p: p.memory), 100)
             ci_y = 1 / poly1d_fn(ci_x)
             plt.plot(1 / ci_x, ci_y, color='b')
             for ci_xx in ci_x:
