@@ -164,7 +164,8 @@ def main(cfg, exp, legend=True):
                     working_memory = j["after_memory"]
                     current_memory = working_memory
                     max_memory = j["Limit"]
-                    x.point(j["time"] / 1e9, working_memory / 1e6, current_memory / 1e6, max_memory / 1e6, False)
+                    x.point(j["time"] / 1e9, working_memory / 1e6, current_memory / 1e6, max_memory / 1e6, True)
+            x.point((j["time"] + 1) / 1e9, 0, 0, 0, False)
     instance_list.sort(key=lambda x: x.name)
     draw_stacks(instance_list)
     if legend:

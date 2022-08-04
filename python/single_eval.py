@@ -84,7 +84,6 @@ if RESIZE_STRATEGY == "after-balance":
 if RESIZE_STRATEGY == "gradient":
     balancer_cmds.append(f"--gc-rate-d={GC_RATE_D}")
 balancer_cmds.append(f"--balance-frequency={BALANCE_FREQUENCY}")
-balancer_cmds.append(f"""--log-path={result_directory+"balancer_log"}""")
 
 def env_vars_str(env_vars):
     ret = ""
@@ -285,25 +284,22 @@ def run_browser(v8_env_vars):
     with open(os.path.join(result_directory, "score"), "w") as f:
         json.dump(j, f)
 
-with open(result_directory+"balancer_out", "w") as balancer_out:
-    with ProcessScope(subprocess.Popen(balancer_cmds, stdout=balancer_out, stderr=subprocess.STDOUT)) as p:
-        time.sleep(1) # make sure the balancer is running
-        memory_limit = f"{MEMORY_LIMIT * MB_IN_BYTES}"
-
-        v8_env_vars = {"USE_MEMBALANCER": "1", "LOG_GC": "1", "LOG_DIRECTORY": result_directory}
-
-        if not RESIZE_STRATEGY == "ignore":
-            v8_env_vars["SKIP_RECOMPUTE_LIMIT"] = "1"
-            v8_env_vars["SKIP_MEMORY_REDUCER"] = "1"
-            #v8_env_vars["SKIP_INCREMENTAL_MARKING"] = "1"
-        if TYPE == "jetstream":
-            run_jetstream(v8_env_vars)
-        elif TYPE == "browser":
-            run_browser(v8_env_vars)
-        elif TYPE == "acdc":
-            run_acdc(v8_env_vars)
-        else:
-            p.kill()
-            raise Exception(f"unknown benchmark type: {TYPE}")
-        time.sleep(10) # make sure the balancer is running
+with ProcessScope(subprocess.Popen(balancer_cmds)) as p:
+    time.sleep(1) # make sure the balancer is running
+    memory_limit = f"{MEMORY_LIMIT * MB_IN_BYTES}"
+    v8_env_vars = {"USE_MEMBALANCER": "1", "LOG_GC": "1", "LOG_DIRECTORY": result_directory}
+    if not RESIZE_STRATEGY == "ignore":
+        v8_env_vars["SKIP_RECOMPUTE_LIMIT"] = "1"
+        v8_env_vars["SKIP_MEMORY_REDUCER"] = "1"
+        #v8_env_vars["SKIP_INCREMENTAL_MARKING"] = "1"
+    if TYPE == "jetstream":
+        run_jetstream(v8_env_vars)
+    elif TYPE == "browser":
+        run_browser(v8_env_vars)
+    elif TYPE == "acdc":
+        run_acdc(v8_env_vars)
+    else:
         p.kill()
+        raise Exception(f"unknown benchmark type: {TYPE}")
+    time.sleep(10) # make sure the balancer is running
+    p.kill()
