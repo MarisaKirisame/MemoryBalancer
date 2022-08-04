@@ -5,9 +5,6 @@
 // todo: deal with copyright
 
 #include "util.hpp"
-#include "controller.hpp"
-#include "runtime.hpp"
-#include "simulator.hpp"
 #include "v8_eval.hpp"
 #include "v8_util.hpp"
 #include "poll_daemon.hpp"
@@ -28,8 +25,6 @@ int main(int argc, char* argv[]) {
     poll_daemon(command_args);
   } else if (command == "v8_experiment") {
     v8_experiment(v8.platform.get(), command_args);
-  } else if (command == "pareto_curve") {
-    pareto_curve("../gc_log");
   } else if (command == "macro") {
     macro();
   } else if (command == "acdc") {
