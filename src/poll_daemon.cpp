@@ -484,36 +484,18 @@ enum class BalanceStrategy {
   ignore,
   // use the sqrt forumla
   classic,
-  // give all process same amt of extra memory
-  extra_memory
 };
 
 // change the sum of memory across all process
 enum class ResizeStrategy {
   // do nothing
   ignore,
-  // a constant amount for all process
-  // is incompatible with BalanceStrategy::ignore as it does nothing and thus cannot balance the memory
-  // one fix is to just scale each process uniformly but this will make late process starve
-  // so - if it is a constant, use extra_memory as a base line
-  constant,
-  // reach a fixed mutator rate before balancing
-  before_balance,
-  // reach a fixed mutator rate after balacning
-  // rn, after_balance only support classic
-  after_balance,
   gradient
 };
 
 std::ostream& operator<<(std::ostream& os, ResizeStrategy rs) {
   if (rs == ResizeStrategy::ignore) {
     return os << "ignore";
-  } else if (rs == ResizeStrategy::constant) {
-    return os << "constant";
-  } else if (rs == ResizeStrategy::before_balance) {
-    return os << "before-balance";
-  } else if (rs == ResizeStrategy::after_balance) {
-    return os << "after-balance";
   } else if (rs == ResizeStrategy::gradient) {
     return os << "gradient";
   } else {
@@ -553,10 +535,6 @@ struct Balancer {
   std::string tex_path;
   nlohmann::json tex_data;
   Logger l;
-  void check_config_consistency() {
-    assert(resize_strategy != ResizeStrategy::constant || balance_strategy != BalanceStrategy::ignore);
-    assert(resize_strategy != ResizeStrategy::after_balance || balance_strategy == BalanceStrategy::classic);
-  }
   Balancer(const std::vector<char*>& args) {
     // note: we intentionally do not use any default option.
     // as all options is filled in by the eval program, there is no point in having default,
@@ -583,8 +561,6 @@ struct Balancer {
       balance_strategy = BalanceStrategy::ignore;
     } else if (balance_strategy_str == "classic") {
       balance_strategy = BalanceStrategy::classic;
-    } else if (balance_strategy_str == "extra-memory") {
-      balance_strategy = BalanceStrategy::extra_memory;
     } else {
       std::cout << "UNKNOWN BALANCER TYPE: " << balance_strategy_str << std::endl;
     }
@@ -592,18 +568,6 @@ struct Balancer {
     std::string resize_strategy_str = result["resize-strategy"].as<std::string>();
     if (resize_strategy_str == "ignore") {
       resize_strategy = ResizeStrategy::ignore;
-    } else if (resize_strategy_str == "constant") {
-      resize_strategy = ResizeStrategy::constant;
-      assert(result.count("resize-amount"));
-      resize_amount = result["resize-amount"].as<size_t>();
-    } else if (resize_strategy_str == "before-balance") {
-      resize_strategy = ResizeStrategy::before_balance;
-      assert(result.count("gc-rate"));
-      gc_rate = result["gc-rate"].as<double>();
-    } else if (resize_strategy_str == "after-balance") {
-      resize_strategy = ResizeStrategy::after_balance;
-      assert(result.count("gc-rate"));
-      gc_rate = result["gc-rate"].as<double>();
     } else if (resize_strategy_str == "gradient") {
       resize_strategy = ResizeStrategy::gradient;
       assert(result.count("gc-rate-d"));
@@ -620,7 +584,6 @@ struct Balancer {
       l.f = std::ofstream(log_path);
     }
     balance_frequency = milliseconds(result["balance-frequency"].as<size_t>());
-    check_config_consistency();
   }
   void poll_daemon() {
     while (true) {
@@ -768,15 +731,11 @@ struct Balancer {
     return st;
   }
   size_t suggested_extra_memory(ConnectionState* rr, size_t total_extra_memory, const Stat& st) {
-    if (balance_strategy == BalanceStrategy::extra_memory) {
-      return total_extra_memory / st.instance_count;
+    assert(balance_strategy == BalanceStrategy::classic || balance_strategy == BalanceStrategy::ignore);
+    if (st.balance_factor == 0) {
+      return 0;
     } else {
-      assert(balance_strategy == BalanceStrategy::classic || balance_strategy == BalanceStrategy::ignore);
-      if (st.balance_factor == 0) {
-        return 0;
-      } else {
-        return total_extra_memory / st.balance_factor * rr->speed_balance_factor();
-      }
+      return total_extra_memory / st.balance_factor * rr->speed_balance_factor();
     }
   }
   Ord compare(double lhs, double rhs) {
@@ -821,27 +780,6 @@ struct Balancer {
     size_t total_extra_memory;
     if (resize_strategy == ResizeStrategy::ignore) {
       total_extra_memory = st.e;
-    } else if (resize_strategy == ResizeStrategy::constant) {
-      size_t working_memory = st.m - st.e;
-      total_extra_memory = resize_amount - working_memory;
-    } else if (resize_strategy == ResizeStrategy::before_balance) {
-      total_extra_memory = 0;
-      for (ConnectionState* rr: vector()) {
-        if (rr->should_balance()) {
-          total_extra_memory +=
-            positive_binary_search_unbounded(std::max<size_t>(rr->extra_memory(), 1),
-                                             [&](double extra_memory) {
-                                               return compare_mu(rr->speed_utilization_rate(extra_memory));
-                                             });
-        }
-      }
-    } else if (resize_strategy == ResizeStrategy::after_balance) {
-      total_extra_memory =
-        positive_binary_search_unbounded(std::max<size_t>(st.e, 1),
-                                         [&](double extra_memory) {
-                                           double mu = utilization(calculate_suggestion(extra_memory, st));
-                                           return compare_mu(mu);
-                                         });
     } else if (resize_strategy == ResizeStrategy::gradient) {
       total_extra_memory =
         positive_binary_search_unbounded(std::max<size_t>(st.e, 1),
