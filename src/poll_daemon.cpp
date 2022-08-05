@@ -336,7 +336,6 @@ struct ConnectionState {
         std::cout << "unknown type: " << type << std::endl;
         throw;
       }
-      try_log(l, type);
     }
     unprocessed = p.second;
   }
@@ -426,24 +425,6 @@ struct ConnectionState {
   }
 };
 
-// throttle event so they dont fire too often.
-struct Spacer {
-  bool has_past_event = false;
-  time_point last_event;
-  milliseconds space;
-  Spacer(milliseconds space) : space(space) { }
-  bool operator()() {
-    time_point now = steady_clock::now();
-    if ((!has_past_event) || (now - last_event >= space)) {
-      has_past_event = true;
-      last_event = now;
-      return true;
-    } else {
-      return false;
-    }
-  }
-};
-
 // balance memory given a limit
 enum class BalanceStrategy {
   // do nothing
@@ -484,12 +465,6 @@ struct Balancer {
     return vec;
   }
   time_point last_balance = steady_clock::now();
-  bool report_ = true;
-  Spacer report_spacer = Spacer(milliseconds(1000));
-  Spacer log_spacer = Spacer(milliseconds(100));
-  bool should_report() {
-    return report_ && report_spacer();
-  }
   double tolerance = 0.1;
   BalanceStrategy balance_strategy;
   ResizeStrategy resize_strategy;
@@ -516,8 +491,6 @@ struct Balancer {
     options.add_options()
       ("gc-rate-d", "gc-rate in derivative", cxxopts::value<double>());
     options.add_options()
-      ("log-path", "where to put the log", cxxopts::value<std::string>());
-    options.add_options()
       ("balance-frequency", "milliseconds between balance", cxxopts::value<size_t>());
     auto result = options.parse(args.size(), args.data());
     assert(result.count("balance-strategy"));
@@ -541,13 +514,6 @@ struct Balancer {
       std::cout << "unknown resize-strategy: " << resize_strategy_str << std::endl;
       throw;
     }
-    if (result.count("log-path")) {
-      log_path = result["log-path"].as<std::string>();
-	  int idx = log_path.find_last_of("/");
-	  tex_path = log_path.substr(0, idx);
-	  tex_path.append("/tex_data");
-      l.f = std::ofstream(log_path);
-    }
     balance_frequency = milliseconds(result["balance-frequency"].as<size_t>());
   }
   void poll_daemon() {
@@ -558,7 +524,6 @@ struct Balancer {
                                    map.at(pfds[i].fd).max_memory = 0;
                                    map.at(pfds[i].fd).current_memory = 0;
                                    map.at(pfds[i].fd).working_memory = 0;
-                                   map.at(pfds[i].fd).try_log(l, "close");
                                    map.erase(pfds[i].fd);
                                    pfds[i] = pfds.back();
                                    pfds.pop_back();
@@ -599,7 +564,7 @@ struct Balancer {
                   throw;
                 }
               } else {
-                map.at(pfds[i].fd).accept(std::string(buf, n), epoch, l);
+                map.at(pfds[i].fd).accept(std::string(buf, n), epoch);;
                 ++i;
               }
             } else {
@@ -744,12 +709,6 @@ struct Balancer {
           return suggested_extra_memory(rr, total_extra_memory, st);
         };
 
-      if (should_report()) {
-        report(st, suggested_extra_memory_aux);
-      }
-
-      l.log(tagged_json("total-memory", st.m - st.e + total_extra_memory));
-
       if (balance_strategy != BalanceStrategy::ignore) {
         // send msg back to v8
         for (ConnectionState* rr: vec) {
@@ -769,7 +728,6 @@ struct Balancer {
               j["working-memory"] = rr->working_memory;
               j["max-memory"] = total_memory_;
               j["time"] = (steady_clock::now() - program_begin).count();
-              l.log(tagged_json("memory-msg", j));
             }
           }
         }
