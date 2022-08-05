@@ -259,6 +259,8 @@ struct Balancer {
       ("resize-strategy", "ignore, before-balance, after-balance", cxxopts::value<std::string>());
     options.add_options()
       ("balance-frequency", "milliseconds between balance", cxxopts::value<size_t>());
+    options.add_options()
+      ("gc-rate-d", "gc rate d", cxxopts::value<double>());
     auto result = options.parse(args.size(), args.data());
     assert(result.count("resize-strategy"));
     std::string resize_strategy_str = result["resize-strategy"].as<std::string>();
