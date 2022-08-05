@@ -29,34 +29,6 @@ std::string get_time() {
     pad_string(std::to_string(tm->tm_sec), '0', 2);
 }
 
-double mean(const std::vector<double>& v) {
-  accumulator_set<double, stats<tag::variance>> acc;
-  for (double d: v) {
-    acc(d);
-  }
-  return boost::accumulators::extract::mean(acc);
-}
-
-double sd(const std::vector<double>& v) {
-  accumulator_set<double, stats<tag::variance>> acc;
-  for (double d: v) {
-    acc(d);
-  }
-  return sqrt(boost::accumulators::extract::variance(acc));
-}
-
-size_t random_heap_size() {
-  static std::random_device rd;
-  static std::mt19937 gen(rd());
-  static std::uniform_real_distribution<> dist(log(min_heap_size), log(max_heap_size));
-  return exp(dist(rd));
-}
-
-double median(const std::vector<double>& vec) {
-  assert(vec.size() > 0);
-  return (vec[(vec.size() - 1) / 2] + vec[vec.size() / 2]) / 2;
-}
-
 std::pair<std::vector<std::string>, std::string> split_string(const std::string& str) {
   std::vector<std::string> strings;
   std::string::size_type pos = 0;

@@ -182,6 +182,7 @@ def get_total_time(dir):
     return data
 
 def main(membalancer_log_dir, baseline_log_dir):
+    return
     (data_mb, data_baseline) = get_table_data(membalancer_log_dir, baseline_log_dir)
     time_mb = get_total_time(membalancer_log_dir)
     time_baseline = get_total_time(baseline_log_dir)

@@ -9,12 +9,6 @@
 
 std::string get_time();
 
-double mean(const std::vector<double>& v);
-
-double sd(const std::vector<double>& v);
-
-double normality(const std::vector<double>& v);
-
 constexpr size_t min_heap_size = 2359296;
 constexpr size_t max_heap_size = 4e9; // Beyond 4gb ConfigureDefaults start acting funny.
 
