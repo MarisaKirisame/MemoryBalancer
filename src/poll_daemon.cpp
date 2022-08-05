@@ -126,45 +126,6 @@ bool send_string(socket_t s, const std::string& msg) {
   return true;
 }
 
-// channel over idempotent message.
-// without this, the balancer only change behavior based on message recieved back.
-// so, the more frequent balancer act, the more message it will send - including lots of identical one.
-// this stop all identical message from sending.
-// note: this is incomplete. with some timed base algorithm (e.g. a PD controller),
-// lots of similar message will still be sent.
-struct IdChannel {
-  socket_t s;
-  bool has_last_message = false;
-  std::string last_message;
-  IdChannel(socket_t s) : s(s) { }
-  void send(const std::string& msg) {
-    if (!(has_last_message && last_message == msg)) {
-      send_string(s, msg);
-      has_last_message = true;
-      last_message = msg;
-    }
-  }
-};
-
-double big_change(double old_value, double new_value) {
-  return abs((new_value - old_value) / old_value) > 0.1;
-}
-
-// avoid sending multiple similar message
-struct Snapper {
-  bool has_last_value = false;
-  size_t last_value;
-  bool operator()(size_t value) {
-    if ((!has_last_value) || big_change(last_value, value)) {
-      has_last_value = true;
-      last_value = value;
-      return true;
-    } else {
-      return false;
-    }
-  }
-};
-
 time_point program_begin = steady_clock::now();
 
 std::string gen_name() {
@@ -188,8 +149,6 @@ T nneg(const T& t) {
 struct ConnectionState {
   size_t wait_ack_count = 0;
   socket_t fd;
-  IdChannel force_gc_chan;
-  Snapper heap_resize_snap;
   std::string unprocessed;
   size_t working_memory = 0;
   size_t current_memory; // this is for logging plotting only, it does not change any action we do.
@@ -272,9 +231,7 @@ struct ConnectionState {
   time_point last_major_gc;
   std::string name;
   std::string guid;
-  ConnectionState(socket_t fd) :
-    fd(fd),
-    force_gc_chan(fd) { }
+  ConnectionState(socket_t fd) : fd(fd) { }
   void accept(const std::string& str, size_t epoch) {
     unprocessed += str;
     auto p = split_string(unprocessed);
@@ -365,23 +322,6 @@ struct ConnectionState {
     return sqrt(static_cast<double>(garbage_rate()) * static_cast<double>(working_memory + bias_in_working_memory) / static_cast<double>(gc_speed()));
   }
 
-  nlohmann::json report(TextTable& t, size_t epoch) {
-    assert(should_balance());
-    t.add(name);
-    t.add(std::to_string(extra_memory()));
-    t.add(std::to_string(max_memory));
-    t.add(std::to_string(garbage_rate()));
-    t.add(std::to_string(gc_speed()));
-
-    nlohmann::json data;
-    data["name"] = name;
-    data["extra_mem"] = extra_memory()/1e6;
-    data["max_mem"] = max_memory/1e6;
-    data["gc_rate"] = garbage_rate()*1e3;
-    data["gc_speed"] = gc_speed()*1e3;
-    data["mem_diff"] = (max_memory - extra_memory())/1e6;
-    return data;
-  }
   double duration_utilization_rate(size_t extra_memory) {
     double mutator_duration = extra_memory / garbage_rate();
     assert(mutator_duration >= 0);
