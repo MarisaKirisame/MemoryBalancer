@@ -25,77 +25,7 @@
 
 #include <cxxopts.hpp>
 
-struct Dual {
-  double v;
-  double d;
-  Dual(double v, double d) : v(v), d(d) {
-    assert(!std::isnan(d));
-  }
-  Dual(const double& v) : v(v), d(0) { }
-  Dual operator+(const Dual& rhs) const {
-    return Dual(v + rhs.v, d + rhs.d);
-  }
-  Dual operator*(const Dual& rhs) const {
-    return Dual(v * rhs.v, d * rhs.v + rhs.d * v);
-  }
-  Dual operator/(const Dual& rhs) const {
-    return Dual(v / rhs.v, (rhs.v * d - v * rhs.d)/(rhs.v * rhs.v));
-  }
-  bool operator>=(const Dual& rhs) const {
-    return v >= rhs.v;
-  }
-  friend std::ostream& operator<<(std::ostream& os, const Dual& d);
-};
-
-std::ostream& operator<<(std::ostream& os, const Dual& d) {
-  return os << "Dual(" << d.v << ", " << d.d << ")";
-}
-
 #define ERROR_STREAM std::cout << __LINE__ << " "
-
-enum class Ord { LT, EQ, GT };
-
-double binary_search_aux(double low, double high, const std::function<Ord(double)>& searcher) {
-  double mid = (low + high) / 2;
-  if (mid <= 1) {
-    return 1.0;
-  }
-  assert(mid < 1e20);
-  Ord ord = searcher(mid);
-  if (ord == Ord::EQ) {
-    return mid;
-  } else if (ord == Ord::GT) {
-    return binary_search_aux(0, mid, searcher);
-  } else {
-    assert(ord == Ord::LT);
-    return binary_search_aux(mid, high, searcher);
-  }
-}
-
-double binary_search(double low, double high, const std::function<Ord(double)>& searcher) {
-  if (searcher(low) == Ord::GT) {
-    std::cout << "binary search low assertion failed: " << low << std::endl;
-  }
-  assert(searcher(low) != Ord::GT);
-  assert(searcher(high) != Ord::LT);
-  return binary_search_aux(low, high, searcher);
-}
-
-// binary search, but we only know the lower bound (0), and not the upper bound.
-// try to deduct it by repeat doubling of initial_guess.
-double positive_binary_search_unbounded(double initial_guess, const std::function<Ord(double)>& searcher) {
-  assert(initial_guess > 0);
-  assert(!std::isinf(initial_guess));
-  Ord ord = searcher(initial_guess);
-  if (ord == Ord::EQ) {
-    return initial_guess;
-  } else if (ord == Ord::GT) {
-    return binary_search(0, initial_guess, searcher);
-  } else {
-    assert(ord == Ord::LT);
-    return positive_binary_search_unbounded(initial_guess * 2, searcher);
-  }
-}
 
 std::string socket_path = "/tmp/membalancer_socket";
 
@@ -128,22 +58,7 @@ bool send_string(socket_t s, const std::string& msg) {
 
 time_point program_begin = steady_clock::now();
 
-std::string gen_name() {
-  static size_t i = 0;
-  return "x_" + std::to_string(i++);
-}
-
 using ByteDiffsAndDuration = std::pair<int64_t, double>;
-
-size_t get_starting_index(size_t len) {
-  return 0;
-}
-
-template<typename T>
-T nneg(const T& t) {
-  assert(t >= 0);
-  return t;
-}
 
 // all duration is in milliseconds, and all speed is in bytes per milliseconds.
 struct ConnectionState {
@@ -188,7 +103,7 @@ struct ConnectionState {
     auto aabad = adjusted_allocation_bad();
     double garbage_bytes = initial_garbage_bytes;
     double garbage_duration = initial_garbage_duration;
-    for (size_t i = get_starting_index(aabad.size()); i < aabad.size(); ++i) {
+    for (size_t i = 0; i < aabad.size(); ++i) {
       const auto& bad = aabad[i];
       double decay = pow(garbage_rate_decay_per_sec, bad.second / 1000000000);
       garbage_bytes += bad.first;
@@ -205,7 +120,7 @@ struct ConnectionState {
   }
   double gc_duration() {
     double ret = 0;
-    for (size_t i = get_starting_index(gc_bad.size()); i < gc_bad.size(); ++i) {
+    for (size_t i = 0; i < gc_bad.size(); ++i) {
       const auto& bad = gc_bad[i];
       ret += bad.second;
       ret *= gc_speed_smoothing_per_sample;
@@ -213,11 +128,11 @@ struct ConnectionState {
     return ret;
   }
   double average_gc_duration() {
-    return gc_duration() / (gc_bad.size() - get_starting_index(gc_bad.size()));
+    return gc_duration() / gc_bad.size();
   }
   double gc_bytes() {
     double ret = 0;
-    for (size_t i = get_starting_index(gc_bad.size()); i < gc_bad.size(); ++i) {
+    for (size_t i = 0; i < gc_bad.size(); ++i) {
       const auto& bad = gc_bad[i];
       ret += bad.first;
       ret *= gc_speed_smoothing_per_sample;
@@ -229,8 +144,6 @@ struct ConnectionState {
   size_t last_major_gc_epoch;
   size_t begin_time, current_time;
   time_point last_major_gc;
-  std::string name;
-  std::string guid;
   ConnectionState(socket_t fd) : fd(fd) { }
   void accept(const std::string& str, size_t epoch) {
     unprocessed += str;
@@ -242,14 +155,6 @@ struct ConnectionState {
       json type = j["type"];
       json data = j["data"];
       if (type == "gc") {
-        if (name == "") {
-          name = data["name"];
-          if (name == "") {
-            name = gen_name();
-          }
-        } else {
-          assert(name == data["name"] || data["name"] == "");
-        }
         if (wait_ack_count == 0) {
           if (this->gc_bad.size() == 0) {
             begin_time = static_cast<size_t>(data["before_time"]);
@@ -307,70 +212,6 @@ struct ConnectionState {
     assert(max_memory >= working_memory);
     return max_memory - working_memory;
   }
-  double gt() {
-    return static_cast<double>(garbage_rate()) * static_cast<double>(average_gc_duration());
-  }
-  double duration_score() {
-    assert(should_balance());
-    size_t extra_memory_ = extra_memory();
-    return static_cast<double>(extra_memory_) * static_cast<double>(extra_memory_) / gt();
-  }
-  double duration_balance_factor() {
-    return sqrt(gt());
-  }
-  double speed_balance_factor() {
-    return sqrt(static_cast<double>(garbage_rate()) * static_cast<double>(working_memory + bias_in_working_memory) / static_cast<double>(gc_speed()));
-  }
-
-  double duration_utilization_rate(size_t extra_memory) {
-    double mutator_duration = extra_memory / garbage_rate();
-    assert(mutator_duration >= 0);
-    return mutator_duration / (average_gc_duration() + mutator_duration);
-  }
-  double duration_utilization_rate() {
-    return duration_utilization_rate(extra_memory());
-  }
-  double measured_duration_utilization_rate() {
-    return 1 - static_cast<double>(gc_duration()) / (current_time - begin_time);
-  }
-  template<typename T>
-  T speed_utilization_rate_generic(const T& extra_memory) {
-    assert(garbage_rate() > 0);
-    auto mutator_duration = extra_memory / garbage_rate();
-    if (!(mutator_duration >= 0)) {
-      std::cout << extra_memory << " " << garbage_rate() << " " << mutator_duration << std::endl;
-    }
-    assert(mutator_duration >= 0);
-    auto useful_gc_duration = extra_memory / gc_speed();
-    auto wasteful_gc_duration = (working_memory + bias_in_working_memory) / gc_speed();
-    auto ret = (mutator_duration + useful_gc_duration) / (mutator_duration + useful_gc_duration + wasteful_gc_duration);
-    if(!(ret >= 0)) {
-      std::cout << mutator_duration << " " << useful_gc_duration << " " << wasteful_gc_duration << std::endl;
-    }
-    assert(ret >= 0);
-    return ret;
-  }
-  double speed_utilization_rate(size_t extra_memory) {
-    return speed_utilization_rate_generic<double>(extra_memory);
-  }
-  double speed_utilization_rate() {
-    return speed_utilization_rate(std::max<size_t>(1, extra_memory()));
-  }
-  double speed_utilization_rate_d(size_t extra_memory) {
-    Dual d = Dual(1) / speed_utilization_rate_generic<Dual>(Dual(extra_memory, 1));
-    return d.d;
-  }
-  double speed_utilization_rate_d() {
-    return speed_utilization_rate_d(std::max<size_t>(1, extra_memory()));
-  }
-};
-
-// balance memory given a limit
-enum class BalanceStrategy {
-  // do nothing
-  ignore,
-  // use the sqrt forumla
-  classic,
 };
 
 // change the sum of memory across all process
@@ -406,42 +247,19 @@ struct Balancer {
   }
   time_point last_balance = steady_clock::now();
   double tolerance = 0.1;
-  BalanceStrategy balance_strategy;
   ResizeStrategy resize_strategy;
-  size_t resize_amount; // only when resize_strategy == constant
-  double gc_rate; // only when resize_strategy == after-balance or before-balance
   double gc_rate_d;
   size_t epoch = 0;
-  std::string log_path;
-  std::string tex_path;
-  nlohmann::json tex_data;
   Balancer(const std::vector<char*>& args) {
     // note: we intentionally do not use any default option.
     // as all options is filled in by the eval program, there is no point in having default,
     // and it will hide error.
     cxxopts::Options options("Balancer", "Balance multiple v8 heap");
     options.add_options()
-      ("balance-strategy", "ignore, classic, extra-memory", cxxopts::value<std::string>());
-    options.add_options()
       ("resize-strategy", "ignore, before-balance, after-balance", cxxopts::value<std::string>());
-    options.add_options()
-      ("resize-amount", "a number denoting how much to resize", cxxopts::value<size_t>());
-    options.add_options()
-      ("gc-rate", "trying to spend this much time in gc", cxxopts::value<double>());
-    options.add_options()
-      ("gc-rate-d", "gc-rate in derivative", cxxopts::value<double>());
     options.add_options()
       ("balance-frequency", "milliseconds between balance", cxxopts::value<size_t>());
     auto result = options.parse(args.size(), args.data());
-    assert(result.count("balance-strategy"));
-    auto balance_strategy_str = result["balance-strategy"].as<std::string>();
-    if (balance_strategy_str == "ignore") {
-      balance_strategy = BalanceStrategy::ignore;
-    } else if (balance_strategy_str == "classic") {
-      balance_strategy = BalanceStrategy::classic;
-    } else {
-      std::cout << "UNKNOWN BALANCER TYPE: " << balance_strategy_str << std::endl;
-    }
     assert(result.count("resize-strategy"));
     std::string resize_strategy_str = result["resize-strategy"].as<std::string>();
     if (resize_strategy_str == "ignore") {
@@ -523,152 +341,27 @@ struct Balancer {
       }
     }
   }
-  struct Stat {
-    size_t instance_count = 0;
-    double mse = 0;
-    size_t m = 0;
-    size_t e = 0;
-    double gt_e = 0;
-    double balance_factor = 0;
-  };
-  TextTable make_table() {
-    TextTable t( '-', '|', '+' );
-    t.add("name");
-    t.add("extra_memory");
-    t.add("total_memory");
-    t.add("garbage_rate");
-    t.add("gc_speed");
-    t.add("suggested_extra_memory");
-    t.add("suggested_total_memory");
-    t.add("gc_rate");
-    t.add("suggested_gc_rate");
-    t.add("gc_rate_d");
-    t.add("suggested_gc_rate_d");
-    t.endOfRow();
-    return t;
-  }
-  Stat get_stat(const std::vector<double>& scores) {
-    double median_score = median(scores);
-    Stat st;
-    for (ConnectionState* rr: vector()) {
-      if (rr->should_balance()) {
-        ++st.instance_count;
-        double diff = (rr->duration_score() - median_score) / median_score;
-        st.mse += diff * diff;
-        st.m += rr->max_memory;
-        st.e += rr->extra_memory();
-        st.gt_e += rr->gt() / rr->extra_memory();
-        st.balance_factor += rr->speed_balance_factor();
-      }
-    }
-    st.mse /= scores.size();
-    return st;
-  }
-  size_t suggested_extra_memory(ConnectionState* rr, size_t total_extra_memory, const Stat& st) {
-    assert(balance_strategy == BalanceStrategy::classic || balance_strategy == BalanceStrategy::ignore);
-    if (st.balance_factor == 0) {
-      return 0;
-    } else {
-      return total_extra_memory / st.balance_factor * rr->speed_balance_factor();
-    }
-  }
-  Ord compare(double lhs, double rhs) {
-    if (lhs < 0.9 * rhs) {
-      return Ord::LT;
-    } else if (lhs > 1.1 * rhs) {
-      return Ord::GT;
-    } else {
-      return Ord::EQ;
-    }
-  }
-  Ord compare_mu(double mu) {
-    assert(0 <= mu);
-    assert(mu <= 1);
-    return compare(gc_rate, 1 - mu);
-  }
-  using memory_suggestion_t = std::unordered_map<ConnectionState*, size_t>;
-  memory_suggestion_t calculate_suggestion(size_t total_extra_memory, const Stat& st) {
-    memory_suggestion_t memory_suggestion;
-    for (ConnectionState* rr: vector()) {
-      if (rr->should_balance()) {
-        memory_suggestion.insert({rr, suggested_extra_memory(rr, total_extra_memory, st)});
-      }
-    }
-    return memory_suggestion;
-  }
-  double utilization(const memory_suggestion_t& memory_suggestion) {
-    double u = 0;
-    for (const auto& p : memory_suggestion) {
-      u += p.first->speed_utilization_rate(p.second);
-    }
-    return u / memory_suggestion.size();
-  }
-  double utilization_d(const memory_suggestion_t& memory_suggestion) {
-    double u = 0;
-    for (const auto& p : memory_suggestion) {
-      u += p.first->speed_utilization_rate_d(p.second);
-    }
-    return u / memory_suggestion.size();
-  }
-  size_t get_total_extra_memory(const Stat& st) {
-    size_t total_extra_memory;
-    if (resize_strategy == ResizeStrategy::ignore) {
-      total_extra_memory = st.e;
-    } else if (resize_strategy == ResizeStrategy::gradient) {
-      total_extra_memory =
-        positive_binary_search_unbounded(std::max<size_t>(st.e, 1),
-                                         [&](double extra_memory) {
-                                           double mu = utilization_d(calculate_suggestion(extra_memory, st));
-                                           return compare(-gc_rate_d, -mu);
-                                         });
-    }
-    else {
-      std::cout << "resize_strategy " << resize_strategy << " not implemented!" << std::endl;
-      throw;
-    }
-    assert(total_extra_memory <= 1e30);
-    return total_extra_memory;
-  }
-  // pavel: check if this fp is safe?
   void balance() {
     ++epoch;
     last_balance = steady_clock::now();
-    std::vector<double> scores;
     std::vector<ConnectionState*> vec = vector();
-    for (ConnectionState* rr: vec) {
-      if (rr->should_balance()) {
-        scores.push_back(rr->duration_score());
-      }
-    }
-    std::sort(scores.begin(), scores.end());
-    if (!scores.empty()) {
-      Stat st = get_stat(scores);
-      size_t total_extra_memory = get_total_extra_memory(st);
-      auto suggested_extra_memory_aux =
-        [&](ConnectionState* rr) -> size_t {
-          return suggested_extra_memory(rr, total_extra_memory, st);
-        };
-
-      if (balance_strategy != BalanceStrategy::ignore) {
-        // send msg back to v8
-        for (ConnectionState* rr: vec) {
-          if (rr->should_balance()) {
-            size_t extra_memory_ = rr->extra_memory();
-            size_t suggested_extra_memory_ = suggested_extra_memory_aux(rr);
-            suggested_extra_memory_ = std::max<size_t>(suggested_extra_memory_, extra_memory_floor);
-            size_t total_memory_ = std::max<size_t>(suggested_extra_memory_ + rr->working_memory, total_memory_floor);
-            std::string str = to_string(tagged_json("heap", total_memory_));
-            if (!send_string(rr->fd, str)) {
-              // todo: actually close the connection. right now i am hoping the poll code will close it.
-            } else {
-              rr->max_memory = total_memory_;
-              assert(rr->max_memory >= rr->working_memory);
-              nlohmann::json j;
-              j["name"] = rr->name;
-              j["working-memory"] = rr->working_memory;
-              j["max-memory"] = total_memory_;
-              j["time"] = (steady_clock::now() - program_begin).count();
-            }
+    if (resize_strategy != ResizeStrategy::ignore) {
+      // send msg back to v8
+      for (ConnectionState* rr: vec) {
+        if (rr->should_balance()) {
+          size_t extra_memory_ = rr->extra_memory();
+          size_t suggested_extra_memory_ = sqrt(static_cast<double>(rr->garbage_rate()) *
+                                                static_cast<double>(rr->working_memory + bias_in_working_memory) /
+                                                static_cast<double>(rr->gc_speed()) /
+                                                (- gc_rate_d));
+          suggested_extra_memory_ = std::max<size_t>(suggested_extra_memory_, extra_memory_floor);
+          size_t total_memory_ = std::max<size_t>(suggested_extra_memory_ + rr->working_memory, total_memory_floor);
+          std::string str = to_string(tagged_json("heap", total_memory_));
+          if (!send_string(rr->fd, str)) {
+            // todo: actually close the connection. right now i am hoping the poll code will close it.
+          } else {
+            rr->max_memory = total_memory_;
+            assert(rr->max_memory >= rr->working_memory);
           }
         }
       }
