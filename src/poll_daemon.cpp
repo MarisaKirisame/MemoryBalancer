@@ -55,15 +55,6 @@ std::ostream& operator<<(std::ostream& os, const Dual& d) {
 
 enum class Ord { LT, EQ, GT };
 
-struct ScopeLog {
-  ScopeLog() {
-    std::cout << "PUSH" << std::endl;
-  }
-  ~ScopeLog() {
-    std::cout << "POP" << std::endl;
-  }
-};
-
 double binary_search_aux(double low, double high, const std::function<Ord(double)>& searcher) {
   double mid = (low + high) / 2;
   if (mid <= 1) {
@@ -176,15 +167,6 @@ struct Snapper {
 
 time_point program_begin = steady_clock::now();
 
-struct Logger {
-  std::ofstream f;
-  void log(const nlohmann::json& j) {
-    if (f.is_open()) {
-      f << j << std::endl;
-    }
-  }
-};
-
 std::string gen_name() {
   static size_t i = 0;
   return "x_" + std::to_string(i++);
@@ -293,22 +275,7 @@ struct ConnectionState {
   ConnectionState(socket_t fd) :
     fd(fd),
     force_gc_chan(fd) { }
-  void try_log(Logger& l, const std::string& msg_type) {
-    if (should_balance()) {
-      nlohmann::json j;
-      j["msg-type"] = msg_type;
-      j["time"] = (steady_clock::now() - program_begin).count();
-      j["working-memory"] = working_memory;
-      j["max-memory"] = max_memory;
-      j["garbage-rate"] = garbage_rate();
-      j["gc-speed"] = gc_speed();
-      j["name"] = name;
-      j["current-memory"] = current_memory;
-      //j["guid"] = guid;
-      l.log(tagged_json("heap-stat", j));
-    }
-  }
-  void accept(const std::string& str, size_t epoch, Logger& l) {
+  void accept(const std::string& str, size_t epoch) {
     unprocessed += str;
     auto p = split_string(unprocessed);
     for (const auto& str: p.first) {
@@ -317,7 +284,6 @@ struct ConnectionState {
       iss >> j;
       json type = j["type"];
       json data = j["data"];
-      std::cout << name << " accept: " << str << std::endl;
       if (type == "gc") {
         if (name == "") {
           name = data["name"];
@@ -534,7 +500,6 @@ struct Balancer {
   std::string log_path;
   std::string tex_path;
   nlohmann::json tex_data;
-  Logger l;
   Balancer(const std::vector<char*>& args) {
     // note: we intentionally do not use any default option.
     // as all options is filled in by the eval program, there is no point in having default,
@@ -599,7 +564,6 @@ struct Balancer {
                                    pfds.pop_back();
                                  };
         auto close_connection = [&](size_t i) {
-                                  std::cout << "peer closed!" << std::endl;
                                   close(pfds[i].fd);
                                   connection_closed(i);
                                 };
@@ -640,7 +604,6 @@ struct Balancer {
               }
             } else {
               assert(revents & POLLHUP);
-              std::cout << "close from epoll!" << std::endl;
               close_connection(i);
             }
           } else {
@@ -678,38 +641,6 @@ struct Balancer {
     t.add("suggested_gc_rate_d");
     t.endOfRow();
     return t;
-  }
-
-  void report(const Stat& st, const std::function<size_t(ConnectionState*)>& suggested_extra_memory) {
-    auto t = make_table();
-    auto vec = vector();
-    std::cout << "balancing " << st.instance_count << " heap, waiting for " << vec.size() - st.instance_count << " heap" << std::endl;
-    nlohmann::json data;
-    for (ConnectionState* rr: vector()) {
-      if (rr->should_balance()) {
-        nlohmann::json one_row = rr->report(t, epoch);
-        data.push_back(one_row);
-        size_t suggested_extra_memory_ = suggested_extra_memory(rr);
-        t.add(std::to_string(suggested_extra_memory_));
-        t.add(std::to_string(suggested_extra_memory_ + rr->working_memory));
-        t.add(std::to_string(1 - rr->speed_utilization_rate()));
-        t.add(std::to_string(1 - rr->speed_utilization_rate(suggested_extra_memory_)));
-        t.add(std::to_string(-1e9 * rr->speed_utilization_rate_d()));
-        t.add(std::to_string(-1e9 * rr->speed_utilization_rate_d(suggested_extra_memory_)));
-        t.endOfRow();
-      }
-    }
-
-    tex_data.push_back(data);
-    std::string tex_data_string = tex_data.dump();
-    std::ofstream tex_log(tex_path);
-    tex_log << tex_data_string;
-
-    std::cout << t << std::endl;
-    std::cout << "score mse: " << st.mse << std::endl;
-    std::cout << "total memory: " << st.m << std::endl;
-    std::cout << "total extra memory: " << st.e << std::endl;
-    std::cout << std::endl;
   }
   Stat get_stat(const std::vector<double>& scores) {
     double median_score = median(scores);
@@ -828,7 +759,6 @@ struct Balancer {
             suggested_extra_memory_ = std::max<size_t>(suggested_extra_memory_, extra_memory_floor);
             size_t total_memory_ = std::max<size_t>(suggested_extra_memory_ + rr->working_memory, total_memory_floor);
             std::string str = to_string(tagged_json("heap", total_memory_));
-            std::cout << "sending: " << str << "to: " << rr->name << std::endl;
             if (!send_string(rr->fd, str)) {
               // todo: actually close the connection. right now i am hoping the poll code will close it.
             } else {
