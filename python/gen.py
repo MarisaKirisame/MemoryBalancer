@@ -14,7 +14,6 @@ from scipy import stats
 import math
 import subprocess
 import sys
-import anal_work
 import gen_tex_table
 import paper
 from util import tex_fmt, fmt, tex_def
