@@ -68,14 +68,10 @@ void v8_experiment(v8::Platform* platform, const std::vector<char*>& args) {
   cxxopts::Options options("V8 Experiment", "run some experiment from jetstream");
   options.add_options()
     ("heap-size", "Heap size in bytes.", cxxopts::value<int>());
-  options.add_options()
-    ("log-path", "path of log", cxxopts::value<std::string>());
   auto result = options.parse(args.size(), args.data());
   assert(result.count("heap-size"));
   int heap_size = result["heap-size"].as<int>();
   assert(heap_size > 0);
-  assert(result.count("log-path"));
-  std::ofstream logger(result["log-path"].as<std::string>());
   std::string browserbench_path = "../WebKit/Websites/browserbench.org/";
   std::string jetstream1_path = browserbench_path + "JetStream1.1/";
   std::string jetstream2_path = browserbench_path + "JetStream2.0/";
@@ -128,8 +124,4 @@ void v8_experiment(v8::Platform* platform, const std::vector<char*>& args) {
     total_major_gc_time += ret.major_gc_time;
     total_time += ret.time;
   }
-
-  logger << tagged_json("peak_memory", v8::PeakMemory()) << std::endl;
-  logger << tagged_json("total_major_gc_time", total_major_gc_time) << std::endl;
-  logger << tagged_json("total_time", total_time) << std::endl;
 }
