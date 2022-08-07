@@ -1,6 +1,6 @@
 #include <v8.h>
-#include <v8-json.h>
 #include <iostream>
+#include <nlohmann/json.hpp>
 
 #include "macro.hpp"
 #include "hyperparam.hpp"
