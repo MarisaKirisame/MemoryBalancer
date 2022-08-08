@@ -39,7 +39,10 @@ BALANCER_CFG = cfg["BALANCER_CFG"]
 RESIZE_CFG = BALANCER_CFG["RESIZE_CFG"]
 RESIZE_STRATEGY = RESIZE_CFG["RESIZE_STRATEGY"]
 if RESIZE_STRATEGY == "gradient":
+    USE_MEMBALANCER = True
     GC_RATE_D = RESIZE_CFG["GC_RATE_D"]
+else:
+    USE_MEMBALANCER = False
 
 TYPE = cfg["TYPE"]
 
@@ -271,7 +274,12 @@ def run_browser(v8_env_vars):
 
 #with ProcessScope(subprocess.Popen(balancer_cmds)) as p:
 #    time.sleep(1) # make sure the balancer is running
-v8_env_vars = {"USE_MEMBALANCER": "1", "LOG_GC": "1", "LOG_DIRECTORY": result_directory}
+v8_env_vars = {"LOG_GC": "1", "LOG_DIRECTORY": result_directory}
+if USE_MEMBALANCER:
+    v8_env_vars["USE_MEMBALANCER"] = "1"
+    v8_env_vars["C_VALUE"] = str(GC_RATE_D)
+else:
+    v8_env_vars["USE_MEMBALANCER"] = "1"
 if TYPE == "jetstream":
     run_jetstream(v8_env_vars)
 elif TYPE == "browser":
