@@ -33,22 +33,12 @@ cfg = eval(sys.argv[1])["CFG"]
 result_directory = sys.argv[2] + "/"
 
 print(f"running: {cfg}")
-LIMIT_MEMORY = cfg["LIMIT_MEMORY"]
 DEBUG = cfg["DEBUG"]
-if LIMIT_MEMORY:
-    MEMORY_LIMIT = cfg["MEMORY_LIMIT"]
 BENCH = cfg["BENCH"]
-BALANCER_CFG = cfg["BALANCER_CFG"]
-BALANCE_STRATEGY = BALANCER_CFG["BALANCE_STRATEGY"]
 RESIZE_CFG = BALANCER_CFG["RESIZE_CFG"]
-RESIZE_STRATEGY = RESIZE_CFG["RESIZE_STRATEGY"]
-if RESIZE_STRATEGY == "constant":
-    RESIZE_AMOUNT = RESIZE_CFG["RESIZE_AMOUNT"]
-if RESIZE_STRATEGY == "after-balance":
-    GC_RATE = RESIZE_CFG["GC_RATE"]
+RESIZE_STRATEGY = BALANCER_CFG["BALANCE_STRATEGY"]
 if RESIZE_STRATEGY == "gradient":
     GC_RATE_D = RESIZE_CFG["GC_RATE_D"]
-BALANCE_FREQUENCY = BALANCER_CFG["BALANCE_FREQUENCY"]
 
 TYPE = cfg["TYPE"]
 
@@ -76,13 +66,8 @@ MB_IN_BYTES = 1024 * 1024
 
 balancer_cmds = ["./build/MemoryBalancer", "daemon"]
 balancer_cmds.append(f"--resize-strategy={RESIZE_STRATEGY}")
-if RESIZE_STRATEGY == "constant":
-    balancer_cmds.append(f"--resize-amount={RESIZE_AMOUNT * MB_IN_BYTES}")
-if RESIZE_STRATEGY == "after-balance":
-    balancer_cmds.append(f"--gc-rate={GC_RATE}")
 if RESIZE_STRATEGY == "gradient":
     balancer_cmds.append(f"--gc-rate-d={GC_RATE_D}")
-balancer_cmds.append(f"--balance-frequency={BALANCE_FREQUENCY}")
 
 def env_vars_str(env_vars):
     ret = ""
@@ -287,10 +272,6 @@ with ProcessScope(subprocess.Popen(balancer_cmds)) as p:
     time.sleep(1) # make sure the balancer is running
     memory_limit = f"{MEMORY_LIMIT * MB_IN_BYTES}"
     v8_env_vars = {"USE_MEMBALANCER": "1", "LOG_GC": "1", "LOG_DIRECTORY": result_directory}
-    if not RESIZE_STRATEGY == "ignore":
-        v8_env_vars["SKIP_RECOMPUTE_LIMIT"] = "1"
-        v8_env_vars["SKIP_MEMORY_REDUCER"] = "1"
-        #v8_env_vars["SKIP_INCREMENTAL_MARKING"] = "1"
     if TYPE == "jetstream":
         run_jetstream(v8_env_vars)
     elif TYPE == "browser":
