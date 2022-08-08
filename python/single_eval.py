@@ -269,17 +269,17 @@ def run_browser(v8_env_vars):
     with open(os.path.join(result_directory, "score"), "w") as f:
         json.dump(j, f)
 
-with ProcessScope(subprocess.Popen(balancer_cmds)) as p:
-    time.sleep(1) # make sure the balancer is running
-    v8_env_vars = {"USE_MEMBALANCER": "1", "LOG_GC": "1", "LOG_DIRECTORY": result_directory}
-    if TYPE == "jetstream":
-        run_jetstream(v8_env_vars)
-    elif TYPE == "browser":
-        run_browser(v8_env_vars)
-    elif TYPE == "acdc":
-        run_acdc(v8_env_vars)
-    else:
-        p.kill()
-        raise Exception(f"unknown benchmark type: {TYPE}")
-    time.sleep(10) # make sure the balancer is running
-    p.kill()
+#with ProcessScope(subprocess.Popen(balancer_cmds)) as p:
+#    time.sleep(1) # make sure the balancer is running
+v8_env_vars = {"USE_MEMBALANCER": "1", "LOG_GC": "1", "LOG_DIRECTORY": result_directory}
+if TYPE == "jetstream":
+    run_jetstream(v8_env_vars)
+elif TYPE == "browser":
+    run_browser(v8_env_vars)
+elif TYPE == "acdc":
+    run_acdc(v8_env_vars)
+else:
+    #p.kill()
+    raise Exception(f"unknown benchmark type: {TYPE}")
+#time.sleep(10) # make sure the balancer is running
+#p.kill()
