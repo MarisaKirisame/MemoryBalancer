@@ -35,6 +35,7 @@ result_directory = sys.argv[2] + "/"
 print(f"running: {cfg}")
 DEBUG = cfg["DEBUG"]
 BENCH = cfg["BENCH"]
+BALANCER_CFG = cfg["BALANCER_CFG"]
 RESIZE_CFG = BALANCER_CFG["RESIZE_CFG"]
 RESIZE_STRATEGY = BALANCER_CFG["BALANCE_STRATEGY"]
 if RESIZE_STRATEGY == "gradient":
