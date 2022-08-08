@@ -7,25 +7,13 @@
 #include <chrono>
 #include <cxxopts.hpp>
 
-// todo: use the generic json-serializer/deserializerinstead
-// I'd love to use the name from_json and to_json, but unfortunately it seems like the two name is used.
-Input read_from_json(const json& j) {
-  assert(j.count("heap_size") == 1);
-  assert(j.count("code_path") == 1);
-  size_t heap_size = j.value("heap_size", 0);
-  std::string code_path = j.value("code_path", "");
-  return Input {heap_size, code_path};
-}
-
 struct V8_Result {
   size_t major_gc_time;
   size_t time;
 };
 
-V8_Result run_v8(v8::Platform* platform, const std::vector<std::pair<size_t, std::string>>& input, const std::string& name, size_t heap_size, Signal* s) {
+V8_Result run_v8(v8::Platform* platform, const std::vector<std::pair<size_t, std::string>>& input, const std::string& name, Signal* s) {
   v8::Isolate::CreateParams create_params;
-  create_params.constraints.ConfigureDefaultsFromHeapSize(0, heap_size);
-  create_params.constraints.set_code_range_size_in_bytes(10 * 1048576);
   create_params.array_buffer_allocator =
     v8::ArrayBuffer::Allocator::NewDefaultAllocator();
   v8::Isolate* isolate = v8::Isolate::New(create_params);
@@ -66,12 +54,7 @@ struct Benchmark {
 
 void v8_experiment(v8::Platform* platform, const std::vector<char*>& args) {
   cxxopts::Options options("V8 Experiment", "run some experiment from jetstream");
-  options.add_options()
-    ("heap-size", "Heap size in bytes.", cxxopts::value<int>());
   auto result = options.parse(args.size(), args.data());
-  assert(result.count("heap-size"));
-  int heap_size = result["heap-size"].as<int>();
-  assert(heap_size > 0);
   std::string browserbench_path = "../WebKit/Websites/browserbench.org/";
   std::string jetstream1_path = browserbench_path + "JetStream1.1/";
   std::string jetstream2_path = browserbench_path + "JetStream2.0/";
@@ -91,7 +74,7 @@ void v8_experiment(v8::Platform* platform, const std::vector<char*>& args) {
       std::string footer = "for(i = 0; i < " + std::to_string(b.repeat_time) + "; i++) {new Benchmark().runIteration();}";
       Signal* ps = &s;
       std::vector<std::pair<size_t, std::string>> input = {{1, header}, {1, read_file(js_path)}, {1, footer}};
-      futures.push_back(std::async(std::launch::async, run_v8, platform, input, b.name, heap_size, &s));
+      futures.push_back(std::async(std::launch::async, run_v8, platform, input, b.name, &s));
     }
   }
 
@@ -105,14 +88,14 @@ void v8_experiment(v8::Platform* platform, const std::vector<char*>& args) {
        {1, read_file(octane_path + "typescript-input.js")},
        {1, read_file(octane_path + "typescript.js")},
        {1, footer}};
-    futures.push_back(std::async(std::launch::async, run_v8, platform, input, "typescript.js", heap_size, &s));
+    futures.push_back(std::async(std::launch::async, run_v8, platform, input, "typescript.js", &s));
   }
 
   for (const Benchmark& b : js_paths) {
     std::string js_path = b.directory + b.name;
     Signal* ps = &s;
     std::vector<std::pair<size_t, std::string>> input = {{1, std::string("for(i = 0; i < " + std::to_string(b.repeat_time) + "; i++) {") + read_file(js_path) + "}"}};
-    futures.push_back(std::async(std::launch::async, run_v8, platform, input, b.name, heap_size, &s));
+    futures.push_back(std::async(std::launch::async, run_v8, platform, input, b.name, &s));
   }
 
   s.signal();
