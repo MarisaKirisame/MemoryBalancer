@@ -136,9 +136,11 @@ def plot(m, benches, name, *, show_baseline=True, normalize_baseline=True, recip
                                100)
             ci_y = 1 / poly1d_fn(ci_x)
             plt.plot(1 / ci_x, ci_y, color='b')
+            CAN_DRAW_CI = True
             for ci_xx in ci_x:
-                assert poly1d_fn(ci_xx) > 2*se
-            plt.fill_between(1 / ci_x, (1 / (poly1d_fn(ci_x) - 2*se)), (1 / (poly1d_fn(ci_x) + 2*se)), color='b', alpha=.1)
+                CAN_DRAW_CI = CAN_DRAW_CI and poly1d_fn(ci_xx) > 2*se
+            if CAN_DRAW_CI:
+                plt.fill_between(1 / ci_x, (1 / (poly1d_fn(ci_x) - 2*se)), (1 / (poly1d_fn(ci_x) + 2*se)), color='b', alpha=.1)
     if legend:
         plt.legend(bbox_to_anchor=(1.04, 0.5), loc="center left")
     xmin = min(xmins)
