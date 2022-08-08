@@ -271,7 +271,6 @@ def run_browser(v8_env_vars):
 
 with ProcessScope(subprocess.Popen(balancer_cmds)) as p:
     time.sleep(1) # make sure the balancer is running
-    memory_limit = f"{MEMORY_LIMIT * MB_IN_BYTES}"
     v8_env_vars = {"USE_MEMBALANCER": "1", "LOG_GC": "1", "LOG_DIRECTORY": result_directory}
     if TYPE == "jetstream":
         run_jetstream(v8_env_vars)
