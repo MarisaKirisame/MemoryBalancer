@@ -137,6 +137,7 @@ def main(cfg, exp, legend=True):
         for gc_log_str in glob.glob(f'{directory}/*.gc.log'):
             memory_log_str = f"""{remove_suffix(gc_log_str, ".gc.log")}.memory.log"""
             jsons = []
+            name = ""
             with open(gc_log_str) as f:
                 for line in f.readlines():
                     j = json.loads(line)
