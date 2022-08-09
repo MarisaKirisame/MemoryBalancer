@@ -14,7 +14,6 @@ struct V8_Result {
 
 V8_Result run_v8(v8::Platform* platform, const std::vector<std::pair<size_t, std::string>>& input, const std::string& name, Signal* s) {
   v8::Isolate::CreateParams create_params;
-  create_params.constraints.set_code_range_size_in_bytes(10 * 1048576);
   create_params.array_buffer_allocator =
     v8::ArrayBuffer::Allocator::NewDefaultAllocator();
   v8::Isolate* isolate = v8::Isolate::New(create_params);
