@@ -62,7 +62,7 @@ void v8_experiment(v8::Platform* platform, const std::vector<char*>& args) {
   std::string sunspider_path = jetstream1_path + "sunspider/";
   std::vector<Benchmark> jetstream2_js_paths;
   std::vector<Benchmark> js_paths;
-  jetstream2_js_paths.push_back({octane_path, "splay.js", 900});
+  jetstream2_js_paths.push_back({octane_path, "splay.js", 850});
   jetstream2_js_paths.push_back({octane_path, "pdfjs.js", 1000});
   Signal s;
   std::vector<std::thread> threads;
