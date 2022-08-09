@@ -14,7 +14,6 @@ struct V8_Result {
 
 V8_Result run_v8(v8::Platform* platform, const std::vector<std::pair<size_t, std::string>>& input, const std::string& name, Signal* s) {
   v8::Isolate::CreateParams create_params;
-  create_params.constraints.ConfigureDefaultsFromHeapSize(0, 1e10);
   create_params.array_buffer_allocator =
     v8::ArrayBuffer::Allocator::NewDefaultAllocator();
   v8::Isolate* isolate = v8::Isolate::New(create_params);
@@ -63,7 +62,7 @@ void v8_experiment(v8::Platform* platform, const std::vector<char*>& args) {
   std::string sunspider_path = jetstream1_path + "sunspider/";
   std::vector<Benchmark> jetstream2_js_paths;
   std::vector<Benchmark> js_paths;
-  jetstream2_js_paths.push_back({octane_path, "splay.js", 1500});
+  jetstream2_js_paths.push_back({octane_path, "splay.js", 900});
   jetstream2_js_paths.push_back({octane_path, "pdfjs.js", 1000});
   Signal s;
   std::vector<std::thread> threads;
