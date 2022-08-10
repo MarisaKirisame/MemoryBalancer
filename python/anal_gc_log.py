@@ -155,7 +155,6 @@ def main(cfg, exp, legend=True):
                 x = Process(name)
                 instance_list.append(x)
                 working_memory = 0
-                max_memory = 0
                 for j in jsons:
                     if j["type"] == "gc" and not j["major"]:
                         pass
@@ -166,7 +165,7 @@ def main(cfg, exp, legend=True):
                     else:
                         working_memory = j["after_memory"]
                         current_memory = working_memory
-                        #max_memory = j["Limit"]
+                        max_memory = j["Limit"]
                         x.point(j["time"] / 1e9, working_memory / 1e6, current_memory / 1e6, max_memory / 1e6, True)
                 x.point((j["time"] + 1) / 1e9, 0, 0, 0, False)
     instance_list.sort(key=lambda x: x.name)
