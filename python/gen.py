@@ -99,6 +99,7 @@ def gen_anal_gc_log(cfg, exp):
     return html_path
 
 def gen_megaplot_bench(m, bench):
+    print(f"gen_megaplot_bench for {bench}...")
     html_path = f"{html_counter()}.html"
     with page(path=path.joinpath(html_path), title=str(bench)) as doc:
         mp = megaplot.plot(m, [bench], str(bench), normalize_baseline=False)
@@ -124,6 +125,7 @@ def gen_megaplot_bench(m, bench):
                     resize_cfg = point.cfg["RESIZE_CFG"]
                     td("ignore" if resize_cfg["RESIZE_STRATEGY"] == "ignore" else resize_cfg["GC_RATE_D"])
                     td(a(str(point.cfg), href=gen_anal_gc_log(point.cfg, point.exp)))
+    print(f"gen_megaplot_bench for {bench} done!")
     return html_path
 
 def g_fmt(x):
@@ -140,20 +142,26 @@ def format_sigma(x, pos):
         return ("+" if x > 0 else "") + str(x) + sigma
 
 def gen_eval(tex_name, m, *, anal_frac=None, show_baseline=True, reciprocal_regression=True, normalize_baseline=True):
+    print(f"gen_eval for {tex_name}...")
     html_path = f"{html_counter()}.html"
     with page(path=path.joinpath(html_path), title='Plot') as doc:
-        mp = megaplot.plot(m, m.keys(), tex_name, legend=False, show_baseline=show_baseline, reciprocal_regression=reciprocal_regression, normalize_baseline=normalize_baseline)
+        megaplot.plot(m, m.keys(), tex_name, legend=False, show_baseline=show_baseline, reciprocal_regression=reciprocal_regression, normalize_baseline=normalize_baseline)
         png_path = f"{tex_name}plot.png"
         plt.savefig(str(path.joinpath(png_path)), bbox_inches='tight')
         plt.savefig(f"../membalancer-paper/img/{png_path}", bbox_inches='tight')
         plt.clf()
         img(src=png_path)
+        mp = megaplot.plot(m, m.keys(), tex_name, legend=False)
+        plt.clf()
         points = mp["points"]
         transformed_points = mp["transformed_points"]
         if "coef" in mp:
             coef = mp["coef"]
             slope, bias = coef
             sd = mp["sd"]
+            baseline_memory = mp["baseline_memory"]
+            baseline_time = mp["baseline_time"]
+            print(f"slope = {slope}, bias = {bias}, sd = {sd}, baseline_memory = {baseline_memory}, baseline_time = {baseline_time}")
             def get_deviate_in_sd(x, y):
                 return (y - (x * slope + bias)) / sd
             y_projection = slope+bias
@@ -163,6 +171,8 @@ def gen_eval(tex_name, m, *, anal_frac=None, show_baseline=True, reciprocal_regr
             x_projection = (1-bias)/slope
             memory_saving = (1-1/x_projection)
             tex += tex_def(tex_name + "MemorySaving", f"{tex_fmt(memory_saving*100)}\%")
+            p(f"slope = {slope}")
+            p(f"bias = {bias}")
             p(f"speedup = {fmt(speedup*100)}%")
             p(f"memory_saving = {fmt(memory_saving*100)}%")
             baseline_deviate = get_deviate_in_sd(1, 1)
@@ -197,6 +207,7 @@ def gen_eval(tex_name, m, *, anal_frac=None, show_baseline=True, reciprocal_regr
                 img(src=png_path)
         for bench in m.keys():
             li(a(str(bench), href=gen_megaplot_bench(m, bench)))
+        print(f"gen_eval for {tex_name} done!")
     return html_path
 
 def calculate_extreme_improvement(directory, m):
