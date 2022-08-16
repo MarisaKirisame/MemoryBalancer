@@ -55,9 +55,6 @@ void run_acdc(v8::Platform* platform, const Input& input, Signal* s) {
       script->Run(context);
     }
   }
-  std::cout << "try isolate->stopmb!" << std::endl;
-  isolate->StopMB();
-  std::cout << "isolate->stopmb ok!" << std::endl;
   std::this_thread::sleep_for (std::chrono::seconds(5));
   std::cout << "try isolate->dispose!" << std::endl;
   isolate->Dispose();
