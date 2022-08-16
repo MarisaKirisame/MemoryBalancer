@@ -24,12 +24,7 @@ target_link_libraries(MemoryBalancer PRIVATE stdc++fs)
 
 target_link_libraries(MemoryBalancer PRIVATE v8_monolith)
 target_link_directories(MemoryBalancer PRIVATE ../v8/src/out.gn/x64.release.sample/obj/)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
-#add_custom_command(
-#  TARGET MemoryBalancer
-#  PRE_BUILD
-#  COMMAND sh ../scripts/compile_v8.sh
-#  )
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread -Wl,--no-as-needed -ldl")
 
 set(JSON_BuildTests OFF CACHE INTERNAL "")
 add_subdirectory(third_party/json)

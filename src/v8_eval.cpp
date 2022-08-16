@@ -7,12 +7,7 @@
 #include <chrono>
 #include <cxxopts.hpp>
 
-struct V8_Result {
-  size_t major_gc_time;
-  size_t time;
-};
-
-V8_Result run_v8(v8::Platform* platform, const std::vector<std::pair<size_t, std::string>>& input, const std::string& name, Signal* s) {
+size_t run_v8(v8::Platform* platform, const std::vector<std::pair<size_t, std::string>>& input, const std::string& name, Signal* s) {
   v8::Isolate::CreateParams create_params;
   create_params.array_buffer_allocator =
     v8::ArrayBuffer::Allocator::NewDefaultAllocator();
@@ -40,9 +35,8 @@ V8_Result run_v8(v8::Platform* platform, const std::vector<std::pair<size_t, std
       time = duration_cast<milliseconds>(end - begin).count();
     }
   }
-  auto major_gc_time = isolate->GetTotalMajorGCTime();
   isolate->Dispose();
-  return {major_gc_time, time};
+  return time;
 }
 
 struct Benchmark {
@@ -65,7 +59,7 @@ void v8_experiment(v8::Platform* platform, const std::vector<char*>& args) {
   jetstream2_js_paths.push_back({octane_path, "pdfjs.js", 1000});
   Signal s;
   std::vector<std::thread> threads;
-  std::vector<std::future<V8_Result>> futures;
+  std::vector<std::future<size_t>> futures;
   {
     std::string header = "let performance = {now() { return 0; }};";
     for (const Benchmark&b : jetstream2_js_paths) {
@@ -99,11 +93,8 @@ void v8_experiment(v8::Platform* platform, const std::vector<char*>& args) {
 
   s.signal();
 
-  size_t total_major_gc_time = 0;
   size_t total_time = 0;
   for (auto& future : futures) {
-    auto ret = future.get();
-    total_major_gc_time += ret.major_gc_time;
-    total_time += ret.time;
+    total_time += future.get();
   }
 }
