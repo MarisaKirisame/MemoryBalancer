@@ -156,9 +156,7 @@ def main(cfg, exp, legend=True):
                 instance_list.append(x)
                 working_memory = 0
                 for j in jsons:
-                    if j["type"] == "gc" and not j["major"]:
-                        pass
-                    elif j["type"] == "memory":
+                    if j["type"] == "memory":
                         current_memory = j["AllocatedExternalMemorySinceMarkCompact"] + j["SizeOfObjects"]
                         max_memory = j["Limit"]
                         x.point(j["time"] / 1e9, working_memory / 1e6, current_memory / 1e6, max_memory / 1e6, False)
