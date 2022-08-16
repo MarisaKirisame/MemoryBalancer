@@ -24,6 +24,7 @@ async def new_browser(*, env_vars={}, headless=True, debug=True):
     args = ["--no-sandbox", "--disable-notifications", "--user-data-dir=./membalancer_profile", "--disable-popup-blocking"]
     browseroptions = {"headless":headless, "args":args}
     browseroptions["executablePath"] = "../chromium/src/out/Release/chrome"
+    browseroptions["defaultViewport"] = {'width': 1200, 'height': 900}
 
     # we need the environment variable for headless:False, because it include stuff such for graphics such as DISPLAY.
     # todo: isolate them instead of passing the whole env var?
