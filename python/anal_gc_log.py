@@ -4,6 +4,7 @@ from pathlib import Path
 import json
 import matplotlib.pyplot as plt
 from anal_common import *
+import glob
 
 def interpol(pl, pr, x):
     plx, ply = pl
@@ -123,42 +124,48 @@ class Process(Stackable):
     def stack(self, baseline):
         return stack(baseline, self.max_memory)
 
+def remove_suffix(input_string, suffix):
+    if suffix and input_string.endswith(suffix):
+        return input_string[:-len(suffix)]
+    return input_string
+
 def main(cfg, exp, legend=True):
     instance_list = []
 
     title = str(cfg)
     for directory in exp.all_dirname():
-        memory_msg_logs = []
-        logs = []
-        with open(directory + "/balancer_log") as f:
-            for line in f.readlines():
-                j = json.loads(line)
-                if j["type"] == "memory-msg":
-                    memory_msg_logs.append(j["data"])
-                if j["type"] == "heap-stat":
-                    logs.append(j["data"])
-                    if j["data"]["msg-type"] == "close":
-                        memory_msg_logs.append(j["data"])
-        assert all(logs[i]["time"] <= logs[i+1]["time"] for i in range(len(logs)-1))
-
-        instance_map = {}
-        for l in logs:
-            name = l["name"]
-            time = l["time"]
-            time /= 1e9
-            working_memory = l["working-memory"]
-            max_memory = l["max-memory"]
-            current_memory = l["current-memory"]
-            working_memory /= 1e6
-            max_memory /= 1e6
-            current_memory /= 1e6
-            if name not in instance_map:
+        for gc_log_str in glob.glob(f'{directory}/*.gc.log'):
+            memory_log_str = f"""{remove_suffix(gc_log_str, ".gc.log")}.memory.log"""
+            jsons = []
+            name = ""
+            with open(gc_log_str) as f:
+                for line in f.readlines():
+                    j = json.loads(line)
+                    j["type"] = "gc"
+                    j["time"] = j["before_time"]
+                    name = j["name"]
+                    jsons.append(j)
+            with open(memory_log_str) as f:
+                for line in f.readlines():
+                    j = json.loads(line)
+                    j["type"] = "memory"
+                    jsons.append(j)
+            if len(jsons) != 0:
+                jsons.sort(key=lambda x:x["time"])
                 x = Process(name)
-                instance_map[name] = x
                 instance_list.append(x)
-            gc_trigger = l["msg-type"] in ["gc", "close"]
-            instance_map[name].point(time, working_memory, current_memory, max_memory, gc_trigger)
-
+                working_memory = 0
+                for j in jsons:
+                    if j["type"] == "memory":
+                        current_memory = j["AllocatedExternalMemorySinceMarkCompact"] + j["SizeOfObjects"]
+                        max_memory = j["Limit"]
+                        x.point(j["time"] / 1e9, working_memory / 1e6, current_memory / 1e6, max_memory / 1e6, False)
+                    else:
+                        working_memory = j["after_memory"]
+                        current_memory = working_memory
+                        max_memory = j["Limit"]
+                        x.point(j["time"] / 1e9, working_memory / 1e6, current_memory / 1e6, max_memory / 1e6, True)
+                x.point((j["time"] + 1) / 1e9, 0, 0, 0, False)
     instance_list.sort(key=lambda x: x.name)
     draw_stacks(instance_list)
     if legend:

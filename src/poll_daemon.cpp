@@ -176,15 +176,6 @@ struct Snapper {
 
 time_point program_begin = steady_clock::now();
 
-struct Logger {
-  std::ofstream f;
-  void log(const nlohmann::json& j) {
-    if (f.is_open()) {
-      f << j << std::endl;
-    }
-  }
-};
-
 std::string gen_name() {
   static size_t i = 0;
   return "x_" + std::to_string(i++);
@@ -293,22 +284,7 @@ struct ConnectionState {
   ConnectionState(socket_t fd) :
     fd(fd),
     force_gc_chan(fd) { }
-  void try_log(Logger& l, const std::string& msg_type) {
-    if (should_balance()) {
-      nlohmann::json j;
-      j["msg-type"] = msg_type;
-      j["time"] = (steady_clock::now() - program_begin).count();
-      j["working-memory"] = working_memory;
-      j["max-memory"] = max_memory;
-      j["garbage-rate"] = garbage_rate();
-      j["gc-speed"] = gc_speed();
-      j["name"] = name;
-      j["current-memory"] = current_memory;
-      //j["guid"] = guid;
-      l.log(tagged_json("heap-stat", j));
-    }
-  }
-  void accept(const std::string& str, size_t epoch, Logger& l) {
+  void accept(const std::string& str, size_t epoch) {
     unprocessed += str;
     auto p = split_string(unprocessed);
     for (const auto& str: p.first) {
@@ -370,7 +346,6 @@ struct ConnectionState {
         std::cout << "unknown type: " << type << std::endl;
         throw;
       }
-      try_log(l, type);
     }
     unprocessed = p.second;
   }
@@ -549,10 +524,6 @@ struct Balancer {
   double gc_rate; // only when resize_strategy == after-balance or before-balance
   double gc_rate_d;
   size_t epoch = 0;
-  std::string log_path;
-  std::string tex_path;
-  nlohmann::json tex_data;
-  Logger l;
   void check_config_consistency() {
     assert(resize_strategy != ResizeStrategy::constant || balance_strategy != BalanceStrategy::ignore);
     assert(resize_strategy != ResizeStrategy::after_balance || balance_strategy == BalanceStrategy::classic);
@@ -612,13 +583,6 @@ struct Balancer {
       std::cout << "unknown resize-strategy: " << resize_strategy_str << std::endl;
       throw;
     }
-    if (result.count("log-path")) {
-      log_path = result["log-path"].as<std::string>();
-	  int idx = log_path.find_last_of("/");
-	  tex_path = log_path.substr(0, idx);
-	  tex_path.append("/tex_data");
-      l.f = std::ofstream(log_path);
-    }
     balance_frequency = milliseconds(result["balance-frequency"].as<size_t>());
     check_config_consistency();
   }
@@ -630,7 +594,6 @@ struct Balancer {
                                    map.at(pfds[i].fd).max_memory = 0;
                                    map.at(pfds[i].fd).current_memory = 0;
                                    map.at(pfds[i].fd).working_memory = 0;
-                                   map.at(pfds[i].fd).try_log(l, "close");
                                    map.erase(pfds[i].fd);
                                    pfds[i] = pfds.back();
                                    pfds.pop_back();
@@ -672,7 +635,7 @@ struct Balancer {
                   throw;
                 }
               } else {
-                map.at(pfds[i].fd).accept(std::string(buf, n), epoch, l);
+                map.at(pfds[i].fd).accept(std::string(buf, n), epoch);
                 ++i;
               }
             } else {
@@ -736,12 +699,6 @@ struct Balancer {
         t.endOfRow();
       }
     }
-
-    tex_data.push_back(data);
-    std::string tex_data_string = tex_data.dump();
-    std::ofstream tex_log(tex_path);
-    tex_log << tex_data_string;
-
     std::cout << t << std::endl;
     std::cout << "score mse: " << st.mse << std::endl;
     std::cout << "total memory: " << st.m << std::endl;
@@ -906,8 +863,6 @@ struct Balancer {
         report(st, suggested_extra_memory_aux);
       }
 
-      l.log(tagged_json("total-memory", st.m - st.e + total_extra_memory));
-
       if (balance_strategy != BalanceStrategy::ignore) {
         double adjust_ratio = get_adjust_ratio(total_extra_memory, st);
         // send msg back to v8
@@ -937,7 +892,6 @@ struct Balancer {
                 j["working-memory"] = rr->working_memory;
                 j["max-memory"] = total_memory_;
                 j["time"] = (steady_clock::now() - program_begin).count();
-                l.log(tagged_json("memory-msg", j));
               }
             }
           }
