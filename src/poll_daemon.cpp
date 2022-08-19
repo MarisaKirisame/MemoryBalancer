@@ -704,19 +704,18 @@ struct Balancer {
             }
             suggested_extra_memory_ = std::max<size_t>(suggested_extra_memory_, extra_memory_floor);
             size_t total_memory_ = std::max<size_t>(suggested_extra_memory_ + rr->working_memory, total_memory_floor);
-              std::string str = to_string(tagged_json("heap", total_memory_));
-              std::cout << "sending: " << str << "to: " << rr->name << std::endl;
-              if (!send_string(rr->fd, str)) {
-                // todo: actually close the connection. right now i am hoping the poll code will close it.
-              } else {
-                  rr->max_memory = total_memory_;
-                  assert(rr->max_memory >= rr->working_memory);
-                nlohmann::json j;
-                j["name"] = rr->name;
-                j["working-memory"] = rr->working_memory;
-                j["max-memory"] = total_memory_;
-                j["time"] = (steady_clock::now() - program_begin).count();
-              }
+            nlohmann::json j;
+            j["garbage_rate"] = rr->garbage_rate();
+            j["working_memory"] = rr->working_memory;
+            j["gc_speed"] = rr->gc_speed();
+            std::string str = to_string(j);
+            std::cout << "sending: " << str << "to: " << rr->name << std::endl;
+            if (!send_string(rr->fd, str)) {
+              // todo: actually close the connection. right now i am hoping the poll code will close it.
+            } else {
+              rr->max_memory = total_memory_;
+              assert(rr->max_memory >= rr->working_memory);
+            }
           }
         }
       }

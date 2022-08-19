@@ -290,6 +290,7 @@ with open(result_directory+"balancer_out", "w") as balancer_out:
             v8_env_vars["USE_MEMBALANCER"] = "1"
             v8_env_vars["SKIP_RECOMPUTE_LIMIT"] = "1"
             v8_env_vars["SKIP_MEMORY_REDUCER"] = "1"
+            v8_env_vars["C_VALUE"] = str(GC_RATE_D)
         if TYPE == "jetstream":
             run_jetstream(v8_env_vars)
         elif TYPE == "browser":
