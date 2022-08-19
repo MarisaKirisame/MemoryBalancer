@@ -75,16 +75,10 @@ class ProcessScope:
 MB_IN_BYTES = 1024 * 1024
 
 balancer_cmds = ["./build/MemoryBalancer", "daemon"]
-balancer_cmds.append(f"--balance-strategy={BALANCE_STRATEGY}")
 balancer_cmds.append(f"--resize-strategy={RESIZE_STRATEGY}")
-if RESIZE_STRATEGY == "constant":
-    balancer_cmds.append(f"--resize-amount={RESIZE_AMOUNT * MB_IN_BYTES}")
-if RESIZE_STRATEGY == "after-balance":
-    balancer_cmds.append(f"--gc-rate={GC_RATE}")
 if RESIZE_STRATEGY == "gradient":
     balancer_cmds.append(f"--gc-rate-d={GC_RATE_D}")
 balancer_cmds.append(f"--balance-frequency={BALANCE_FREQUENCY}")
-balancer_cmds.append(f"""--log-path={result_directory+"balancer_log"}""")
 
 def env_vars_str(env_vars):
     ret = ""

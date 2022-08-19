@@ -55,15 +55,6 @@ std::ostream& operator<<(std::ostream& os, const Dual& d) {
 
 enum class Ord { LT, EQ, GT };
 
-struct ScopeLog {
-  ScopeLog() {
-    std::cout << "PUSH" << std::endl;
-  }
-  ~ScopeLog() {
-    std::cout << "POP" << std::endl;
-  }
-};
-
 double binary_search_aux(double low, double high, const std::function<Ord(double)>& searcher) {
   double mid = (low + high) / 2;
   if (mid <= 1) {
@@ -135,45 +126,6 @@ bool send_string(socket_t s, const std::string& msg) {
   return true;
 }
 
-// channel over idempotent message.
-// without this, the balancer only change behavior based on message recieved back.
-// so, the more frequent balancer act, the more message it will send - including lots of identical one.
-// this stop all identical message from sending.
-// note: this is incomplete. with some timed base algorithm (e.g. a PD controller),
-// lots of similar message will still be sent.
-struct IdChannel {
-  socket_t s;
-  bool has_last_message = false;
-  std::string last_message;
-  IdChannel(socket_t s) : s(s) { }
-  void send(const std::string& msg) {
-    if (!(has_last_message && last_message == msg)) {
-      send_string(s, msg);
-      has_last_message = true;
-      last_message = msg;
-    }
-  }
-};
-
-double big_change(double old_value, double new_value) {
-  return abs((new_value - old_value) / old_value) > 0.1;
-}
-
-// avoid sending multiple similar message
-struct Snapper {
-  bool has_last_value = false;
-  size_t last_value;
-  bool operator()(size_t value) {
-    if ((!has_last_value) || big_change(last_value, value)) {
-      has_last_value = true;
-      last_value = value;
-      return true;
-    } else {
-      return false;
-    }
-  }
-};
-
 time_point program_begin = steady_clock::now();
 
 std::string gen_name() {
@@ -197,8 +149,6 @@ T nneg(const T& t) {
 struct ConnectionState {
   size_t wait_ack_count = 0;
   socket_t fd;
-  IdChannel force_gc_chan;
-  Snapper heap_resize_snap;
   std::string unprocessed;
   size_t working_memory = 0;
   size_t current_memory; // this is for logging plotting only, it does not change any action we do.
@@ -282,8 +232,7 @@ struct ConnectionState {
   std::string name;
   std::string guid;
   ConnectionState(socket_t fd) :
-    fd(fd),
-    force_gc_chan(fd) { }
+    fd(fd) { }
   void accept(const std::string& str, size_t epoch) {
     unprocessed += str;
     auto p = split_string(unprocessed);
@@ -351,7 +300,7 @@ struct ConnectionState {
   }
   bool should_balance() {
     return gc_bad.size() > 0 && allocation_bad.size() > 0 &&
-      wait_ack_count == 0 /*&& memory_log.size() >= 2*/;
+      wait_ack_count == 0;
   }
   size_t extra_memory() {
     if (!(max_memory >= working_memory)) {
@@ -453,42 +402,14 @@ struct Spacer {
   }
 };
 
-// balance memory given a limit
-enum class BalanceStrategy {
-  // do nothing
-  ignore,
-  // use the sqrt forumla
-  classic,
-  // give all process same amt of extra memory
-  extra_memory
-};
-
-// change the sum of memory across all process
 enum class ResizeStrategy {
-  // do nothing
   ignore,
-  // a constant amount for all process
-  // is incompatible with BalanceStrategy::ignore as it does nothing and thus cannot balance the memory
-  // one fix is to just scale each process uniformly but this will make late process starve
-  // so - if it is a constant, use extra_memory as a base line
-  constant,
-  // reach a fixed mutator rate before balancing
-  before_balance,
-  // reach a fixed mutator rate after balacning
-  // rn, after_balance only support classic
-  after_balance,
   gradient
 };
 
 std::ostream& operator<<(std::ostream& os, ResizeStrategy rs) {
   if (rs == ResizeStrategy::ignore) {
     return os << "ignore";
-  } else if (rs == ResizeStrategy::constant) {
-    return os << "constant";
-  } else if (rs == ResizeStrategy::before_balance) {
-    return os << "before-balance";
-  } else if (rs == ResizeStrategy::after_balance) {
-    return os << "after-balance";
   } else if (rs == ResizeStrategy::gradient) {
     return os << "gradient";
   } else {
@@ -518,63 +439,26 @@ struct Balancer {
     return report_ && report_spacer();
   }
   double tolerance = 0.1;
-  BalanceStrategy balance_strategy;
   ResizeStrategy resize_strategy;
   size_t resize_amount; // only when resize_strategy == constant
-  double gc_rate; // only when resize_strategy == after-balance or before-balance
   double gc_rate_d;
   size_t epoch = 0;
-  void check_config_consistency() {
-    assert(resize_strategy != ResizeStrategy::constant || balance_strategy != BalanceStrategy::ignore);
-    assert(resize_strategy != ResizeStrategy::after_balance || balance_strategy == BalanceStrategy::classic);
-  }
   Balancer(const std::vector<char*>& args) {
     // note: we intentionally do not use any default option.
     // as all options is filled in by the eval program, there is no point in having default,
     // and it will hide error.
     cxxopts::Options options("Balancer", "Balance multiple v8 heap");
     options.add_options()
-      ("balance-strategy", "ignore, classic, extra-memory", cxxopts::value<std::string>());
-    options.add_options()
-      ("resize-strategy", "ignore, before-balance, after-balance", cxxopts::value<std::string>());
-    options.add_options()
-      ("resize-amount", "a number denoting how much to resize", cxxopts::value<size_t>());
-    options.add_options()
-      ("gc-rate", "trying to spend this much time in gc", cxxopts::value<double>());
+      ("resize-strategy", "ignore, gradient", cxxopts::value<std::string>());
     options.add_options()
       ("gc-rate-d", "gc-rate in derivative", cxxopts::value<double>());
     options.add_options()
-      ("log-path", "where to put the log", cxxopts::value<std::string>());
-    options.add_options()
       ("balance-frequency", "milliseconds between balance", cxxopts::value<size_t>());
     auto result = options.parse(args.size(), args.data());
-    assert(result.count("balance-strategy"));
-    auto balance_strategy_str = result["balance-strategy"].as<std::string>();
-    if (balance_strategy_str == "ignore") {
-      balance_strategy = BalanceStrategy::ignore;
-    } else if (balance_strategy_str == "classic") {
-      balance_strategy = BalanceStrategy::classic;
-    } else if (balance_strategy_str == "extra-memory") {
-      balance_strategy = BalanceStrategy::extra_memory;
-    } else {
-      std::cout << "UNKNOWN BALANCER TYPE: " << balance_strategy_str << std::endl;
-    }
     assert(result.count("resize-strategy"));
     std::string resize_strategy_str = result["resize-strategy"].as<std::string>();
     if (resize_strategy_str == "ignore") {
       resize_strategy = ResizeStrategy::ignore;
-    } else if (resize_strategy_str == "constant") {
-      resize_strategy = ResizeStrategy::constant;
-      assert(result.count("resize-amount"));
-      resize_amount = result["resize-amount"].as<size_t>();
-    } else if (resize_strategy_str == "before-balance") {
-      resize_strategy = ResizeStrategy::before_balance;
-      assert(result.count("gc-rate"));
-      gc_rate = result["gc-rate"].as<double>();
-    } else if (resize_strategy_str == "after-balance") {
-      resize_strategy = ResizeStrategy::after_balance;
-      assert(result.count("gc-rate"));
-      gc_rate = result["gc-rate"].as<double>();
     } else if (resize_strategy_str == "gradient") {
       resize_strategy = ResizeStrategy::gradient;
       assert(result.count("gc-rate-d"));
@@ -584,7 +468,6 @@ struct Balancer {
       throw;
     }
     balance_frequency = milliseconds(result["balance-frequency"].as<size_t>());
-    check_config_consistency();
   }
   void poll_daemon() {
     while (true) {
@@ -725,17 +608,13 @@ struct Balancer {
     return st;
   }
   size_t suggested_extra_memory(ConnectionState* rr, size_t total_extra_memory, const Stat& st) {
-    if (balance_strategy == BalanceStrategy::extra_memory) {
-      return total_extra_memory / st.instance_count;
+    if (st.balance_factor == 0) {
+      return 0;
     } else {
-      assert(balance_strategy == BalanceStrategy::classic || balance_strategy == BalanceStrategy::ignore);
-      if (st.balance_factor == 0) {
-        return 0;
-      } else {
-        return total_extra_memory / st.balance_factor * rr->speed_balance_factor();
-      }
+      return total_extra_memory / st.balance_factor * rr->speed_balance_factor();
     }
   }
+
   Ord compare(double lhs, double rhs) {
     if (lhs < 0.9 * rhs) {
       return Ord::LT;
@@ -744,11 +623,6 @@ struct Balancer {
     } else {
       return Ord::EQ;
     }
-  }
-  Ord compare_mu(double mu) {
-    assert(0 <= mu);
-    assert(mu <= 1);
-    return compare(gc_rate, 1 - mu);
   }
   using memory_suggestion_t = std::unordered_map<ConnectionState*, size_t>;
   memory_suggestion_t calculate_suggestion(size_t total_extra_memory, const Stat& st) {
@@ -778,27 +652,6 @@ struct Balancer {
     size_t total_extra_memory;
     if (resize_strategy == ResizeStrategy::ignore) {
       total_extra_memory = st.e;
-    } else if (resize_strategy == ResizeStrategy::constant) {
-      size_t working_memory = st.m - st.e;
-      total_extra_memory = resize_amount - working_memory;
-    } else if (resize_strategy == ResizeStrategy::before_balance) {
-      total_extra_memory = 0;
-      for (ConnectionState* rr: vector()) {
-        if (rr->should_balance()) {
-          total_extra_memory +=
-            positive_binary_search_unbounded(std::max<size_t>(rr->extra_memory(), 1),
-                                             [&](double extra_memory) {
-                                               return compare_mu(rr->speed_utilization_rate(extra_memory));
-                                             });
-        }
-      }
-    } else if (resize_strategy == ResizeStrategy::after_balance) {
-      total_extra_memory =
-        positive_binary_search_unbounded(std::max<size_t>(st.e, 1),
-                                         [&](double extra_memory) {
-                                           double mu = utilization(calculate_suggestion(extra_memory, st));
-                                           return compare_mu(mu);
-                                         });
     } else if (resize_strategy == ResizeStrategy::gradient) {
       total_extra_memory =
         positive_binary_search_unbounded(std::max<size_t>(st.e, 1),
@@ -863,7 +716,7 @@ struct Balancer {
         report(st, suggested_extra_memory_aux);
       }
 
-      if (balance_strategy != BalanceStrategy::ignore) {
+      if (resize_strategy != ResizeStrategy::ignore) {
         double adjust_ratio = get_adjust_ratio(total_extra_memory, st);
         // send msg back to v8
         for (ConnectionState* rr: vec) {
@@ -876,8 +729,6 @@ struct Balancer {
             }
             suggested_extra_memory_ = std::max<size_t>(suggested_extra_memory_, extra_memory_floor);
             size_t total_memory_ = std::max<size_t>(suggested_extra_memory_ + rr->working_memory, total_memory_floor);
-            //if (big_change(extra_memory_, suggested_extra_memory_) && (/*immediate_reclaim ||*/ rr->heap_resize_snap(suggested_extra_memory_))) {
-            if (true) {
               std::string str = to_string(tagged_json("heap", total_memory_));
               std::cout << "sending: " << str << "to: " << rr->name << std::endl;
               if (!send_string(rr->fd, str)) {
@@ -893,7 +744,6 @@ struct Balancer {
                 j["max-memory"] = total_memory_;
                 j["time"] = (steady_clock::now() - program_begin).count();
               }
-            }
           }
         }
       }
