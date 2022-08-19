@@ -284,12 +284,12 @@ with open(result_directory+"balancer_out", "w") as balancer_out:
         time.sleep(1) # make sure the balancer is running
         memory_limit = f"{MEMORY_LIMIT * MB_IN_BYTES}"
 
-        v8_env_vars = {"USE_MEMBALANCER": "1", "LOG_GC": "1", "LOG_DIRECTORY": result_directory}
+        v8_env_vars = {"LOG_GC": "1", "LOG_DIRECTORY": result_directory}
 
         if not RESIZE_STRATEGY == "ignore":
+            v8_env_vars["USE_MEMBALANCER"] = "1"
             v8_env_vars["SKIP_RECOMPUTE_LIMIT"] = "1"
             v8_env_vars["SKIP_MEMORY_REDUCER"] = "1"
-            #v8_env_vars["SKIP_INCREMENTAL_MARKING"] = "1"
         if TYPE == "jetstream":
             run_jetstream(v8_env_vars)
         elif TYPE == "browser":

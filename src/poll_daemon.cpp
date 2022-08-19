@@ -695,7 +695,7 @@ struct Balancer {
           if (rr->should_balance()) {
             size_t extra_memory_ = rr->extra_memory();
             size_t suggested_extra_memory_ = sqrt(static_cast<double>(rr->garbage_rate()) *
-                                                  static_cast<double>(rr->working_memory + bias_in_working_memory) /
+                                                  static_cast<double>(rr->working_memory) /
                                                   static_cast<double>(rr->gc_speed()) /
                                                   (- gc_rate_d));
             if (suggested_extra_memory_ >= extra_memory_) {
