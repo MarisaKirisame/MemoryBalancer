@@ -588,8 +588,6 @@ struct Balancer {
     std::cout << "total extra memory: " << st.e << std::endl;
     std::cout << std::endl;
   }
-  // setting this to true will assume memory is immediately reclaimed by sending a message
-  bool immediate_reclaim = true;
   Stat get_stat(const std::vector<double>& scores) {
     double median_score = median(scores);
     Stat st;
@@ -667,31 +665,6 @@ struct Balancer {
     assert(total_extra_memory <= 1e30);
     return total_extra_memory;
   }
-  double get_adjust_ratio(double total_extra_memory, const Stat& st) {
-    if (immediate_reclaim) {
-      return 1;
-    } else {
-      // if the reclaim is not immediate, we can still took away memory from a process, but we cannot allocate those memory.
-      // so, we disallow 'transfering memory from one process to another'.
-      size_t bytes_grown = total_extra_memory >= st.e ? total_extra_memory - st.e : 0;
-      size_t bytes_malloced = 0;
-      for (ConnectionState* rr: vector()) {
-        if (rr->should_balance()) {
-          size_t extra_memory_ = rr->extra_memory();
-          size_t suggested_extra_memory_ = suggested_extra_memory(rr, total_extra_memory, st);
-          if (suggested_extra_memory_ >= extra_memory_) {
-            bytes_malloced += suggested_extra_memory_ - extra_memory_;
-          }
-        }
-      }
-      if (bytes_malloced > 0) {
-        return bytes_grown / bytes_malloced;
-      } else {
-        assert(bytes_grown == 0);
-        return 1;
-      }
-    }
-  }
   // pavel: check if this fp is safe?
   void balance() {
     ++epoch;
@@ -717,15 +690,17 @@ struct Balancer {
       }
 
       if (resize_strategy != ResizeStrategy::ignore) {
-        double adjust_ratio = get_adjust_ratio(total_extra_memory, st);
         // send msg back to v8
         for (ConnectionState* rr: vec) {
           if (rr->should_balance()) {
             size_t extra_memory_ = rr->extra_memory();
-            size_t suggested_extra_memory_ = suggested_extra_memory_aux(rr);
+            size_t suggested_extra_memory_ = sqrt(static_cast<double>(rr->garbage_rate()) *
+                                                  static_cast<double>(rr->working_memory + bias_in_working_memory) /
+                                                  static_cast<double>(rr->gc_speed()) /
+                                                  (- gc_rate_d));
             if (suggested_extra_memory_ >= extra_memory_) {
               // have to restrict the amount of allocation due to latency concern
-              suggested_extra_memory_ = extra_memory_ + (suggested_extra_memory_ - extra_memory_) * adjust_ratio;
+              suggested_extra_memory_ = extra_memory_ + (suggested_extra_memory_ - extra_memory_);
             }
             suggested_extra_memory_ = std::max<size_t>(suggested_extra_memory_, extra_memory_floor);
             size_t total_memory_ = std::max<size_t>(suggested_extra_memory_ + rr->working_memory, total_memory_floor);
@@ -734,10 +709,8 @@ struct Balancer {
               if (!send_string(rr->fd, str)) {
                 // todo: actually close the connection. right now i am hoping the poll code will close it.
               } else {
-                if (immediate_reclaim) {
                   rr->max_memory = total_memory_;
                   assert(rr->max_memory >= rr->working_memory);
-                }
                 nlohmann::json j;
                 j["name"] = rr->name;
                 j["working-memory"] = rr->working_memory;
