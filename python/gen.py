@@ -90,6 +90,12 @@ def gen_anal_gc_log(cfg, exp):
         p(f"cfg = {cfg}")
         p(f"memory = {exp.average_benchmark_memory()}")
         p(f"time = {exp.total_major_gc_time()}")
+        bd = exp.perf_breakdown()
+
+        for name in sorted(list(bd.keys())):
+            (memory, time) = bd[name]
+            p(f"{name}_memory = {memory}")
+            p(f"{name}_time = {time}")
         for dirname in exp.all_dirname():
             for filename in os.listdir(dirname):
                 if filename not in ["cfg", "score"]:
