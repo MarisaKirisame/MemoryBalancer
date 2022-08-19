@@ -1,6 +1,6 @@
 #pragma once
+#include "nlohmann/json.hpp"
 #include <v8.h>
-#include <v8-json.h>
 #include <iostream>
 #include <filesystem>
 #include <fstream>

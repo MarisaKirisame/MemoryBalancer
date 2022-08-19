@@ -129,7 +129,6 @@ void v8_experiment(v8::Platform* platform, const std::vector<char*>& args) {
     total_time += ret.time;
   }
 
-  logger << tagged_json("peak_memory", v8::PeakMemory()) << std::endl;
   logger << tagged_json("total_major_gc_time", total_major_gc_time) << std::endl;
   logger << tagged_json("total_time", total_time) << std::endl;
 }

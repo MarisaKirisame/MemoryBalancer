@@ -1,9 +1,9 @@
 #include <v8.h>
-#include <v8-json.h>
 #include <iostream>
 
 #include "macro.hpp"
 #include "hyperparam.hpp"
+#include "nlohmann/json.hpp"
 
 size_t bytes_to_mb(size_t b) {
   assert(b % bytes_in_mb == 0);

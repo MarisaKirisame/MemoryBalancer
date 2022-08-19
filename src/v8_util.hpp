@@ -1,6 +1,5 @@
 #pragma once
 #include <v8.h>
-#include <v8-json.h>
 #include <libplatform/libplatform.h>
 #include <filesystem>
 
