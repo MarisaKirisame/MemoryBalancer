@@ -17,12 +17,7 @@ Input read_from_json(const json& j) {
   return Input {heap_size, code_path};
 }
 
-struct V8_Result {
-  size_t major_gc_time;
-  size_t time;
-};
-
-V8_Result run_v8(v8::Platform* platform, const std::vector<std::pair<size_t, std::string>>& input, const std::string& name, size_t heap_size, Signal* s) {
+void run_v8(v8::Platform* platform, const std::vector<std::pair<size_t, std::string>>& input, const std::string& name, size_t heap_size, Signal* s) {
   v8::Isolate::CreateParams create_params;
   create_params.constraints.ConfigureDefaultsFromHeapSize(0, heap_size);
   create_params.constraints.set_code_range_size_in_bytes(10 * 1048576);
@@ -46,16 +41,11 @@ V8_Result run_v8(v8::Platform* platform, const std::vector<std::pair<size_t, std
       v8::Local<v8::Script> script =
         v8::Script::Compile(context, source).ToLocalChecked();
       s->wait();
-      time_point begin = steady_clock::now();
       script->Run(context);
-      time_point end = steady_clock::now();
-      time = duration_cast<milliseconds>(end - begin).count();
     }
   }
-  auto major_gc_time = isolate->GetTotalMajorGCTime();
-  isolate->StopMB();
   isolate->Dispose();
-  return {major_gc_time, time};
+  return;
 }
 
 struct Benchmark {
@@ -87,7 +77,7 @@ void v8_experiment(v8::Platform* platform, const std::vector<char*>& args) {
   jetstream2_js_paths.push_back({octane_path, "pdfjs.js", 1000});
   Signal s;
   std::vector<std::thread> threads;
-  std::vector<std::future<V8_Result>> futures;
+  std::vector<std::future<void>> futures;
   {
     std::string header = "let performance = {now() { return 0; }};";
     for (const Benchmark&b : jetstream2_js_paths) {
@@ -121,14 +111,7 @@ void v8_experiment(v8::Platform* platform, const std::vector<char*>& args) {
 
   s.signal();
 
-  size_t total_major_gc_time = 0;
-  size_t total_time = 0;
   for (auto& future : futures) {
-    auto ret = future.get();
-    total_major_gc_time += ret.major_gc_time;
-    total_time += ret.time;
+    future.get();
   }
-
-  logger << tagged_json("total_major_gc_time", total_major_gc_time) << std::endl;
-  logger << tagged_json("total_time", total_time) << std::endl;
 }

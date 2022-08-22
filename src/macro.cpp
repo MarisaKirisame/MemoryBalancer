@@ -12,7 +12,6 @@ size_t bytes_to_mb(size_t b) {
 
 void macro() {
   nlohmann::json j;
-  j["MinHeapExtraSizeInMB"] = v8::Isolate::MinHeapExtraSizeInMB();
   j["BiasInWorkingMemoryInMB"] = bytes_to_mb(bias_in_working_memory);
   // B->MB = /1e6, NS->S=*1e9
   j["InitialGCSpeedInMBPerSec"] = initial_garbage_bytes / initial_garbage_duration * 1000;

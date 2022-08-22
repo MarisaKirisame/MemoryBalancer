@@ -9,7 +9,6 @@
 #include "runtime.hpp"
 #include "v8_eval.hpp"
 #include "v8_util.hpp"
-#include "poll_daemon.hpp"
 #include "macro.hpp"
 #include "acdc.hpp"
 
@@ -23,9 +22,7 @@ int main(int argc, char* argv[]) {
   for (size_t i = 2; i < argc; ++i) {
     command_args.push_back(argv[i]);
   }
-  if (command == "daemon") {
-    poll_daemon(command_args);
-  } else if (command == "v8_experiment") {
+  if (command == "v8_experiment") {
     v8_experiment(v8.platform.get(), command_args);
   } else if (command == "macro") {
     macro();
