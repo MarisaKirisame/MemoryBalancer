@@ -150,12 +150,14 @@ def format_sigma(x, pos):
 def gen_eval(tex_name, m, *, anal_frac=None, show_baseline=True, reciprocal_regression=True, normalize_baseline=True):
     html_path = f"{html_counter()}.html"
     with page(path=path.joinpath(html_path), title='Plot') as doc:
-        mp = megaplot.plot(m, m.keys(), tex_name, legend=False, show_baseline=show_baseline, reciprocal_regression=reciprocal_regression, normalize_baseline=normalize_baseline)
+        megaplot.plot(m, m.keys(), tex_name, legend=False, show_baseline=show_baseline, reciprocal_regression=reciprocal_regression, normalize_baseline=normalize_baseline)
         png_path = f"{tex_name}plot.png"
         plt.savefig(str(path.joinpath(png_path)), bbox_inches='tight')
         plt.savefig(f"../membalancer-paper/img/{png_path}", bbox_inches='tight')
         plt.clf()
         img(src=png_path)
+        mp = megaplot.plot(m, m.keys(), tex_name, legend=False)
+        plt.clf()
         points = mp["points"]
         transformed_points = mp["transformed_points"]
         if "coef" in mp:

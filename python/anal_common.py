@@ -111,7 +111,13 @@ class Experiment:
                         for line in f.readlines():
                             j = json.loads(line)
                             memorys.append(j["BenchmarkMemory"])
-                        average_benchmark_memory = sum(memorys) / len(memorys)
+                            name = j["name"]
+                        if len(memorys) != 0:
+                            average_benchmark_memory = sum(memorys) / len(memorys)
+                        else:
+                            average_benchmark_memory = 0
+                    if name == None:
+                        name = gc_log
                     ret[name] = (average_benchmark_memory, major_gc_time)
         return ret
 
