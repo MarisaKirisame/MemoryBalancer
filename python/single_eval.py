@@ -260,6 +260,7 @@ def run_browser(v8_env_vars):
     with open(os.path.join(result_directory, "score"), "w") as f:
         json.dump(j, f)
 
+time.sleep(10)
 with open(result_directory+"balancer_out", "w") as balancer_out:
     memory_limit = f"{MEMORY_LIMIT * MB_IN_BYTES}"
 
