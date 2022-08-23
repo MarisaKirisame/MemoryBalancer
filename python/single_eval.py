@@ -130,6 +130,7 @@ def run_browser(v8_env_vars):
         start = time.time()
         page = await new_page(browser)
         await page.goto(website, timeout=duration*1000, waitUntil=wait_until)
+        await asyncio.sleep(5)
         while time.time() - start < duration:
             await page.evaluate(f"{{window.scrollBy(0, {SCROLL_PIX});}}")
             await asyncio.sleep(SCROLL_SLEEP)
