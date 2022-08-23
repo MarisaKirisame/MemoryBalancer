@@ -26,14 +26,14 @@ echo "** pulling changes in MemoryBalancer"
 echo "** pulling changes in v8 **"
 cd ../v8/src
 git stash
-git checkout 2020-12-24
+git checkout REDO-REBASE
 git pull origin
 gclient sync -f --no-history
 
 echo "** pulling changes in chrome **"
 cd $mem_balancer_dir
 cd "../chromium/src"
-git checkout master
+git checkout main
 git pull
 gclient sync -f --no-history
 echo "** building chrome **"
