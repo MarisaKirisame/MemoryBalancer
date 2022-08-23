@@ -26,7 +26,7 @@ echo "** pulling changes in MemoryBalancer"
 echo "** pulling changes in v8 **"
 cd ../v8/src
 git stash
-git checkout 2020-12-24
+git checkout REDO-REBASE
 git pull origin
 gclient sync -f --no-history
 
@@ -37,7 +37,7 @@ git checkout master
 git pull
 gclient sync -f --no-history
 cd "v8"
-git pull origin 2020-12-24
+git pull origin REDO-REBASE
 cd "../"
 echo "** building chrome **"
 autoninja -C out/Release chrome
