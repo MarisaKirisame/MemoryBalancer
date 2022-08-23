@@ -55,6 +55,7 @@ pip3 install pyppeteer
 pip3 install dominate
 
 echo "** running eval **"
+python3 python/eval.py "jetstream"
 python3 python/eval.py "acdc"
 python3 python/gen.py --action=upload
 echo "** uploading results **"
