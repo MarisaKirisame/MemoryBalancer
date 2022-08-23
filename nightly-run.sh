@@ -27,7 +27,7 @@ echo "** pulling changes in v8 **"
 cd ../v8/src
 git stash
 git checkout REDO-REBASE
-git pull origin
+git pull origin REDO-REBASE
 gclient sync -f --no-history
 
 echo "** pulling changes in chrome **"
