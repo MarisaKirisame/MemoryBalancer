@@ -28,14 +28,14 @@ cd ../v8/src
 git stash
 git checkout REDO-REBASE
 git pull origin REDO-REBASE
-gclient sync -f --no-history
+#gclient sync -f --no-history
 
 echo "** pulling changes in chrome **"
 cd $mem_balancer_dir
 cd "../chromium/src"
 git checkout master
 git pull
-gclient sync -f --no-history
+#gclient sync -f --no-history
 echo "** building chrome **"
 autoninja -C out/Release chrome
 
