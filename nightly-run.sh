@@ -33,7 +33,7 @@ gclient sync -f --no-history
 echo "** pulling changes in chrome **"
 cd $mem_balancer_dir
 cd "../chromium/src"
-git checkout main
+git checkout master
 git pull
 gclient sync -f --no-history
 echo "** building chrome **"
