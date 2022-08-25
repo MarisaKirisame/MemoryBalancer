@@ -241,11 +241,10 @@ def run_browser(v8_env_vars):
         await asyncio.sleep(100)
 
     def get_bench(bench_name):
-        return espn
         return bench[bench_name]
 
     async def run_browser_main():
-        b = await new_browser(env_vars=v8_env_vars, headless=False, debug=True)
+        b = await new_browser(env_vars=v8_env_vars, headless=True, debug=False)
         d = 180
         try:
             await asyncio.wait_for(asyncio.gather(*[get_bench(bench)(b, d) for bench in BENCH]), timeout=d*2)
@@ -266,11 +265,11 @@ time.sleep(10)
 with open(result_directory+"balancer_out", "w") as balancer_out:
     v8_env_vars = {"LOG_GC": "1", "LOG_DIRECTORY": result_directory}
 
-    #if not RESIZE_STRATEGY == "ignore":
-    #    v8_env_vars["USE_MEMBALANCER"] = "1"
-    #    v8_env_vars["SKIP_RECOMPUTE_LIMIT"] = "1"
-    #    v8_env_vars["SKIP_MEMORY_REDUCER"] = "1"
-    #    v8_env_vars["C_VALUE"] = str(GC_RATE_D)
+    if not RESIZE_STRATEGY == "ignore":
+        v8_env_vars["USE_MEMBALANCER"] = "1"
+        v8_env_vars["SKIP_RECOMPUTE_LIMIT"] = "1"
+        v8_env_vars["SKIP_MEMORY_REDUCER"] = "1"
+        v8_env_vars["C_VALUE"] = str(GC_RATE_D)
     if TYPE == "jetstream":
         run_jetstream(v8_env_vars)
     elif TYPE == "browser":
