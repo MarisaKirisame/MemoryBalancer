@@ -141,14 +141,15 @@ def plot(m, benches, name, *, show_baseline=True, normalize_baseline=True, recip
             plt.fill_between(1 / ci_x, (1 / (poly1d_fn(ci_x) - 2*se)), (1 / (poly1d_fn(ci_x) + 2*se)), color='b', alpha=.1)
     if legend:
         plt.legend(bbox_to_anchor=(1.04, 0.5), loc="center left")
-    xmin = min(xmins)
-    xmax = max(xmaxs)
-    ymin = min(ymins)
-    ymax = max(ymaxs)
-    xmargin = (xmax - xmin) * 0.05
-    ymargin = (ymax - ymin) * 0.05
-    plt.xlim([xmin - xmargin, xmax + xmargin])
-    plt.ylim([ymin - ymargin, ymax + ymargin])
+    if len(xmins) != 0:
+        xmin = min(xmins)
+        xmax = max(xmaxs)
+        ymin = min(ymins)
+        ymax = max(ymaxs)
+        xmargin = (xmax - xmin) * 0.05
+        ymargin = (ymax - ymin) * 0.05
+        plt.xlim([xmin - xmargin, xmax + xmargin])
+        plt.ylim([ymin - ymargin, ymax + ymargin])
     return ret
 
 if __name__ == "__main__":

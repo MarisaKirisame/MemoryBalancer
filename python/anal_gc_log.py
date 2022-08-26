@@ -144,11 +144,16 @@ def main(cfg, exp, legend=True):
                     j["type"] = "gc"
                     j["time"] = j["before_time"]
                     name = j["name"]
+                    #if name == "":
+                    #    name = j["guid"]
                     jsons.append(j)
             with open(memory_log_str) as f:
                 for line in f.readlines():
                     j = json.loads(line)
                     j["type"] = "memory"
+                    name = j["name"]
+                    if name == "":
+                        name = j["guid"]
                     jsons.append(j)
             if len(jsons) != 0:
                 jsons.sort(key=lambda x:x["time"])

@@ -106,12 +106,16 @@ class Experiment:
                             j = json.loads(line)
                             major_gc_time = j["total_major_gc_time"]
                             name = j["name"]
+                            #if name == "":
+                            #    name = j["guid"]
                     with open(os.path.join(d, gc_log.rstrip(".gc.log") + ".memory.log")) as f:
                         memorys = []
                         for line in f.readlines():
                             j = json.loads(line)
                             memorys.append(j["BenchmarkMemory"])
                             name = j["name"]
+                            if name == "":
+                                name = j["guid"]
                         if len(memorys) != 0:
                             average_benchmark_memory = sum(memorys) / len(memorys)
                         else:
