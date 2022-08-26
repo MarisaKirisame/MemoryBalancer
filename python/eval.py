@@ -21,7 +21,7 @@ BASELINE = {
     "BALANCE_FREQUENCY": 0
 }
 
-js_c_range = [2, 3, 6, 10, 20] * 2
+js_c_range = [3, 5, 10, 20, 30] * 2
 browser_c_range = [0.05, 0.1, 0.2, 0.3, 0.5, 0.7, 0.9]
 acdc_c_range = [0.01 * i for i in range(1, 11)] + [0.1 * i for i in range(1, 11)] + [1 * i for i in range(1, 11)]
 tex = ""
