@@ -259,7 +259,7 @@ def gen_jetstream(directory):
                 plt.savefig(f"../membalancer-paper/img/js_membalancer_anal.png", bbox_inches='tight')
                 plt.clf()
     #gen_tex_table.main(tex_table_membalancer_dir, tex_table_baseline_dir)
-    parse_gc_log.main([tex_table_membalancer_dir], [tex_table_baseline_dir], "JS")
+    #parse_gc_log.main([tex_table_membalancer_dir], [tex_table_baseline_dir], "JS")
     return gen_eval("JETSTREAM", m_exp)
 
 def gen_acdc(directory):
