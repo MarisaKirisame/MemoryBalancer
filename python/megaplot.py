@@ -55,12 +55,16 @@ def hack(name):
     else:
         return name
 
-def plot(m, benches, name, *, show_baseline=True, normalize_baseline=True, reciprocal_regression=True, legend=True):
+def plot(m, benches, name, *, show_baseline=True, normalize_baseline=True, reciprocal_regression=True, legend=True, invert_graph=False):
     plt.title(hack(name))
     # todo: fix for other path
     rel = "relative to current v8"
-    plt.xlabel(f'Average heap usage ({rel if normalize_baseline else "MB"})')
-    plt.ylabel(f'Garbage collection time ({rel if normalize_baseline else "s"})')
+    if invert_graph:
+        plt.xlabel(f'Speedup {rel}')
+        plt.ylabel(f'Memory Saving {rel}')
+    else:
+        plt.xlabel(f'Average heap usage ({rel if normalize_baseline else "MB"})')
+        plt.ylabel(f'Garbage collection time ({rel if normalize_baseline else "s"})')
     if normalize_baseline:
         plt.axhline(y=1, color='k', lw=1, linestyle='-')
         plt.axvline(x=1, color='k', lw=1, linestyle='-')
@@ -111,9 +115,14 @@ def plot(m, benches, name, *, show_baseline=True, normalize_baseline=True, recip
                         baseline_y.append(time)
                     points.append(Point(memory, time, balancer_cfg, exp, balancer_cfg == BASELINE))
                     transformed_points.append(Point(1 / memory, 1 / time, balancer_cfg, exp, balancer_cfg == BASELINE))
-        plt.scatter(x, y, label=bench, linewidth=0.1, s=20)
-        if len(baseline_x) != 0:
-            plt.scatter(baseline_x, baseline_y, label=bench, linewidth=0.1, color="black", s=35)
+        if invert_graph:
+            plt.scatter([1/x_ for x_ in x], [1/y_ for y_ in y], label=bench, linewidth=0.1, s=20)
+            if len(baseline_x) != 0:
+                plt.scatter([1/x_ for x_ in baseline_x], [1/y_ for y_ in baseline_y], label=bench, linewidth=0.1, color="black", s=35)
+        else:
+            plt.scatter(x, y, label=bench, linewidth=0.1, s=20)
+            if len(baseline_x) != 0:
+                plt.scatter(baseline_x, baseline_y, label=bench, linewidth=0.1, color="black", s=35)
         xmins.append(min(*x, *baseline_x))
         xmaxs.append(max(*x, *baseline_x))
         ymins.append(min(*y, *baseline_y))
@@ -134,11 +143,13 @@ def plot(m, benches, name, *, show_baseline=True, normalize_baseline=True, recip
             ci_x = np.linspace(min(transformed_points, key=lambda p: p.memory).memory,
                                max(transformed_points, key=lambda p: p.memory).memory,
                                100)
-            ci_y = 1 / poly1d_fn(ci_x)
-            plt.plot(1 / ci_x, ci_y, color='b')
-            for ci_xx in ci_x:
-                assert poly1d_fn(ci_xx) > 2*se
-            plt.fill_between(1 / ci_x, (1 / (poly1d_fn(ci_x) - 2*se)), (1 / (poly1d_fn(ci_x) + 2*se)), color='b', alpha=.1)
+            ci_y = poly1d_fn(ci_x)
+            if invert_graph:
+                plt.plot(ci_x, ci_y, color='b')
+                plt.fill_between(ci_x, (poly1d_fn(ci_x) - 2*se), (poly1d_fn(ci_x) + 2*se), color='b', alpha=.1)
+            else:
+                plt.plot(1 / ci_x, 1 / np.maximum(ci_y, 0), color='b')
+                plt.fill_between(1 / ci_x, (1 / np.maximum((poly1d_fn(ci_x) - 2*se), 0)), (1 / np.maximum((poly1d_fn(ci_x) + 2*se), 0)), color='b', alpha=.1)
     if legend:
         plt.legend(bbox_to_anchor=(1.04, 0.5), loc="center left")
     if len(xmins) != 0:
@@ -148,8 +159,9 @@ def plot(m, benches, name, *, show_baseline=True, normalize_baseline=True, recip
         ymax = max(ymaxs)
         xmargin = (xmax - xmin) * 0.05
         ymargin = (ymax - ymin) * 0.05
-        plt.xlim([xmin - xmargin, xmax + xmargin])
-        plt.ylim([ymin - ymargin, ymax + ymargin])
+        if not invert_graph:
+            plt.xlim([xmin - xmargin, xmax + xmargin])
+            plt.ylim([ymin - ymargin, ymax + ymargin])
     return ret
 
 if __name__ == "__main__":
