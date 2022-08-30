@@ -72,7 +72,7 @@ void acdc(v8::Platform* platform, const std::vector<char*>& args) {
   futures.push_back(std::async(std::launch::async,
                                run_acdc,
                                platform,
-                               Input {/*size=*/"64", /*liveness=*/"128", /*duration=*/"1000"},
+                               Input {/*size=*/"64", /*liveness=*/"128", /*duration=*/"600"},
                                &s));
   futures.push_back(std::async(std::launch::async,
                                run_acdc,
