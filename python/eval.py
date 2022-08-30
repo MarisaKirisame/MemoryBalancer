@@ -120,14 +120,6 @@ cfg_acdc = {
     "BENCH": ["acdc"],
     "BALANCER_CFG": BALANCER_CFG(acdc_c_range, baseline_time = 20)
 }
-cfg_acdc = {
-    "LIMIT_MEMORY": True,
-    "DEBUG": True,
-    "TYPE": "acdc",
-    "MEMORY_LIMIT": 10000,
-    "BENCH": ["acdc"],
-    "BALANCER_CFG": BALANCER_CFG([x for i, x in enumerate(acdc_c_range) if i % 3 == 0], baseline_time = 5)
-}
 
 eval_acdc = {
     "Description": "ACDC-JS experiment",
