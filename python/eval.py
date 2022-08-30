@@ -23,7 +23,7 @@ BASELINE = {
 
 js_c_range = [3, 5, 10, 20, 30] * 2
 browser_c_range = [0.05, 0.1, 0.2, 0.3, 0.5, 0.7, 0.9]
-acdc_c_range = [0.01 * i for i in range(1, 11)] + [0.1 * i for i in range(1, 11)] + [1 * i for i in range(1, 11)]
+acdc_c_range = [0.1 * i for i in range(1, 11)] + [1 * i for i in range(1, 11)]
 tex = ""
 tex += tex_def("JSMinC", f"{tex_fmt(min(js_c_range))}\,\%/MB")
 tex += tex_def("JSMaxC", f"{tex_fmt(max(js_c_range))}\,\%/MB")
@@ -119,6 +119,14 @@ cfg_acdc = {
     "MEMORY_LIMIT": 10000,
     "BENCH": ["acdc"],
     "BALANCER_CFG": BALANCER_CFG(acdc_c_range, baseline_time = 20)
+}
+cfg_acdc = {
+    "LIMIT_MEMORY": True,
+    "DEBUG": True,
+    "TYPE": "acdc",
+    "MEMORY_LIMIT": 10000,
+    "BENCH": ["acdc"],
+    "BALANCER_CFG": BALANCER_CFG([x for i, x in enumerate(acdc_c_range) if i % 3 == 0], baseline_time = 5)
 }
 
 eval_acdc = {
