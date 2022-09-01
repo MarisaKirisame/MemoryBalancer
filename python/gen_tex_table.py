@@ -38,14 +38,16 @@ def combine(membalancer_data, baseline_data, time_mb, time_baseline):
     for data in membalancer_data.values():
         name = data["name"]
         tex_data[name] = {}
-        tex_data[name]["w"] = data["after_memory"]
+        tex_data[name]["w"] = data["after_memory"] / 1e6
         tex_data[TOTAL]["w"] += tex_data[name]["w"]
         tex_data[name]["g"] = data["allocation_bytes"] / data["allocation_duration"]
         tex_data[TOTAL]["g"] += tex_data[name]["g"]
         tex_data[name]["s"] = data["gc_bytes"] / data["gc_duration"]
         tex_data[TOTAL]["s"] += tex_data[name]["s"]
 
-        tex_data[name]["membalancer_exta_mem"] = data["Limit"] - data["after_memory"]
+        print(data)
+        assert data["Limit"] > data["after_memory"]
+        tex_data[name]["membalancer_exta_mem"] = (data["Limit"] - data["after_memory"]) / 1e6
         tex_data[TOTAL]["membalancer_exta_mem"] += tex_data[name]["membalancer_exta_mem"]
 
     for name in time_mb.keys():
@@ -56,7 +58,7 @@ def combine(membalancer_data, baseline_data, time_mb, time_baseline):
 
     for data in baseline_data.values():
         name = data["name"]
-        tex_data[name]["current_v8_extra_mem"] = data["Limit"] - data["after_memory"]
+        tex_data[name]["current_v8_extra_mem"] = (data["Limit"] - data["after_memory"]) / 1e6
         tex_data[TOTAL]["current_v8_extra_mem"] += tex_data[name]["current_v8_extra_mem"]
 
     for name in time_baseline.keys():
@@ -143,7 +145,7 @@ def get_data_from_gc_log(gc_log):
     with open(gc_log) as f:
         for line in f.read().splitlines():
             data = json.loads(line)
-            if data["before_time"] >= 20e9:
+            if data["before_time"] >= 15e9:
                 return data
 
 def get_table_data(data_dir):
