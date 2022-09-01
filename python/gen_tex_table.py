@@ -40,9 +40,9 @@ def combine(membalancer_data, baseline_data, time_mb, time_baseline):
         tex_data[name] = {}
         tex_data[name]["w"] = data["after_memory"] / 1e6
         tex_data[TOTAL]["w"] += tex_data[name]["w"]
-        tex_data[name]["g"] = data["allocation_bytes"] / data["allocation_duration"]
+        tex_data[name]["g"] = data["allocation_bytes"] / data["allocation_duration"] * 1e3
         tex_data[TOTAL]["g"] += tex_data[name]["g"]
-        tex_data[name]["s"] = data["gc_bytes"] / data["gc_duration"]
+        tex_data[name]["s"] = data["gc_bytes"] / data["gc_duration"] * 1e3
         tex_data[TOTAL]["s"] += tex_data[name]["s"]
 
         print(data)
