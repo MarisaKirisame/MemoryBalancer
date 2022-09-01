@@ -25,7 +25,7 @@ def tex_def_table(row_num, col_name, definitions):
 
 def combine(membalancer_data, baseline_data, time_mb, time_baseline):
     tex_data = {TOTAL:
-                {"w": 0,
+                {"l": 0,
                  "g": 0,
                  "s": 0,
                  "membalancer_exta_mem": 0,
@@ -38,8 +38,8 @@ def combine(membalancer_data, baseline_data, time_mb, time_baseline):
     for data in membalancer_data.values():
         name = data["name"]
         tex_data[name] = {}
-        tex_data[name]["w"] = data["after_memory"] / 1e6
-        tex_data[TOTAL]["w"] += tex_data[name]["w"]
+        tex_data[name]["l"] = data["after_memory"] / 1e6
+        tex_data[TOTAL]["l"] += tex_data[name]["l"]
         tex_data[name]["g"] = data["allocation_bytes"] / data["allocation_duration"] * 1e3
         tex_data[TOTAL]["g"] += tex_data[name]["g"]
         tex_data[name]["s"] = data["gc_bytes"] / data["gc_duration"] * 1e3
@@ -80,7 +80,7 @@ def convert_to_tex(data, membalancer_dir, baseline_dir):
     tex_str += f"% baseline_dir: {baseline_dir}\n"
     row = 'A'
     for (idx, key) in enumerate(all_keys):
-        w = data[key]["w"]
+        l = data[key]["l"]
         g = data[key]["g"]
         s = data[key]["s"]
         total_run_time_mb = data[key]["total_run_time_mb"]
@@ -88,7 +88,7 @@ def convert_to_tex(data, membalancer_dir, baseline_dir):
         total_run_time_baseline = data[key]["total_run_time_baseline"]
         total_gc_time_baseline = data[key]["total_gc_time_baseline"]
         tex_str += tex_def_table(row, "name", key)
-        tex_str += tex_def_table(row, "w", f"{tex_fmt(w)}")
+        tex_str += tex_def_table(row, "l", f"{tex_fmt(l)}")
         tex_str += tex_def_table(row, "g", f"{tex_fmt(g)}")
         tex_str += tex_def_table(row, "s", f"{tex_fmt(s)}")
         mb_extra = data[key]["membalancer_exta_mem"]
@@ -129,16 +129,17 @@ def write_tex(tex_str, path):
     with open(path, "w") as tex_file:
         tex_file.write(tex_str)
 
-def tex_compare_ts_splay(data):
-    splay_ts_g = data["splay.js"]["g"]/data["typescript.js"]["g"]
-    splay_ts_s = data["splay.js"]["s"]/data["typescript.js"]["s"]
-    splay_ts_g_div_s = splay_ts_g/splay_ts_s
-    splay_ts_extra_mem = math.sqrt(splay_ts_g_div_s)
+def tex_compare_splay_pdfjs(data):
+    splay_pdfjs_l = data["splay.js"]["l"]/data["pdfjs.js"]["l"]
+    splay_pdfjs_g = data["splay.js"]["g"]/data["pdfjs.js"]["g"]
+    splay_pdfjs_s = data["splay.js"]["s"]/data["pdfjs.js"]["s"]
+    splay_pdfjs_extra_mem = math.sqrt(splay_pdfjs_l*splay_pdfjs_g/splay_pdfjs_s)
     tex_str = ""
-    tex_str += tex_def("JSSplayTSg", f"{tex_fmt(splay_ts_g)}")
-    tex_str += tex_def("JSSplayTSs", f"{tex_fmt(splay_ts_s)}")
-    tex_str += tex_def("JSSplayTSgDivs", f"{tex_fmt(splay_ts_g_div_s)}")
-    tex_str += tex_def("JSSplayTSExtraMem", f"{tex_fmt(splay_ts_extra_mem)}")
+    tex_str += tex_def("JSSplayPDFJSl", f"{tex_fmt(splay_pdfjs_l)}")
+    tex_str += tex_def("JSSplayPDFJSg", f"{tex_fmt(splay_pdfjs_g)}")
+    tex_str += tex_def("JSSplayPDFJSs", f"{tex_fmt(splay_pdfjs_s)}")
+    tex_str += tex_def("JSSplayPDFJSgDivs", f"{tex_fmt(splay_pdfjs_extra_mem ** 2)}")
+    tex_str += tex_def("JSSplayPDFJSExtraMem", f"{tex_fmt(splay_pdfjs_extra_mem)}")
     return tex_str
 
 def get_data_from_gc_log(gc_log):
