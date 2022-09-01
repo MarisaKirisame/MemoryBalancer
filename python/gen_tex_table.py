@@ -184,7 +184,7 @@ def main(membalancer_log_dir, baseline_log_dir):
     time_baseline = get_total_time(baseline_log_dir)
     combined_data = combine(data_mb, data_baseline, time_mb, time_baseline)
     converted_tex = convert_to_tex(combined_data, membalancer_log_dir, baseline_log_dir)
-    converted_tex += tex_compare_pdfjs_splay(combined_data)
+    converted_tex += tex_compare_splay_pdfjs(combined_data)
     write_tex(converted_tex, "../membalancer-paper/data/js_table.tex")
 
 if __name__ == "__main__":
