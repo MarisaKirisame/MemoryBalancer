@@ -9,7 +9,7 @@ mkdir -p log
 rm -f /tmp/membalancer_socket
 
 #sync with the main branch (for custom branches)
-git pull --rebase origin main
+#git pull --rebase origin main
 
 mem_balancer_dir=$PWD
 cd $mem_balancer_dir
@@ -26,21 +26,21 @@ echo "** pulling changes in MemoryBalancer"
 echo "** pulling changes in v8 **"
 cd ../v8/src
 git stash
-git checkout REDO-REBASE
-git pull origin
+git checkout STABLE
+git pull origin STABLE
 gclient sync -f --no-history
 
 echo "** pulling changes in chrome **"
 cd $mem_balancer_dir
 cd "../chromium/src"
-git checkout master
+git checkout STABLE
 git pull
-gclient sync -f --no-history
-cd "v8"
-git pull origin REDO-REBASE
-cd "../"
-echo "** building chrome **"
-autoninja -C out/Release chrome
+#gclient sync -f --no-history
+#cd "v8"
+#git pull origin STABLE
+#cd "../"
+#echo "** building chrome **"
+#autoninja -C out/Release chrome
 
 echo "** cloning membalancer-paper **"
 cd $mem_balancer_dir
@@ -58,11 +58,11 @@ pip3 install pyppeteer
 pip3 install dominate
 
 echo "** running eval **"
-python3 python/eval.py "all"
+python3 python/eval.py "jetstream"
+python3 python/eval.py "acdc"
 python3 python/gen.py --action=upload
 echo "** uploading results **"
-last=`ls "out" | sort -r | head -1`
-result_dir="out/$last"
+result_dir=`ls "out" | sort -r | head -1`
 if command -v nightly-results &>/dev/null; then
     nightly-results url "http://membalancer.uwplse.org/$result_dir"
 fi

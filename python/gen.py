@@ -34,7 +34,7 @@ parser.add_argument("--action", default="", help="what to do to the generated ht
 args = parser.parse_args()
 action = args.action
 
-assert action in ["", "open", "upload"]
+assert action in ["check", "open", "upload", "paper"]
 
 class page(dominate.document):
     def __init__(self, path, *args, **kwargs):
@@ -58,7 +58,12 @@ class Counter:
         self.count += 1
         return ret
 
+pre_path = time.strftime("%Y-%m-%d-%H-%M-%S")
+path = Path("out/" + pre_path)
+path.mkdir(parents=True, exist_ok=True)
+
 tex = ""
+tex += f"% path: membalancer.uwplse.org/{pre_path}\n"
 
 commit = None
 for name in glob.glob('log/**/commit', recursive=True):
@@ -66,12 +71,10 @@ for name in glob.glob('log/**/commit', recursive=True):
         if commit == None:
             commit = eval(f.read())
         else:
-            assert commit == eval(f.read())
+            pass
+            #assert commit == eval(f.read())
 tex += tex_def("MBHash", commit["membalancer"])
 tex += tex_def("VEightHash", commit["v8"])
-
-path = Path("out/" + time.strftime("%Y-%m-%d-%H-%M-%S"))
-path.mkdir(parents=True, exist_ok=True)
 
 png_counter = Counter()
 html_counter = Counter()
@@ -88,6 +91,13 @@ def gen_anal_gc_log(cfg, exp):
         p(f"cfg = {cfg}")
         p(f"memory = {exp.average_benchmark_memory()}")
         p(f"time = {exp.total_major_gc_time()}")
+
+        bd = exp.perf_breakdown()
+        for name in sorted(list(bd.keys())):
+            (memory, time) = bd[name]
+            p(f"{name}_memory = {memory}")
+            p(f"{name}_time = {time}")
+
         for dirname in exp.all_dirname():
             for filename in os.listdir(dirname):
                 if filename not in ["cfg", "score"]:
@@ -99,7 +109,7 @@ def gen_anal_gc_log(cfg, exp):
 def gen_megaplot_bench(m, bench):
     html_path = f"{html_counter()}.html"
     with page(path=path.joinpath(html_path), title=str(bench)) as doc:
-        mp = megaplot.plot(m, [bench], summarize_baseline=False)
+        mp = megaplot.plot(m, [bench], str(bench), normalize_baseline=False)
         points = mp["points"]
         def sorted_by(p):
             resize_cfg = p.cfg["RESIZE_CFG"]
@@ -121,7 +131,7 @@ def gen_megaplot_bench(m, bench):
                     td(round(point.time, 2))
                     resize_cfg = point.cfg["RESIZE_CFG"]
                     td("ignore" if resize_cfg["RESIZE_STRATEGY"] == "ignore" else resize_cfg["GC_RATE_D"])
-                    td(a(str(cfg), href=gen_anal_gc_log(cfg, point.exp)))
+                    td(a(str(point.cfg), href=gen_anal_gc_log(point.cfg, point.exp)))
     return html_path
 
 def g_fmt(x):
@@ -137,14 +147,17 @@ def format_sigma(x, pos):
         sigma = '\u03C3'
         return ("+" if x > 0 else "") + str(x) + sigma
 
-def gen_eval(tex_name, m, anal_frac=None):
+def gen_eval(tex_name, m, *, anal_frac=None, show_baseline=True, reciprocal_regression=True, normalize_baseline=True):
     html_path = f"{html_counter()}.html"
     with page(path=path.joinpath(html_path), title='Plot') as doc:
-        mp = megaplot.plot(m, m.keys(), legend=False)
+        megaplot.plot(m, m.keys(), tex_name, legend=False, show_baseline=show_baseline, reciprocal_regression=True, normalize_baseline=normalize_baseline, invert_graph=False)
         png_path = f"{tex_name}plot.png"
         plt.savefig(str(path.joinpath(png_path)), bbox_inches='tight')
+        plt.savefig(f"../membalancer-paper/img/{png_path}", bbox_inches='tight')
         plt.clf()
         img(src=png_path)
+        mp = megaplot.plot(m, m.keys(), tex_name, legend=False)
+        plt.clf()
         points = mp["points"]
         transformed_points = mp["transformed_points"]
         if "coef" in mp:
@@ -164,23 +177,23 @@ def gen_eval(tex_name, m, anal_frac=None):
             p(f"memory_saving = {fmt(memory_saving*100)}%")
             baseline_deviate = get_deviate_in_sd(1, 1)
             p(f"improvement = {fmt(-baseline_deviate)} sigma")
-            tex += tex_def(tex_name + "Improvement", f"{tex_fmt(-baseline_deviate)}\sigma")
+            tex += tex_def(tex_name + "Improvement", f"{tex_fmt(-baseline_deviate)}\,\sigma")
             if anal_frac is not None:
                 tex += tex_def("WorkingFrac", f"{tex_fmt(anal_frac * 100)}\%")
                 tex += tex_def("ExtraMemorySaving", f"{tex_fmt((1-1/x_projection)/(1-anal_frac) * 100)}\%")
             improvement_over_baseline = []
             for point in transformed_points:
-                assert not point.is_baseline
-                improvement_over_baseline.append(get_deviate_in_sd(point.memory, point.time) - baseline_deviate)
+                if not point.is_baseline:
+                    improvement_over_baseline.append(get_deviate_in_sd(point.memory, point.time) - baseline_deviate)
             if len(improvement_over_baseline) > 1:
                 pvalue = stats.ttest_1samp(improvement_over_baseline, 0.0, alternative="greater").pvalue
                 tex += tex_def(tex_name + "PValue", f"{tex_g_fmt(pvalue)}")
                 p(f"""pvalue={g_fmt(pvalue)}""")
                 bin_width = 0.5
                 min_improvement = min(*improvement_over_baseline)
-                tex += tex_def(tex_name + "MaxRegress", f"{tex_fmt(-min_improvement)}\sigma")
+                tex += tex_def(tex_name + "MaxRegress", f"{tex_fmt(-min_improvement)}\,\sigma")
                 max_improvement = max(*improvement_over_baseline)
-                tex += tex_def(tex_name + "MaxImprovement", f"{tex_fmt(max_improvement)}\sigma")
+                tex += tex_def(tex_name + "MaxImprovement", f"{tex_fmt(max_improvement)}\,\sigma")
                 distance_from_zero = max(abs(min_improvement), abs(max_improvement))
                 bin_start = math.floor(-distance_from_zero / bin_width)
                 bin_stop = math.ceil(distance_from_zero / bin_width)
@@ -189,6 +202,7 @@ def gen_eval(tex_name, m, anal_frac=None):
                 plt.gca().xaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(format_sigma))
                 png_path = f"{tex_name}sd.png"
                 plt.savefig(str(path.joinpath(png_path)), bbox_inches='tight')
+                plt.savefig(f"../membalancer-paper/img/{png_path}", bbox_inches='tight')
                 plt.clf()
                 img(src=png_path)
         for bench in m.keys():
@@ -196,7 +210,7 @@ def gen_eval(tex_name, m, anal_frac=None):
     return html_path
 
 def calculate_extreme_improvement(directory, m):
-    mp = megaplot.plot(m, m.keys()) # todo - no plot only anal
+    mp = megaplot.plot(m, m.keys(), "extreme") # todo - no plot only anal
     plt.clf()
     bl_time = mp["baseline_time"] * 1e9
     bl_memory = mp["baseline_memory"] * 1e6
@@ -219,7 +233,7 @@ def gen_jetstream(directory):
     found_compare = False
     tex_table_baseline_dir = None
     tex_table_membalancer_dir = None
-    JSCompareAt = -2e-9
+    JSCompareAt = -2e-8
     for name in glob.glob(f'{directory}/**/score', recursive=True):
         dirname = os.path.dirname(name)
         with open(dirname + "/cfg") as f:
@@ -229,9 +243,9 @@ def gen_jetstream(directory):
             	found_baseline = True
             	tex_table_baseline_dir = dirname
             	anal_gc_log.main(cfg, Experiment([Run(dirname + "/")]), legend=False)
-            	plt.xlim([0, 50])
+            	plt.xlim([0, 40])
             	plt.ylim([0, 450])
-            	plt.savefig(f"../membalancer-paper/js_baseline_anal.png", bbox_inches='tight')
+            	plt.savefig(f"../membalancer-paper/img/js_baseline_anal.png", bbox_inches='tight')
             	plt.clf()
         elif cfg["CFG"]["BALANCER_CFG"]["RESIZE_CFG"]["GC_RATE_D"] == JSCompareAt:
             if not found_compare:
@@ -240,13 +254,18 @@ def gen_jetstream(directory):
                 tex += tex_def("CompareAt", tex_fmt(JSCompareAt*-1e9))
                 tex_table_membalancer_dir = dirname
                 anal_gc_log.main(cfg, Experiment([Run(dirname + "/")]), legend=False)
-                plt.xlim([0, 50])
+                plt.xlim([0, 40])
                 plt.ylim([0, 450])
-                plt.savefig(f"../membalancer-paper/js_membalancer_anal.png", bbox_inches='tight')
+                plt.savefig(f"../membalancer-paper/img/js_membalancer_anal.png", bbox_inches='tight')
                 plt.clf()
     gen_tex_table.main(tex_table_membalancer_dir, tex_table_baseline_dir)
     parse_gc_log.main([tex_table_membalancer_dir], [tex_table_baseline_dir], "JS")
-    return gen_eval("jetstream", m_exp)
+    return gen_eval("JETSTREAM", m_exp)
+
+def gen_acdc(directory):
+    m = megaplot.anal_log(directory)
+    m_exp = {benches: {cfg: [Experiment([x]) for x in aggregated_runs] for cfg, aggregated_runs in per_benches_m.items()} for benches, per_benches_m in m.items()}
+    return gen_eval("ACDC", m_exp, normalize_baseline=False, reciprocal_regression=False)
 
 def gen_browser(directory, i):
     m = megaplot.anal_log(dd)
@@ -276,23 +295,28 @@ def gen_browser(directory, i):
         real_m[benches] = {cfg: [Experiment(x) for x in aggregated_runs if len(x) == i] for cfg, aggregated_runs in per_benches_m.items()}
     return gen_eval(f"WEB{i * 'I'}", real_m, anal_frac=(anal_work.main(directory) if i == 1 else None))
 
-
 with page(path=path.joinpath("index.html"), title='Main') as doc:
     d = list(Path("log/").iterdir())
-    assert len(d) == 1
-    d = d[0]
-    for dd in d.iterdir():
-        if dd.is_dir():
-            with open(f"{dd}/cfg", "r") as f:
-                cfg = eval(f.read())
-            name = cfg["NAME"]
-            if name == "jetstream":
-                li(a("jetstream", href=gen_jetstream(dd)))
-            elif name == "browser":
-                for i in [1, 2, 3]:
-                    li(a(f"browser_{i}", href=gen_browser(dd, i)))
-            else:
-                raise
+    #assert len(d) == 1
+    #d = d[0]
+    for d_elem in d:
+        for dd in d_elem.iterdir():
+            if dd.is_dir():
+                with open(f"{dd}/cfg", "r") as f:
+                    cfg = eval(f.read())
+                    name = cfg["NAME"]
+                if name == "jetstream":
+                    li(a("jetstream", href=gen_jetstream(dd)))
+                elif name == "acdc":
+                    li(a("acdc", href=gen_acdc(dd)))
+                elif name in ["browseri", "browserii", "browseriii"]:
+                    m = megaplot.anal_log(dd)
+                    m_exp = {benches: {cfg: [Experiment([x]) for x in aggregated_runs] for cfg, aggregated_runs in per_benches_m.items()} for benches, per_benches_m in m.items()}
+                    li(a(name, href=gen_eval(name.upper(), m_exp)))
+                    #for i in [1, 2, 3]:
+                    #    li(a(f"browser_{i}", href=gen_browser(dd, i)))
+                else:
+                    raise
     tex_file_name = "EVAL.tex.txt"
     with open(path.joinpath(tex_file_name), "w") as tex_file:
         tex_file.write(tex)
@@ -300,10 +324,10 @@ with page(path=path.joinpath("index.html"), title='Main') as doc:
 
 if action == "open":
     os.system(f"xdg-open {path.joinpath('index.html')}")
-elif action == "upload":
-    with open(f"../membalancer-paper/EVAL.tex", "w") as tex_file:
+elif action == "upload" or action == "paper":
+    with open(f"../membalancer-paper/data/EVAL.tex", "w") as tex_file:
         tex += tex_def("GraphHash", get_commit("./"))
         tex_file.write(tex)
+    os.system(f"scp -r -C {path} uwplse.org:/var/www/membalancer/")
+if action == "paper":
     paper.push()
-    server_name = "uwplse.org:/var/www/membalancer"
-    os.system(f"scp -r -C {os.path.dirname(str(path))} {server_name}")

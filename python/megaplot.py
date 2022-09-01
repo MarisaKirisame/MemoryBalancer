@@ -43,46 +43,68 @@ class Point:
     def __repr__(self):
         return f"Point{repr((self.memory, self.time, self.exp, self.is_baseline))}"
 
-def plot(m, benches, *, summarize_baseline=True, reciprocal_regression=True, legend=True):
-    if summarize_baseline:
+def hack(name):
+    table = {"browseri": "Browser one-tab experiment",
+            "browserii": "Browser two-tab experiment",
+            "browseriii": "Browser three-tab experiment",
+            "jetstream": "Jetstream2 experiment",
+            "acdc": "ACDC-JS experiment"}
+    nl = name.lower()
+    if nl in table:
+        return table[nl]
+    else:
+        return name
+
+def plot(m, benches, name, *, show_baseline=True, normalize_baseline=True, reciprocal_regression=True, legend=True, invert_graph=False):
+    plt.title(hack(name))
+    # todo: fix for other path
+    rel = "relative to current v8"
+    if invert_graph:
+        plt.xlabel(f'Speedup {rel}')
+        plt.ylabel(f'Memory Saving {rel}')
+    else:
+        plt.xlabel(f'Average heap usage ({rel if normalize_baseline else "MB"})')
+        plt.ylabel(f'Garbage collection time ({rel if normalize_baseline else "s"})')
+    if normalize_baseline:
         plt.axhline(y=1, color='k', lw=1, linestyle='-')
         plt.axvline(x=1, color='k', lw=1, linestyle='-')
-
     ret = {}
 
     points = []
     transformed_points = []
-
+    xmins = []
+    xmaxs = []
+    ymins = []
+    ymaxs = []
     for bench in benches:
-        if summarize_baseline:
-            if BASELINE not in m[bench]:
-                print("WARNING: BASELINE NOT FOUND")
-                continue
-            baseline_memorys = []
-            baseline_times = []
-            for exp in m[bench][BASELINE]:
-                memory = exp.average_benchmark_memory()
-                memory /= 1e6
-                time = exp.total_major_gc_time()
-                time /= 1e9
-                baseline_memorys.append(memory)
-                baseline_times.append(time)
-                baseline_memory = sum(baseline_memorys) / len(baseline_memorys)
-                baseline_time = sum(baseline_times) / len(baseline_times)
-                ret["baseline_memory"] = baseline_memory
-                ret["baseline_time"] = baseline_time
+        if BASELINE not in m[bench]:
+            print("WARNING: BASELINE NOT FOUND")
+            continue
+        baseline_memorys = []
+        baseline_times = []
+        for exp in m[bench][BASELINE]:
+            memory = exp.average_benchmark_memory()
+            memory /= 1e6
+            time = exp.total_major_gc_time()
+            time /= 1e9
+            baseline_memorys.append(memory)
+            baseline_times.append(time)
+        baseline_memory = sum(baseline_memorys) / len(baseline_memorys)
+        baseline_time = sum(baseline_times) / len(baseline_times)
+        ret["baseline_memory"] = baseline_memory
+        ret["baseline_time"] = baseline_time
         x = []
         y = []
         baseline_x = []
         baseline_y = []
         for balancer_cfg in m[bench]:
-            if not summarize_baseline or balancer_cfg != BASELINE:
+            if show_baseline or balancer_cfg != BASELINE:
                 for exp in m[bench][balancer_cfg]:
                     memory = exp.average_benchmark_memory()
                     memory /= 1e6
                     time = exp.total_major_gc_time()
                     time /= 1e9
-                    if summarize_baseline:
+                    if normalize_baseline:
                         memory /= baseline_memory
                         time /= baseline_time
                     if balancer_cfg != BASELINE:
@@ -93,42 +115,53 @@ def plot(m, benches, *, summarize_baseline=True, reciprocal_regression=True, leg
                         baseline_y.append(time)
                     points.append(Point(memory, time, balancer_cfg, exp, balancer_cfg == BASELINE))
                     transformed_points.append(Point(1 / memory, 1 / time, balancer_cfg, exp, balancer_cfg == BASELINE))
-        plt.scatter(x, y, label=bench, linewidth=0.1, s=20)
-        if len(baseline_x) != 0:
-            plt.scatter(baseline_x, baseline_y, label=bench, linewidth=0.1, color="orange", s=35)
+        if invert_graph:
+            plt.scatter([1/x_ for x_ in x], [1/y_ for y_ in y], label=bench, linewidth=0.1, s=20)
+            if len(baseline_x) != 0:
+                plt.scatter([1/x_ for x_ in baseline_x], [1/y_ for y_ in baseline_y], label=bench, linewidth=0.1, color="black", s=35)
+        else:
+            plt.scatter(x, y, label=bench, linewidth=0.1, s=20)
+            if len(baseline_x) != 0:
+                plt.scatter(baseline_x, baseline_y, label=bench, linewidth=0.1, color="black", s=35)
+        xmins.append(min(*x, *baseline_x))
+        xmaxs.append(max(*x, *baseline_x))
+        ymins.append(min(*y, *baseline_y))
+        ymaxs.append(max(*y, *baseline_y))
     ret["points"] = points
     ret["transformed_points"] = transformed_points
-    if legend:
-        plt.xlabel("AverageBenchmarkMemory")
-        plt.ylabel("Time")
-    if reciprocal_regression and len(points) > 0:
-        x = []
-        y = []
-        # include baseline
-        memory = []
-        time = []
-        for p in transformed_points:
-            if not p.is_baseline:
-                x.append(p.memory)
-                y.append(p.time)
-            memory.append(p.memory)
-            time.append(p.time)
-        if len(x) > 0:
-            min_memory = min(*memory) if len(memory) > 1 else memory[0]
-            max_memory = max(*memory) if len(memory) > 1 else memory[0]
-            coef = np.polyfit(x, y, 1)
-            poly1d_fn = np.poly1d(coef)
-            sd = sum((poly1d_fn(x) - y) ** 2) ** 0.5 / (len(y) - 1) ** 0.5
-            se = sd / len(y) ** 0.5
-            ret["coef"] = coef
-            ret["sd"] = sd
-            ret["se"] = se
-            ci_x = np.linspace(min_memory, max_memory, 100)
-            ci_y = 1 / poly1d_fn(ci_x)
-            plt.plot(1 / ci_x, ci_y, color='b')
-            plt.fill_between(1 / ci_x, (1 / np.fmax(0.2, (poly1d_fn(ci_x) - 2*se))), (1 / (poly1d_fn(ci_x) + 2*se)), color='b', alpha=.1)
+    x = list([p.memory for p in transformed_points if not p.is_baseline])
+    y = list([p.time for p in transformed_points if not p.is_baseline])
+    if len(x) > 0:
+        coef = np.polyfit(x, y, 1)
+        poly1d_fn = np.poly1d(coef)
+        sd = sum((poly1d_fn(x) - y) ** 2) ** 0.5 / (len(y) - 1) ** 0.5
+        se = sd / len(y) ** 0.5
+        ret["coef"] = coef
+        ret["sd"] = sd
+        ret["se"] = se
+        if reciprocal_regression:
+            ci_x = np.linspace(min(transformed_points, key=lambda p: p.memory).memory,
+                               max(transformed_points, key=lambda p: p.memory).memory,
+                               100)
+            ci_y = poly1d_fn(ci_x)
+            if invert_graph:
+                plt.plot(ci_x, ci_y, color='b')
+                plt.fill_between(ci_x, (poly1d_fn(ci_x) - 2*se), (poly1d_fn(ci_x) + 2*se), color='b', alpha=.1)
+            else:
+                plt.plot(1 / ci_x, 1 / np.maximum(ci_y, 0), color='b')
+                plt.fill_between(1 / ci_x, (1 / np.maximum((poly1d_fn(ci_x) - 2*se), 0)), (1 / np.maximum((poly1d_fn(ci_x) + 2*se), 0)), color='b', alpha=.1)
     if legend:
         plt.legend(bbox_to_anchor=(1.04, 0.5), loc="center left")
+    if len(xmins) != 0:
+        xmin = min(xmins)
+        xmax = max(xmaxs)
+        ymin = min(ymins)
+        ymax = max(ymaxs)
+        xmargin = (xmax - xmin) * 0.05
+        ymargin = (ymax - ymin) * 0.05
+        if not invert_graph:
+            plt.xlim([xmin - xmargin, xmax + xmargin])
+            plt.ylim([ymin - ymargin, ymax + ymargin])
     return ret
 
 if __name__ == "__main__":

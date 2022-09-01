@@ -13,7 +13,7 @@ from EVAL import *
 
 assert len(sys.argv) == 2
 mode = sys.argv[1]
-assert mode in ["jetstream", "browser", "all", "macro"]
+assert mode in ["jetstream", "browseri", "browserii", "browseriii", "acdc", "all", "macro"]
 
 BASELINE = {
     "BALANCE_STRATEGY": "ignore",
@@ -21,18 +21,19 @@ BASELINE = {
     "BALANCE_FREQUENCY": 0
 }
 
-js_c_range = [0.5, 0.7, 0.9, 2, 3] * 2
-js_c_range.reverse()
+js_c_range = [3, 5, 10, 20, 30] * 2
 browser_c_range = [0.05, 0.1, 0.2, 0.3, 0.5, 0.7, 0.9]
-
+acdc_c_range = [0.1 * i for i in range(1, 11)] + [1 * i for i in range(1, 11)]
 tex = ""
-tex += tex_def("JSMinC", f"{tex_fmt(min(js_c_range))}\%/MB")
-tex += tex_def("JSMaxC", f"{tex_fmt(max(js_c_range))}\%/MB")
-tex += tex_def("WEBMinC", f"{tex_fmt(min(browser_c_range))}\%/MB")
-tex += tex_def("WEBMaxC", f"{tex_fmt(max(browser_c_range))}\%/MB")
+tex += tex_def("JSMinC", f"{tex_fmt(min(js_c_range))}\,\%/MB")
+tex += tex_def("JSMaxC", f"{tex_fmt(max(js_c_range))}\,\%/MB")
+tex += tex_def("WEBMinC", f"{tex_fmt(min(browser_c_range))}\,\%/MB")
+tex += tex_def("WEBMaxC", f"{tex_fmt(max(browser_c_range))}\,\%/MB")
+tex += tex_def("ACDCMinC", f"{tex_fmt(min(acdc_c_range))}\,\%/MB")
+tex += tex_def("ACDCMaxC", f"{tex_fmt(max(acdc_c_range))}\,\%/MB")
 
 paper.pull()
-with open(f"../membalancer-paper/eval_param.tex", "w") as tex_file:
+with open(f"../membalancer-paper/data/eval_param.tex", "w") as tex_file:
     tex_file.write(tex)
 paper.push()
 
@@ -44,14 +45,14 @@ if mode == "macro":
 # medium is removed because it allocate little memory in rare fashion
 bench = ["twitter", "cnn", "espn", "facebook", "gmail", "foxnews"]
 
-def BALANCER_CFG(c_range):
-    return QUOTE(NONDET({
+def BALANCER_CFG(c_range, baseline_time=3):
+    return QUOTE(NONDET(*[{
         "BALANCE_STRATEGY": "classic",
         "RESIZE_CFG": {"RESIZE_STRATEGY": "gradient", "GC_RATE_D":NONDET(*[x / -1e9 for x in c_range])},
         "BALANCE_FREQUENCY": 0
-    }, BASELINE, BASELINE, BASELINE))
+    }] + baseline_time * [BASELINE]))
 
-cfg_browser = {
+cfg_browseri = {
     "LIMIT_MEMORY": True,
     "DEBUG": True,
     "TYPE": "browser",
@@ -60,9 +61,40 @@ cfg_browser = {
     "BALANCER_CFG": BALANCER_CFG(browser_c_range)
 }
 
-eval_browser = {
-    "NAME": "browser",
-    "CFG": cfg_browser
+cfg_browserii = {
+    "LIMIT_MEMORY": True,
+    "DEBUG": True,
+    "TYPE": "browser",
+    "MEMORY_LIMIT": 10000,
+    "BENCH": NONDET(*[(x, y) for x in bench for y in bench if x != y]),
+    "BALANCER_CFG": BALANCER_CFG(browser_c_range)
+}
+
+cfg_browseriii = {
+    "LIMIT_MEMORY": True,
+    "DEBUG": True,
+    "TYPE": "browser",
+    "MEMORY_LIMIT": 10000,
+    "BENCH": NONDET(*[random.sample(bench, 3) for _ in range(30)]),
+    "BALANCER_CFG": BALANCER_CFG(browser_c_range)
+}
+
+eval_browseri = {
+    "Description": "Browser one-tab experiment",
+    "NAME": "browseri",
+    "CFG": cfg_browseri
+}
+
+eval_browserii = {
+    "Description": "Browser two-tab experiment",
+    "NAME": "browserii",
+    "CFG": cfg_browserii
+}
+
+eval_browseriii = {
+    "Description": "Browser three-tab experiment",
+    "NAME": "browseriii",
+    "CFG": cfg_browseriii
 }
 
 cfg_jetstream = {
@@ -75,15 +107,37 @@ cfg_jetstream = {
 }
 
 eval_jetstream = {
+    "Description": "Jetstream2 experiment",
     "NAME": "jetstream",
     "CFG": cfg_jetstream
+}
+
+cfg_acdc = {
+    "LIMIT_MEMORY": True,
+    "DEBUG": True,
+    "TYPE": "acdc",
+    "MEMORY_LIMIT": 10000,
+    "BENCH": ["acdc"],
+    "BALANCER_CFG": BALANCER_CFG(acdc_c_range, baseline_time = 20)
+}
+
+eval_acdc = {
+    "Description": "ACDC-JS experiment",
+    "NAME": "acdc",
+    "CFG": cfg_acdc,
 }
 
 evaluation = []
 if mode in ["jetstream", "all"]:
     evaluation.append(QUOTE(eval_jetstream))
-if mode in ["browser", "all"]:
-    evaluation.append(QUOTE(eval_browser))
+if mode in ["browseri", "all"]:
+    evaluation.append(QUOTE(eval_browseri))
+if mode in ["browserii", "all"]:
+    evaluation.append(QUOTE(eval_browserii))
+if mode in ["browseriii", "all"]:
+    evaluation.append(QUOTE(eval_browseriii))
+if mode in ["acdc", "all"]:
+    evaluation.append(QUOTE(eval_acdc))
 
 subprocess.run("make", shell=True)
 subprocess.run("autoninja -C out/Release/ chrome", shell=True, cwd="../chromium/src")
@@ -95,7 +149,12 @@ def run(config, in_path):
         with open(path.joinpath("cfg"), "w") as f:
             f.write(str(config))
         commit = {}
-        commit["v8"] = get_commit("../chromium/src/v8")
+        commit["chrome_v8"] = get_commit("../chromium/src/v8")
+        commit["v8"] = get_commit("../v8/src")
+        with open("v8_commit") as f:
+            lines = f.readlines()
+            assert len(lines) == 1
+            assert lines[0] == str(get_commit("../v8/src"))
         commit["membalancer"] = get_commit("./")
         with open(path.joinpath("commit"), "w") as f:
             f.write(str(commit))

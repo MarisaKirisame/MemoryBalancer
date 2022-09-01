@@ -1,9 +1,10 @@
 #pragma once
+#include "nlohmann/json.hpp"
 #include <v8.h>
-#include <v8-json.h>
 #include <iostream>
 #include <filesystem>
 #include <fstream>
+#include <mutex>
 #include "v8_util.hpp"
 
 std::string get_time();
@@ -36,7 +37,7 @@ namespace nlohmann {
       j["tag"] = "None";
     }
   }
-  
+
   template <class T>
   void from_json(const nlohmann::json& j, std::optional<T>& v)
   {
@@ -77,4 +78,20 @@ inline std::string to_string(const nlohmann::json& j) {
   std::stringstream ssr;
   ssr << j << std::endl;
   return ssr.str();
+};
+
+struct Signal {
+  std::mutex m;
+  Signal() {
+    m.lock();
+  }
+
+  void wait() {
+    m.lock();
+    m.unlock();
+  }
+
+  void signal() {
+    m.unlock();
+  }
 };

@@ -55,36 +55,11 @@ TYPE = cfg["TYPE"]
 wait_until = "networkidle2"
 wait_until = "domcontentloaded"
 
-def report_jetstream_score():
-    with open(filename) as f:
-        print(f.read())
-
 def hang():
     while True:
         pass
 
-# weird error: terminate does not work when exception is raised. fix this.
-class ProcessScope:
-    def __init__(self, p):
-        self.p = p
-    def __enter__(self):
-        return self.p
-    def __exit__(self, *args):
-        self.p.terminate()
-
 MB_IN_BYTES = 1024 * 1024
-
-balancer_cmds = ["./build/MemoryBalancer", "daemon"]
-balancer_cmds.append(f"--balance-strategy={BALANCE_STRATEGY}")
-balancer_cmds.append(f"--resize-strategy={RESIZE_STRATEGY}")
-if RESIZE_STRATEGY == "constant":
-    balancer_cmds.append(f"--resize-amount={RESIZE_AMOUNT * MB_IN_BYTES}")
-if RESIZE_STRATEGY == "after-balance":
-    balancer_cmds.append(f"--gc-rate={GC_RATE}")
-if RESIZE_STRATEGY == "gradient":
-    balancer_cmds.append(f"--gc-rate-d={GC_RATE_D}")
-balancer_cmds.append(f"--balance-frequency={BALANCE_FREQUENCY}")
-balancer_cmds.append(f"""--log-path={result_directory+"balancer_log"}""")
 
 def env_vars_str(env_vars):
     ret = ""
@@ -108,6 +83,20 @@ def run_jetstream(v8_env_vars):
         j["OK"] = True
         with open(os.path.join(result_directory, "score"), "w") as f:
             json.dump(j, f)
+
+def run_acdc(v8_env_vars):
+    command = f"""build/MemoryBalancer acdc""" # a very big heap size to essentially have no limit
+    main_process_result = subprocess.run(f"{env_vars_str(v8_env_vars)} {command}", shell=True, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    with open(os.path.join(result_directory, "v8_out"), "w") as f:
+        f.write(main_process_result.stdout)
+        j = {}
+    if main_process_result.returncode == 0:
+        j["OK"] = True
+    else:
+        j["OK"] = False
+        j["ERROR"] = main_process_result.stdout
+    with open(os.path.join(result_directory, "score"), "w") as f:
+        json.dump(j, f)
 
 def run_browser(v8_env_vars):
     async def new_page(browser):
@@ -141,6 +130,7 @@ def run_browser(v8_env_vars):
         start = time.time()
         page = await new_page(browser)
         await page.goto(website, timeout=duration*1000, waitUntil=wait_until)
+        await asyncio.sleep(5)
         while time.time() - start < duration:
             await page.evaluate(f"{{window.scrollBy(0, {SCROLL_PIX});}}")
             await asyncio.sleep(SCROLL_SLEEP)
@@ -271,22 +261,20 @@ def run_browser(v8_env_vars):
     with open(os.path.join(result_directory, "score"), "w") as f:
         json.dump(j, f)
 
+time.sleep(10)
 with open(result_directory+"balancer_out", "w") as balancer_out:
-    with ProcessScope(subprocess.Popen(balancer_cmds, stdout=balancer_out, stderr=subprocess.STDOUT)) as p:
-        time.sleep(1) # make sure the balancer is running
-        memory_limit = f"{MEMORY_LIMIT * MB_IN_BYTES}"
+    v8_env_vars = {"LOG_GC": "1", "LOG_DIRECTORY": result_directory}
 
-        v8_env_vars = {"USE_MEMBALANCER": "1", "LOG_GC": "1", "LOG_DIRECTORY": result_directory}
-
-        if not RESIZE_STRATEGY == "ignore":
-            v8_env_vars["SKIP_RECOMPUTE_LIMIT"] = "1"
-            v8_env_vars["SKIP_MEMORY_REDUCER"] = "1"
-            #v8_env_vars["SKIP_INCREMENTAL_MARKING"] = "1"
-        if TYPE == "jetstream":
-            run_jetstream(v8_env_vars)
-        elif TYPE == "browser":
-            run_browser(v8_env_vars)
-        else:
-            p.kill()
-            raise Exception(f"unknown benchmark type: {TYPE}")
-        p.kill()
+    if not RESIZE_STRATEGY == "ignore":
+        v8_env_vars["USE_MEMBALANCER"] = "1"
+        v8_env_vars["SKIP_RECOMPUTE_LIMIT"] = "1"
+        v8_env_vars["SKIP_MEMORY_REDUCER"] = "1"
+        v8_env_vars["C_VALUE"] = str(GC_RATE_D)
+    if TYPE == "jetstream":
+        run_jetstream(v8_env_vars)
+    elif TYPE == "browser":
+        run_browser(v8_env_vars)
+    elif TYPE == "acdc":
+        run_acdc(v8_env_vars)
+    else:
+        raise Exception(f"unknown benchmark type: {TYPE}")
