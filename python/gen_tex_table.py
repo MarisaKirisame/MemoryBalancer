@@ -138,7 +138,8 @@ def tex_compare_splay_pdfjs(data):
     tex_str += tex_def("JSSplayPDFJSl", f"{tex_fmt(splay_pdfjs_l)}")
     tex_str += tex_def("JSSplayPDFJSg", f"{tex_fmt(splay_pdfjs_g)}")
     tex_str += tex_def("JSSplayPDFJSs", f"{tex_fmt(splay_pdfjs_s)}")
-    tex_str += tex_def("JSSplayPDFJSgDivs", f"{tex_fmt(splay_pdfjs_extra_mem ** 2)}")
+    tex_str += tex_def("JSSplayPDFJSgDivs", f"{tex_fmt(splay_pdfjs_g / splay_pdfjs_s)}")
+    tex_str += tex_def("JSSplayPDFJSExtraMemSquared", f"{tex_fmt(splay_pdfjs_extra_mem ** 2)}")
     tex_str += tex_def("JSSplayPDFJSExtraMem", f"{tex_fmt(splay_pdfjs_extra_mem)}")
     return tex_str
 
