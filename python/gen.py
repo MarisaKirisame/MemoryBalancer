@@ -233,7 +233,7 @@ def gen_jetstream(directory):
     found_compare = False
     tex_table_baseline_dir = None
     tex_table_membalancer_dir = None
-    JSCompareAt = -2e-9
+    JSCompareAt = -2e-8
     for name in glob.glob(f'{directory}/**/score', recursive=True):
         dirname = os.path.dirname(name)
         with open(dirname + "/cfg") as f:
@@ -258,8 +258,8 @@ def gen_jetstream(directory):
                 plt.ylim([0, 450])
                 plt.savefig(f"../membalancer-paper/img/js_membalancer_anal.png", bbox_inches='tight')
                 plt.clf()
-    #gen_tex_table.main(tex_table_membalancer_dir, tex_table_baseline_dir)
-    #parse_gc_log.main([tex_table_membalancer_dir], [tex_table_baseline_dir], "JS")
+    gen_tex_table.main(tex_table_membalancer_dir, tex_table_baseline_dir)
+    parse_gc_log.main([tex_table_membalancer_dir], [tex_table_baseline_dir], "JS")
     return gen_eval("JETSTREAM", m_exp)
 
 def gen_acdc(directory):
