@@ -36,8 +36,11 @@ cd "../chromium/src"
 git checkout STABLE
 git pull
 #gclient sync -f --no-history
-echo "** building chrome **"
-autoninja -C out/Release chrome
+#cd "v8"
+#git pull origin STABLE
+#cd "../"
+#echo "** building chrome **"
+#autoninja -C out/Release chrome
 
 echo "** cloning membalancer-paper **"
 cd $mem_balancer_dir
