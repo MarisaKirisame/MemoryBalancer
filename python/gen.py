@@ -27,6 +27,8 @@ from matplotlib.ticker import FormatStrFormatter
 from git_check import get_commit
 import argparse
 
+matplotlib.rcParams['savefig.dpi'] = 1200
+
 paper.pull()
 
 parser = argparse.ArgumentParser()
