@@ -20,6 +20,6 @@ struct V8RAII {
   }
   ~V8RAII() {
     v8::V8::Dispose();
-    v8::V8::DisposePlatform();
+    // v8::V8::DisposePlatform();
   }
 };

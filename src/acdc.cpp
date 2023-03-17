@@ -55,7 +55,7 @@ void run_acdc(v8::Platform* platform, const Input& input, Signal* s) {
       script->Run(context);
     }
   }
-  std::this_thread::sleep_for (std::chrono::seconds(5));
+  // std::this_thread::sleep_for (std::chrono::seconds(5));
   std::cout << "try isolate->dispose!" << std::endl;
   isolate->Dispose();
   std::cout << "isolate->dispose ok!" << std::endl;

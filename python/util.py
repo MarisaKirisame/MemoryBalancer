@@ -1,6 +1,6 @@
 import os
 from pyppeteer import launch
-import collections
+from collections.abc import Mapping
 
 def fmt(x):
 	return str(float("{0:.2g}".format(float(x))))
@@ -36,7 +36,7 @@ async def new_browser(*, env_vars={}, headless=True, debug=True):
     assert(len(await b.pages()) == 1)
     return b
 
-class FrozenDict(collections.Mapping):
+class FrozenDict(Mapping):
     """Don't forget the docstrings!!"""
     def __repr__(self):
         return repr(self._d)
