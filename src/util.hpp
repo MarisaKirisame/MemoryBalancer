@@ -5,6 +5,7 @@
 #include <filesystem>
 #include <fstream>
 #include <mutex>
+#include <optional>
 #include "v8_util.hpp"
 
 std::string get_time();

@@ -18,8 +18,8 @@ include_directories(third_party/cxxopts/include)
 include_directories(third_party/cpp-text-table)
 
 target_link_libraries(MemoryBalancer PRIVATE pthread)
-target_link_libraries(MemoryBalancer PRIVATE boost_system)
-target_link_libraries(MemoryBalancer PRIVATE boost_filesystem)
+# target_link_libraries(MemoryBalancer PRIVATE boost_system)
+# target_link_libraries(MemoryBalancer PRIVATE boost_filesystem)
 target_link_libraries(MemoryBalancer PRIVATE stdc++fs)
 
 target_link_libraries(MemoryBalancer PRIVATE v8_monolith)

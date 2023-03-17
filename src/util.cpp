@@ -1,16 +1,16 @@
 #include "util.hpp"
 
-#include <boost/accumulators/accumulators.hpp>
-#include <boost/accumulators/statistics/stats.hpp>
-#include <boost/accumulators/statistics/mean.hpp>
-#include <boost/accumulators/statistics/variance.hpp>
+// #include <boost/accumulators/accumulators.hpp>
+// #include <boost/accumulators/statistics/stats.hpp>
+// #include <boost/accumulators/statistics/mean.hpp>
+// #include <boost/accumulators/statistics/variance.hpp>
 #include <random>
 #include <fstream>
 #include <ctime>
 
-namespace tag = boost::accumulators::tag;
-using boost::accumulators::accumulator_set;
-using boost::accumulators::stats;
+// namespace tag = boost::accumulators::tag;
+// using boost::accumulators::accumulator_set;
+// using boost::accumulators::stats;
 
 std::string pad_string(const std::string& str, char pad, size_t length) {
   assert(length >= str.length());
@@ -29,21 +29,21 @@ std::string get_time() {
     pad_string(std::to_string(tm->tm_sec), '0', 2);
 }
 
-double mean(const std::vector<double>& v) {
-  accumulator_set<double, stats<tag::variance>> acc;
-  for (double d: v) {
-    acc(d);
-  }
-  return boost::accumulators::extract::mean(acc);
-}
+// double mean(const std::vector<double>& v) {
+//   accumulator_set<double, stats<tag::variance>> acc;
+//   for (double d: v) {
+//     acc(d);
+//   }
+//   return boost::accumulators::extract::mean(acc);
+// }
 
-double sd(const std::vector<double>& v) {
-  accumulator_set<double, stats<tag::variance>> acc;
-  for (double d: v) {
-    acc(d);
-  }
-  return sqrt(boost::accumulators::extract::variance(acc));
-}
+// double sd(const std::vector<double>& v) {
+//   accumulator_set<double, stats<tag::variance>> acc;
+//   for (double d: v) {
+//     acc(d);
+//   }
+//   return sqrt(boost::accumulators::extract::variance(acc));
+// }
 
 size_t random_heap_size() {
   static std::random_device rd;
