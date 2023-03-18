@@ -48,6 +48,8 @@ if RESIZE_STRATEGY == "after-balance":
     GC_RATE = RESIZE_CFG["GC_RATE"]
 if RESIZE_STRATEGY == "gradient":
     GC_RATE_D = RESIZE_CFG["GC_RATE_D"]
+if BALANCE_STRATEGY == "YG_BALANCER":
+    YG_SEMISPACE_SIZE = BALANCER_CFG["YG_SEMISPACE_SIZE"]
 BALANCE_FREQUENCY = BALANCER_CFG["BALANCE_FREQUENCY"]
 
 TYPE = cfg["TYPE"]
@@ -270,6 +272,10 @@ with open(result_directory+"balancer_out", "w") as balancer_out:
         v8_env_vars["SKIP_RECOMPUTE_LIMIT"] = "1"
         v8_env_vars["SKIP_MEMORY_REDUCER"] = "1"
         v8_env_vars["C_VALUE"] = str(GC_RATE_D)
+    if BALANCE_STRATEGY == "YG_BALANCER":
+        v8_env_vars["YG_SEMISPACE_SIZE"] = str(YG_SEMISPACE_SIZE)
+        v8_env_vars["USE_YG_BALANCER"] = "1"
+
     if TYPE == "jetstream":
         run_jetstream(v8_env_vars)
     elif TYPE == "browser":
