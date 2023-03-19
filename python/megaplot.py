@@ -76,6 +76,7 @@ def plot(m, benches, name, *, show_baseline=True, normalize_baseline=True, recip
     xmaxs = []
     ymins = []
     ymaxs = []
+    print(m)
     for bench in benches:
         if BASELINE not in m[bench]:
             print("WARNING: BASELINE NOT FOUND")

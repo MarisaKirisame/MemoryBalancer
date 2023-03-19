@@ -59,10 +59,10 @@ make
 
 echo "** running eval **"
 python3 python/eval.py "jetstream"
-# python3 python/eval.py "acdc"
-python3 python/gen.py --action=open
-# echo "** uploading results **"
-# result_dir=`ls "out" | sort -r | head -1`
-# if command -v nightly-results &>/dev/null; then
-#     nightly-results url "http://membalancer.uwplse.org/$result_dir"
-# fi
+python3 python/eval.py "acdc"
+python3 python/gen.py --action=upload
+echo "** uploading results **"
+result_dir=`ls "out" | sort -r | head -1`
+if command -v nightly-results &>/dev/null; then
+    nightly-results url "http://membalancer.uwplse.org/$result_dir"
+fi
