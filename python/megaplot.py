@@ -76,7 +76,6 @@ def plot(m, benches, name, *, show_baseline=True, normalize_baseline=True, recip
     xmaxs = []
     ymins = []
     ymaxs = []
-    print(m)
     for bench in benches:
         if BASELINE not in m[bench]:
             print("WARNING: BASELINE NOT FOUND")
@@ -96,6 +95,8 @@ def plot(m, benches, name, *, show_baseline=True, normalize_baseline=True, recip
         ret["baseline_time"] = baseline_time
         x = []
         y = []
+        x_yg = []
+        y_yg = []
         baseline_x = []
         baseline_y = []
         for balancer_cfg in m[bench]:
@@ -109,8 +110,12 @@ def plot(m, benches, name, *, show_baseline=True, normalize_baseline=True, recip
                         memory /= baseline_memory
                         time /= baseline_time
                     if balancer_cfg != BASELINE:
-                        x.append(memory)
-                        y.append(time)
+                        if balancer_cfg["BALANCE_STRATEGY"] == "YG_BALANCER":
+                            x_yg.append(memory)
+                            y_yg.append(time)
+                        elif balancer_cfg["BALANCE_STRATEGY"] == "classic":
+                            x.append(memory)
+                            y.append(time)
                     else:
                         baseline_x.append(memory)
                         baseline_y.append(time)
@@ -118,10 +123,12 @@ def plot(m, benches, name, *, show_baseline=True, normalize_baseline=True, recip
                     transformed_points.append(Point(1 / memory, 1 / time, balancer_cfg, exp, balancer_cfg == BASELINE))
         if invert_graph:
             plt.scatter([1/x_ for x_ in x], [1/y_ for y_ in y], label=bench, linewidth=0.1, s=20)
+            plt.scatter([1/x_ for x_ in x_yg], [1/y_ for y_ in y_yg], label=bench, color="red", linewidth=0.1, s=20)
             if len(baseline_x) != 0:
                 plt.scatter([1/x_ for x_ in baseline_x], [1/y_ for y_ in baseline_y], label=bench, linewidth=0.1, color="black", s=35)
         else:
             plt.scatter(x, y, label=bench, linewidth=0.1, s=20)
+            plt.scatter(x_yg, y_yg, label=bench, linewidth=0.1, s=20, color="red")
             if len(baseline_x) != 0:
                 plt.scatter(baseline_x, baseline_y, label=bench, linewidth=0.1, color="black", s=35)
         xmins.append(min(*x, *baseline_x))

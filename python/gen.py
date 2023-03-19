@@ -31,8 +31,10 @@ import argparse
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--action", default="", help="what to do to the generated html")
+parser.add_argument("--dir", default="", help="what to do to the generated html")
 args = parser.parse_args()
 action = args.action
+input_dir = args.dir
 
 assert action in ["check", "open", "upload", "paper"]
 
@@ -296,10 +298,12 @@ def gen_browser(directory, i):
     return gen_eval(f"WEB{i * 'I'}", real_m, anal_frac=(anal_work.main(directory) if i == 1 else None))
 
 with page(path=path.joinpath("index.html"), title='Main') as doc:
-    d = list(Path("log/").iterdir())
+    d = list(Path(input_dir).iterdir())
     #assert len(d) == 1
     #d = d[0]
     for d_elem in d:
+        if not d_elem.is_dir():
+            continue;
         for dd in d_elem.iterdir():
             if dd.is_dir():
                 with open(f"{dd}/cfg", "r") as f:

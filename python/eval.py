@@ -25,8 +25,8 @@ js_c_range = [3, 5, 10, 20, 30] * 2
 yg_semispace_sizes = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
 
 #for testing
-# js_c_range = [3, 5 ]
-# yg_semispace_sizes = [ 2, 4 ]
+js_c_range = [3, 5, 10, 20, 30]
+yg_semispace_sizes = [ 1, 3, 5, 7]
 
 browser_c_range = [0.05, 0.1, 0.2, 0.3, 0.5, 0.7, 0.9]
 acdc_c_range = [0.1 * i for i in range(1, 11)] + [1 * i for i in range(1, 11)]

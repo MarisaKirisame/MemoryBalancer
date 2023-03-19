@@ -163,12 +163,15 @@ def main(cfg, exp, legend=True):
                 for j in jsons:
                     if j["type"] == "memory":
                         current_memory = j["AllocatedExternalMemorySinceMarkCompact"] + j["SizeOfObjects"]
-                        max_memory = j["Limit"]
+                        if "Limit" in j:
+                            max_memory = j["Limit"]
                         x.point(j["time"] / 1e9, working_memory / 1e6, current_memory / 1e6, max_memory / 1e6, False)
                     else:
                         working_memory = j["after_memory"]
                         current_memory = working_memory
-                        max_memory = j["Limit"]
+                        print(directory)
+                        if "Limit" in j:
+                            max_memory = j["Limit"]
                         x.point(j["time"] / 1e9, working_memory / 1e6, current_memory / 1e6, max_memory / 1e6, True)
                 x.point((j["time"] + 1) / 1e9, 0, 0, 0, False)
     instance_list.sort(key=lambda x: x.name)
