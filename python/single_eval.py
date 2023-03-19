@@ -69,8 +69,8 @@ def env_vars_str(env_vars):
         ret = f"{k}={v} {ret}"
     return ret
 
-def run_jetstream(v8_env_vars):
-    command = f"""build/MemoryBalancer v8_experiment --heap-size={int(10 * 1000 * 1e6)} --log-path={result_directory+"v8_log"}""" # a very big heap size to essentially have no limit
+def run_jetstream(v8_env_vars, benchmark):
+    command = f"""build/MemoryBalancer v8_experiment --benchmark={benchmark} --heap-size={int(10 * 1000 * 1e6)} --log-path={result_directory+"v8_log"}""" # a very big heap size to essentially have no limit
     main_process_result = subprocess.run(f"{env_vars_str(v8_env_vars)} {command}", shell=True, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     with open(os.path.join(result_directory, "v8_out"), "w") as f:
         f.write(main_process_result.stdout)
@@ -277,7 +277,7 @@ with open(result_directory+"balancer_out", "w") as balancer_out:
         v8_env_vars["USE_YG_BALANCER"] = "1"
 
     if TYPE == "jetstream":
-        run_jetstream(v8_env_vars)
+        run_jetstream(v8_env_vars, BENCH)
     elif TYPE == "browser":
         run_browser(v8_env_vars)
     elif TYPE == "acdc":

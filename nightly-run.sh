@@ -57,10 +57,15 @@ make
 # pip3 install pyppeteer
 # pip3 install dominate
 
+benchmarks=( "pdfjs.js"  "splay.js"  "typescript.js"  "box2d.js"  "earley-boyer.js"])
 echo "** running eval **"
-python3 python/eval.py "jetstream"
-python3 python/eval.py "acdc"
-python3 python/gen.py --action=upload
+for bm in "${benchmarks[@]}"
+do 
+    python3 python/eval.py "jetstream" $bm
+done
+
+# python3 python/eval.py "acdc"
+python3 python/gen.py --action=open --dir="$result_dir"
 echo "** uploading results **"
 result_dir=`ls "out" | sort -r | head -1`
 if command -v nightly-results &>/dev/null; then

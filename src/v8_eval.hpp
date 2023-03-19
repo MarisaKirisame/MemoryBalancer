@@ -14,3 +14,4 @@ namespace v8 {
   class Platform;
 }
 void v8_experiment(v8::Platform* platform, const std::vector<char*>& args);
+void v8_all_bm(v8::Platform* platform, int heap_size);

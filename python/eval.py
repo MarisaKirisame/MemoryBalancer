@@ -11,9 +11,10 @@ from util import tex_def, tex_fmt
 import paper
 from EVAL import *
 
-assert len(sys.argv) == 2
+assert len(sys.argv) == 3
 mode = sys.argv[1]
 assert mode in ["jetstream", "browseri", "browserii", "browseriii", "acdc", "all", "macro"]
+benchmark = sys.argv[2]
 
 BASELINE = {
     "BALANCE_STRATEGY": "ignore",
@@ -25,8 +26,8 @@ js_c_range = [3, 5, 10, 20, 30] * 2
 yg_semispace_sizes = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
 
 #for testing
-js_c_range = [3, 5, 10, 20, 30]
-yg_semispace_sizes = [ 1, 3, 5, 7]
+js_c_range = [3, 5]
+yg_semispace_sizes = [ 5 ]
 
 browser_c_range = [0.05, 0.1, 0.2, 0.3, 0.5, 0.7, 0.9]
 acdc_c_range = [0.1 * i for i in range(1, 11)] + [1 * i for i in range(1, 11)]
@@ -119,12 +120,22 @@ eval_browseriii = {
     "CFG": cfg_browseriii
 }
 
+# cfg_jetstream = {
+#     "LIMIT_MEMORY": True,
+#     "DEBUG": True,
+#     "TYPE": "jetstream",
+#     "MEMORY_LIMIT": 10000,
+#     "BENCH": ["pdfjs", "splay", "typescript"],
+#     "BALANCER_CFG": BALANCER_CFG(js_c_range)
+# }
+
+# benchmarks = ["all", "pdfjs.js", "splay.js", "typescript.js", "box2d.js", "earley-boyer.js"]
 cfg_jetstream = {
     "LIMIT_MEMORY": True,
     "DEBUG": True,
     "TYPE": "jetstream",
     "MEMORY_LIMIT": 10000,
-    "BENCH": ["pdfjs", "splay", "typescript"],
+    "BENCH": benchmark,
     "BALANCER_CFG": BALANCER_CFG(js_c_range)
 }
 
