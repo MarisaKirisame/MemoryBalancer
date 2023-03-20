@@ -91,7 +91,7 @@ class Experiment:
         return calculate_average(self.all_dirname(), "BenchmarkMemory") + calculate_average_yg(self.all_dirname(), "yg_size_of_object")
 
     def total_major_gc_time(self):
-        return calculate_total_major_gc_time(self.all_dirname())
+        return calculate_total_major_gc_time(self.all_dirname()) + calculate_yg_gc_time(self.all_dirname())
 
     def perf_breakdown(self):
         ret = {}
@@ -150,7 +150,7 @@ def calculate_total_major_gc_time(directory_list):
                         j = json.loads(line)
                         major_gc_time = j["total_major_gc_time"]
                     total_major_gc_time += major_gc_time
-    return total_major_gc_time + calculate_yg_gc_time(directory_list)
+    return total_major_gc_time 
 
 def read_yg_log_separate(directory_list):
     logs = {}

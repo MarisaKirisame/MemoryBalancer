@@ -169,7 +169,6 @@ def main(cfg, exp, legend=True):
                     else:
                         working_memory = j["after_memory"]
                         current_memory = working_memory
-                        print(directory)
                         if "Limit" in j:
                             max_memory = j["Limit"]
                         x.point(j["time"] / 1e9, working_memory / 1e6, current_memory / 1e6, max_memory / 1e6, True)

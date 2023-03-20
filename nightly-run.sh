@@ -57,7 +57,8 @@ make
 # pip3 install pyppeteer
 # pip3 install dominate
 
-benchmarks=( "pdfjs.js"  "splay.js"  "typescript.js"  "box2d.js"  "earley-boyer.js"])
+# benchmarks=( "pdfjs.js"  "splay.js"  "typescript.js"  "box2d.js"  "earley-boyer.js"])
+benchmarks=( "all" )
 echo "** running eval **"
 for bm in "${benchmarks[@]}"
 do 
