@@ -128,6 +128,7 @@ def plot(m, benches, name, *, show_baseline=True, normalize_baseline=True, recip
                 plt.scatter([1/x_ for x_ in baseline_x], [1/y_ for y_ in baseline_y], label=bench, linewidth=0.1, color="black", s=35)
         else:
             plt.scatter(x, y, label=bench, linewidth=0.1, s=20)
+            print(len(x_yg))
             plt.scatter(x_yg, y_yg, label=bench, linewidth=0.1, s=20, color="red")
             if len(baseline_x) != 0:
                 plt.scatter(baseline_x, baseline_y, label=bench, linewidth=0.1, color="black", s=35)
@@ -167,9 +168,9 @@ def plot(m, benches, name, *, show_baseline=True, normalize_baseline=True, recip
         ymax = max(ymaxs)
         xmargin = (xmax - xmin) * 0.05
         ymargin = (ymax - ymin) * 0.05
-        if not invert_graph:
-            plt.xlim([xmin - xmargin, xmax + xmargin])
-            plt.ylim([ymin - ymargin, ymax + ymargin])
+        # if not invert_graph:
+        #     plt.xlim([xmin - xmargin, xmax + xmargin])
+        #     plt.ylim([ymin - ymargin, ymax + ymargin])
     return ret
 
 if __name__ == "__main__":
