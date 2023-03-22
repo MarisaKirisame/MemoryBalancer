@@ -87,11 +87,23 @@ class Experiment:
     def all_dirname(self):
         return [x.dirname for x in self.runs]
 
-    def average_benchmark_memory(self):
-        return calculate_average(self.all_dirname(), "BenchmarkMemory") + calculate_average_yg(self.all_dirname(), "yg_size_of_object")
+    def avg_old_gen_memory(self):
+        return calculate_average(self.all_dirname(), "BenchmarkMemory")
 
+    def avg_yg_memory(self):
+        return calculate_average_yg(self.all_dirname(), "yg_size_of_object")
+    
+    def average_benchmark_memory(self):
+        return self.avg_old_gen_memory() + self.avg_yg_memory()
+
+    def yg_gc_total_time(self):
+        return calculate_yg_gc_time(self.all_dirname())
+
+    def old_gen_total_time(self):
+        return calculate_total_major_gc_time(self.all_dirname())
+    
     def total_major_gc_time(self):
-        return calculate_total_major_gc_time(self.all_dirname()) + calculate_yg_gc_time(self.all_dirname())
+        return self.old_gen_total_time() + self.yg_gc_total_time()
 
     def perf_breakdown(self):
         ret = {}
@@ -163,12 +175,6 @@ def read_yg_log_separate(directory_list):
                         if filename not in logs:
                             logs[filename] = []
                         logs[filename].append(j)
-                    # if filename in logs:
-                    #     time = j["yg_gc_time"] + 1
-                    #     j = {"source": filename, "time": time}
-                    #     for p in ["Limit", "PhysicalMemory", "SizeOfObjects", "BenchmarkMemory"]:
-                    #         j[p] = 0
-                    #     logs[filename].append(j)
     return logs
 
 

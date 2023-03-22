@@ -103,6 +103,7 @@ def plot(m, benches, name, *, show_baseline=True, normalize_baseline=True, recip
             if show_baseline or balancer_cfg != BASELINE:
                 for exp in m[bench][balancer_cfg]:
                     memory = exp.average_benchmark_memory()
+                    
                     memory /= 1e6
                     time = exp.total_major_gc_time()
                     time /= 1e9
@@ -128,7 +129,6 @@ def plot(m, benches, name, *, show_baseline=True, normalize_baseline=True, recip
                 plt.scatter([1/x_ for x_ in baseline_x], [1/y_ for y_ in baseline_y], label=bench, linewidth=0.1, color="black", s=35)
         else:
             plt.scatter(x, y, label=bench, linewidth=0.1, s=20)
-            print(len(x_yg))
             plt.scatter(x_yg, y_yg, label=bench, linewidth=0.1, s=20, color="red")
             if len(baseline_x) != 0:
                 plt.scatter(baseline_x, baseline_y, label=bench, linewidth=0.1, color="black", s=35)

@@ -57,8 +57,8 @@ make
 # pip3 install pyppeteer
 # pip3 install dominate
 
-benchmarks=( "pdfjs.js"  "splay.js"  "typescript.js"  "box2d.js"  "earley-boyer.js"])
-# benchmarks=( "typescript.js" "splay.js" "box2d.js" )
+# benchmarks=( "pdfjs.js"  "splay.js"  "typescript.js"  "box2d.js"  "earley-boyer.js"])
+benchmarks=( "pdfjs.js" )
 yg_semispace_sizes=( 4 )
 echo "** running eval **"
 # for bm in "${benchmarks[@]}"
@@ -71,7 +71,7 @@ echo "** running eval **"
 
 for bm in "${benchmarks[@]}"
 do 
-    python3 python/eval.py "jetstream" $bm 3
+    python3 python/eval.py "jetstream" $bm 4
 done
 
 # python3 python/eval.py "acdc"

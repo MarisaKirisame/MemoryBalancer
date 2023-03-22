@@ -129,6 +129,34 @@ def remove_suffix(input_string, suffix):
         return input_string[:-len(suffix)]
     return input_string
 
+
+def entry_for_yg(exp):
+    for directory in exp.all_dirname():
+        for yg_log_str in glob.glob(f'{directory}/*.yg.log'):
+            jsons = []
+            name = ""
+            with open(yg_log_str) as f:
+                for line in f.readlines():
+                    j = json.loads(line)
+                    j["type"] = "yg"
+                    j["time"] = j["before_time"]
+                    # name = j["name"]
+                    name = j["name"]+"_yg"
+                    jsons.append(j)
+            if len(jsons) != 0:
+                jsons.sort(key=lambda x:x["time"])
+                x = Process(name)
+                working_memory = 0
+                for j in jsons:
+                    if j["type"] == "yg":
+                        current_memory = j["yg_size_of_object"]
+                        if "yg_semispace_limit" in j:
+                            max_memory = j["yg_semispace_limit"]
+                        x.point(j["time"] / 1e9, working_memory / 1e6, current_memory / 1e6, max_memory / 1e6, False)
+                x.point((j["time"] + 1) / 1e9, 0, 0, 0, False)
+    return x
+
+
 def main(cfg, exp, legend=True):
     instance_list = []
 
@@ -173,7 +201,10 @@ def main(cfg, exp, legend=True):
                             max_memory = j["Limit"]
                         x.point(j["time"] / 1e9, working_memory / 1e6, current_memory / 1e6, max_memory / 1e6, True)
                 x.point((j["time"] + 1) / 1e9, 0, 0, 0, False)
+    yg_process = entry_for_yg(exp)
+    instance_list.append(yg_process)
     instance_list.sort(key=lambda x: x.name)
+    
     draw_stacks(instance_list)
     if legend:
         plt.legend(bbox_to_anchor=(1.04, 0.5), loc="center left")

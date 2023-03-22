@@ -91,8 +91,12 @@ def gen_anal_gc_log(cfg, exp):
         plt.clf()
         img(src=png_path)
         p(f"cfg = {cfg}")
-        p(f"memory = {exp.average_benchmark_memory()}")
-        p(f"time = {exp.total_major_gc_time()}")
+        p(f"total_memory = {exp.average_benchmark_memory()/1e6}")
+        p(f"old_gen_mem = {exp.avg_old_gen_memory()/1e6}")
+        p(f"yg_memory = {exp.avg_yg_memory()/1e6}")
+        p(f"total_time = {exp.total_major_gc_time()/1e9}")
+        p(f"old_gen_gc_time = {exp.old_gen_total_time()/1e9}")
+        p(f"yg_gen_gc_time = {exp.yg_gc_total_time()/1e9}")
 
         bd = exp.perf_breakdown()
         for name in sorted(list(bd.keys())):

@@ -125,7 +125,6 @@ def get_values_from(filename, key):
                 
                 # major_gc_time = j["total_major_gc_time"]
                 res.append(j[key])
-        print(len(res))
         return res
     
 def read_cfg(dir):
