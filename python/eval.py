@@ -27,23 +27,11 @@ js_c_range = [3, 5, 10, 20, 30] * 2
 yg_semispace_sizes = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
 
 #for testing
-js_c_range = [3, 5, 10, 20, 30]
+# js_c_range = [3, 5, 10, 20, 30]
 # yg_semispace_sizes = [ 5 ]
 
 browser_c_range = [0.05, 0.1, 0.2, 0.3, 0.5, 0.7, 0.9]
 acdc_c_range = [0.1 * i for i in range(1, 11)] + [1 * i for i in range(1, 11)]
-# tex = ""
-# tex += tex_def("JSMinC", f"{tex_fmt(min(js_c_range))}\,\%/MB")
-# tex += tex_def("JSMaxC", f"{tex_fmt(max(js_c_range))}\,\%/MB")
-# tex += tex_def("WEBMinC", f"{tex_fmt(min(browser_c_range))}\,\%/MB")
-# tex += tex_def("WEBMaxC", f"{tex_fmt(max(browser_c_range))}\,\%/MB")
-# tex += tex_def("ACDCMinC", f"{tex_fmt(min(acdc_c_range))}\,\%/MB")
-# tex += tex_def("ACDCMaxC", f"{tex_fmt(max(acdc_c_range))}\,\%/MB")
-
-# paper.pull()
-# with open(f"../membalancer-paper/data/eval_param.tex", "w") as tex_file:
-#     tex_file.write(tex)
-# paper.push()
 
 if mode == "macro":
     exit()
@@ -69,14 +57,6 @@ def BALANCER_CFG(c_range, baseline_time=3):
 
     # return QUOTE(NONDET(*[yg_balancer_cfg]))
     return QUOTE(NONDET(*[get_cfg("classic", c_range)] + baseline_time * [BASELINE] + [yg_balancer_cfg]))
-    # return QUOTE(NONDET(*[get_cfg("classic", c_range)] + baseline_time * [BASELINE])) #PRANAV: for running the old way
-
-# def BALANCER_CFG(c_range, baseline_time=3):
-#     return QUOTE(NONDET(*[{
-#         "BALANCE_STRATEGY": "classic",
-#         "RESIZE_CFG": {"RESIZE_STRATEGY": "gradient", "GC_RATE_D":NONDET(*[x / -1e9 for x in c_range])},
-#         "BALANCE_FREQUENCY": 0
-#     }] + baseline_time * [BASELINE]))
 
 cfg_browseri = {
     "LIMIT_MEMORY": True,

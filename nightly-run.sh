@@ -59,20 +59,20 @@ make
 
 # benchmarks=( "pdfjs.js"  "splay.js"  "typescript.js"  "box2d.js"  "earley-boyer.js"])
 benchmarks=( "pdfjs.js" )
-yg_semispace_sizes=( 4 )
+yg_semispace_sizes=( 3 4 5 6 )
 echo "** running eval **"
-# for bm in "${benchmarks[@]}"
-# do 
-#     for yg_size in "${yg_semispace_sizes[@]}"
-#     do 
-#         python3 python/eval.py "jetstream" $bm $yg_size
-#     done
-# done
-
 for bm in "${benchmarks[@]}"
 do 
-    python3 python/eval.py "jetstream" $bm 4
+    for yg_size in "${yg_semispace_sizes[@]}"
+    do 
+        python3 python/eval.py "jetstream" $bm $yg_size
+    done
 done
+
+# for bm in "${benchmarks[@]}"
+# do 
+#     python3 python/eval.py "jetstream" $bm 5
+# done
 
 # python3 python/eval.py "acdc"
 python3 python/gen.py --action=open --dir="$result_dir"

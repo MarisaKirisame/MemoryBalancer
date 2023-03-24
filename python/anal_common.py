@@ -91,14 +91,33 @@ class Experiment:
         return calculate_average(self.all_dirname(), "BenchmarkMemory")
 
     def avg_yg_memory(self):
-        return calculate_average_yg(self.all_dirname(), "yg_size_of_object")
+        return calculate_average_yg(self.all_dirname(), "before_yg_memory")
     
     def average_benchmark_memory(self):
         return self.avg_old_gen_memory() + self.avg_yg_memory()
 
     def yg_gc_total_time(self):
         return calculate_yg_gc_time(self.all_dirname())
+    
+    def get_total(self, property_name):
+        all_log_yg = read_yg_log_separate(self.all_dirname())
+        ret = 0
+        for key, logs in all_log_yg.items():
+            acc = 0
+            for log in logs:
+                acc += log[property_name]
+            ret += acc
+        return ret
 
+    def total_copied_bytes(self):
+        return self.get_total("total_copied_bytes")
+
+    def total_allocated_bytes(self):
+        return self.get_total("allocated_bytes")
+    
+    def total_promoted_bytes(self):
+        return self.get_total("total_promoted_bytes")
+        
     def old_gen_total_time(self):
         return calculate_total_major_gc_time(self.all_dirname())
     
@@ -147,7 +166,7 @@ def calculate_yg_gc_time(directory_list):
                     major_gc_time = 0
                     for line in f.read().splitlines():
                         j = json.loads(line)
-                        major_gc_time = j["yg_gc_time"]
+                        major_gc_time += j["yg_gc_time"]  #adding each line
                     total_major_gc_time += major_gc_time
     return total_major_gc_time
 

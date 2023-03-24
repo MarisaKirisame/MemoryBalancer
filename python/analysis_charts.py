@@ -54,7 +54,8 @@ def plot_promotion_rate_for(input_dir, strategy):
         file = glob.glob(dir+"*.yg.log")[0]
         total_promoted_byte = get_all_value_for_key(file, "total_promoted_bytes")[-1]
         total_allocated_bytes = sum(get_all_value_for_key(file, "allocated_bytes"))
-        promotion_rate = total_promoted_byte/total_allocated_bytes
+        # promotion_rate = total_promoted_byte/total_allocated_bytes
+        promotion_rate = total_promoted_byte
         yg_semispace_size = statistics.mean(get_all_value_for_key(file, "yg_semispace_limit"))
         x_yg_promotion_rate.append(yg_semispace_size)
         y_yg_semispace_size.append(promotion_rate)
@@ -72,7 +73,7 @@ def plot_promotion_rate(input_dir):
     for idx, tmp in enumerate(strategy):
         x, y, bm = plot_promotion_rate_for(input_dir, tmp)
         plt.title(bm)
-        plt.scatter(x, y, label=strategy[idx], color=color[idx]) 
+        plt.scatter(x, y, label=strategy[idx], color=color[idx])
     plt.legend(bbox_to_anchor=(.75, 1.05), loc="center left")
     plt.savefig(input_dir+"/promotion_rate")    
     plt.close()  
