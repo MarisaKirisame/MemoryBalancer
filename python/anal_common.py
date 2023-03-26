@@ -99,24 +99,27 @@ class Experiment:
     def yg_gc_total_time(self):
         return calculate_yg_gc_time(self.all_dirname())
     
-    def get_total(self, property_name):
+    def get_total(self, property_name, shouldAdd):
         all_log_yg = read_yg_log_separate(self.all_dirname())
         ret = 0
         for key, logs in all_log_yg.items():
             acc = 0
             for log in logs:
-                acc += log[property_name]
+                if shouldAdd:
+                    acc += log[property_name]
+                else:
+                    acc = log[property_name]
             ret += acc
         return ret
 
     def total_copied_bytes(self):
-        return self.get_total("total_copied_bytes")
+        return self.get_total("total_copied_bytes", False)
 
     def total_allocated_bytes(self):
-        return self.get_total("allocated_bytes")
+        return self.get_total("allocated_bytes", True)
     
     def total_promoted_bytes(self):
-        return self.get_total("total_promoted_bytes")
+        return self.get_total("total_promoted_bytes", False)
         
     def old_gen_total_time(self):
         return calculate_total_major_gc_time(self.all_dirname())

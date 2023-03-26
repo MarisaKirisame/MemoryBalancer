@@ -14,6 +14,7 @@ rm -f /tmp/membalancer_socket
 mem_balancer_dir=$PWD
 cd $mem_balancer_dir
 
+
 export PATH="$PWD/../depot_tools:$PATH"
 # ./clean_log
 # ./clean_out
@@ -59,7 +60,7 @@ make
 
 # benchmarks=( "pdfjs.js"  "splay.js"  "typescript.js"  "box2d.js"  "earley-boyer.js"])
 benchmarks=( "pdfjs.js" )
-yg_semispace_sizes=( 3 4 5 6 )
+yg_semispace_sizes=( 5 )
 echo "** running eval **"
 for bm in "${benchmarks[@]}"
 do 
@@ -69,15 +70,18 @@ do
     done
 done
 
+
 # for bm in "${benchmarks[@]}"
 # do 
 #     python3 python/eval.py "jetstream" $bm 5
 # done
 
+
 # python3 python/eval.py "acdc"
-python3 python/gen.py --action=open --dir="$result_dir"
-echo "** uploading results **"
-result_dir=`ls "out" | sort -r | head -1`
-if command -v nightly-results &>/dev/null; then
-    nightly-results url "http://membalancer.uwplse.org/$result_dir"
-fi
+# result_dir=`ls "out" | sort -r | head -1`
+# python3 python/gen.py --action=open --dir="$result_dir"
+# echo "** uploading results **"
+
+# if command -v nightly-results &>/dev/null; then
+#     nightly-results url "http://membalancer.uwplse.org/$result_dir"
+# fi

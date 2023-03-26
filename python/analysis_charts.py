@@ -15,7 +15,7 @@ from enum import Enum
 import matplotlib.colors as pltc
 
 
-arg_dir = sys.argv[1]+"/"
+# arg_dir = sys.argv[1]+"/"
 
 
 def read_json(file):
@@ -29,7 +29,7 @@ def read_json(file):
 
 
 def get_dirs(input_dir):
-    dirs = glob.glob(input_dir+"/*/")
+    dirs = glob.glob(str(input_dir)+"/*/")
     return dirs
 
 
@@ -47,6 +47,7 @@ def plot_promotion_rate_for(input_dir, strategy):
     y_yg_semispace_size = []
     benchmark = ""
     for dir in all_dirs:
+        print(dir)
         cfg = read_json(dir+"/cfg")[0]
         tmp_strategy = cfg["CFG"]["BALANCER_CFG"]["BALANCE_STRATEGY"]
         if strategy != tmp_strategy:
@@ -54,15 +55,14 @@ def plot_promotion_rate_for(input_dir, strategy):
         file = glob.glob(dir+"*.yg.log")[0]
         total_promoted_byte = get_all_value_for_key(file, "total_promoted_bytes")[-1]
         total_allocated_bytes = sum(get_all_value_for_key(file, "allocated_bytes"))
-        # promotion_rate = total_promoted_byte/total_allocated_bytes
-        promotion_rate = total_promoted_byte
+        promotion_rate = total_promoted_byte/total_allocated_bytes
         yg_semispace_size = statistics.mean(get_all_value_for_key(file, "yg_semispace_limit"))
         x_yg_promotion_rate.append(yg_semispace_size)
         y_yg_semispace_size.append(promotion_rate)
         benchmark = cfg["CFG"]["BENCH"]
     return (x_yg_promotion_rate, y_yg_semispace_size, benchmark)
 
-def plot_promotion_rate(input_dir):
+def plot_promotion_rate(input_dir, output_dir):
     
     strategy = ["YG_BALANCER", "classic", "ignore"]
     color = ["red", "blue", "black"]
@@ -75,9 +75,11 @@ def plot_promotion_rate(input_dir):
         plt.title(bm)
         plt.scatter(x, y, label=strategy[idx], color=color[idx])
     plt.legend(bbox_to_anchor=(.75, 1.05), loc="center left")
-    plt.savefig(input_dir+"/promotion_rate")    
+    plt.savefig(output_dir+"/promotion_rate")    
     plt.close()  
-plot_promotion_rate(arg_dir)
+# plot_promotion_rate(arg_dir)
+
+
 
 
 

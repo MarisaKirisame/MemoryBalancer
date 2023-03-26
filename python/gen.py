@@ -26,17 +26,19 @@ from anal_common import Run, Experiment
 from matplotlib.ticker import FormatStrFormatter
 from git_check import get_commit
 import argparse
+import analysis_charts
 
 # paper.pull()
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--action", default="", help="what to do to the generated html")
+# parser.add_argument("--action", default="", help="what to do to the generated html")
 parser.add_argument("--dir", default="", help="what to do to the generated html")
 args = parser.parse_args()
-action = args.action
+# action = args.action
+
 input_dir = args.dir
 
-assert action in ["check", "open", "upload", "paper"]
+# assert action in ["check", "open", "upload", "paper"]
 
 class page(dominate.document):
     def __init__(self, path, *args, **kwargs):
@@ -215,6 +217,7 @@ def gen_eval(tex_name, m, *, anal_frac=None, show_baseline=True, reciprocal_regr
                 # plt.savefig(f"../membalancer-paper/img/{png_path}", bbox_inches='tight')
                 plt.clf()
                 img(src=png_path)
+                img(src="promotion_rate.png")
         for bench in m.keys():
             li(a(str(bench), href=gen_megaplot_bench(m, bench)))
     return html_path
@@ -306,14 +309,13 @@ def gen_browser(directory, i):
     return gen_eval(f"WEB{i * 'I'}", real_m, anal_frac=(anal_work.main(directory) if i == 1 else None))
 
 with page(path=path.joinpath("index.html"), title='Main') as doc:
-    d = list(Path(input_dir).iterdir())
-    #assert len(d) == 1
-    #d = d[0]
+    d = list(Path(input_dir).iterdir()) 
     for d_elem in d:
         if not d_elem.is_dir():
             continue;
         for dd in d_elem.iterdir():
             if dd.is_dir():
+                analysis_charts.plot_promotion_rate(str(dd), str(path))
                 with open(f"{dd}/cfg", "r") as f:
                     cfg = eval(f.read())
                     name = cfg["NAME"]
@@ -334,6 +336,6 @@ with page(path=path.joinpath("index.html"), title='Main') as doc:
         tex_file.write(tex)
     li(a("tex", href=tex_file_name))
 
-if action == "open":
-    os.system(f"xdg-open {path.joinpath('index.html')}")
+# if action == "open":
+os.system(f"xdg-open {path.joinpath('index.html')}")
 
