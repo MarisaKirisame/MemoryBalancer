@@ -47,7 +47,6 @@ def plot_promotion_rate_for(input_dir, strategy):
     y_yg_semispace_size = []
     benchmark = ""
     for dir in all_dirs:
-        print(dir)
         cfg = read_json(dir+"/cfg")[0]
         tmp_strategy = cfg["CFG"]["BALANCER_CFG"]["BALANCE_STRATEGY"]
         if strategy != tmp_strategy:

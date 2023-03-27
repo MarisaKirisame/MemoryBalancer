@@ -91,7 +91,8 @@ class Experiment:
         return calculate_average(self.all_dirname(), "BenchmarkMemory")
 
     def avg_yg_memory(self):
-        return calculate_average_yg(self.all_dirname(), "before_yg_memory")
+        #for 2 semispace
+        return 2 * calculate_average_yg(self.all_dirname(), "before_yg_memory")
     
     def average_benchmark_memory(self):
         return self.avg_old_gen_memory() + self.avg_yg_memory()

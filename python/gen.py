@@ -99,9 +99,9 @@ def gen_anal_gc_log(cfg, exp):
         p(f"total_time = {exp.total_major_gc_time()/1e9}")
         p(f"old_gen_gc_time = {exp.old_gen_total_time()/1e9}")
         p(f"yg_gen_gc_time = {exp.yg_gc_total_time()/1e9}")
-        p(f"total_promoted_bytes = {exp.total_promoted_bytes()/1e9}")
-        p(f"total_allocated_bytes = {exp.total_allocated_bytes()/1e9}")
-        p(f"total_copied_bytes = {exp.total_copied_bytes()/1e9}")
+        p(f"total_promoted_bytes = {exp.total_promoted_bytes()/1e6}")
+        p(f"total_allocated_bytes = {exp.total_allocated_bytes()/1e6}")
+        p(f"total_copied_bytes = {exp.total_copied_bytes()/1e6}")
         p(f"p/g = {exp.total_promoted_bytes()/exp.total_allocated_bytes()}")
 
         bd = exp.perf_breakdown()
