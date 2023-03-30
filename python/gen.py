@@ -102,6 +102,8 @@ def gen_anal_gc_log(cfg, exp):
         p(f"total_promoted_bytes = {exp.total_promoted_bytes()/1e6}")
         p(f"total_allocated_bytes = {exp.total_allocated_bytes()/1e6}")
         p(f"total_copied_bytes = {exp.total_copied_bytes()/1e6}")
+        p(f"yg_total_before_memory = {exp.yg_total_before_memory()/1e6}")
+        p(f"yg_total_after_memory = {exp.yg_total_after_memory()/1e6}")
         p(f"p/g = {exp.total_promoted_bytes()/exp.total_allocated_bytes()}")
 
         bd = exp.perf_breakdown()
@@ -217,7 +219,10 @@ def gen_eval(tex_name, m, *, anal_frac=None, show_baseline=True, reciprocal_regr
                 # plt.savefig(f"../membalancer-paper/img/{png_path}", bbox_inches='tight')
                 plt.clf()
                 img(src=png_path)
-                img(src="promotion_rate.png")
+                p_g_plots = glob.glob("promotion_rate*.png")
+                for each_plot in p_g_plots:
+                    img(src=each_plot)
+                
         for bench in m.keys():
             li(a(str(bench), href=gen_megaplot_bench(m, bench)))
     return html_path

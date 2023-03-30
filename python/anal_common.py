@@ -100,6 +100,12 @@ class Experiment:
     def yg_gc_total_time(self):
         return calculate_yg_gc_time(self.all_dirname())
     
+    def yg_total_before_memory(self):
+        return self.get_total("before_yg_memory", True)
+    
+    def yg_total_after_memory(self):
+        return self.get_total("after_yg_memory", True)
+    
     def get_total(self, property_name, shouldAdd):
         all_log_yg = read_yg_log_separate(self.all_dirname())
         ret = 0

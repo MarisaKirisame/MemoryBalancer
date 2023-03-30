@@ -27,12 +27,13 @@ js_c_range = [3, 5, 10, 20, 30] * 2
 yg_semispace_sizes = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
 
 #for testing
-# js_c_range = [5]
+js_c_range = [3, 5, 10, 20, 30]
 # yg_semispace_sizes = [ 5 ]
 
 browser_c_range = [0.05, 0.1, 0.2, 0.3, 0.5, 0.7, 0.9]
 acdc_c_range = [0.1 * i for i in range(1, 11)] + [1 * i for i in range(1, 11)]
 
+acdc_c_range = [0.1 * i for i in range(1, 2)] + [1 * i for i in range(1, 2)]
 if mode == "macro":
     exit()
 
@@ -52,8 +53,8 @@ def get_cfg(balance_strategy, c_range):
 def BALANCER_CFG(c_range, baseline_time=3):
     
     yg_balancer_cfg = get_cfg("YG_BALANCER", c_range)
-    # yg_balancer_cfg["YG_SEMISPACE_SIZE"] = NONDET(*[x for x in yg_semispace_sizes])
-    yg_balancer_cfg["YG_SEMISPACE_SIZE"] = yg_semispace_size
+    yg_balancer_cfg["YG_SEMISPACE_SIZE"] = NONDET(*[x for x in yg_semispace_sizes])
+    # yg_balancer_cfg["YG_SEMISPACE_SIZE"] = yg_semispace_size
 
     # return QUOTE(NONDET(*[yg_balancer_cfg]))
     return QUOTE(NONDET(*[get_cfg("classic", c_range)] + baseline_time * [BASELINE] + [yg_balancer_cfg]))
@@ -134,7 +135,7 @@ cfg_acdc = {
     "TYPE": "acdc",
     "MEMORY_LIMIT": 10000,
     "BENCH": ["acdc"],
-    "BALANCER_CFG": BALANCER_CFG(acdc_c_range, baseline_time = 20)
+    "BALANCER_CFG": BALANCER_CFG(acdc_c_range)
 }
 
 eval_acdc = {

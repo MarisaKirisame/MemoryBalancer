@@ -14,6 +14,7 @@ rm -f /tmp/membalancer_socket
 mem_balancer_dir=$PWD
 cd $mem_balancer_dir
 
+repeats=$1
 
 export PATH="$PWD/../depot_tools:$PATH"
 # ./clean_log
@@ -59,25 +60,24 @@ make
 # pip3 install dominate
 
 # benchmarks=( "pdfjs.js"  "splay.js"  "typescript.js"  "box2d.js"  "earley-boyer.js"])
-benchmarks=( "pdfjs.js" )
-yg_semispace_sizes=( 5 )
-echo "** running eval **"
-for bm in "${benchmarks[@]}"
-do 
-    for yg_size in "${yg_semispace_sizes[@]}"
-    do 
-        python3 python/eval.py "jetstream" $bm $yg_size
-    done
-done
-
-
-# for bm in "${benchmarks[@]}"
+# benchmarks=( "pdfjs.js" )
+# yg_semispace_sizes=( 4 )
+# echo "** running eval **"
+# echo {1..$repeats}
+# for i in $( eval echo {1..$repeats} ) 
 # do 
-#     python3 python/eval.py "jetstream" $bm 5
+#     for bm in "${benchmarks[@]}"
+#     do 
+#         for yg_size in "${yg_semispace_sizes[@]}"
+#         do 
+#             python3 python/eval.py "jetstream" $bm $yg_size
+#         done
+#     done
 # done
 
 
-# python3 python/eval.py "acdc"
+
+python3 python/eval.py "acdc" "acdc" 4 # 4 is not being used
 # result_dir=`ls "out" | sort -r | head -1`
 # python3 python/gen.py --action=open --dir="$result_dir"
 # echo "** uploading results **"

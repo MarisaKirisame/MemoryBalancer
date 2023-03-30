@@ -160,55 +160,55 @@ def entry_for_yg(exp):
 def main(cfg, exp, legend=True):
     instance_list = []
 
-    title = str(cfg)
-    for directory in exp.all_dirname():
-        for gc_log_str in glob.glob(f'{directory}/*.gc.log'):
-            memory_log_str = f"""{remove_suffix(gc_log_str, ".gc.log")}.memory.log"""
-            jsons = []
-            name = ""
-            with open(gc_log_str) as f:
-                for line in f.readlines():
-                    j = json.loads(line)
-                    j["type"] = "gc"
-                    j["time"] = j["before_time"]
-                    name = j["name"]
-                    #if name == "":
-                    #    name = j["guid"]
-                    jsons.append(j)
-            with open(memory_log_str) as f:
-                for line in f.readlines():
-                    j = json.loads(line)
-                    j["type"] = "memory"
-                    name = j["name"]
-                    if name == "":
-                        name = j["guid"]
-                    jsons.append(j)
-            if len(jsons) != 0:
-                jsons.sort(key=lambda x:x["time"])
-                x = Process(name)
-                instance_list.append(x)
-                working_memory = 0
-                for j in jsons:
-                    if j["type"] == "memory":
-                        current_memory = j["AllocatedExternalMemorySinceMarkCompact"] + j["SizeOfObjects"]
-                        if "Limit" in j:
-                            max_memory = j["Limit"]
-                        x.point(j["time"] / 1e9, working_memory / 1e6, current_memory / 1e6, max_memory / 1e6, False)
-                    else:
-                        working_memory = j["after_memory"]
-                        current_memory = working_memory
-                        if "Limit" in j:
-                            max_memory = j["Limit"]
-                        x.point(j["time"] / 1e9, working_memory / 1e6, current_memory / 1e6, max_memory / 1e6, True)
-                x.point((j["time"] + 1) / 1e9, 0, 0, 0, False)
-    yg_process = entry_for_yg(exp)
-    instance_list.append(yg_process)
-    instance_list.sort(key=lambda x: x.name)
+    # title = str(cfg)
+    # for directory in exp.all_dirname():
+    #     for gc_log_str in glob.glob(f'{directory}/*.gc.log'):
+    #         memory_log_str = f"""{remove_suffix(gc_log_str, ".gc.log")}.memory.log"""
+    #         jsons = []
+    #         name = ""
+    #         with open(gc_log_str) as f:
+    #             for line in f.readlines():
+    #                 j = json.loads(line)
+    #                 j["type"] = "gc"
+    #                 j["time"] = j["before_time"]
+    #                 name = j["name"]
+    #                 #if name == "":
+    #                 #    name = j["guid"]
+    #                 jsons.append(j)
+    #         with open(memory_log_str) as f:
+    #             for line in f.readlines():
+    #                 j = json.loads(line)
+    #                 j["type"] = "memory"
+    #                 name = j["name"]
+    #                 if name == "":
+    #                     name = j["guid"]
+    #                 jsons.append(j)
+    #         if len(jsons) != 0:
+    #             jsons.sort(key=lambda x:x["time"])
+    #             x = Process(name)
+    #             instance_list.append(x)
+    #             working_memory = 0
+    #             for j in jsons:
+    #                 if j["type"] == "memory":
+    #                     current_memory = j["AllocatedExternalMemorySinceMarkCompact"] + j["SizeOfObjects"]
+    #                     if "Limit" in j:
+    #                         max_memory = j["Limit"]
+    #                     x.point(j["time"] / 1e9, working_memory / 1e6, current_memory / 1e6, max_memory / 1e6, False)
+    #                 else:
+    #                     working_memory = j["after_memory"]
+    #                     current_memory = working_memory
+    #                     if "Limit" in j:
+    #                         max_memory = j["Limit"]
+    #                     x.point(j["time"] / 1e9, working_memory / 1e6, current_memory / 1e6, max_memory / 1e6, True)
+    #             x.point((j["time"] + 1) / 1e9, 0, 0, 0, False)
+    # yg_process = entry_for_yg(exp)
+    # instance_list.append(yg_process)
+    # instance_list.sort(key=lambda x: x.name)
     
-    draw_stacks(instance_list)
-    if legend:
-        plt.legend(bbox_to_anchor=(1.04, 0.5), loc="center left")
-    plt.ylim([0, (exp.average_benchmark_memory() * 2.5)/1e6])
+    # draw_stacks(instance_list)
+    # if legend:
+    #     plt.legend(bbox_to_anchor=(1.04, 0.5), loc="center left")
+    # plt.ylim([0, (exp.average_benchmark_memory() * 2.5)/1e6])
 
 if __name__ == "__main__":
     assert(len(sys.argv) == 2)
