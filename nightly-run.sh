@@ -59,25 +59,31 @@ make
 # pip3 install pyppeteer
 # pip3 install dominate
 
-# benchmarks=( "pdfjs.js"  "splay.js"  "typescript.js"  "box2d.js"  "earley-boyer.js"])
-# benchmarks=( "pdfjs.js" )
-# yg_semispace_sizes=( 4 )
-# echo "** running eval **"
-# echo {1..$repeats}
-# for i in $( eval echo {1..$repeats} ) 
-# do 
-#     for bm in "${benchmarks[@]}"
-#     do 
-#         for yg_size in "${yg_semispace_sizes[@]}"
-#         do 
-#             python3 python/eval.py "jetstream" $bm $yg_size
-#         done
-#     done
-# done
+yg_semispace_sizes=( 1 3 4 5 7 10 )
+echo "** running acdc **"
+for i in $(yg_semispace_sizes[@])
+do 
+    python3 python/eval.py "acdc" "acdc" $i
+done
+
+
+benchmarks=( "all" "pdfjs.js"  "splay.js"  "typescript.js"  "box2d.js"  "earley-boyer.js"])
+echo "** running js **"
+for i in $( eval echo {1..$repeats} ) 
+do 
+    for bm in "${benchmarks[@]}"
+    do 
+        for yg_size in "${yg_semispace_sizes[@]}"
+        do 
+            python3 python/eval.py "jetstream" $bm $yg_size
+            echo "done"
+        done
+    done
+done
 
 
 
-python3 python/eval.py "acdc" "acdc" 4 # 4 is not being used
+
 # result_dir=`ls "out" | sort -r | head -1`
 # python3 python/gen.py --action=open --dir="$result_dir"
 # echo "** uploading results **"
