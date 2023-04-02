@@ -61,25 +61,26 @@ make
 
 yg_semispace_sizes=( 1 3 4 5 7 10 )
 echo "** running acdc **"
-for i in $(yg_semispace_sizes[@])
+for i in "${yg_semispace_sizes[@]}"
 do 
+    echo "ACDC: $i"
     python3 python/eval.py "acdc" "acdc" $i
 done
 
 
-benchmarks=( "all" "pdfjs.js"  "splay.js"  "typescript.js"  "box2d.js"  "earley-boyer.js"])
-echo "** running js **"
-for i in $( eval echo {1..$repeats} ) 
-do 
-    for bm in "${benchmarks[@]}"
-    do 
-        for yg_size in "${yg_semispace_sizes[@]}"
-        do 
-            python3 python/eval.py "jetstream" $bm $yg_size
-            echo "done"
-        done
-    done
-done
+# benchmarks=( "all" "pdfjs.js"  "splay.js"  "typescript.js"  "box2d.js"  "earley-boyer.js" )
+# echo "** running js **"
+# for i in $( eval echo {1..$repeats} ) 
+# do 
+#     for bm in "${benchmarks[@]}"
+#     do 
+#         for yg_size in "${yg_semispace_sizes[@]}"
+#         do 
+#             python3 python/eval.py "jetstream" $bm $yg_size
+#             echo "done"
+#         done
+#     done
+# done
 
 
 
