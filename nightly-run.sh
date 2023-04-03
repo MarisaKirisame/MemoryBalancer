@@ -59,7 +59,8 @@ make
 # pip3 install pyppeteer
 # pip3 install dominate
 
-yg_semispace_sizes=( 1 3 4 5 7 10 )
+yg_semispace_sizes=( 1 2 3 4 5 6 7 8 9 10 )
+yg_semispace_sizes=( 4 )
 echo "** running acdc **"
 for i in "${yg_semispace_sizes[@]}"
 do 

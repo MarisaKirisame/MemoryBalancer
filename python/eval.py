@@ -53,8 +53,8 @@ def get_cfg(balance_strategy, c_range):
 def BALANCER_CFG(c_range, baseline_time=2):
     
     yg_balancer_cfg = get_cfg("YG_BALANCER", c_range)
-    # yg_balancer_cfg["YG_SEMISPACE_SIZE"] = NONDET(*[x for x in yg_semispace_sizes])
-    yg_balancer_cfg["YG_SEMISPACE_SIZE"] = yg_semispace_size
+    yg_balancer_cfg["YG_SEMISPACE_SIZE"] = NONDET(*[x for x in yg_semispace_sizes])
+    # yg_balancer_cfg["YG_SEMISPACE_SIZE"] = yg_semispace_size
 
     # return QUOTE(NONDET(*[yg_balancer_cfg]))
     return QUOTE(NONDET(*[get_cfg("classic", c_range)] + baseline_time * [BASELINE] + [yg_balancer_cfg]))
