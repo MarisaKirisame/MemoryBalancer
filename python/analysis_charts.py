@@ -70,7 +70,7 @@ def plot_promotion_rate(input_dir, output_dir):
     strategy = ["YG_BALANCER", "classic", "ignore"]
     color = ["red", "blue", "black"]
     plt.figure()
-    plt.xlabel("YG size")
+    plt.xlabel("YG semispace size")
     plt.ylabel("Promotion rate")
     
     for idx, tmp in enumerate(strategy):

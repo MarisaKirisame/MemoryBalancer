@@ -107,6 +107,9 @@ def gen_anal_gc_log(cfg, exp):
         p(f"total_copied_bytes = {exp.total_copied_bytes()/1e6}")
         p(f"yg_total_before_memory = {exp.yg_total_before_memory()/1e6}")
         p(f"yg_total_after_memory = {exp.yg_total_after_memory()/1e6}")
+        p(f"total Old gen bytes = {exp.get_total_old_gc_bytes()/1e6}")
+        p(f"avg Old gen bytes = {exp.get_avg_old_gc_bytes()/1e6}")
+        p(f"total og allocated bytes = {exp.og_allocated_bytes()/1e6}")
         p(f"p/g = {exp.total_promoted_bytes()/exp.total_allocated_bytes()}")
         tmp_dict = {}
         # tmp_dict['bench'] = cfg['BENCH']
@@ -244,8 +247,9 @@ def gen_eval(tex_name, m, *, anal_frac=None, show_baseline=True, reciprocal_regr
                 # plt.savefig(f"../membalancer-paper/img/{png_path}", bbox_inches='tight')
                 plt.clf()
                 img(src=png_path)
-                p_g_plots = glob.glob("promotion_rate*.png")
+                p_g_plots = glob.glob(str(path)+"/promotion_rate*")
                 for each_plot in p_g_plots:
+                    li(a(str(each_plot), href=Path(each_plot).name))
                     img(src=each_plot)
                 
         for bench in m.keys():

@@ -105,9 +105,14 @@ class Experiment:
     
     def yg_total_after_memory(self):
         return self.get_total("after_yg_memory", True)
+
+    def og_allocated_bytes(self):
+        return self.get_total("before_memory", True, file="gc.log") - self.get_total("after_memory", True, file="gc.log") 
     
-    def get_total(self, property_name, shouldAdd):
-        all_log_yg = read_yg_log_separate(self.all_dirname())
+
+
+    def get_total(self, property_name, shouldAdd, file="yg.log"):
+        all_log_yg = read_log_separate(self.all_dirname(), file)
         ret = 0
         for key, logs in all_log_yg.items():
             acc = 0
@@ -118,6 +123,25 @@ class Experiment:
                     acc = log[property_name]
             ret += acc
         return ret
+    
+    def get_avg(self, property_name, shouldAdd, file="yg.log"):
+        all_log_yg = read_log_separate(self.all_dirname(), file)
+        ret = 0
+        for key, logs in all_log_yg.items():
+            acc = 0
+            for log in logs:
+                if shouldAdd:
+                    acc += log[property_name]
+                else:
+                    acc = log[property_name]
+            ret += acc / len(logs)
+        return ret
+    
+    def get_total_old_gc_bytes(self):
+        return  self.get_total("allocation_bytes", True, "gc.log")
+
+    def get_avg_old_gc_bytes(self):
+        return  self.get_avg("allocation_bytes", True, "gc.log")
 
     def total_copied_bytes(self):
         return self.get_total("total_copied_bytes", False)
@@ -166,7 +190,6 @@ class Experiment:
                     ret[name] = (average_benchmark_memory, major_gc_time)
         return ret
 
-
 def calculate_yg_gc_time(directory_list):
     total_major_gc_time = 0
     for directory in directory_list:
@@ -193,11 +216,11 @@ def calculate_total_major_gc_time(directory_list):
                     total_major_gc_time += major_gc_time
     return total_major_gc_time 
 
-def read_yg_log_separate(directory_list):
+def read_log_separate(directory_list, file=".yg.log"):
     logs = {}
     for directory in directory_list:
         for filename in os.listdir(directory):
-            if filename.endswith(".yg.log"):
+            if filename.endswith(file):
                 with open(os.path.join(directory, filename)) as f:
                     for line in f.read().splitlines():
                         j = json.loads(line)
@@ -251,9 +274,8 @@ def calculate_peak(directory, property_name):
 
     return max_memory
 
-
 def calculate_average_yg(directory, property_name):
-    all_log_yg = read_yg_log_separate(directory)
+    all_log_yg = read_log_separate(directory)
     ret = 0
     for key, logs in all_log_yg.items():
         acc = 0

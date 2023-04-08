@@ -25,15 +25,18 @@ BASELINE = {
 
 js_c_range = [3, 5, 10, 20, 30] * 2
 yg_semispace_sizes = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
+yg_semispace_sizes = [ 50, 40, 30, 20, 10, 5 ]
+# yg_semispace_sizes = [ 50 ]
 
 #for testing
-js_c_range = [3, 5, 10, 20, 30]
+js_c_range = [3, 10, 30]
+js_c_val = [ 10, 30 ]
 # yg_semispace_sizes = [ 5 ]
 
 browser_c_range = [0.05, 0.1, 0.2, 0.3, 0.5, 0.7, 0.9]
 acdc_c_range = [0.1 * i for i in range(1, 11)] + [1 * i for i in range(1, 11)]
 
-acdc_c_range = [0.1 * i for i in range(1, 3)] + [1 * i for i in range(1, 3)]
+acdc_c_range = [0.1 * i for i in range(1, 4)] + [1 * i for i in range(1, 4)]
 if mode == "macro":
     exit()
 
@@ -135,7 +138,7 @@ cfg_acdc = {
     "TYPE": "acdc",
     "MEMORY_LIMIT": 10000,
     "BENCH": ["acdc"],
-    "BALANCER_CFG": BALANCER_CFG(acdc_c_range)
+    "BALANCER_CFG": BALANCER_CFG(js_c_val)
 }
 
 eval_acdc = {

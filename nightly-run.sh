@@ -61,11 +61,14 @@ make
 
 yg_semispace_sizes=( 1 2 3 4 5 6 7 8 9 10 )
 yg_semispace_sizes=( 4 )
-echo "** running acdc **"
-for i in "${yg_semispace_sizes[@]}"
-do 
-    echo "ACDC: $i"
-    python3 python/eval.py "acdc" "acdc" $i
+for i in $( eval echo {1..$repeats} ) 
+do
+    echo "** running acdc **"
+    for i in "${yg_semispace_sizes[@]}"
+    do 
+        # echo "ACDC: $i"
+        python3 python/eval.py "acdc" "acdc" $i
+    done
 done
 
 
