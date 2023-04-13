@@ -26,11 +26,12 @@ BASELINE = {
 js_c_range = [3, 5, 10, 20, 30] * 2
 yg_semispace_sizes = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
 yg_semispace_sizes = [ 50, 40, 30, 20, 10, 5 ]
+yg_semispace_sizes = [ 60, 50]
 # yg_semispace_sizes = [ 50 ]
 
 #for testing
 js_c_range = [3, 10, 30]
-js_c_val = [ 10, 30 ]
+js_c_val = js_c_range[0:2]
 # yg_semispace_sizes = [ 5 ]
 
 browser_c_range = [0.05, 0.1, 0.2, 0.3, 0.5, 0.7, 0.9]
@@ -58,6 +59,9 @@ def BALANCER_CFG(c_range, baseline_time=2):
     yg_balancer_cfg = get_cfg("YG_BALANCER", c_range)
     yg_balancer_cfg["YG_SEMISPACE_SIZE"] = NONDET(*[x for x in yg_semispace_sizes])
     # yg_balancer_cfg["YG_SEMISPACE_SIZE"] = yg_semispace_size
+    # yg_balancer_only = BASELINE.copy()
+    # yg_balancer_only["BALANCE_STRATEGY"] = "YG_BALANCER_ONLY"
+    # yg_balancer_only["YG_SEMISPACE_SIZE"] = NONDET(*[x for x in yg_semispace_sizes])
 
     # return QUOTE(NONDET(*[yg_balancer_cfg]))
     return QUOTE(NONDET(*[get_cfg("classic", c_range)] + baseline_time * [BASELINE] + [yg_balancer_cfg]))

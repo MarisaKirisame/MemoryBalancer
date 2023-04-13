@@ -95,7 +95,7 @@ class Experiment:
         return 2 * calculate_average_yg(self.all_dirname(), "before_yg_memory")
     
     def average_benchmark_memory(self):
-        return self.avg_old_gen_memory() + self.avg_yg_memory()
+        return self.avg_old_gen_memory() + self.get_yg_avg_memory_periodic()
 
     def yg_gc_total_time(self):
         return calculate_yg_gc_time(self.all_dirname())
@@ -136,6 +136,9 @@ class Experiment:
                     acc = log[property_name]
             ret += acc / len(logs)
         return ret
+    
+    def get_yg_avg_memory_periodic(self):
+        return self.get_avg("yg_size_of_object", True, "yg_periodic.log")
     
     def get_total_old_gc_bytes(self):
         return  self.get_total("allocation_bytes", True, "gc.log")

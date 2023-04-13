@@ -132,10 +132,10 @@ def plot(m, benches, name, *, show_baseline=True, normalize_baseline=True, recip
             plt.scatter(x_yg, y_yg, label=bench, linewidth=0.1, s=20, color="red")
             if len(baseline_x) != 0:
                 plt.scatter(baseline_x, baseline_y, label=bench, linewidth=0.1, color="black", s=35)
-        xmins.append(min(*x, *baseline_x))
-        xmaxs.append(max(*x, *baseline_x))
-        ymins.append(min(*y, *baseline_y))
-        ymaxs.append(max(*y, *baseline_y))
+        # xmins.append(min(*x, *baseline_x))
+        # xmaxs.append(max(*x, *baseline_x))
+        # ymins.append(min(*y, *baseline_y))
+        # ymaxs.append(max(*y, *baseline_y))
     ret["points"] = points
     ret["transformed_points"] = transformed_points
     x = list([p.memory for p in transformed_points if not p.is_baseline])
@@ -161,13 +161,13 @@ def plot(m, benches, name, *, show_baseline=True, normalize_baseline=True, recip
                 plt.fill_between(1 / ci_x, (1 / np.maximum((poly1d_fn(ci_x) - 2*se), 0)), (1 / np.maximum((poly1d_fn(ci_x) + 2*se), 0)), color='b', alpha=.1)
     if legend:
         plt.legend(bbox_to_anchor=(1.04, 0.5), loc="center left")
-    if len(xmins) != 0:
-        xmin = min(xmins)
-        xmax = max(xmaxs)
-        ymin = min(ymins)
-        ymax = max(ymaxs)
-        xmargin = (xmax - xmin) * 0.05
-        ymargin = (ymax - ymin) * 0.05
+    # if len(xmins) != 0:
+    #     xmin = min(xmins)
+    #     xmax = max(xmaxs)
+    #     ymin = min(ymins)
+    #     ymax = max(ymaxs)
+    #     xmargin = (xmax - xmin) * 0.05
+    #     ymargin = (ymax - ymin) * 0.05
         # if not invert_graph:
         #     plt.xlim([xmin - xmargin, xmax + xmargin])
         #     plt.ylim([ymin - ymargin, ymax + ymargin])

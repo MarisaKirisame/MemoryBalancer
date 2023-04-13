@@ -64,16 +64,16 @@ void run_acdc(v8::Platform* platform, const Input& input, Signal* s) {
 void acdc(v8::Platform* platform, const std::vector<char*>& args) {
   std::vector<std::future<void>> futures;
   Signal s;
-  futures.push_back(std::async(std::launch::async,
-                               run_acdc,
-                               platform,
-                               Input {/*size=*/"8", /*liveness=*/"16", /*duration=*/"400"},
-                               &s));
-  futures.push_back(std::async(std::launch::async,
-                               run_acdc,
-                               platform,
-                               Input {/*size=*/"64", /*liveness=*/"128", /*duration=*/"600"},
-                               &s));
+  // futures.push_back(std::async(std::launch::async,
+  //                              run_acdc,
+  //                              platform,
+  //                              Input {/*size=*/"8", /*liveness=*/"16", /*duration=*/"400"},
+  //                              &s));
+  // futures.push_back(std::async(std::launch::async,
+  //                              run_acdc,
+  //                              platform,
+  //                              Input {/*size=*/"64", /*liveness=*/"128", /*duration=*/"600"},
+  //                              &s));
   futures.push_back(std::async(std::launch::async,
                                run_acdc,
                                platform,
