@@ -19,7 +19,10 @@ int main(int argc, char* argv[]) {
   V8RAII v8(argv[0]);
   std::string command(argv[1]);
   std::vector<char*> command_args{argv[0]};
+  std::cout<<argc<<std::endl;
+
   for (size_t i = 2; i < argc; ++i) {
+    std::cout<<argv[i]<<std::endl;
     command_args.push_back(argv[i]);
   }
   if (command == "v8_experiment") {

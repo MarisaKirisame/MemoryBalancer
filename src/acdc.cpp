@@ -64,26 +64,33 @@ void run_acdc(v8::Platform* platform, const Input& input, Signal* s) {
 void acdc(v8::Platform* platform, const std::vector<char*>& args) {
   std::vector<std::future<void>> futures;
   Signal s;
-  // futures.push_back(std::async(std::launch::async,
-  //                              run_acdc,
-  //                              platform,
-  //                              Input {/*size=*/"8", /*liveness=*/"16", /*duration=*/"400"},
-  //                              &s));
-  // futures.push_back(std::async(std::launch::async,
-  //                              run_acdc,
-  //                              platform,
-  //                              Input {/*size=*/"64", /*liveness=*/"128", /*duration=*/"600"},
-  //                              &s));
-  futures.push_back(std::async(std::launch::async,
+
+  char* benchmark = args[1];
+  std::cout<<"ACDC_benchmark "<<benchmark<<std::endl;
+  if(strcmp(benchmark, "acdc_all") == 0) {
+    futures.push_back(std::async(std::launch::async,
                                run_acdc,
                                platform,
-                               Input {/*size=*/"8", /*liveness=*/"1", /*duration=*/"800"},
+                               Input {/*size=*/"8", /*liveness=*/"4", /*duration=*/"800"},
                                &s));
-  futures.push_back(std::async(std::launch::async,
+    futures.push_back(std::async(std::launch::async,
+                                run_acdc,
+                                platform,
+                                Input {/*size=*/"64", /*liveness=*/"8", /*duration=*/"4000"},
+                                &s));
+  } else if(strcmp(benchmark, "acdc_1") == 0) {
+    futures.push_back(std::async(std::launch::async,
                                run_acdc,
                                platform,
-                               Input {/*size=*/"64", /*liveness=*/"8", /*duration=*/"4000"},
+                               Input {/*size=*/"8", /*liveness=*/"4", /*duration=*/"800"},
                                &s));
+  } else if(strcmp(benchmark, "acdc_2") == 0) {
+    futures.push_back(std::async(std::launch::async,
+                                run_acdc,
+                                platform,
+                                Input {/*size=*/"64", /*liveness=*/"8", /*duration=*/"4000"},
+                                &s));
+  }
   s.signal();
   for (auto& f: futures) {
     f.get();

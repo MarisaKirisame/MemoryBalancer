@@ -86,8 +86,8 @@ def run_jetstream(v8_env_vars, benchmark):
         with open(os.path.join(result_directory, "score"), "w") as f:
             json.dump(j, f)
 
-def run_acdc(v8_env_vars):
-    command = f"""build/MemoryBalancer acdc""" # a very big heap size to essentially have no limit
+def run_acdc(v8_env_vars, bench):
+    command = f"""build/MemoryBalancer acdc {bench}""" # a very big heap size to essentially have no limit
     main_process_result = subprocess.run(f"{env_vars_str(v8_env_vars)} {command}", shell=True, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     with open(os.path.join(result_directory, "v8_out"), "w") as f:
         f.write(main_process_result.stdout)
@@ -281,6 +281,6 @@ with open(result_directory+"balancer_out", "w") as balancer_out:
     elif TYPE == "browser":
         run_browser(v8_env_vars)
     elif TYPE == "acdc":
-        run_acdc(v8_env_vars)
+        run_acdc(v8_env_vars, BENCH)
     else:
         raise Exception(f"unknown benchmark type: {TYPE}")

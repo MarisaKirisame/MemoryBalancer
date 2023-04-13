@@ -130,6 +130,8 @@ class Experiment:
         for key, logs in all_log_yg.items():
             acc = 0
             for log in logs:
+                if log[property_name] > 10000000000:
+                    continue
                 if shouldAdd:
                     acc += log[property_name]
                 else:
