@@ -389,6 +389,7 @@ def print_stats(output_dir):
                     th(each_stat['yg_total_after_memory'])
                     th(each_stat['p_g'])
 
+
 with page(path=path.joinpath("index.html"), title='Main') as doc:
     d = list(Path(input_dir).iterdir()) 
     for d_elem in d:

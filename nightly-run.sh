@@ -61,7 +61,8 @@ make
 
 yg_semispace_sizes=( 1 2 3 4 5 6 7 8 9 10 )
 yg_semispace_sizes=( 4 )
-acdc_benchmark=( "acdc_1" "acdc_2" "acdc_all" )
+# acdc_benchmark=( "acdc_1" "acdc_2" "acdc_3" "acdc_4" "acdc_all" )
+acdc_benchmark=( "acdc_1" )
 for i in $( eval echo {1..$repeats} ) 
 do
     echo "** running acdc **"

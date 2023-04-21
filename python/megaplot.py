@@ -15,6 +15,7 @@ def anal_log(path):
 
     for name in glob.glob(f'{path}/**/score', recursive=True):
         dirname = os.path.dirname(name)
+        print(dirname)
         r = Run(dirname)
         if r.ok():
             data.append(r)
@@ -142,23 +143,24 @@ def plot(m, benches, name, *, show_baseline=True, normalize_baseline=True, recip
     y = list([p.time for p in transformed_points if not p.is_baseline])
     if len(x) > 0:
         coef = np.polyfit(x, y, 1)
-        poly1d_fn = np.poly1d(coef)
-        sd = sum((poly1d_fn(x) - y) ** 2) ** 0.5 / (len(y) - 1) ** 0.5
-        se = sd / len(y) ** 0.5
-        ret["coef"] = coef
-        ret["sd"] = sd
-        ret["se"] = se
-        if reciprocal_regression:
-            ci_x = np.linspace(min(transformed_points, key=lambda p: p.memory).memory,
-                               max(transformed_points, key=lambda p: p.memory).memory,
-                               100)
-            ci_y = poly1d_fn(ci_x)
-            if invert_graph:
-                plt.plot(ci_x, ci_y, color='b')
-                plt.fill_between(ci_x, (poly1d_fn(ci_x) - 2*se), (poly1d_fn(ci_x) + 2*se), color='b', alpha=.1)
-            else:
-                plt.plot(1 / ci_x, 1 / np.maximum(ci_y, 0), color='b')
-                plt.fill_between(1 / ci_x, (1 / np.maximum((poly1d_fn(ci_x) - 2*se), 0)), (1 / np.maximum((poly1d_fn(ci_x) + 2*se), 0)), color='b', alpha=.1)
+        if coef[1] > 0:
+            poly1d_fn = np.poly1d(coef)
+            sd = sum((poly1d_fn(x) - y) ** 2) ** 0.5 / (len(y) - 1) ** 0.5
+            se = sd / len(y) ** 0.5
+            ret["coef"] = coef
+            ret["sd"] = sd
+            ret["se"] = se
+            if reciprocal_regression:
+                ci_x = np.linspace(min(transformed_points, key=lambda p: p.memory).memory,
+                                max(transformed_points, key=lambda p: p.memory).memory,
+                                100)
+                ci_y = poly1d_fn(ci_x)
+                if invert_graph:
+                    plt.plot(ci_x, ci_y, color='b')
+                    plt.fill_between(ci_x, (poly1d_fn(ci_x) - 2*se), (poly1d_fn(ci_x) + 2*se), color='b', alpha=.1)
+                else:
+                    plt.plot(1 / ci_x, 1 / np.maximum(ci_y, 0), color='b')
+                    plt.fill_between(1 / ci_x, (1 / np.maximum((poly1d_fn(ci_x) - 2*se), 0)), (1 / np.maximum((poly1d_fn(ci_x) + 2*se), 0)), color='b', alpha=.1)
     if legend:
         plt.legend(bbox_to_anchor=(1.04, 0.5), loc="center left")
     # if len(xmins) != 0:

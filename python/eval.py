@@ -4,6 +4,7 @@ import time
 import random
 import sys
 import json
+import glob
 import shutil
 import os
 from git_check import get_commit
@@ -27,17 +28,17 @@ js_c_range = [3, 5, 10, 20, 30]
 yg_semispace_sizes = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
 yg_semispace_sizes = [ 60, 55, 53, 50, 47, 45, 40, 30, 25, 20, 10, 5 ]
 yg_semispace_sizes = [ 60, 55, 50, 45, 40, 20, 10 ]
-# yg_semispace_sizes = [ 50 ]
+yg_semispace_sizes = [ 50 ]
 
 #for testing
-js_c_range = [3, 10, 30]
+# js_c_range = [3, 10, 30]
 js_c_val = js_c_range
 # yg_semispace_sizes = [ 5 ]
 
 browser_c_range = [0.05, 0.1, 0.2, 0.3, 0.5, 0.7, 0.9]
 acdc_c_range = [0.1 * i for i in range(1, 11)] + [1 * i for i in range(1, 11)]
 
-acdc_c_range = [0.1 * i for i in range(1, 4)] + [1 * i for i in range(1, 4)]
+acdc_c_range = [0.1 * i for i in range(1, 2)] + [1 * i for i in range(1, 2)]
 if mode == "macro":
     exit()
 
@@ -56,7 +57,7 @@ def get_cfg(balance_strategy, c_range):
 
 def BALANCER_CFG(c_range, baseline_time=2):
     
-    yg_balancer_cfg = get_cfg("YG_BALANCER", c_range)
+    yg_balancer_cfg = get_cfg("YG_BALANCER", js_c_val)
     yg_balancer_cfg["YG_SEMISPACE_SIZE"] = NONDET(*[x for x in yg_semispace_sizes])
     # yg_balancer_cfg["YG_SEMISPACE_SIZE"] = yg_semispace_size
     # yg_balancer_only = BASELINE.copy()
@@ -64,7 +65,7 @@ def BALANCER_CFG(c_range, baseline_time=2):
     # yg_balancer_only["YG_SEMISPACE_SIZE"] = NONDET(*[x for x in yg_semispace_sizes])
 
     # return QUOTE(NONDET(*[yg_balancer_cfg]))
-    return QUOTE(NONDET(*[get_cfg("classic", c_range)] + baseline_time * [BASELINE] + [yg_balancer_cfg]))
+    return QUOTE(NONDET(*[get_cfg("classic", js_c_range)] + baseline_time * [BASELINE] + [yg_balancer_cfg]))
 
 cfg_browseri = {
     "LIMIT_MEMORY": True,
@@ -201,3 +202,14 @@ def run(config, in_path):
                     shutil.rmtree(path)
 
 run(NONDET(*evaluation), Path("log"))
+
+
+
+# def cleanup():
+#     all_paths = glob.glob(f'log/**/score', recursive=True)
+#     json = {"OK": True}
+#     for path in all_paths:
+#         with open(path, 'w') as f:
+#             f.dump(json)
+                          
+# cleanup()
