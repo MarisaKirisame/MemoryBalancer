@@ -22,6 +22,7 @@ import util
 import parse_gc_log
 from EVAL import *
 from anal_common import Run, Experiment
+import single_run_analysis as sra
 
 from matplotlib.ticker import FormatStrFormatter
 from git_check import get_commit
@@ -275,9 +276,10 @@ def calculate_extreme_improvement(directory, m):
     tex += tex_def("JSMaxSaving", f"{tex_fmt(max_saving * 100)}\%")
 
 def gen_jetstream(directory):
+    print("Started gen_jetstream")
     m = megaplot.anal_log(directory)
     m_exp = {benches: {cfg: [Experiment([x]) for x in aggregated_runs] for cfg, aggregated_runs in per_benches_m.items()} for benches, per_benches_m in m.items()}
-    calculate_extreme_improvement(directory, m_exp)
+    # calculate_extreme_improvement(directory, m_exp)
     found_baseline = False
     found_compare = False
     tex_table_baseline_dir = None
@@ -287,6 +289,7 @@ def gen_jetstream(directory):
         dirname = os.path.dirname(name)
         with open(dirname + "/cfg") as f:
             cfg = eval(f.read())
+        # sra.process_dir(dirname, cfg, path)
         if cfg["CFG"]["BALANCER_CFG"]["BALANCE_STRATEGY"] == "ignore":
             if not found_baseline:
             	found_baseline = True
@@ -307,8 +310,8 @@ def gen_jetstream(directory):
                 plt.ylim([0, 450])
                 # plt.savefig(f"../membalancer-paper/img/js_membalancer_anal.png", bbox_inches='tight')
                 plt.clf()
-    gen_tex_table.main(tex_table_membalancer_dir, tex_table_baseline_dir)
-    parse_gc_log.main([tex_table_membalancer_dir], [tex_table_baseline_dir], "JS")
+    # gen_tex_table.main(tex_table_membalancer_dir, tex_table_baseline_dir)
+    # parse_gc_log.main([tex_table_membalancer_dir], [tex_table_baseline_dir], "JS")
     return gen_eval("JETSTREAM", m_exp)
 
 def gen_acdc(directory):

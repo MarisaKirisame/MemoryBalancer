@@ -29,10 +29,11 @@ yg_semispace_sizes = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
 yg_semispace_sizes = [ 60, 55, 53, 50, 47, 45, 40, 30, 25, 20, 10, 5 ]
 yg_semispace_sizes = [ 60, 55, 50, 45, 40, 20, 10 ]
 yg_semispace_sizes = [ 50 ]
+yg_semispace_sizes = [x for x in range(1, 60, 2)]
 
 #for testing
 # js_c_range = [3, 10, 30]
-js_c_val = js_c_range
+js_c_val = js_c_range[0:1]
 # yg_semispace_sizes = [ 5 ]
 
 browser_c_range = [0.05, 0.1, 0.2, 0.3, 0.5, 0.7, 0.9]
@@ -55,7 +56,7 @@ def get_cfg(balance_strategy, c_range):
     }
     return cfg
 
-def BALANCER_CFG(c_range, baseline_time=2):
+def BALANCER_CFG(c_range, baseline_time=1):
     
     yg_balancer_cfg = get_cfg("YG_BALANCER", js_c_val)
     yg_balancer_cfg["YG_SEMISPACE_SIZE"] = NONDET(*[x for x in yg_semispace_sizes])

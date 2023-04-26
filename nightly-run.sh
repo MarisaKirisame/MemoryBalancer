@@ -59,20 +59,34 @@ make
 # pip3 install pyppeteer
 # pip3 install dominate
 
-yg_semispace_sizes=( 1 2 3 4 5 6 7 8 9 10 )
+# yg_semispace_sizes=( 1 2 3 4 5 6 7 8 9 10 )
 yg_semispace_sizes=( 4 )
-# acdc_benchmark=( "acdc_1" "acdc_2" "acdc_3" "acdc_4" "acdc_all" )
-acdc_benchmark=( "acdc_1" )
+# # acdc_benchmark=( "acdc_1" "acdc_2" "acdc_3" "acdc_4" "acdc_all" )
+# acdc_benchmark=( "acdc_1" )
+# for i in $( eval echo {1..$repeats} ) 
+# do
+#     echo "** running acdc **"
+#     for acdc_bm in "${acdc_benchmark[@]}"
+#     do 
+#         # echo "ACDC: $i"
+#         python3 python/eval.py "acdc" $acdc_bm 4
+#     done
+# done
+
+
+benchmarks=( "all" "pdfjs.js"  "splay.js"  "typescript.js"  "box2d.js"  "earley-boyer.js" )
+echo "** running js **"
 for i in $( eval echo {1..$repeats} ) 
-do
-    echo "** running acdc **"
-    for acdc_bm in "${acdc_benchmark[@]}"
+do 
+    for bm in "${benchmarks[@]}"
     do 
-        # echo "ACDC: $i"
-        python3 python/eval.py "acdc" $acdc_bm 4
+        for yg_size in "${yg_semispace_sizes[@]}"
+        do 
+            python3 python/eval.py "jetstream" $bm $yg_size
+            echo "done"
+        done
     done
 done
-
 
 # benchmarks=( "all" "pdfjs.js"  "splay.js"  "typescript.js"  "box2d.js"  "earley-boyer.js" )
 # echo "** running js **"
