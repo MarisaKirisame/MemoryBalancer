@@ -1,0 +1,2988 @@
+5
+--benchmark=pdfjs.js
+--heap-size=10000000000
+--log-path=log/2023-04-24-20-59-00/2023-04-24-20-59-00/2023-04-24-20-59-00/2023-04-24-21-13-09/v8_log
+Running Benchmark: pdfjs.js
+UPDATING YG SEMISPACE SIZE to 26214400
+gi_time or si_time is 0
+***Calling commented Grow()***
+Changing yg limit from 524288 to: 78643200
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+827497_140511398646536 start incremtal marking!
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+gc, name: pdfjs.js size: 19509288 duration: 4.407 speed: 4.42689e+06 garbage collected: 11387540 speed: 2.58397e+06 heap limit: 19922244 size before gc: 19509288 guid: 827497_140511398646536
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+827497_140511398646536 start incremtal marking!
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+gc, name: pdfjs.js size: 19110492 duration: 6.715 speed: 2.84594e+06 garbage collected: 9570636 speed: 1.42526e+06 heap limit: 19922244 size before gc: 19110492 guid: 827497_140511398646536
+allocation_rate: 0.0404645 gc_rate: 1.1528, g_bytes: 935220, g_time: 2.31121e+07, s_bytes: 9.6345e+06, s_time: 8.3575e+06 yg_diff: 1074266112
+Current Limit: 20.1049 New_limit: 20.1049 L: 9.53986 Additional Memory: 10
+
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+827497_140511398646536 start incremtal marking!
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+gc, name: pdfjs.js size: 20484368 duration: 5.748 speed: 3.56374e+06 garbage collected: 8535044 speed: 1.48487e+06 heap limit: 20104897 size before gc: 20484368 guid: 827497_140511398646536
+allocation_rate: 0.0455307 gc_rate: 1.41613, g_bytes: 1.43568e+06, g_time: 3.15322e+07, s_bytes: 1.49441e+07, s_time: 1.05528e+07 yg_diff: 524288000
+Current Limit: 23.2658 New_limit: 23.2658 L: 11.9493 Additional Memory: 11
+
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+allocation_rate: 0.0434682 gc_rate: 1.41613, g_bytes: 1.55333e+06, g_time: 3.57349e+07, s_bytes: 1.49441e+07, s_time: 1.05528e+07 yg_diff: 262144000
+Current Limit: 23.0065 New_limit: 23.0065 L: 11.9493 Additional Memory: 11
+
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+827497_140511398646536 start incremtal marking!
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+gc, name: pdfjs.js size: 22932792 duration: 6.843 speed: 3.35128e+06 garbage collected: 7829800 speed: 1.14421e+06 heap limit: 23006524 size before gc: 22932792 guid: 827497_140511398646536
+allocation_rate: 0.0461507 gc_rate: 1.03027, g_bytes: 2.02484e+06, g_time: 4.38745e+07, s_bytes: 1.87486e+07, s_time: 1.81979e+07 yg_diff: 262144000
+Current Limit: 30.1201 New_limit: 30.1201 L: 15.103 Additional Memory: 15
+
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+827497_140511398646536 start incremtal marking!
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+gc, name: pdfjs.js size: 29197092 duration: 9.857 speed: 2.96207e+06 garbage collected: 11830124 speed: 1.20017e+06 heap limit: 30120074 size before gc: 29197092 guid: 827497_140511398646536
+allocation_rate: 0.0494158 gc_rate: 1.09406, g_bytes: 2.6283e+06, g_time: 5.31875e+07, s_bytes: 2.40993e+07, s_time: 2.20274e+07 yg_diff: 629145600
+Current Limit: 33.5371 New_limit: 33.5371 L: 17.367 Additional Memory: 16
+
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+allocation_rate: 0.0495225 gc_rate: 1.09406, g_bytes: 2.92398e+06, g_time: 5.90434e+07, s_bytes: 2.40993e+07, s_time: 2.20274e+07 yg_diff: 419430400
+Current Limit: 33.5546 New_limit: 33.5546 L: 17.367 Additional Memory: 16
+
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+827497_140511398646536 start incremtal marking!
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+gc, name: pdfjs.js size: 33252640 duration: 6.859 speed: 4.84803e+06 garbage collected: 12470520 speed: 1.81813e+06 heap limit: 33554573 size before gc: 33252640 guid: 827497_140511398646536
+allocation_rate: 0.0506797 gc_rate: 1.39099, g_bytes: 3.57206e+06, g_time: 7.04831e+07, s_bytes: 2.84363e+07, s_time: 2.04432e+07 yg_diff: 314572800
+Current Limit: 36.669 New_limit: 36.669 L: 20.7821 Additional Memory: 15
+
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+827497_140511398646536 start incremtal marking!
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+gc, name: pdfjs.js size: 35442900 duration: 15.495 speed: 2.28738e+06 garbage collected: 12473024 speed: 804971 heap limit: 36669021 size before gc: 35442900 guid: 827497_140511398646536
+allocation_rate: 0.051545 gc_rate: 1.1188, g_bytes: 4.1265e+06, g_time: 8.00562e+07, s_bytes: 3.24107e+07, s_time: 2.89691e+07 yg_diff: 734003200
+Current Limit: 41.7516 New_limit: 41.7516 L: 22.9699 Additional Memory: 18
+
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+allocation_rate: 0.0521246 gc_rate: 1.1188, g_bytes: 4.22042e+06, g_time: 8.09678e+07, s_bytes: 3.24107e+07, s_time: 2.89691e+07 yg_diff: 262144000
+Current Limit: 41.8569 New_limit: 41.8569 L: 22.9699 Additional Memory: 18
+
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+827497_140511398646536 start incremtal marking!
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+gc, name: pdfjs.js size: 40732736 duration: 10.522 speed: 3.8712e+06 garbage collected: 13582668 speed: 1.29088e+06 heap limit: 41856894 size before gc: 40732736 guid: 827497_140511398646536
+allocation_rate: 0.0531324 gc_rate: 1.15802, g_bytes: 4.89754e+06, g_time: 9.21762e+07, s_bytes: 3.6762e+07, s_time: 3.17456e+07 yg_diff: 576716800
+Current Limit: 47.5274 New_limit: 47.5274 L: 27.1501 Additional Memory: 20
+
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+allocation_rate: 0.0529232 gc_rate: 1.15802, g_bytes: 5.38239e+06, g_time: 1.01702e+08, s_bytes: 3.6762e+07, s_time: 3.17456e+07 yg_diff: 734003200
+Current Limit: 47.4872 New_limit: 47.4872 L: 27.1501 Additional Memory: 20
+
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+827497_140511398646536 start incremtal marking!
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+gc, name: pdfjs.js size: 45025164 duration: 13.817 speed: 3.25868e+06 garbage collected: 13902228 speed: 1.00617e+06 heap limit: 47487216 size before gc: 45025164 guid: 827497_140511398646536
+allocation_rate: 0.0532433 gc_rate: 1.01841, g_bytes: 6.00703e+06, g_time: 1.12822e+08, s_bytes: 4.1532e+07, s_time: 4.07813e+07 yg_diff: 157286400
+Current Limit: 54.412 New_limit: 54.412 L: 31.1229 Additional Memory: 23
+
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+827497_140511398646536 start incremtal marking!
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+gc, name: pdfjs.js size: 52549844 duration: 12.795 speed: 4.10706e+06 garbage collected: 16721632 speed: 1.30689e+06 heap limit: 54411967 size before gc: 52549844 guid: 827497_140511398646536
+allocation_rate: 0.053634 gc_rate: 0.897314, g_bytes: 6.77802e+06, g_time: 1.26375e+08, s_bytes: 4.78162e+07, s_time: 5.32881e+07 yg_diff: 1048576000
+Current Limit: 62.546 New_limit: 62.546 L: 35.8282 Additional Memory: 26
+
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+allocation_rate: 0.0534137 gc_rate: 0.897314, g_bytes: 6.5412e+06, g_time: 1.22463e+08, s_bytes: 4.78162e+07, s_time: 5.32881e+07 yg_diff: 104857600
+Current Limit: 62.491 New_limit: 62.491 L: 35.8282 Additional Memory: 26
+
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+827497_140511398646536 start incremtal marking!
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+gc, name: pdfjs.js size: 60123576 duration: 15.159 speed: 3.9662e+06 garbage collected: 18489624 speed: 1.21971e+06 heap limit: 62491035 size before gc: 60123576 guid: 827497_140511398646536
+allocation_rate: 0.0535736 gc_rate: 0.921728, g_bytes: 7.42891e+06, g_time: 1.38667e+08, s_bytes: 5.50489e+07, s_time: 5.97236e+07 yg_diff: 1101004800
+Current Limit: 70.0352 New_limit: 70.0352 L: 41.634 Additional Memory: 28
+
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+allocation_rate: 0.0538685 gc_rate: 0.921728, g_bytes: 7.32918e+06, g_time: 1.36057e+08, s_bytes: 5.50489e+07, s_time: 5.97236e+07 yg_diff: 209715200
+Current Limit: 70.1132 New_limit: 70.1132 L: 41.634 Additional Memory: 28
+
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+827497_140511398646536 start incremtal marking!
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+gc, name: pdfjs.js size: 69371088 duration: 3.197 speed: 2.16988e+07 garbage collected: 21316028 speed: 6.66751e+06 heap limit: 70113244 size before gc: 69371088 guid: 827497_140511398646536
+allocation_rate: 0.0546362 gc_rate: 0.867499, g_bytes: 8.34958e+06, g_time: 1.52821e+08, s_bytes: 6.24255e+07, s_time: 7.19603e+07 yg_diff: 996147200
+Current Limit: 79.8176 New_limit: 79.8176 L: 48.0551 Additional Memory: 31
+
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+allocation_rate: 0.0544972 gc_rate: 0.867499, g_bytes: 8.21697e+06, g_time: 1.50778e+08, s_bytes: 6.24255e+07, s_time: 7.19603e+07 yg_diff: 262144000
+Current Limit: 79.7771 New_limit: 79.7771 L: 48.0551 Additional Memory: 31
+
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+827497_140511398646536 start incremtal marking!
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+gc, name: pdfjs.js size: 79099004 duration: 7.618 speed: 1.03832e+07 garbage collected: 24151196 speed: 3.17028e+06 heap limit: 79777124 size before gc: 79099004 guid: 827497_140511398646536
+allocation_rate: 0.0549454 gc_rate: 0.818339, g_bytes: 9.35832e+06, g_time: 1.7032e+08, s_bytes: 7.10229e+07, s_time: 8.67891e+07 yg_diff: 1153433600
+Current Limit: 90.016 New_limit: 90.016 L: 54.9478 Additional Memory: 35
+
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+allocation_rate: 0.0548328 gc_rate: 0.818339, g_bytes: 9.04446e+06, g_time: 1.64946e+08, s_bytes: 7.10229e+07, s_time: 8.67891e+07 yg_diff: 157286400
+Current Limit: 89.9801 New_limit: 89.9801 L: 54.9478 Additional Memory: 35
+
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 79397987
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 80409897
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 81434722
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 82587314
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 83678924
+No change in yg_size. Total Capacity: 26214400
+allocation_rate: 0.0558443 gc_rate: 0.818339, g_bytes: 1.01471e+07, g_time: 1.81703e+08, s_bytes: 7.10229e+07, s_time: 8.67891e+07 yg_diff: 1377441644
+Current Limit: 90.3017 New_limit: 90.3017 L: 54.9478 Additional Memory: 35
+
+827497_140511398646536 start incremtal marking!
+Changing yg limit from 26214400 to: 84612044
+No change in yg_size. Total Capacity: 26214400
+gc, name: pdfjs.js size: 86223988 duration: 18.153 speed: 4.74985e+06 garbage collected: 25309912 speed: 1.39426e+06 heap limit: 90301699 size before gc: 86223988 guid: 827497_140511398646536
+allocation_rate: 0.0555819 gc_rate: 0.808231, g_bytes: 1.12035e+07, g_time: 2.01568e+08, s_bytes: 8.03956e+07, s_time: 9.94711e+07 yg_diff: 58397644
+Current Limit: 98.2818 New_limit: 98.2818 L: 60.9141 Additional Memory: 37
+
+Changing yg limit from 26214400 to: 84611904
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 79380775
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 80475279
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 81412201
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 82420380
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 83451626
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 84602670
+No change in yg_size. Total Capacity: 26214400
+allocation_rate: 0.0560565 gc_rate: 0.808231, g_bytes: 1.20399e+07, g_time: 2.14782e+08, s_bytes: 8.03956e+07, s_time: 9.94711e+07 yg_diff: 1284143635
+Current Limit: 98.441 New_limit: 98.441 L: 60.9141 Additional Memory: 37
+
+Changing yg limit from 26214400 to: 85694279
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 86637756
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 87642754
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 88667498
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 89825033
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 90916636
+No change in yg_size. Total Capacity: 26214400
+827497_140511398646536 start incremtal marking!
+Changing yg limit from 26214400 to: 91849759
+No change in yg_size. Total Capacity: 26214400
+gc, name: pdfjs.js size: 96050456 duration: 7.48 speed: 1.2841e+07 garbage collected: 26122600 speed: 3.49233e+06 heap limit: 98441031 size before gc: 96050456 guid: 827497_140511398646536
+allocation_rate: 0.0561456 gc_rate: 0.7973, g_bytes: 1.31947e+07, g_time: 2.35009e+08, s_bytes: 8.88795e+07, s_time: 1.11476e+08 yg_diff: 437732915
+Current Limit: 110.442 New_limit: 110.442 L: 69.9279 Additional Memory: 40
+
+Changing yg limit from 26214400 to: 91849628
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78731456
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 79736454
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 80761205
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 81908041
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 82999647
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 83932727
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 84941471
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 85969701
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 87119801
+No change in yg_size. Total Capacity: 26214400
+allocation_rate: 0.0564239 gc_rate: 0.7973, g_bytes: 1.35539e+07, g_time: 2.40215e+08, s_bytes: 8.88795e+07, s_time: 1.11476e+08 yg_diff: 995236531
+Current Limit: 110.543 New_limit: 110.543 L: 69.9279 Additional Memory: 40
+
+Changing yg limit from 26214400 to: 88221094
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 89160252
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 90165224
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 91196745
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 92343528
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 93438894
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 94372006
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 95381411
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 96406228
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 97562655
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 98654229
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 99587334
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 100596134
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 101623866
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 102773366
+No change in yg_size. Total Capacity: 26214400
+827497_140511398646536 start incremtal marking!
+Changing yg limit from 26214400 to: 103867660
+No change in yg_size. Total Capacity: 26214400
+gc, name: pdfjs.js size: 105151468 duration: 30.729 speed: 3.4219e+06 garbage collected: 28530256 speed: 928447 heap limit: 110542737 size before gc: 105151468 guid: 827497_140511398646536
+allocation_rate: 0.0560744 gc_rate: 0.760272, g_bytes: 1.46374e+07, g_time: 2.61035e+08, s_bytes: 9.92933e+07, s_time: 1.30602e+08 yg_diff: 1115920226
+Current Limit: 120.023 New_limit: 120.023 L: 76.6212 Additional Memory: 43
+
+Changing yg limit from 26214400 to: 103867508
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 78643200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 79340768
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 80487590
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 81579201
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 82511500
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 83517300
+No change in yg_size. Total Capacity: 26214400
+allocation_rate: 0.0560215 gc_rate: 0.760272, g_bytes: 1.43178e+07, g_time: 2.55576e+08, s_bytes: 9.92933e+07, s_time: 1.30602e+08 yg_diff: 458875067
+Current Limit: 120.003 New_limit: 120.003 L: 76.6212 Additional Memory: 43
+
+Changing yg limit from 26214400 to: 84542085
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 85688883
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 86780485
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 87713598
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 88718591
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 89743337
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 90890168
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 91983991
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 92917098
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 93922081
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 94946841
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 96093691
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 97185261
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 98122558
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 99129941
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 100157895
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 101308139
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 102406898
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 103340015
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 104348298
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 105386563
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 106533400
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 107624983
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 108562000
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 109566971
+No change in yg_size. Total Capacity: 26214400
+allocation_rate: 0.0565451 gc_rate: 0.760272, g_bytes: 1.51429e+07, g_time: 2.67802e+08, s_bytes: 9.92933e+07, s_time: 1.30602e+08 yg_diff: 1772253771
+Current Limit: 120.205 New_limit: 120.205 L: 76.6212 Additional Memory: 43
+
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 110594597
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 111747106
+No change in yg_size. Total Capacity: 26214400
+827497_140511398646536 start incremtal marking!
+Changing yg limit from 26214400 to: 112838719
+No change in yg_size. Total Capacity: 26214400
+gc, name: pdfjs.js size: 118896600 duration: 12.303 speed: 9.66403e+06 garbage collected: 30522024 speed: 2.48086e+06 heap limit: 120205188 size before gc: 118896600 guid: 827497_140511398646536
+allocation_rate: 0.0567827 gc_rate: 0.710316, g_bytes: 1.64995e+07, g_time: 2.90573e+08, s_bytes: 1.09355e+08, s_time: 1.53953e+08 yg_diff: 256537222
+Current Limit: 136.902 New_limit: 136.902 L: 88.3746 Additional Memory: 48
+
+Changing yg limit from 26214400 to: 112838572
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 88823642
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 90037686
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 91184639
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 92276385
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 93211938
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 94220395
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 95248651
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 96399004
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 97492960
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 98428867
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 99444975
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 100472799
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 101623235
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 102718262
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 103655095
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 104660171
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 105688783
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 106839364
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 107933753
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 108869134
+No change in yg_size. Total Capacity: 26214400
+allocation_rate: 0.0569842 gc_rate: 0.710316, g_bytes: 1.69168e+07, g_time: 2.96869e+08, s_bytes: 1.09355e+08, s_time: 1.53953e+08 yg_diff: 1541565910
+Current Limit: 136.988 New_limit: 136.988 L: 88.3746 Additional Memory: 48
+
+Changing yg limit from 26214400 to: 109877513
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 110905613
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 112056386
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 113151539
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 114098730
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 115104094
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 116128986
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 117278477
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 118374076
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 119307261
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 120315001
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 121347914
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 122494807
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 123586576
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 124525835
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 125530905
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 126561738
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 127708595
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 128803531
+No change in yg_size. Total Capacity: 26214400
+827497_140511398646536 start incremtal marking!
+Changing yg limit from 26214400 to: 129738339
+No change in yg_size. Total Capacity: 26214400
+gc, name: pdfjs.js size: 131506420 duration: 38.546 speed: 3.41167e+06 garbage collected: 35692868 speed: 925981 heap limit: 136987836 size before gc: 131506420 guid: 827497_140511398646536
+allocation_rate: 0.0565932 gc_rate: 0.740427, g_bytes: 1.82276e+07, g_time: 3.22081e+08, s_bytes: 1.23096e+08, s_time: 1.66249e+08 yg_diff: 1872607916
+Current Limit: 145.221 New_limit: 145.221 L: 95.8136 Additional Memory: 49
+
+Changing yg limit from 26214400 to: 129738192
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 96361074
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 97478895
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 98627343
+No change in yg_size. Total Capacity: 26214400
+allocation_rate: 0.0565504 gc_rate: 0.740427, g_bytes: 1.75206e+07, g_time: 3.09822e+08, s_bytes: 1.23096e+08, s_time: 1.66249e+08 yg_diff: 317347904
+Current Limit: 145.202 New_limit: 145.202 L: 95.8136 Additional Memory: 49
+
+Changing yg limit from 26214400 to: 99718966
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 100652073
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 101657048
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 102681829
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 103828803
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 104920396
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 105852695
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 106858475
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 107883247
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 109030089
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 110121657
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 111054767
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 112059751
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 113084515
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 114231336
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 115322948
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 116256053
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 117261036
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 118285796
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 119432621
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 120524229
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 121457334
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 122462321
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 123487080
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 124633913
+No change in yg_size. Total Capacity: 26214400
+allocation_rate: 0.056928 gc_rate: 0.740427, g_bytes: 1.8179e+07, g_time: 3.19334e+08, s_bytes: 1.23096e+08, s_time: 1.66249e+08 yg_diff: 2147398978
+Current Limit: 145.367 New_limit: 145.367 L: 95.8136 Additional Memory: 49
+
+Changing yg limit from 26214400 to: 125725522
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 126658644
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 127663616
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 128688405
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 129835204
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 130926807
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 131859099
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 132864878
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 133889425
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 134868951
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 136014834
+No change in yg_size. Total Capacity: 26214400
+827497_140511398646536 start incremtal marking!
+Changing yg limit from 26214400 to: 137060562
+No change in yg_size. Total Capacity: 26214400
+gc, name: pdfjs.js size: 145430912 duration: 2.104 speed: 6.91212e+07 garbage collected: 35425472 speed: 1.68372e+07 heap limit: 145367062 size before gc: 145430912 guid: 827497_140511398646536
+allocation_rate: 0.057163 gc_rate: 0.781937, g_bytes: 1.9751e+07, g_time: 3.4552e+08, s_bytes: 1.33849e+08, s_time: 1.71177e+08 yg_diff: 1261483147
+Current Limit: 161.78 New_limit: 161.78 L: 110.005 Additional Memory: 51
+
+Changing yg limit from 26214400 to: 137060404
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 110347044
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 111538042
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 112583947
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 113593634
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 114621030
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 115603453
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 116751546
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 117800285
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 118808123
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 119835209
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 120986184
+No change in yg_size. Total Capacity: 26214400
+allocation_rate: 0.057264 gc_rate: 0.781937, g_bytes: 1.94605e+07, g_time: 3.39839e+08, s_bytes: 1.33849e+08, s_time: 1.71177e+08 yg_diff: 1094956101
+Current Limit: 161.826 New_limit: 161.826 L: 110.005 Additional Memory: 51
+
+Changing yg limit from 26214400 to: 122081008
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 123017054
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 124022034
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 125050754
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 126201042
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 127295964
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 128232978
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 129237981
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 130266722
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 131417150
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 132511483
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 133447986
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 134455785
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 135483535
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 136633576
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 137728194
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 138664411
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 139669398
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 140696801
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 141851122
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 142942727
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 143878790
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 144888502
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 145913320
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 147063393
+No change in yg_size. Total Capacity: 26214400
+allocation_rate: 0.0574687 gc_rate: 0.781937, g_bytes: 1.99906e+07, g_time: 3.47851e+08, s_bytes: 1.33849e+08, s_time: 1.71177e+08 yg_diff: 2707291710
+Current Limit: 161.918 New_limit: 161.918 L: 110.005 Additional Memory: 51
+
+Changing yg limit from 26214400 to: 148157905
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 149093542
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 150100814
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 151129340
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 152281144
+No change in yg_size. Total Capacity: 26214400
+827497_140511398646536 start incremtal marking!
+Changing yg limit from 26214400 to: 153372732
+No change in yg_size. Total Capacity: 26214400
+gc, name: pdfjs.js size: 161681120 duration: 3.596 speed: 4.49614e+07 garbage collected: 40854204 speed: 1.1361e+07 heap limit: 161918450 size before gc: 161681120 guid: 827497_140511398646536
+allocation_rate: 0.0576901 gc_rate: 0.802708, g_bytes: 2.15748e+07, g_time: 3.73978e+08, s_bytes: 1.47607e+08, s_time: 1.83886e+08 yg_diff: 746849077
+Current Limit: 174.628 New_limit: 174.628 L: 120.827 Additional Memory: 53
+
+Changing yg limit from 26214400 to: 153372576
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 121170145
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 122200013
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 123288860
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 124398295
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 125407991
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 126435280
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 127585956
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 128681035
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 129614151
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 130621993
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 131650680
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 132801314
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 133896791
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 134829896
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 135837682
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 136864720
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 138015043
+No change in yg_size. Total Capacity: 26214400
+allocation_rate: 0.0577637 gc_rate: 0.802708, g_bytes: 2.15564e+07, g_time: 3.73182e+08, s_bytes: 1.47607e+08, s_time: 1.83886e+08 yg_diff: 1884813221
+Current Limit: 174.663 New_limit: 174.663 L: 120.827 Additional Memory: 53
+
+Changing yg limit from 26214400 to: 139109030
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 140045583
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 141057953
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 142082720
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 143234628
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 144329637
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 145266065
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 146271052
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 147299101
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 148452327
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 149543915
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 150479408
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 151490055
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 152514853
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 153668650
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 154760251
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 155701112
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 156706102
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 157730881
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 158881651
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 159977010
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 160909306
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 161918712
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 162954228
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 164101062
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 165192647
+No change in yg_size. Total Capacity: 26214400
+allocation_rate: 0.058028 gc_rate: 0.802708, g_bytes: 2.20232e+07, g_time: 3.79526e+08, s_bytes: 1.47607e+08, s_time: 1.83886e+08 yg_diff: 3272103539
+Current Limit: 174.786 New_limit: 174.786 L: 120.827 Additional Memory: 53
+
+827497_140511398646536 start incremtal marking!
+Changing yg limit from 26214400 to: 166125780
+No change in yg_size. Total Capacity: 26214400
+gc, name: pdfjs.js size: 168093460 duration: 35.563 speed: 4.72664e+06 garbage collected: 40241788 speed: 1.13156e+06 heap limit: 174785603 size before gc: 168093460 guid: 827497_140511398646536
+allocation_rate: 0.057568 gc_rate: 0.745263, g_bytes: 2.32853e+07, g_time: 4.04484e+08, s_bytes: 1.60772e+08, s_time: 2.15725e+08 yg_diff: 139911380
+Current Limit: 185.227 New_limit: 185.227 L: 127.852 Additional Memory: 57
+
+Changing yg limit from 26214400 to: 166125632
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 128205264
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 129263537
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 130411921
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 131505715
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 132441000
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 133448281
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 134476472
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 135629444
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 136721086
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 137655953
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 138665820
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 139690330
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 140843144
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 141937217
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 142874122
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 143886664
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 144911467
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 146060594
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 147154406
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 148089630
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 149098079
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 150125128
+No change in yg_size. Total Capacity: 26214400
+allocation_rate: 0.0576844 gc_rate: 0.745263, g_bytes: 2.34462e+07, g_time: 4.06456e+08, s_bytes: 1.60772e+08, s_time: 2.15725e+08 yg_diff: 2626289706
+Current Limit: 185.285 New_limit: 185.285 L: 127.852 Additional Memory: 57
+
+Changing yg limit from 26214400 to: 151277807
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 152369368
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 153305101
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 154312500
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 155340721
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 156530207
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 157623534
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 158556655
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 159561655
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 160586414
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 161742352
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 162833960
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 163767067
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 164774430
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 165808712
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 166955780
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 168053077
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 168986170
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 169991173
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 171023816
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 172170637
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 173267419
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 174199719
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 175217277
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+827497_140511398646536 start incremtal marking!
+Changing yg limit from 26214400 to: 176241793
+No change in yg_size. Total Capacity: 26214400
+allocation_rate: 0.0578286 gc_rate: 0.745263, g_bytes: 2.37754e+07, g_time: 4.11137e+08, s_bytes: 1.60772e+08, s_time: 2.15725e+08 yg_diff: 3439137344
+Current Limit: 185.357 New_limit: 185.357 L: 127.852 Additional Memory: 57
+
+gc, name: pdfjs.js size: 177746324 duration: 36.772 speed: 4.83374e+06 garbage collected: 37816172 speed: 1.0284e+06 heap limit: 185357116 size before gc: 177746324 guid: 827497_140511398646536
+allocation_rate: 0.0573667 gc_rate: 0.704021, g_bytes: 2.50814e+07, g_time: 4.37212e+08, s_bytes: 1.7266e+08, s_time: 2.45248e+08 yg_diff: 0
+Current Limit: 201.58 New_limit: 201.58 L: 139.93 Additional Memory: 61
+
+Changing yg limit from 26214400 to: 176241628
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 140698032
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 143365333
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 144276665
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 145306043
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 146305464
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 147301500
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 148429230
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 149513605
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 150522477
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 151589727
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 152737179
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 153828812
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 154761904
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 155766896
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 156795557
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 157947041
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 159042019
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 159975108
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 160983488
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 162012129
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 163163888
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 164258044
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 165193439
+No change in yg_size. Total Capacity: 26214400
+allocation_rate: 0.0576234 gc_rate: 0.704021, g_bytes: 2.53016e+07, g_time: 4.39085e+08, s_bytes: 1.7266e+08, s_time: 2.45248e+08 yg_diff: 3080869608
+Current Limit: 201.718 New_limit: 201.718 L: 139.93 Additional Memory: 61
+
+Changing yg limit from 26214400 to: 166200943
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 167231220
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 168381081
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 169475827
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 170419777
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 171425626
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 172450140
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 173599787
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 174694932
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 175641627
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 176647245
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 177672030
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 178829018
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 179920625
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 180853737
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 181858718
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 182889362
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 184040085
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 185131667
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 186067093
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 187076053
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 188103747
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 189253801
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 190350137
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 191283254
+No change in yg_size. Total Capacity: 26214400
+allocation_rate: 0.0578518 gc_rate: 0.704021, g_bytes: 2.55783e+07, g_time: 4.42135e+08, s_bytes: 1.7266e+08, s_time: 2.45248e+08 yg_diff: 3814137532
+Current Limit: 201.84 New_limit: 201.84 L: 139.93 Additional Memory: 61
+
+827497_140511398646536 start incremtal marking!
+Changing yg limit from 26214400 to: 192293408
+No change in yg_size. Total Capacity: 26214400
+gc, name: pdfjs.js size: 201796408 duration: 2.717 speed: 7.42718e+07 garbage collected: 44994832 speed: 1.65605e+07 heap limit: 201840127 size before gc: 201796408 guid: 827497_140511398646536
+allocation_rate: 0.058072 gc_rate: 0.677357, g_bytes: 2.73927e+07, g_time: 4.71702e+08, s_bytes: 1.86939e+08, s_time: 2.75983e+08 yg_diff: 166079008
+Current Limit: 223.742 New_limit: 223.742 L: 156.802 Additional Memory: 66
+
+Changing yg limit from 26214400 to: 192293260
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 157004731
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 158096518
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 159105041
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 160027969
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 161179466
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 162273340
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 163210008
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 164216563
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 165241926
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 166395946
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 167487784
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 168424161
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 169464591
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 170489929
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 171636747
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 172728311
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 173664652
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 174669644
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 175697085
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 176852755
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 177944334
+No change in yg_size. Total Capacity: 26214400
+allocation_rate: 0.0581314 gc_rate: 0.677357, g_bytes: 2.73246e+07, g_time: 4.70049e+08, s_bytes: 1.86939e+08, s_time: 2.75983e+08 yg_diff: 3131387961
+Current Limit: 223.776 New_limit: 223.776 L: 156.802 Additional Memory: 66
+
+Changing yg limit from 26214400 to: 178880708
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 179889055
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 180913819
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 182065716
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 183159696
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 184096008
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 185104353
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 186129145
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 187279867
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 188374213
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 189309420
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 190316763
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 191343878
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 192496070
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 193590092
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 194527109
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 195532109
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 196560106
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 197711967
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 198806559
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 199742594
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 200747566
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 201777055
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 202927231
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 204026273
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 204959363
+No change in yg_size. Total Capacity: 26214400
+allocation_rate: 0.0583003 gc_rate: 0.677357, g_bytes: 2.74916e+07, g_time: 4.71551e+08, s_bytes: 1.86939e+08, s_time: 2.75983e+08 yg_diff: 4308692335
+Current Limit: 223.874 New_limit: 223.874 L: 156.802 Additional Memory: 67
+
+Changing yg limit from 26214400 to: 206103999
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 207133142
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 208285807
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 209377405
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 210310514
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 211319279
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 212347658
+No change in yg_size. Total Capacity: 26214400
+827497_140511398646536 start incremtal marking!
+Changing yg limit from 26214400 to: 213524715
+No change in yg_size. Total Capacity: 26214400
+gc, name: pdfjs.js size: 214818756 duration: 50.916 speed: 4.21908e+06 garbage collected: 49178340 speed: 965872 heap limit: 223873563 size before gc: 214818756 guid: 827497_140511398646536
+allocation_rate: 0.0577184 gc_rate: 0.644069, g_bytes: 2.90178e+07, g_time: 5.02749e+08, s_bytes: 2.05103e+08, s_time: 3.18449e+08 yg_diff: 1468687319
+Current Limit: 235.982 New_limit: 235.982 L: 165.64 Additional Memory: 70
+
+Changing yg limit from 26214400 to: 213524556
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 166275734
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 167314891
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 168358019
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 169382655
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 170363049
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 171509002
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 172554637
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 173560492
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 174585048
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 175732151
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 176827014
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 177760162
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 178769748
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 179797051
+No change in yg_size. Total Capacity: 26214400
+allocation_rate: 0.057804 gc_rate: 0.644069, g_bytes: 2.8453e+07, g_time: 4.92233e+08, s_bytes: 2.05103e+08, s_time: 3.18449e+08 yg_diff: 2243098209
+Current Limit: 236.034 New_limit: 236.034 L: 165.64 Additional Memory: 70
+
+Changing yg limit from 26214400 to: 180946239
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 182041105
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 182977058
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 183985586
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 185010436
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 186163305
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 187257859
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 188194205
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 189202328
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 190230522
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 191381545
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 192475616
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 193411380
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 194429633
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 195454206
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 196433801
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 197582701
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 198643351
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 199649418
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 200673980
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 201821067
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 202917560
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 203850707
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 204860319
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 205893188
+No change in yg_size. Total Capacity: 26214400
+allocation_rate: 0.0578887 gc_rate: 0.644069, g_bytes: 2.85174e+07, g_time: 4.92626e+08, s_bytes: 2.05103e+08, s_time: 3.18449e+08 yg_diff: 4180127115
+Current Limit: 236.086 New_limit: 236.086 L: 165.64 Additional Memory: 70
+
+Changing yg limit from 26214400 to: 207040016
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 208141900
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 209075061
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 210082692
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 211111967
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 212264218
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 213355922
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 214288279
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 215298044
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 216326459
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 217477005
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 218571519
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 219504682
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 220517543
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 221542358
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 222697204
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 223788915
+No change in yg_size. Total Capacity: 26214400
+827497_140511398646536 start incremtal marking!
+Changing yg limit from 26214400 to: 224721286
+No change in yg_size. Total Capacity: 26214400
+gc, name: pdfjs.js size: 226393404 duration: 62.286 speed: 3.63474e+06 garbage collected: 45907696 speed: 737047 heap limit: 236085915 size before gc: 226393404 guid: 827497_140511398646536
+allocation_rate: 0.0573712 gc_rate: 0.61813, g_bytes: 3.01292e+07, g_time: 5.25162e+08, s_bytes: 2.19973e+08, s_time: 3.55868e+08 yg_diff: 3413945870
+Current Limit: 255.211 New_limit: 255.211 L: 180.486 Additional Memory: 74
+
+Changing yg limit from 26214400 to: 224721136
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 181143804
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 182221049
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 183202180
+No change in yg_size. Total Capacity: 26214400
+allocation_rate: 0.0572838 gc_rate: 0.61813, g_bytes: 2.88281e+07, g_time: 5.03251e+08, s_bytes: 2.19973e+08, s_time: 3.55868e+08 yg_diff: 666430569
+Current Limit: 255.154 New_limit: 255.154 L: 180.486 Additional Memory: 74
+
+Changing yg limit from 26214400 to: 184348113
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 185393772
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 186399610
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 187424155
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 188571270
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 189662990
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 190596139
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 191604613
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 192629447
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 193788845
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 194880564
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 195821447
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 196832041
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 197860396
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 199012198
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 200107077
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 201039373
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 202049108
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 203075867
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 204061145
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 205209654
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 206258578
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 207268329
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 208292842
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 209283545
+No change in yg_size. Total Capacity: 26214400
+allocation_rate: 0.0574942 gc_rate: 0.61813, g_bytes: 2.89249e+07, g_time: 5.03093e+08, s_bytes: 2.19973e+08, s_time: 3.55868e+08 yg_diff: 4266111118
+Current Limit: 255.291 New_limit: 255.291 L: 180.486 Additional Memory: 74
+
+Changing yg limit from 26214400 to: 210429434
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 211477717
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 212485950
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 213528029
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 214507633
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 215653535
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 216699103
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 217704885
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 218742441
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 219722300
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 220873760
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 221919318
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 222929464
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 223953996
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 224938357
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 226087436
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 227135916
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 228144056
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 229171096
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 230325451
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 231417060
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 232359126
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 233364099
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 234388879
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 235537972
+No change in yg_size. Total Capacity: 26214400
+allocation_rate: 0.0577087 gc_rate: 0.61813, g_bytes: 2.90241e+07, g_time: 5.02942e+08, s_bytes: 2.19973e+08, s_time: 3.55868e+08 yg_diff: 4918137013
+Current Limit: 255.43 New_limit: 255.43 L: 180.486 Additional Memory: 74
+
+Changing yg limit from 26214400 to: 236633435
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 237566539
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 238574876
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 239601834
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 240752314
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 241846499
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 242782041
+No change in yg_size. Total Capacity: 26214400
+827497_140511398646536 start incremtal marking!
+Changing yg limit from 26214400 to: 243790619
+No change in yg_size. Total Capacity: 26214400
+gc, name: pdfjs.js size: 254415036 duration: 7.707 speed: 3.30109e+07 garbage collected: 53171032 speed: 6.89906e+06 heap limit: 255430480 size before gc: 254415036 guid: 827497_140511398646536
+allocation_rate: 0.0577189 gc_rate: 0.659018, g_bytes: 3.12694e+07, g_time: 5.41753e+08, s_bytes: 2.37436e+08, s_time: 3.60287e+08 yg_diff: 1711832957
+Current Limit: 277.894 New_limit: 277.894 L: 201.244 Additional Memory: 76
+
+Changing yg limit from 26214400 to: 243790460
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 201443684
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 202489558
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 203495217
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 204500245
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 205648379
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 206697645
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 207703447
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 208730638
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 209881663
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 210975640
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 211910899
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 212919205
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 213947375
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 215098923
+No change in yg_size. Total Capacity: 26214400
+allocation_rate: 0.0577163 gc_rate: 0.659018, g_bytes: 3.05713e+07, g_time: 5.29682e+08, s_bytes: 2.37436e+08, s_time: 3.60287e+08 yg_diff: 2766016978
+Current Limit: 277.892 New_limit: 277.892 L: 201.244 Additional Memory: 76
+
+Changing yg limit from 26214400 to: 216192618
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 217141330
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 218150436
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 219175009
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 220160841
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 221309328
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 222356953
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 223365329
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 224392914
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 225375207
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 226524182
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 227573002
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 228578786
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 229606704
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 230589877
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 231737943
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 232786424
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 233795304
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 234822233
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 235805169
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 236953934
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 238001744
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 239010513
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 240038089
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 241019779
+No change in yg_size. Total Capacity: 26214400
+allocation_rate: 0.0578985 gc_rate: 0.659018, g_bytes: 3.05822e+07, g_time: 5.28202e+08, s_bytes: 2.37436e+08, s_time: 3.60287e+08 yg_diff: 5059103648
+Current Limit: 278.013 New_limit: 278.013 L: 201.244 Additional Memory: 76
+
+Changing yg limit from 26214400 to: 242170749
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 243216313
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 244229595
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 245254134
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 246236689
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 247387533
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 248433073
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 249441559
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 250474941
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 251621987
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 252713613
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 253650474
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 254657888
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 255687392
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 256841708
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 257933330
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 259002183
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 260014081
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 261038837
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 262189198
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 263280804
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 264217879
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 265237757
+No change in yg_size. Total Capacity: 26214400
+827497_140511398646536 start incremtal marking!
+Changing yg limit from 26214400 to: 266262537
+No change in yg_size. Total Capacity: 26214400
+allocation_rate: 0.0578031 gc_rate: 0.659018, g_bytes: 3.04504e+07, g_time: 5.26795e+08, s_bytes: 2.37436e+08, s_time: 3.60287e+08 yg_diff: 5472048654
+Current Limit: 277.95 New_limit: 277.95 L: 201.244 Additional Memory: 76
+
+gc, name: pdfjs.js size: 268208276 duration: 62.657 speed: 4.28058e+06 garbage collected: 55699816 speed: 888964 heap limit: 277949701 size before gc: 268208276 guid: 827497_140511398646536
+allocation_rate: 0.0572828 gc_rate: 0.621868, g_bytes: 3.22761e+07, g_time: 5.63451e+08, s_bytes: 2.57436e+08, s_time: 4.13972e+08 yg_diff: 0
+Current Limit: 293.286 New_limit: 293.286 L: 212.508 Additional Memory: 80
+
+Changing yg limit from 26214400 to: 266262352
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 213383785
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 215694186
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 216626071
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 217631861
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 218656358
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 219803427
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 220895043
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 221828150
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 222833136
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 223857866
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 225004719
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 226096322
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 227029437
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 228034406
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 229059176
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 230206017
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 231297612
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 232230719
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 233235709
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 234260497
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 235407292
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 236498893
+No change in yg_size. Total Capacity: 26214400
+allocation_rate: 0.0574318 gc_rate: 0.621868, g_bytes: 3.21146e+07, g_time: 5.59178e+08, s_bytes: 2.57436e+08, s_time: 4.13972e+08 yg_diff: 4622901834
+Current Limit: 293.391 New_limit: 293.391 L: 212.508 Additional Memory: 80
+
+Changing yg limit from 26214400 to: 237431989
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 238436992
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 239461742
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 240608599
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 241700178
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 242633274
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 243638272
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 244663034
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 245809875
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 246904202
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 247841330
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 248846330
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 249875059
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 251024152
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 252119282
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 253055704
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 254060696
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 255089157
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 256241809
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 257333414
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 258268727
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 259275866
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 260303011
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 261455731
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 262554606
+No change in yg_size. Total Capacity: 26214400
+allocation_rate: 0.0575899 gc_rate: 0.621868, g_bytes: 3.20329e+07, g_time: 5.56224e+08, s_bytes: 2.57436e+08, s_time: 4.13972e+08 yg_diff: 5593273031
+Current Limit: 293.502 New_limit: 293.502 L: 212.508 Additional Memory: 80
+
+Changing yg limit from 26214400 to: 263487700
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 264492680
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 265519855
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 266673976
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 267765584
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 268706069
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 269711070
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 270735845
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 271886152
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 272980110
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 273916093
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 274923956
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 275948703
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 277101400
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 278201401
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 279134499
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 280139479
+No change in yg_size. Total Capacity: 26214400
+827497_140511398646536 start incremtal marking!
+Changing yg limit from 26214400 to: 281168044
+No change in yg_size. Total Capacity: 26214400
+gc, name: pdfjs.js size: 283165408 duration: 65.13 speed: 4.3477e+06 garbage collected: 54275024 speed: 833334 heap limit: 293502227 size before gc: 283165408 guid: 827497_140511398646536
+allocation_rate: 0.057129 gc_rate: 0.603118, g_bytes: 3.39641e+07, g_time: 5.94515e+08, s_bytes: 2.75053e+08, s_time: 4.56051e+08 yg_diff: 4430633416
+Current Limit: 313.902 New_limit: 313.902 L: 228.89 Additional Memory: 85
+
+Changing yg limit from 26214400 to: 281167852
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 229747996
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 232048090
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 233001012
+No change in yg_size. Total Capacity: 26214400
+allocation_rate: 0.0571218 gc_rate: 0.603118, g_bytes: 3.25217e+07, g_time: 5.69339e+08, s_bytes: 2.75053e+08, s_time: 4.56051e+08 yg_diff: 871107350
+Current Limit: 313.897 New_limit: 313.897 L: 228.89 Additional Memory: 85
+
+Changing yg limit from 26214400 to: 234009362
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 234982688
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 236002652
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 237107268
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 238211173
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 239277845
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 240303361
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 241282950
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 242428880
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 243474546
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 244480382
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 245504931
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 246652037
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 247743741
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 248693901
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 249699253
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 250724042
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 251870934
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 252962619
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 253895767
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 254900804
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 255930283
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 257077184
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 258171828
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 259118655
+No change in yg_size. Total Capacity: 26214400
+allocation_rate: 0.0572963 gc_rate: 0.603118, g_bytes: 3.24227e+07, g_time: 5.65877e+08, s_bytes: 2.75053e+08, s_time: 4.56051e+08 yg_diff: 5509147086
+Current Limit: 314.027 New_limit: 314.027 L: 228.89 Additional Memory: 85
+
+Changing yg limit from 26214400 to: 260123699
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 261148499
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 262295379
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 263387083
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 264333911
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 265339406
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 266364200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 267513884
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 268605553
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 269540946
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 270545978
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 271572897
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 272723113
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 273814803
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 274750024
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 275758117
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 276782931
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 277932588
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 279026521
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 279959683
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 280979312
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 282006700
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 283153562
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 284247318
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 285180468
+No change in yg_size. Total Capacity: 26214400
+allocation_rate: 0.0574761 gc_rate: 0.603118, g_bytes: 3.23353e+07, g_time: 5.62587e+08, s_bytes: 2.75053e+08, s_time: 4.56051e+08 yg_diff: 6161726575
+Current Limit: 314.16 New_limit: 314.16 L: 228.89 Additional Memory: 85
+
+Changing yg limit from 26214400 to: 286189583
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 287214384
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 288363882
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 289458271
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 290391429
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 291399777
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 292424571
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 293574694
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 294666384
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 295604446
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 296609474
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 297636606
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 298786558
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 299878267
+No change in yg_size. Total Capacity: 26214400
+827497_140511398646536 start incremtal marking!
+Changing yg limit from 26214400 to: 300816822
+No change in yg_size. Total Capacity: 26214400
+gc, name: pdfjs.js size: 319840120 duration: 3.789 speed: 8.44128e+07 garbage collected: 64537172 speed: 1.70328e+07 heap limit: 314160212 size before gc: 319840120 guid: 827497_140511398646536
+allocation_rate: 0.0580184 gc_rate: 0.640159, g_bytes: 3.5266e+07, g_time: 6.07842e+08, s_bytes: 2.94422e+08, s_time: 4.5992e+08 yg_diff: 4009799148
+Current Limit: 343.126 New_limit: 343.126 L: 255.303 Additional Memory: 87
+
+Changing yg limit from 26214400 to: 300816672
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 255515527
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 256588944
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 257577223
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 258706674
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 259787869
+No change in yg_size. Total Capacity: 26214400
+allocation_rate: 0.0579551 gc_rate: 0.640159, g_bytes: 3.38133e+07, g_time: 5.8344e+08, s_bytes: 2.94422e+08, s_time: 4.5992e+08 yg_diff: 1431706509
+Current Limit: 343.078 New_limit: 343.078 L: 255.303 Additional Memory: 87
+
+Changing yg limit from 26214400 to: 260793661
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 261821751
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 262801241
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 263950849
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 264996392
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 266006062
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 267030552
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 268181144
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 269272751
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 270207949
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 271215054
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 272239817
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 273391273
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 274482864
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 275418010
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 276426828
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 277499387
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 278647176
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 279738742
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 280671854
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 281676842
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 282701597
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 283850933
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 284942520
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 285877762
+No change in yg_size. Total Capacity: 26214400
+allocation_rate: 0.0581191 gc_rate: 0.640159, g_bytes: 3.36668e+07, g_time: 5.79272e+08, s_bytes: 2.94422e+08, s_time: 4.5992e+08 yg_diff: 6178483011
+Current Limit: 343.202 New_limit: 343.202 L: 255.303 Additional Memory: 87
+
+Changing yg limit from 26214400 to: 286882747
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 287911002
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 289061077
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 290152669
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 291088293
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 292093293
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 293120882
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 294270353
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 295361969
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 296297299
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 297302302
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 298329887
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 299484434
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 300576045
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 301509159
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 302516917
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 303541666
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 304691669
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 305783250
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 306718892
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 307727909
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 308752689
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 309903442
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 310995053
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 311932062
+No change in yg_size. Total Capacity: 26214400
+allocation_rate: 0.0582526 gc_rate: 0.640159, g_bytes: 3.35135e+07, g_time: 5.75313e+08, s_bytes: 2.94422e+08, s_time: 4.5992e+08 yg_diff: 6830644960
+Current Limit: 343.303 New_limit: 343.303 L: 255.303 Additional Memory: 87
+
+Changing yg limit from 26214400 to: 312937051
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 313961807
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 315111975
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 316207205
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 317140316
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 318145274
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 319173052
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 320323619
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 321415213
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 322348313
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 323357120
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 324516304
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 325670192
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 326761801
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 327694917
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 328699914
+No change in yg_size. Total Capacity: 26214400
+827497_140511398646536 start incremtal marking!
+Changing yg limit from 26214400 to: 329729473
+No change in yg_size. Total Capacity: 26214400
+gc, name: pdfjs.js size: 331773940 duration: 82.783 speed: 4.00775e+06 garbage collected: 67433544 speed: 814582 heap limit: 343302595 size before gc: 331773940 guid: 827497_140511398646536
+allocation_rate: 0.0576494 gc_rate: 0.687291, g_bytes: 3.56613e+07, g_time: 6.1859e+08, s_bytes: 3.18457e+08, s_time: 4.63352e+08 yg_diff: 5017548746
+Current Limit: 350.311 New_limit: 350.311 L: 264.34 Additional Memory: 85
+
+Changing yg limit from 26214400 to: 329729256
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 265079121
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 267360893
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 268324290
+No change in yg_size. Total Capacity: 26214400
+allocation_rate: 0.0576617 gc_rate: 0.687291, g_bytes: 3.41634e+07, g_time: 5.9248e+08, s_bytes: 3.18457e+08, s_time: 4.63352e+08 yg_diff: 1025635960
+Current Limit: 350.32 New_limit: 350.32 L: 264.34 Additional Memory: 85
+
+Changing yg limit from 26214400 to: 269330147
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 270300428
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 271320384
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 272424879
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 273531460
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 274581796
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 275606484
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 276586046
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 277731967
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 278777637
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 279783485
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 280808060
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 281955141
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 283049268
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 284065092
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 285070519
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 286095343
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 287245672
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 288337360
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 289272667
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 290281662
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 291306457
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 292459012
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 293550696
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 294493771
+No change in yg_size. Total Capacity: 26214400
+allocation_rate: 0.0578112 gc_rate: 0.687291, g_bytes: 3.39849e+07, g_time: 5.87861e+08, s_bytes: 3.18457e+08, s_time: 4.63352e+08 yg_diff: 6392605433
+Current Limit: 350.431 New_limit: 350.431 L: 264.34 Additional Memory: 86
+
+Changing yg limit from 26214400 to: 295498833
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 296523632
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 297673771
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 298777601
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 299711179
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 300719592
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 301744387
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 302893940
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 303987882
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 304923382
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 305932122
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 306956963
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 308106546
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 309198242
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 310135191
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 311140247
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 312165067
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 313315470
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 314409886
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 315343043
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 316360419
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 317393043
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 318539907
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 319631610
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 320568684
+No change in yg_size. Total Capacity: 26214400
+allocation_rate: 0.0579356 gc_rate: 0.687291, g_bytes: 3.38037e+07, g_time: 5.8347e+08, s_bytes: 3.18457e+08, s_time: 4.63352e+08 yg_diff: 7046290639
+Current Limit: 350.524 New_limit: 350.524 L: 264.34 Additional Memory: 86
+
+Changing yg limit from 26214400 to: 321573727
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 322598521
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 323750258
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 324841964
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 325781109
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 326786531
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 327816293
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 328963163
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 330054839
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 331006798
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 332011849
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 333036634
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 334187121
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 335278820
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 336218920
+No change in yg_size. Total Capacity: 26214400
+827497_140511398646536 start incremtal marking!
+Changing yg limit from 26214400 to: 337224773
+No change in yg_size. Total Capacity: 26214400
+gc, name: pdfjs.js size: 338534796 duration: 76.861 speed: 4.40451e+06 garbage collected: 57545560 speed: 748696 heap limit: 350523830 size before gc: 338534796 guid: 827497_140511398646536
+allocation_rate: 0.0574034 gc_rate: 0.66579, g_bytes: 3.58233e+07, g_time: 6.24061e+08, s_bytes: 3.33964e+08, s_time: 5.01606e+08 yg_diff: 4851700920
+Current Limit: 370.853 New_limit: 370.853 L: 280.989 Additional Memory: 89
+
+Changing yg limit from 26214400 to: 337224616
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 281627602
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 282792902
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 283829125
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 284921038
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 285952770
+No change in yg_size. Total Capacity: 26214400
+allocation_rate: 0.0574002 gc_rate: 0.66579, g_bytes: 3.43875e+07, g_time: 5.99083e+08, s_bytes: 3.33964e+08, s_time: 5.01606e+08 yg_diff: 1599061653
+Current Limit: 370.85 New_limit: 370.85 L: 280.989 Additional Memory: 89
+
+Changing yg limit from 26214400 to: 286860530
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 287883814
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 289030632
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 290122542
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 291055489
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 292060517
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 293085324
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 294234389
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 295326077
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 296261742
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 297266777
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 298294425
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 299443653
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 300538957
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 301472098
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 302477144
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 303526341
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 304674027
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 305765749
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 306698093
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 307706310
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 308730847
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 309883349
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 310989200
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 311922369
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 312927404
+No change in yg_size. Total Capacity: 26214400
+allocation_rate: 0.0575418 gc_rate: 0.66579, g_bytes: 3.41874e+07, g_time: 5.94132e+08, s_bytes: 3.33964e+08, s_time: 5.01606e+08 yg_diff: 7116663399
+Current Limit: 370.961 New_limit: 370.961 L: 280.989 Additional Memory: 89
+
+Changing yg limit from 26214400 to: 313952207
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 315099230
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 316193796
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 317126940
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 318134341
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 319159180
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 320311800
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 321403493
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 322336631
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 323344055
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 324371662
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 325520768
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 326612445
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 327547910
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 328555558
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 329580382
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 330729671
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 331825280
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 332758432
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 333763477
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 334790870
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 335940804
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 337032496
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 337968476
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 338976494
+No change in yg_size. Total Capacity: 26214400
+allocation_rate: 0.0577445 gc_rate: 0.66579, g_bytes: 3.40364e+07, g_time: 5.8943e+08, s_bytes: 3.33964e+08, s_time: 5.01606e+08 yg_diff: 7507676398
+Current Limit: 371.12 New_limit: 371.12 L: 280.989 Additional Memory: 90
+
+Changing yg limit from 26214400 to: 340001274
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 341152403
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 342244111
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 343177265
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 344187988
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 345212801
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 346362034
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 347456106
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 348389255
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 349396987
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 350421830
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 351575706
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 352667388
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 353605422
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 354610524
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 355635339
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 356785166
+No change in yg_size. Total Capacity: 26214400
+827497_140511398646536 start incremtal marking!
+Changing yg limit from 26214400 to: 357880604
+No change in yg_size. Total Capacity: 26214400
+gc, name: pdfjs.js size: 359136352 duration: 78.547 speed: 4.57225e+06 garbage collected: 59620224 speed: 759039 heap limit: 371119555 size before gc: 359136352 guid: 827497_140511398646536
+allocation_rate: 0.0572196 gc_rate: 0.683597, g_bytes: 3.62419e+07, g_time: 6.33383e+08, s_bytes: 3.52447e+08, s_time: 5.15577e+08 yg_diff: 5808903003
+Current Limit: 390.932 New_limit: 390.932 L: 299.516 Additional Memory: 91
+
+Changing yg limit from 26214400 to: 357880444
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 300158353
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 301236831
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 302240695
+No change in yg_size. Total Capacity: 26214400
+allocation_rate: 0.0571604 gc_rate: 0.683597, g_bytes: 3.46164e+07, g_time: 6.05602e+08, s_bytes: 3.52447e+08, s_time: 5.15577e+08 yg_diff: 1156658723
+Current Limit: 390.885 New_limit: 390.885 L: 299.516 Additional Memory: 91
+
+Changing yg limit from 26214400 to: 303242794
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 304388749
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 305434421
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 306440251
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 307464832
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 308444401
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 309590334
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 310635997
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 311641841
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 312666379
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 313813503
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 314905217
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 315838366
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 316846582
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 317871436
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 319021101
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 320112792
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 321049888
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 322054919
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 323082458
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 324231958
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 325325952
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 326262503
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 327267537
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 328292352
+No change in yg_size. Total Capacity: 26214400
+allocation_rate: 0.0573708 gc_rate: 0.683597, g_bytes: 3.44412e+07, g_time: 6.00326e+08, s_bytes: 3.52447e+08, s_time: 5.15577e+08 yg_diff: 7240566563
+Current Limit: 391.053 New_limit: 391.053 L: 299.516 Additional Memory: 91
+
+Changing yg limit from 26214400 to: 329447281
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 330541908
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 331475068
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 332483907
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 333518693
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 334665930
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 335757631
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 336690780
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 337698610
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 338723441
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 339874026
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 340968000
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 341901150
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 342909970
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 343934765
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 345083862
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 346179363
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 347127003
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 348133061
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 349157620
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 350137188
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 351283120
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 352328780
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 353336959
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 354361537
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 355343613
+No change in yg_size. Total Capacity: 26214400
+allocation_rate: 0.0575536 gc_rate: 0.683597, g_bytes: 3.42625e+07, g_time: 5.95314e+08, s_bytes: 3.52447e+08, s_time: 5.15577e+08 yg_diff: 8221488866
+Current Limit: 391.198 New_limit: 391.198 L: 299.516 Additional Memory: 91
+
+Changing yg limit from 26214400 to: 356494341
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 357539992
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 358545833
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 359575578
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 360722688
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 361820689
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 362753855
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 363758906
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 364783690
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 365934553
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 367026258
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 367963181
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 368969038
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 369993597
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 370977290
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 372131142
+No change in yg_size. Total Capacity: 26214400
+***Calling commented Grow()***
+Changing yg limit from 26214400 to: 373177227
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 374183089
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 375210543
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 376362746
+No change in yg_size. Total Capacity: 26214400
+827497_140511398646536 start incremtal marking!
+Changing yg limit from 26214400 to: 377454507
+No change in yg_size. Total Capacity: 26214400
+allocation_rate: 0.0572534 gc_rate: 0.683597, g_bytes: 3.38112e+07, g_time: 5.90553e+08, s_bytes: 3.52447e+08, s_time: 5.15577e+08 yg_diff: 7154876343
+Current Limit: 390.959 New_limit: 390.959 L: 299.516 Additional Memory: 91
+
+gc, name: pdfjs.js size: 378654648 duration: 99.467 speed: 3.80684e+06 garbage collected: 60279428 speed: 606024 heap limit: 390959064 size before gc: 378654648 guid: 827497_140511398646536
+allocation_rate: 0.0567773 gc_rate: 0.711835, g_bytes: 3.60776e+07, g_time: 6.35423e+08, s_bytes: 3.71594e+08, s_time: 5.22022e+08 yg_diff: 0
+Current Limit: 410.379 New_limit: 410.379 L: 318.375 Additional Memory: 92
+
+Changing yg limit from 26214400 to: 377454336
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 318796870
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 319875267
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 320879180
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 322048966
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 323195077
+No change in yg_size. Total Capacity: 26214400
+Changing yg limit from 26214400 to: 324240720
+No change in yg_size. Total Capacity: 26214400
+inside timer stop
+calling join
+inside timer stop
+calling join

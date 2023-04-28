@@ -1,0 +1,12 @@
+{"PhysicalMemory":5160960,"SizeOfObjects":1547472,"AllocatedExternalMemorySinceMarkCompact":0,"BenchmarkMemory":1547472,"Limit":10130532,"time":2939141929,"name":"earley-boyer.js","guid":"835294_139975735694088"}
+{"PhysicalMemory":5160960,"SizeOfObjects":2868924,"AllocatedExternalMemorySinceMarkCompact":0,"BenchmarkMemory":2868924,"Limit":10130532,"time":3439190858,"name":"earley-boyer.js","guid":"835294_139975735694088"}
+{"PhysicalMemory":4902912,"SizeOfObjects":4334560,"AllocatedExternalMemorySinceMarkCompact":0,"BenchmarkMemory":4334560,"Limit":10130532,"time":3939266689,"name":"earley-boyer.js","guid":"835294_139975735694088"}
+{"PhysicalMemory":5160960,"SizeOfObjects":5729208,"AllocatedExternalMemorySinceMarkCompact":0,"BenchmarkMemory":5729208,"Limit":10130532,"time":4439354902,"name":"earley-boyer.js","guid":"835294_139975735694088"}
+{"PhysicalMemory":6451200,"SizeOfObjects":6985720,"AllocatedExternalMemorySinceMarkCompact":0,"BenchmarkMemory":6985720,"Limit":10130532,"time":4939442971,"name":"earley-boyer.js","guid":"835294_139975735694088"}
+{"PhysicalMemory":7483392,"SizeOfObjects":8071596,"AllocatedExternalMemorySinceMarkCompact":0,"BenchmarkMemory":8071596,"Limit":10130532,"time":5439497992,"name":"earley-boyer.js","guid":"835294_139975735694088"}
+{"PhysicalMemory":9031680,"SizeOfObjects":9542396,"AllocatedExternalMemorySinceMarkCompact":0,"BenchmarkMemory":9542396,"Limit":10130532,"time":5939585646,"name":"earley-boyer.js","guid":"835294_139975735694088"}
+{"PhysicalMemory":5160960,"SizeOfObjects":2217972,"AllocatedExternalMemorySinceMarkCompact":0,"BenchmarkMemory":2217972,"Limit":3552060,"time":6439675834,"name":"earley-boyer.js","guid":"835294_139975735694088"}
+{"PhysicalMemory":5160960,"SizeOfObjects":3540484,"AllocatedExternalMemorySinceMarkCompact":0,"BenchmarkMemory":3540484,"Limit":3552060,"time":6939762403,"name":"earley-boyer.js","guid":"835294_139975735694088"}
+{"PhysicalMemory":5160960,"SizeOfObjects":5110440,"AllocatedExternalMemorySinceMarkCompact":0,"BenchmarkMemory":5110440,"Limit":3552060,"time":7439850796,"name":"earley-boyer.js","guid":"835294_139975735694088"}
+{"PhysicalMemory":5935104,"SizeOfObjects":6366964,"AllocatedExternalMemorySinceMarkCompact":0,"BenchmarkMemory":6366964,"Limit":3552060,"time":7939938562,"name":"earley-boyer.js","guid":"835294_139975735694088"}
+{"PhysicalMemory":7225344,"SizeOfObjects":7623476,"AllocatedExternalMemorySinceMarkCompact":0,"BenchmarkMemory":7623476,"Limit":3552060,"time":8440036486,"name":"earley-boyer.js","guid":"835294_139975735694088"}

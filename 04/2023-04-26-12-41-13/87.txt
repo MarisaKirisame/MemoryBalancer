@@ -1,0 +1,15 @@
+{"yg_size_of_object":128540}
+{"yg_size_of_object":7594536}
+{"yg_size_of_object":3097312}
+{"yg_size_of_object":41736776}
+{"yg_size_of_object":37684040}
+{"yg_size_of_object":33915564}
+{"yg_size_of_object":30843004}
+{"yg_size_of_object":27736156}
+{"yg_size_of_object":24419224}
+{"yg_size_of_object":21392288}
+{"yg_size_of_object":17955548}
+{"yg_size_of_object":13871664}
+{"yg_size_of_object":10599120}
+{"yg_size_of_object":6816408}
+{"yg_size_of_object":2594344}

@@ -1,0 +1,7 @@
+% path: membalancer.uwplse.org/2023-04-26-12-47-05
+\def\ACDCSpeedup{\num{430.0}\%\xspace}
+\def\ACDCMemorySaving{\num{-14.0}\%\xspace}
+\def\ACDCImprovement{\num{-0.55}\,\sigma\xspace}
+\def\ACDCPValue{\num{0.99}\xspace}
+\def\ACDCMaxRegress{\num{1.6}\,\sigma\xspace}
+\def\ACDCMaxImprovement{\num{3.2}\,\sigma\xspace}

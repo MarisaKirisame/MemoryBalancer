@@ -1,0 +1,1 @@
+{'Description': 'ACDC-JS experiment', 'NAME': 'acdc', 'CFG': {'LIMIT_MEMORY': True, 'DEBUG': True, 'TYPE': 'acdc', 'MEMORY_LIMIT': 10000, 'BENCH': 'acdc_1', 'BALANCER_CFG': {'BALANCE_STRATEGY': 'classic', 'RESIZE_CFG': {'RESIZE_STRATEGY': 'gradient', 'GC_RATE_D': -5e-09}, 'BALANCE_FREQUENCY': 0}}}

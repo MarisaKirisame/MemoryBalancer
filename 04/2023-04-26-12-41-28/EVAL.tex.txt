@@ -1,0 +1,8 @@
+% path: membalancer.uwplse.org/2023-04-26-12-41-28
+\def\CompareAt{\num{20.0}\xspace}
+\def\JETSTREAMSpeedup{\num{96.0}\%\xspace}
+\def\JETSTREAMMemorySaving{\num{47.0}\%\xspace}
+\def\JETSTREAMImprovement{\num{1.8}\,\sigma\xspace}
+\def\JETSTREAMPValue{\num{2.6e-12}\xspace}
+\def\JETSTREAMMaxRegress{\num{-0.31}\,\sigma\xspace}
+\def\JETSTREAMMaxImprovement{\num{4.9}\,\sigma\xspace}

@@ -1,0 +1,4263 @@
+5
+--benchmark=box2d.js
+--heap-size=10000000000
+--log-path=log/2023-04-25-00-36-17/2023-04-25-00-36-17/2023-04-25-00-36-17/2023-04-25-00-37-33/v8_log
+Running Benchmark: box2d.js
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+gc, name: box2d.js size: 11639064 duration: 0.519 speed: 2.24259e+07 garbage collected: 8957312 speed: 1.72588e+07 heap limit: 11163800 size before gc: 11639064 guid: 833845_139897084105480
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+***Calling commented Grow()***
+gc, name: box2d.js size: 11750032 duration: 0.789 speed: 1.48923e+07 garbage collected: 8959616 speed: 1.13557e+07 heap limit: 11163800 size before gc: 11750032 guid: 833845_139897084105480
+allocation_rate: 0.0301822 gc_rate: 14.5145, g_bytes: 580797, g_time: 1.92431e+07, s_bytes: 5.72596e+06, s_time: 394500 yg_diff: 0
+Current Limit: 4.88757 New_limit: 3.23021 L: 2.79042 Additional Memory: 0
+
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+***Calling commented Grow()***
+gc, name: box2d.js size: 8930056 duration: 0.771 speed: 1.15824e+07 garbage collected: 5828480 speed: 7.55964e+06 heap limit: 4887568 size before gc: 8930056 guid: 833845_139897084105480
+allocation_rate: 0.0368053 gc_rate: 12.2373, g_bytes: 858739, g_time: 2.3332e+07, s_bytes: 7.13129e+06, s_time: 582750 yg_diff: 0
+Current Limit: 5.19873 New_limit: 3.6592 L: 3.10158 Additional Memory: 0
+
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+gc, name: box2d.js size: 9041420 duration: 0.803 speed: 1.12596e+07 garbage collected: 5974660 speed: 7.44042e+06 heap limit: 5198728 size before gc: 9041420 guid: 833845_139897084105480
+allocation_rate: 0.0409399 gc_rate: 11.4091, g_bytes: 1.11279e+06, g_time: 2.71812e+07, s_bytes: 7.90506e+06, s_time: 692875 yg_diff: 0
+Current Limit: 5.16391 New_limit: 3.67242 L: 3.06676 Additional Memory: 0
+
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+gc, name: box2d.js size: 8930936 duration: 0.553 speed: 1.615e+07 garbage collected: 5986088 speed: 1.08248e+07 heap limit: 5163912 size before gc: 8930936 guid: 833845_139897084105480
+allocation_rate: 0.0438584 gc_rate: 13.3238, g_bytes: 1.35036e+06, g_time: 3.07891e+07, s_bytes: 8.29991e+06, s_time: 622937 yg_diff: 0
+Current Limit: 5.042 New_limit: 3.51329 L: 2.94485 Additional Memory: 0
+
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+allocation_rate: 0.0443542 gc_rate: 13.3238, g_bytes: 1.39112e+06, g_time: 3.1364e+07, s_bytes: 8.29991e+06, s_time: 622937 yg_diff: 0
+Current Limit: 5.042 New_limit: 3.51649 L: 2.94485 Additional Memory: 0
+
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+gc, name: box2d.js size: 8984840 duration: 0.546 speed: 1.64558e+07 garbage collected: 6162900 speed: 1.12874e+07 heap limit: 5042000 size before gc: 8984840 guid: 833845_139897084105480
+allocation_rate: 0.0466628 gc_rate: 14.5283, g_bytes: 1.62357e+06, g_time: 3.47936e+07, s_bytes: 8.49132e+06, s_time: 584469 yg_diff: 0
+Current Limit: 4.91909 New_limit: 3.3716 L: 2.82194 Additional Memory: 0
+
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+gc, name: box2d.js size: 8877996 duration: 1.072 speed: 8.28171e+06 garbage collected: 5793584 speed: 5.40446e+06 heap limit: 4919092 size before gc: 8877996 guid: 833845_139897084105480
+allocation_rate: 0.0487509 gc_rate: 10.1928, g_bytes: 1.84519e+06, g_time: 3.78494e+07, s_bytes: 8.44202e+06, s_time: 828234 yg_diff: 0
+Current Limit: 5.18156 New_limit: 3.78566 L: 3.08441 Additional Memory: 0
+
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+gc, name: box2d.js size: 8862496 duration: 0.878 speed: 1.0094e+07 garbage collected: 6043432 speed: 6.88318e+06 heap limit: 5181564 size before gc: 8862496 guid: 833845_139897084105480
+allocation_rate: 0.0500559 gc_rate: 9.86948, g_bytes: 2.04184e+06, g_time: 4.07911e+07, s_bytes: 8.41982e+06, s_time: 853117 yg_diff: 0
+Current Limit: 4.91622 New_limit: 3.50942 L: 2.81906 Additional Memory: 0
+
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+gc, name: box2d.js size: 8917780 duration: 0.685 speed: 1.30187e+07 garbage collected: 6046248 speed: 8.82664e+06 heap limit: 4916216 size before gc: 8917780 guid: 833845_139897084105480
+allocation_rate: 0.051218 gc_rate: 11.1181, g_bytes: 2.24468e+06, g_time: 4.3826e+07, s_bytes: 8.55048e+06, s_time: 769059 yg_diff: 0
+Current Limit: 4.96868 New_limit: 3.53557 L: 2.87153 Additional Memory: 0
+
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+gc, name: box2d.js size: 8835264 duration: 0.558 speed: 1.58338e+07 garbage collected: 6054280 speed: 1.085e+07 heap limit: 4968684 size before gc: 8835264 guid: 833845_139897084105480
+allocation_rate: 0.0522661 gc_rate: 12.9718, g_bytes: 2.43063e+06, g_time: 4.6505e+07, s_bytes: 8.60716e+06, s_time: 663529 yg_diff: 0
+Current Limit: 4.87814 New_limit: 3.39214 L: 2.78098 Additional Memory: 0
+
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+allocation_rate: 0.0524347 gc_rate: 12.9718, g_bytes: 2.44031e+06, g_time: 4.65399e+07, s_bytes: 8.60716e+06, s_time: 663529 yg_diff: 0
+Current Limit: 4.87814 New_limit: 3.39312 L: 2.78098 Additional Memory: 0
+
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+gc, name: box2d.js size: 8964548 duration: 0.793 speed: 1.13046e+07 garbage collected: 5961060 speed: 7.5171e+06 heap limit: 4878136 size before gc: 8964548 guid: 833845_139897084105480
+allocation_rate: 0.0532789 gc_rate: 11.858, g_bytes: 2.62747e+06, g_time: 4.93154e+07, s_bytes: 8.63575e+06, s_time: 728265 yg_diff: 0
+Current Limit: 5.10064 New_limit: 3.67418 L: 3.00349 Additional Memory: 0
+
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+***Calling commented Grow()***
+gc, name: box2d.js size: 8809484 duration: 0.547 speed: 1.61051e+07 garbage collected: 6005212 speed: 1.09785e+07 heap limit: 5100640 size before gc: 8809484 guid: 833845_139897084105480
+allocation_rate: 0.0537955 gc_rate: 13.5455, g_bytes: 2.7864e+06, g_time: 5.17961e+07, s_bytes: 8.63706e+06, s_time: 637632 yg_diff: 0
+Current Limit: 4.90142 New_limit: 3.41356 L: 2.80427 Additional Memory: 0
+
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+gc, name: box2d.js size: 8820960 duration: 0.689 speed: 1.28026e+07 garbage collected: 6025040 speed: 8.74462e+06 heap limit: 4901424 size before gc: 8820960 guid: 833845_139897084105480
+allocation_rate: 0.0544132 gc_rate: 12.9199, g_bytes: 2.94791e+06, g_time: 5.41764e+07, s_bytes: 8.56996e+06, s_time: 663316 yg_diff: 0
+Current Limit: 4.89307 New_limit: 3.42243 L: 2.79592 Additional Memory: 0
+
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+gc, name: box2d.js size: 8833416 duration: 0.576 speed: 1.53358e+07 garbage collected: 5994320 speed: 1.04068e+07 heap limit: 4893072 size before gc: 8833416 guid: 833845_139897084105480
+allocation_rate: 0.0548901 gc_rate: 13.9047, g_bytes: 3.10239e+06, g_time: 5.652e+07, s_bytes: 8.61615e+06, s_time: 619658 yg_diff: 0
+Current Limit: 4.93625 New_limit: 3.45031 L: 2.8391 Additional Memory: 0
+
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+gc, name: box2d.js size: 8843276 duration: 0.527 speed: 1.67804e+07 garbage collected: 6040232 speed: 1.14615e+07 heap limit: 4936248 size before gc: 8843276 guid: 833845_139897084105480
+allocation_rate: 0.0554464 gc_rate: 15.0459, g_bytes: 3.24748e+06, g_time: 5.85697e+07, s_bytes: 8.62626e+06, s_time: 573329 yg_diff: 0
+Current Limit: 4.9002 New_limit: 3.38983 L: 2.80304 Additional Memory: 0
+
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+allocation_rate: 0.0555199 gc_rate: 15.0459, g_bytes: 3.21474e+06, g_time: 5.79025e+07, s_bytes: 8.62626e+06, s_time: 573329 yg_diff: 0
+Current Limit: 4.9002 New_limit: 3.39022 L: 2.80304 Additional Memory: 0
+
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+***Calling commented Grow()***
+gc, name: box2d.js size: 8844248 duration: 0.952 speed: 9.29018e+06 garbage collected: 6040972 speed: 6.34556e+06 heap limit: 4900196 size before gc: 8844248 guid: 833845_139897084105480
+allocation_rate: 0.0559643 gc_rate: 11.167, g_bytes: 3.35606e+06, g_time: 5.99679e+07, s_bytes: 8.51669e+06, s_time: 762665 yg_diff: 0
+Current Limit: 4.90043 New_limit: 3.4876 L: 2.80328 Additional Memory: 0
+
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+gc, name: box2d.js size: 8834280 duration: 0.509 speed: 1.73562e+07 garbage collected: 6047504 speed: 1.18811e+07 heap limit: 4900428 size before gc: 8834280 guid: 833845_139897084105480
+allocation_rate: 0.0562868 gc_rate: 13.5151, g_bytes: 3.48981e+06, g_time: 6.20005e+07, s_bytes: 8.59336e+06, s_time: 635832 yg_diff: 0
+Current Limit: 4.88393 New_limit: 3.40876 L: 2.78678 Additional Memory: 0
+
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+gc, name: box2d.js size: 8935804 duration: 0.832 speed: 1.07402e+07 garbage collected: 6094392 speed: 7.32499e+06 heap limit: 4883928 size before gc: 8935804 guid: 833845_139897084105480
+allocation_rate: 0.0567042 gc_rate: 11.685, g_bytes: 3.62277e+06, g_time: 6.3889e+07, s_bytes: 8.57579e+06, s_time: 733916 yg_diff: 0
+Current Limit: 4.93856 New_limit: 3.51937 L: 2.84141 Additional Memory: 0
+
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+gc, name: box2d.js size: 8865744 duration: 0.895 speed: 9.90586e+06 garbage collected: 6062600 speed: 6.77385e+06 heap limit: 4938564 size before gc: 8865744 guid: 833845_139897084105480
+allocation_rate: 0.0570481 gc_rate: 10.4494, g_bytes: 3.74285e+06, g_time: 6.56087e+07, s_bytes: 8.51061e+06, s_time: 814458 yg_diff: 0
+Current Limit: 4.9003 New_limit: 3.51737 L: 2.80314 Additional Memory: 0
+
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+gc, name: box2d.js size: 8840776 duration: 0.474 speed: 1.86514e+07 garbage collected: 6035720 speed: 1.27336e+07 heap limit: 4900296 size before gc: 8840776 guid: 833845_139897084105480
+allocation_rate: 0.0572483 gc_rate: 13.334, g_bytes: 3.85759e+06, g_time: 6.73834e+07, s_bytes: 8.59015e+06, s_time: 644229 yg_diff: 0
+Current Limit: 4.90221 New_limit: 3.43865 L: 2.80506 Additional Memory: 0
+
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+allocation_rate: 0.0573473 gc_rate: 13.334, g_bytes: 3.7934e+06, g_time: 6.61479e+07, s_bytes: 8.59015e+06, s_time: 644229 yg_diff: 0
+Current Limit: 4.90221 New_limit: 3.4392 L: 2.80506 Additional Memory: 0
+
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+gc, name: box2d.js size: 8926736 duration: 0.722 speed: 1.23639e+07 garbage collected: 6083752 speed: 8.42625e+06 heap limit: 4902208 size before gc: 8926736 guid: 833845_139897084105480
+allocation_rate: 0.0576731 gc_rate: 12.5917, g_bytes: 3.90982e+06, g_time: 6.77927e+07, s_bytes: 8.6016e+06, s_time: 683115 yg_diff: 0
+Current Limit: 4.94014 New_limit: 3.50181 L: 2.84298 Additional Memory: 0
+
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+gc, name: box2d.js size: 8798300 duration: 0.947 speed: 9.29071e+06 garbage collected: 5725072 speed: 6.04548e+06 heap limit: 4940136 size before gc: 8798300 guid: 833845_139897084105480
+allocation_rate: 0.0579511 gc_rate: 10.4289, g_bytes: 4.01209e+06, g_time: 6.92324e+07, s_bytes: 8.50014e+06, s_time: 815057 yg_diff: 0
+Current Limit: 5.17038 New_limit: 3.82771 L: 3.07323 Additional Memory: 0
+
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+***Calling commented Grow()***
+gc, name: box2d.js size: 8876332 duration: 0.554 speed: 1.60223e+07 garbage collected: 5931888 speed: 1.07074e+07 heap limit: 5170380 size before gc: 8876332 guid: 833845_139897084105480
+allocation_rate: 0.0580024 gc_rate: 12.5244, g_bytes: 4.10164e+06, g_time: 7.0715e+07, s_bytes: 8.57331e+06, s_time: 684529 yg_diff: 0
+Current Limit: 5.0416 New_limit: 3.61864 L: 2.94444 Additional Memory: 0
+
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+gc, name: box2d.js size: 8811096 duration: 0.457 speed: 1.92803e+07 garbage collected: 6022108 speed: 1.31775e+07 heap limit: 5041596 size before gc: 8811096 guid: 833845_139897084105480
+allocation_rate: 0.0581056 gc_rate: 15.0798, g_bytes: 4.18989e+06, g_time: 7.21083e+07, s_bytes: 8.60699e+06, s_time: 570764 yg_diff: 0
+Current Limit: 4.88614 New_limit: 3.3875 L: 2.78899 Additional Memory: 0
+
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+***Calling commented Grow()***
+gc, name: box2d.js size: 8815672 duration: 0.73 speed: 1.20763e+07 garbage collected: 6007128 speed: 8.22894e+06 heap limit: 4886140 size before gc: 8815672 guid: 833845_139897084105480
+allocation_rate: 0.0583314 gc_rate: 13.1925, g_bytes: 4.28173e+06, g_time: 7.34036e+07, s_bytes: 8.58015e+06, s_time: 650382 yg_diff: 0
+Current Limit: 4.9057 New_limit: 3.45192 L: 2.80854 Additional Memory: 0
+
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+allocation_rate: 0.0581883 gc_rate: 13.1925, g_bytes: 4.19802e+06, g_time: 7.21455e+07, s_bytes: 8.58015e+06, s_time: 650382 yg_diff: 0
+Current Limit: 4.9057 New_limit: 3.45113 L: 2.80854 Additional Memory: 0
+
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+gc, name: box2d.js size: 8839564 duration: 0.616 speed: 1.43499e+07 garbage collected: 5999080 speed: 9.73877e+06 heap limit: 4905696 size before gc: 8839564 guid: 833845_139897084105480
+allocation_rate: 0.0582722 gc_rate: 13.6256, g_bytes: 4.28967e+06, g_time: 7.36143e+07, s_bytes: 8.62761e+06, s_time: 633191 yg_diff: 0
+Current Limit: 4.93764 New_limit: 3.47682 L: 2.84048 Additional Memory: 0
+
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+***Calling commented Grow()***
+gc, name: box2d.js size: 9007932 duration: 1.059 speed: 8.50607e+06 garbage collected: 5856224 speed: 5.52996e+06 heap limit: 4937636 size before gc: 9007932 guid: 833845_139897084105480
+allocation_rate: 0.0586398 gc_rate: 10.0558, g_bytes: 4.38356e+06, g_time: 7.47541e+07, s_bytes: 8.5082e+06, s_time: 846096 yg_diff: 0
+Current Limit: 5.24886 New_limit: 3.93441 L: 3.15171 Additional Memory: 0
+
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+gc, name: box2d.js size: 8909284 duration: 0.759 speed: 1.17382e+07 garbage collected: 6065036 speed: 7.99083e+06 heap limit: 5248860 size before gc: 8909284 guid: 833845_139897084105480
+allocation_rate: 0.0586989 gc_rate: 10.6645, g_bytes: 4.45226e+06, g_time: 7.58491e+07, s_bytes: 8.55876e+06, s_time: 802548 yg_diff: 0
+Current Limit: 4.9414 New_limit: 3.56663 L: 2.84425 Additional Memory: 0
+
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+gc, name: box2d.js size: 8563084 duration: 0.557 speed: 1.53736e+07 garbage collected: 5712948 speed: 1.02566e+07 heap limit: 4941400 size before gc: 8563084 guid: 833845_139897084105480
+allocation_rate: 0.0587598 gc_rate: 12.4728, g_bytes: 4.51559e+06, g_time: 7.68483e+07, s_bytes: 8.47866e+06, s_time: 679774 yg_diff: 0
+Current Limit: 4.94729 New_limit: 3.51914 L: 2.85014 Additional Memory: 0
+
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+gc, name: box2d.js size: 8884444 duration: 0.593 speed: 1.49822e+07 garbage collected: 6032060 speed: 1.01721e+07 heap limit: 4947288 size before gc: 8884444 guid: 833845_139897084105480
+allocation_rate: 0.0589198 gc_rate: 13.4448, g_bytes: 4.59153e+06, g_time: 7.79284e+07, s_bytes: 8.55606e+06, s_time: 636387 yg_diff: 0
+Current Limit: 4.94954 New_limit: 3.49789 L: 2.85238 Additional Memory: 0
+
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+allocation_rate: 0.05889 gc_rate: 13.4448, g_bytes: 4.52423e+06, g_time: 7.68252e+07, s_bytes: 8.55606e+06, s_time: 636387 yg_diff: 0
+Current Limit: 4.94954 New_limit: 3.49772 L: 2.85238 Additional Memory: 0
+
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+***Calling commented Grow()***
+gc, name: box2d.js size: 8890656 duration: 1.104 speed: 8.05313e+06 garbage collected: 6063856 speed: 5.49262e+06 heap limit: 4949536 size before gc: 8890656 guid: 833845_139897084105480
+allocation_rate: 0.0590734 gc_rate: 9.74581, g_bytes: 4.59994e+06, g_time: 7.78681e+07, s_bytes: 8.48074e+06, s_time: 870193 yg_diff: 0
+Current Limit: 4.92395 New_limit: 3.58254 L: 2.8268 Additional Memory: 0
+
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+gc, name: box2d.js size: 8857852 duration: 0.628 speed: 1.41049e+07 garbage collected: 5986300 speed: 9.53232e+06 heap limit: 4923952 size before gc: 8857852 guid: 833845_139897084105480
+allocation_rate: 0.0591368 gc_rate: 11.4632, g_bytes: 4.67149e+06, g_time: 7.89947e+07, s_bytes: 8.58704e+06, s_time: 749097 yg_diff: 0
+Current Limit: 4.9687 New_limit: 3.57426 L: 2.87155 Additional Memory: 0
+
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+gc, name: box2d.js size: 8893576 duration: 0.498 speed: 1.78586e+07 garbage collected: 6058044 speed: 1.21647e+07 heap limit: 4968704 size before gc: 8893576 guid: 833845_139897084105480
+allocation_rate: 0.0591818 gc_rate: 13.8329, g_bytes: 4.73902e+06, g_time: 8.00756e+07, s_bytes: 8.62545e+06, s_time: 623548 yg_diff: 0
+Current Limit: 4.93268 New_limit: 3.47144 L: 2.83553 Additional Memory: 0
+
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+gc, name: box2d.js size: 9009056 duration: 1.158 speed: 7.77984e+06 garbage collected: 6131460 speed: 5.29487e+06 heap limit: 4932684 size before gc: 9009056 guid: 833845_139897084105480
+allocation_rate: 0.0593647 gc_rate: 9.56287, g_bytes: 4.81074e+06, g_time: 8.10371e+07, s_bytes: 8.51835e+06, s_time: 890774 yg_diff: 0
+Current Limit: 4.97475 New_limit: 3.64925 L: 2.8776 Additional Memory: 0
+
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+gc, name: box2d.js size: 8713712 duration: 0.739 speed: 1.17912e+07 garbage collected: 5680532 speed: 7.68678e+06 heap limit: 4974748 size before gc: 8713712 guid: 833845_139897084105480
+allocation_rate: 0.0594494 gc_rate: 10.389, g_bytes: 4.86201e+06, g_time: 8.1784e+07, s_bytes: 8.46589e+06, s_time: 814887 yg_diff: 0
+Current Limit: 5.13033 New_limit: 3.79381 L: 3.03318 Additional Memory: 0
+
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+allocation_rate: 0.0589609 gc_rate: 10.389, g_bytes: 4.75154e+06, g_time: 8.05879e+07, s_bytes: 8.46589e+06, s_time: 814887 yg_diff: 0
+Current Limit: 5.13033 New_limit: 3.79068 L: 3.03318 Additional Memory: 0
+
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+gc, name: box2d.js size: 8834576 duration: 0.497 speed: 1.77758e+07 garbage collected: 6020220 speed: 1.21131e+07 heap limit: 5130332 size before gc: 8834576 guid: 833845_139897084105480
+allocation_rate: 0.0589146 gc_rate: 13.0609, g_bytes: 4.80403e+06, g_time: 8.15423e+07, s_bytes: 8.56719e+06, s_time: 655944 yg_diff: 0
+Current Limit: 4.91151 New_limit: 3.46487 L: 2.81436 Additional Memory: 0
+
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+gc, name: box2d.js size: 8831940 duration: 0.496 speed: 1.78063e+07 garbage collected: 6013724 speed: 1.21244e+07 heap limit: 4911508 size before gc: 8831940 guid: 833845_139897084105480
+allocation_rate: 0.059098 gc_rate: 14.9588, g_bytes: 4.86471e+06, g_time: 8.23159e+07, s_bytes: 8.61587e+06, s_time: 575972 yg_diff: 0
+Current Limit: 4.91537 New_limit: 3.42742 L: 2.81822 Additional Memory: 0
+
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+gc, name: box2d.js size: 9050608 duration: 0.865 speed: 1.04631e+07 garbage collected: 5962332 speed: 6.89287e+06 heap limit: 4915368 size before gc: 9050608 guid: 833845_139897084105480
+allocation_rate: 0.0592357 gc_rate: 12.0061, g_bytes: 4.93309e+06, g_time: 8.3279e+07, s_bytes: 8.65025e+06, s_time: 720486 yg_diff: 0
+Current Limit: 5.18543 New_limit: 3.80094 L: 3.08828 Additional Memory: 0
+
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+***Calling commented Grow()***
+gc, name: box2d.js size: 9077748 duration: 0.981 speed: 9.25357e+06 garbage collected: 5972264 speed: 6.08794e+06 heap limit: 5185428 size before gc: 9077748 guid: 833845_139897084105480
+allocation_rate: 0.0592929 gc_rate: 10.1787, g_bytes: 4.98591e+06, g_time: 8.40895e+07, s_bytes: 8.65943e+06, s_time: 850743 yg_diff: 0
+Current Limit: 5.20264 New_limit: 3.88202 L: 3.10548 Additional Memory: 0
+
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+gc, name: box2d.js size: 9038568 duration: 0.943 speed: 9.58491e+06 garbage collected: 5943132 speed: 6.30237e+06 heap limit: 5202636 size before gc: 9038568 guid: 833845_139897084105480
+allocation_rate: 0.0593186 gc_rate: 9.66016, g_bytes: 5.03327e+06, g_time: 8.48514e+07, s_bytes: 8.66393e+06, s_time: 896871 yg_diff: 0
+Current Limit: 5.19259 New_limit: 3.89142 L: 3.09544 Additional Memory: 0
+
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+allocation_rate: 0.0590568 gc_rate: 9.66016, g_bytes: 4.929e+06, g_time: 8.34619e+07, s_bytes: 8.66393e+06, s_time: 896871 yg_diff: 0
+Current Limit: 5.19259 New_limit: 3.88966 L: 3.09544 Additional Memory: 0
+
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+gc, name: box2d.js size: 9048356 duration: 0.927 speed: 9.7609e+06 garbage collected: 5945652 speed: 6.41386e+06 heap limit: 5192588 size before gc: 9048356 guid: 833845_139897084105480
+allocation_rate: 0.05908 gc_rate: 9.4928, g_bytes: 4.98019e+06, g_time: 8.42958e+07, s_bytes: 8.65683e+06, s_time: 911936 yg_diff: 0
+Current Limit: 5.19986 New_limit: 3.90499 L: 3.1027 Additional Memory: 0
+
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+gc, name: box2d.js size: 9099076 duration: 0.992 speed: 9.17246e+06 garbage collected: 5977540 speed: 6.02575e+06 heap limit: 5199856 size before gc: 9099076 guid: 833845_139897084105480
+allocation_rate: 0.0591683 gc_rate: 9.09975, g_bytes: 5.031e+06, g_time: 8.50287e+07, s_bytes: 8.66267e+06, s_time: 951968 yg_diff: 0
+Current Limit: 5.21869 New_limit: 3.94407 L: 3.12154 Additional Memory: 0
+
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+gc, name: box2d.js size: 8827228 duration: 0.855 speed: 1.03242e+07 garbage collected: 5755084 speed: 6.73109e+06 heap limit: 5218688 size before gc: 8827228 guid: 833845_139897084105480
+allocation_rate: 0.05919 gc_rate: 9.47501, g_bytes: 5.06474e+06, g_time: 8.55674e+07, s_bytes: 8.56052e+06, s_time: 903484 yg_diff: 0
+Current Limit: 5.1693 New_limit: 3.87197 L: 3.07214 Additional Memory: 0
+
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+gc, name: box2d.js size: 9039780 duration: 0.867 speed: 1.04265e+07 garbage collected: 5968328 speed: 6.88388e+06 heap limit: 5169296 size before gc: 9039780 guid: 833845_139897084105480
+allocation_rate: 0.0592287 gc_rate: 9.7342, g_bytes: 5.10988e+06, g_time: 8.62737e+07, s_bytes: 8.61712e+06, s_time: 885242 yg_diff: 0
+Current Limit: 5.1686 New_limit: 3.86072 L: 3.07145 Additional Memory: 0
+
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+***Calling commented Grow()***
+gc, name: box2d.js size: 8908616 duration: 0.472 speed: 1.88742e+07 garbage collected: 5968504 speed: 1.26451e+07 heap limit: 5168604 size before gc: 8908616 guid: 833845_139897084105480
+allocation_rate: 0.0592211 gc_rate: 12.7399, g_bytes: 5.14625e+06, g_time: 8.68989e+07, s_bytes: 8.64556e+06, s_time: 678621 yg_diff: 0
+Current Limit: 5.03726 New_limit: 3.61507 L: 2.94011 Additional Memory: 0
+
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+allocation_rate: 0.0590185 gc_rate: 12.7399, g_bytes: 5.0483e+06, g_time: 8.55376e+07, s_bytes: 8.64556e+06, s_time: 678621 yg_diff: 0
+Current Limit: 5.03726 New_limit: 3.61391 L: 2.94011 Additional Memory: 0
+
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+gc, name: box2d.js size: 8837876 duration: 0.477 speed: 1.8528e+07 garbage collected: 6030788 speed: 1.26432e+07 heap limit: 5037264 size before gc: 8837876 guid: 833845_139897084105480
+allocation_rate: 0.0590669 gc_rate: 14.981, g_bytes: 5.09077e+06, g_time: 8.61866e+07, s_bytes: 8.65621e+06, s_time: 577810 yg_diff: 0
+Current Limit: 4.90424 New_limit: 3.41448 L: 2.80709 Additional Memory: 0
+
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+gc, name: box2d.js size: 8984516 duration: 0.852 speed: 1.05452e+07 garbage collected: 6105672 speed: 7.16628e+06 heap limit: 4904240 size before gc: 8984516 guid: 833845_139897084105480
+allocation_rate: 0.0592522 gc_rate: 11.9343, g_bytes: 5.14511e+06, g_time: 8.68341e+07, s_bytes: 8.53187e+06, s_time: 714905 yg_diff: 0
+Current Limit: 4.976 New_limit: 3.56909 L: 2.87884 Additional Memory: 0
+
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+gc, name: box2d.js size: 8752352 duration: 0.784 speed: 1.11637e+07 garbage collected: 5716748 speed: 7.29177e+06 heap limit: 4975996 size before gc: 8752352 guid: 833845_139897084105480
+allocation_rate: 0.0593725 gc_rate: 11.3051, g_bytes: 5.18153e+06, g_time: 8.72715e+07, s_bytes: 8.47266e+06, s_time: 749453 yg_diff: 0
+Current Limit: 5.13276 New_limit: 3.76458 L: 3.0356 Additional Memory: 0
+
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+gc, name: box2d.js size: 8901692 duration: 0.815 speed: 1.09223e+07 garbage collected: 6013516 speed: 7.37855e+06 heap limit: 5132756 size before gc: 8901692 guid: 833845_139897084105480
+allocation_rate: 0.0593576 gc_rate: 10.9544, g_bytes: 5.21575e+06, g_time: 8.787e+07, s_bytes: 8.5688e+06, s_time: 782226 yg_diff: 0
+Current Limit: 4.98533 New_limit: 3.61044 L: 2.88818 Additional Memory: 0
+
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+gc, name: box2d.js size: 8852192 duration: 0.517 speed: 1.71222e+07 garbage collected: 6035156 speed: 1.16734e+07 heap limit: 4985328 size before gc: 8852192 guid: 833845_139897084105480
+allocation_rate: 0.0594484 gc_rate: 13.2772, g_bytes: 5.25317e+06, g_time: 8.83652e+07, s_bytes: 8.62507e+06, s_time: 649613 yg_diff: 0
+Current Limit: 4.91419 New_limit: 3.46545 L: 2.81704 Additional Memory: 0
+
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+allocation_rate: 0.0594325 gc_rate: 13.2772, g_bytes: 5.18548e+06, g_time: 8.72499e+07, s_bytes: 8.62507e+06, s_time: 649613 yg_diff: 0
+Current Limit: 4.91419 New_limit: 3.46536 L: 2.81704 Additional Memory: 0
+
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+gc, name: box2d.js size: 9012812 duration: 0.8 speed: 1.1266e+07 garbage collected: 5972316 speed: 7.4654e+06 heap limit: 4914188 size before gc: 9012812 guid: 833845_139897084105480
+allocation_rate: 0.0595439 gc_rate: 11.9375, g_bytes: 5.23599e+06, g_time: 8.7935e+07, s_bytes: 8.65241e+06, s_time: 724807 yg_diff: 0
+Current Limit: 5.13765 New_limit: 3.7515 L: 3.0405 Additional Memory: 0
+
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+gc, name: box2d.js size: 8964012 duration: 0.722 speed: 1.24155e+07 garbage collected: 5949616 speed: 8.24047e+06 heap limit: 5137648 size before gc: 8964012 guid: 833845_139897084105480
+allocation_rate: 0.0595396 gc_rate: 11.9685, g_bytes: 5.27037e+06, g_time: 8.85187e+07, s_bytes: 8.65804e+06, s_time: 723403 yg_diff: 0
+Current Limit: 5.11155 New_limit: 3.7214 L: 3.0144 Additional Memory: 0
+
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+***Calling commented Grow()***
+gc, name: box2d.js size: 8837472 duration: 0.537 speed: 1.64571e+07 garbage collected: 5997832 speed: 1.11691e+07 heap limit: 5111548 size before gc: 8837472 guid: 833845_139897084105480
+allocation_rate: 0.0595262 gc_rate: 13.7504, g_bytes: 5.298e+06, g_time: 8.90028e+07, s_bytes: 8.66553e+06, s_time: 630202 yg_diff: 0
+Current Limit: 4.93679 New_limit: 3.47977 L: 2.83964 Additional Memory: 0
+
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+gc, name: box2d.js size: 8966348 duration: 0.8 speed: 1.12079e+07 garbage collected: 6092768 speed: 7.61596e+06 heap limit: 4936792 size before gc: 8966348 guid: 833845_139897084105480
+allocation_rate: 0.0596478 gc_rate: 12.1166, g_bytes: 5.33944e+06, g_time: 8.95161e+07, s_bytes: 8.66456e+06, s_time: 715101 yg_diff: 0
+Current Limit: 4.97073 New_limit: 3.56027 L: 2.87358 Additional Memory: 0
+
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+gc, name: box2d.js size: 8775660 duration: 0.859 speed: 1.02161e+07 garbage collected: 5716872 speed: 6.65526e+06 heap limit: 4970732 size before gc: 8775660 guid: 833845_139897084105480
+allocation_rate: 0.0597736 gc_rate: 10.8461, g_bytes: 5.36757e+06, g_time: 8.97983e+07, s_bytes: 8.53642e+06, s_time: 787050 yg_diff: 0
+Current Limit: 5.15594 New_limit: 3.80839 L: 3.05879 Additional Memory: 0
+
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+allocation_rate: 0.0590192 gc_rate: 10.8461, g_bytes: 5.2392e+06, g_time: 8.8771e+07, s_bytes: 8.53642e+06, s_time: 787050 yg_diff: 0
+Current Limit: 5.15594 New_limit: 3.80365 L: 3.05879 Additional Memory: 0
+
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+gc, name: box2d.js size: 9056572 duration: 0.821 speed: 1.10311e+07 garbage collected: 6002168 speed: 7.3108e+06 heap limit: 5155940 size before gc: 9056572 guid: 833845_139897084105480
+allocation_rate: 0.0590711 gc_rate: 10.713, g_bytes: 5.27713e+06, g_time: 8.93351e+07, s_bytes: 8.61355e+06, s_time: 804025 yg_diff: 0
+Current Limit: 5.15156 New_limit: 3.80367 L: 3.0544 Additional Memory: 0
+
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+gc, name: box2d.js size: 8987820 duration: 0.829 speed: 1.08418e+07 garbage collected: 6017800 speed: 7.25911e+06 heap limit: 5151556 size before gc: 8987820 guid: 833845_139897084105480
+allocation_rate: 0.0591152 gc_rate: 10.5933, g_bytes: 5.30994e+06, g_time: 8.98237e+07, s_bytes: 8.64955e+06, s_time: 816513 yg_diff: 0
+Current Limit: 5.06717 New_limit: 3.7133 L: 2.97002 Additional Memory: 0
+
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+gc, name: box2d.js size: 8990752 duration: 0.568 speed: 1.58288e+07 garbage collected: 6136704 speed: 1.08041e+07 heap limit: 5067172 size before gc: 8990752 guid: 833845_139897084105480
+allocation_rate: 0.059224 gc_rate: 12.5236, g_bytes: 5.34548e+06, g_time: 9.02587e+07, s_bytes: 8.66954e+06, s_time: 692256 yg_diff: 0
+Current Limit: 4.9512 New_limit: 3.52479 L: 2.85405 Additional Memory: 0
+
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+gc, name: box2d.js size: 8955856 duration: 1.077 speed: 8.31556e+06 garbage collected: 5809132 speed: 5.39381e+06 heap limit: 4951200 size before gc: 8955856 guid: 833845_139897084105480
+allocation_rate: 0.0594412 gc_rate: 9.64215, g_bytes: 5.3833e+06, g_time: 9.05651e+07, s_bytes: 8.52972e+06, s_time: 884628 yg_diff: 0
+Current Limit: 5.24388 New_limit: 3.95085 L: 3.14672 Additional Memory: 0
+
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+gc, name: box2d.js size: 8900852 duration: 0.753 speed: 1.18205e+07 garbage collected: 6054144 speed: 8.04003e+06 heap limit: 5243876 size before gc: 8900852 guid: 833845_139897084105480
+allocation_rate: 0.0594654 gc_rate: 10.4059, g_bytes: 5.40184e+06, g_time: 9.08399e+07, s_bytes: 8.52048e+06, s_time: 818814 yg_diff: 0
+Current Limit: 4.94386 New_limit: 3.58309 L: 2.84671 Additional Memory: 0
+
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+allocation_rate: 0.0593378 gc_rate: 10.4059, g_bytes: 5.34369e+06, g_time: 9.00554e+07, s_bytes: 8.52048e+06, s_time: 818814 yg_diff: 0
+Current Limit: 4.94386 New_limit: 3.5823 L: 2.84671 Additional Memory: 0
+
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+***Calling commented Grow()***
+gc, name: box2d.js size: 8953588 duration: 0.82 speed: 1.0919e+07 garbage collected: 6098708 speed: 7.43745e+06 heap limit: 4943860 size before gc: 8953588 guid: 833845_139897084105480
+allocation_rate: 0.0594948 gc_rate: 10.3438, g_bytes: 5.38185e+06, g_time: 9.04591e+07, s_bytes: 8.47576e+06, s_time: 819407 yg_diff: 0
+Current Limit: 4.95203 New_limit: 3.59471 L: 2.85488 Additional Memory: 0
+
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+***Calling commented Grow()***
+gc, name: box2d.js size: 8629124 duration: 0.678 speed: 1.27273e+07 garbage collected: 5744160 speed: 8.47221e+06 heap limit: 4952032 size before gc: 8629124 guid: 833845_139897084105480
+allocation_rate: 0.0595541 gc_rate: 11.265, g_bytes: 5.40147e+06, g_time: 9.06986e+07, s_bytes: 8.43411e+06, s_time: 748704 yg_diff: 0
+Current Limit: 4.98212 New_limit: 3.59798 L: 2.88496 Additional Memory: 0
+
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+gc, name: box2d.js size: 8920444 duration: 0.589 speed: 1.51451e+07 garbage collected: 6071816 speed: 1.03087e+07 heap limit: 4982116 size before gc: 8920444 guid: 833845_139897084105480
+allocation_rate: 0.0596598 gc_rate: 12.7949, g_bytes: 5.43317e+06, g_time: 9.10691e+07, s_bytes: 8.55786e+06, s_time: 668852 yg_diff: 0
+Current Limit: 4.94578 New_limit: 3.51402 L: 2.84863 Additional Memory: 0
+
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+gc, name: box2d.js size: 9075520 duration: 1.341 speed: 6.76773e+06 garbage collected: 6172132 speed: 4.60263e+06 heap limit: 4945780 size before gc: 9075520 guid: 833845_139897084105480
+allocation_rate: 0.059825 gc_rate: 8.44753, g_bytes: 5.47286e+06, g_time: 9.14811e+07, s_bytes: 8.48914e+06, s_time: 1.00493e+06 yg_diff: 0
+Current Limit: 5.00054 New_limit: 3.73127 L: 2.90339 Additional Memory: 0
+
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+gc, name: box2d.js size: 8738388 duration: 0.803 speed: 1.08822e+07 garbage collected: 5728368 speed: 7.13371e+06 heap limit: 5000540 size before gc: 8738388 guid: 833845_139897084105480
+allocation_rate: 0.0599264 gc_rate: 9.36281, g_bytes: 5.49096e+06, g_time: 9.16284e+07, s_bytes: 8.46363e+06, s_time: 903963 yg_diff: 0
+Current Limit: 5.10717 New_limit: 3.81138 L: 3.01002 Additional Memory: 0
+
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+allocation_rate: 0.0598539 gc_rate: 9.36281, g_bytes: 5.46689e+06, g_time: 9.13373e+07, s_bytes: 8.46363e+06, s_time: 903963 yg_diff: 0
+Current Limit: 5.10717 New_limit: 3.8109 L: 3.01002 Additional Memory: 0
+
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+gc, name: box2d.js size: 8843536 duration: 0.471 speed: 1.87761e+07 garbage collected: 6025080 speed: 1.27921e+07 heap limit: 5107172 size before gc: 8843536 guid: 833845_139897084105480
+allocation_rate: 0.059829 gc_rate: 12.4668, g_bytes: 5.48522e+06, g_time: 9.16817e+07, s_bytes: 8.5707e+06, s_time: 687481 yg_diff: 0
+Current Limit: 4.91561 New_limit: 3.48992 L: 2.81846 Additional Memory: 0
+
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+gc, name: box2d.js size: 8999540 duration: 0.913 speed: 9.85711e+06 garbage collected: 6120268 speed: 6.70347e+06 heap limit: 4915608 size before gc: 8999540 guid: 833845_139897084105480
+allocation_rate: 0.0599894 gc_rate: 10.6454, g_bytes: 5.52001e+06, g_time: 9.20166e+07, s_bytes: 8.51885e+06, s_time: 800241 yg_diff: 0
+Current Limit: 4.97642 New_limit: 3.6147 L: 2.87927 Additional Memory: 0
+
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+gc, name: box2d.js size: 8779824 duration: 1.095 speed: 8.0181e+06 garbage collected: 5736068 speed: 5.23842e+06 heap limit: 4976424 size before gc: 8779824 guid: 833845_139897084105480
+allocation_rate: 0.0600671 gc_rate: 8.93446, g_bytes: 5.53904e+06, g_time: 9.22143e+07, s_bytes: 8.46647e+06, s_time: 947620 yg_diff: 0
+Current Limit: 5.14091 New_limit: 3.86966 L: 3.04376 Additional Memory: 0
+
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+gc, name: box2d.js size: 8866576 duration: 0.448 speed: 1.97915e+07 garbage collected: 6049100 speed: 1.35025e+07 heap limit: 5140908 size before gc: 8866576 guid: 833845_139897084105480
+allocation_rate: 0.0600296 gc_rate: 12.2981, g_bytes: 5.55323e+06, g_time: 9.25083e+07, s_bytes: 8.58172e+06, s_time: 697810 yg_diff: 0
+Current Limit: 4.91463 New_limit: 3.49455 L: 2.81748 Additional Memory: 0
+
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+gc, name: box2d.js size: 8886868 duration: 0.713 speed: 1.24641e+07 garbage collected: 6038748 speed: 8.46949e+06 heap limit: 4914628 size before gc: 8886868 guid: 833845_139897084105480
+allocation_rate: 0.0601431 gc_rate: 12.1687, g_bytes: 5.57904e+06, g_time: 9.27628e+07, s_bytes: 8.58388e+06, s_time: 705405 yg_diff: 0
+Current Limit: 4.94527 New_limit: 3.53312 L: 2.84812 Additional Memory: 0
+
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+allocation_rate: 0.0597687 gc_rate: 12.1687, g_bytes: 5.54797e+06, g_time: 9.2824e+07, s_bytes: 8.58388e+06, s_time: 705405 yg_diff: 0
+Current Limit: 4.94527 New_limit: 3.53098 L: 2.84812 Additional Memory: 0
+
+yg_balancer flag disabled
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+gc, name: box2d.js size: 8942536 duration: 1.132 speed: 7.89977e+06 garbage collected: 5759736 speed: 5.08811e+06 heap limit: 4945272 size before gc: 8942536 guid: 833845_139897084105480
+allocation_rate: 0.0598686 gc_rate: 9.23916, g_bytes: 5.57529e+06, g_time: 9.31255e+07, s_bytes: 8.48804e+06, s_time: 918703 yg_diff: 0
+Current Limit: 5.27995 New_limit: 4.01194 L: 3.1828 Additional Memory: 0
+
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+gc, name: box2d.js size: 8632920 duration: 0.497 speed: 1.73701e+07 garbage collected: 5823252 speed: 1.17168e+07 heap limit: 5279952 size before gc: 8632920 guid: 833845_139897084105480
+allocation_rate: 0.0599102 gc_rate: 11.9712, g_bytes: 5.56904e+06, g_time: 9.29564e+07, s_bytes: 8.47386e+06, s_time: 707851 yg_diff: 0
+Current Limit: 4.90682 New_limit: 3.49428 L: 2.80967 Additional Memory: 0
+
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+gc, name: box2d.js size: 8873540 duration: 0.902 speed: 9.83763e+06 garbage collected: 6020168 speed: 6.67424e+06 heap limit: 4906820 size before gc: 8873540 guid: 833845_139897084105480
+allocation_rate: 0.0600391 gc_rate: 10.5382, g_bytes: 5.59378e+06, g_time: 9.31689e+07, s_bytes: 8.48251e+06, s_time: 804926 yg_diff: 0
+Current Limit: 4.95052 New_limit: 3.5895 L: 2.85337 Additional Memory: 0
+
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+gc, name: box2d.js size: 8691868 duration: 0.695 speed: 1.25063e+07 garbage collected: 5692392 speed: 8.19049e+06 heap limit: 4950524 size before gc: 8691868 guid: 833845_139897084105480
+allocation_rate: 0.0601016 gc_rate: 11.2485, g_bytes: 5.60601e+06, g_time: 9.32756e+07, s_bytes: 8.43596e+06, s_time: 749963 yg_diff: 0
+Current Limit: 5.09663 New_limit: 3.73037 L: 2.99948 Additional Memory: 0
+
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+gc, name: box2d.js size: 8857132 duration: 0.463 speed: 1.91299e+07 garbage collected: 6038596 speed: 1.30423e+07 heap limit: 5096628 size before gc: 8857132 guid: 833845_139897084105480
+allocation_rate: 0.0600742 gc_rate: 14.1204, g_bytes: 5.6186e+06, g_time: 9.35276e+07, s_bytes: 8.56374e+06, s_time: 606481 yg_diff: 0
+Current Limit: 4.91569 New_limit: 3.45076 L: 2.81854 Additional Memory: 0
+
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+gc, name: box2d.js size: 8886288 duration: 0.659 speed: 1.34845e+07 garbage collected: 6027924 speed: 9.14708e+06 heap limit: 4915688 size before gc: 8886288 guid: 833845_139897084105480
+allocation_rate: 0.0601765 gc_rate: 13.5406, g_bytes: 5.64105e+06, g_time: 9.37418e+07, s_bytes: 8.56771e+06, s_time: 632741 yg_diff: 0
+Current Limit: 4.95552 New_limit: 3.50908 L: 2.85836 Additional Memory: 0
+
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+allocation_rate: 0.0601179 gc_rate: 13.5406, g_bytes: 5.39127e+06, g_time: 8.96782e+07, s_bytes: 8.56771e+06, s_time: 632741 yg_diff: 0
+Current Limit: 4.95552 New_limit: 3.50876 L: 2.85836 Additional Memory: 0
+
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+***Calling commented Grow()***
+gc, name: box2d.js size: 8565964 duration: 0.467 speed: 1.83425e+07 garbage collected: 5747348 speed: 1.2307e+07 heap limit: 4955516 size before gc: 8565964 guid: 833845_139897084105480
+allocation_rate: 0.0600939 gc_rate: 15.4239, g_bytes: 5.40709e+06, g_time: 8.99774e+07, s_bytes: 8.48113e+06, s_time: 549870 yg_diff: 0
+Current Limit: 4.91577 New_limit: 3.42364 L: 2.81862 Additional Memory: 0
+
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+gc, name: box2d.js size: 8891704 duration: 0.817 speed: 1.08834e+07 garbage collected: 6033356 speed: 7.38477e+06 heap limit: 4915768 size before gc: 8891704 guid: 833845_139897084105480
+allocation_rate: 0.0602182 gc_rate: 12.4895, g_bytes: 5.44039e+06, g_time: 9.03446e+07, s_bytes: 8.53576e+06, s_time: 683435 yg_diff: 0
+Current Limit: 4.9555 New_limit: 3.53613 L: 2.85835 Additional Memory: 0
+
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+***Calling commented Grow()***
+gc, name: box2d.js size: 8727908 duration: 0.809 speed: 1.07885e+07 garbage collected: 5676012 speed: 7.01608e+06 heap limit: 4955500 size before gc: 8727908 guid: 833845_139897084105480
+allocation_rate: 0.0602568 gc_rate: 11.344, g_bytes: 5.46185e+06, g_time: 9.06428e+07, s_bytes: 8.46513e+06, s_time: 746218 yg_diff: 0
+Current Limit: 5.14905 New_limit: 3.78699 L: 3.0519 Additional Memory: 0
+
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+gc, name: box2d.js size: 8965292 duration: 0.736 speed: 1.21811e+07 garbage collected: 5942896 speed: 8.07459e+06 heap limit: 5149048 size before gc: 8965292 guid: 833845_139897084105480
+allocation_rate: 0.0602475 gc_rate: 11.557, g_bytes: 5.48442e+06, g_time: 9.10315e+07, s_bytes: 8.565e+06, s_time: 741109 yg_diff: 0
+Current Limit: 5.11955 New_limit: 3.7471 L: 3.0224 Additional Memory: 0
+
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+gc, name: box2d.js size: 8839828 duration: 0.547 speed: 1.61606e+07 garbage collected: 5996392 speed: 1.09623e+07 heap limit: 5119548 size before gc: 8839828 guid: 833845_139897084105480
+allocation_rate: 0.0602184 gc_rate: 13.3842, g_bytes: 5.50107e+06, g_time: 9.13521e+07, s_bytes: 8.62014e+06, s_time: 644054 yg_diff: 0
+Current Limit: 4.94059 New_limit: 3.49646 L: 2.84344 Additional Memory: 0
+
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+allocation_rate: 0.060118 gc_rate: 13.3842, g_bytes: 5.28959e+06, g_time: 8.79868e+07, s_bytes: 8.62014e+06, s_time: 644054 yg_diff: 0
+Current Limit: 4.94059 New_limit: 3.49592 L: 2.84344 Additional Memory: 0
+
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+gc, name: box2d.js size: 8904980 duration: 0.69 speed: 1.29058e+07 garbage collected: 6047988 speed: 8.7652e+06 heap limit: 4940588 size before gc: 8904980 guid: 833845_139897084105480
+allocation_rate: 0.0602161 gc_rate: 12.9342, g_bytes: 5.32819e+06, g_time: 8.84845e+07, s_bytes: 8.62745e+06, s_time: 667027 yg_diff: 0
+Current Limit: 4.95414 New_limit: 3.52285 L: 2.85699 Additional Memory: 0
+
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+833845_139897084105480 start incremtal marking!
+yg_balancer flag disabled
+gc, name: box2d.js size: 8693620 duration: 0.781 speed: 1.11314e+07 garbage collected: 5675772 speed: 7.26731e+06 heap limit: 4954144 size before gc: 8693620 guid: 833845_139897084105480
+allocation_rate: 0.0603117 gc_rate: 11.7542, g_bytes: 5.35361e+06, g_time: 8.87658e+07, s_bytes: 8.51018e+06, s_time: 724014 yg_diff: 0
+Current Limit: 5.115 New_limit: 3.73629 L: 3.01785 Additional Memory: 0
+
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+***Calling commented Grow()***
+yg_balancer flag disabled
+yg_balancer flag disabled
+yg_balancer flag disabled
+inside timer stop
+calling join
+inside timer stop
+calling join

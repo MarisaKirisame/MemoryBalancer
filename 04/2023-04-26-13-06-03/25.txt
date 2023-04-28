@@ -1,0 +1,17 @@
+{"PhysicalMemory":7741440,"SizeOfObjects":2642528,"AllocatedExternalMemorySinceMarkCompact":0,"BenchmarkMemory":2642528,"Limit":11343608,"time":232160443,"name":"box2d.js","guid":"833773_140595955815176"}
+{"PhysicalMemory":7741440,"SizeOfObjects":5406388,"AllocatedExternalMemorySinceMarkCompact":0,"BenchmarkMemory":5406388,"Limit":4886948,"time":732198460,"name":"box2d.js","guid":"833773_140595955815176"}
+{"PhysicalMemory":7225344,"SizeOfObjects":5130644,"AllocatedExternalMemorySinceMarkCompact":0,"BenchmarkMemory":5130644,"Limit":5131864,"time":1232305788,"name":"box2d.js","guid":"833773_140595955815176"}
+{"PhysicalMemory":7483392,"SizeOfObjects":5330400,"AllocatedExternalMemorySinceMarkCompact":0,"BenchmarkMemory":5330400,"Limit":4833960,"time":1732364591,"name":"box2d.js","guid":"833773_140595955815176"}
+{"PhysicalMemory":6709248,"SizeOfObjects":4604704,"AllocatedExternalMemorySinceMarkCompact":0,"BenchmarkMemory":4604704,"Limit":4834344,"time":2232420366,"name":"box2d.js","guid":"833773_140595955815176"}
+{"PhysicalMemory":7741440,"SizeOfObjects":5073736,"AllocatedExternalMemorySinceMarkCompact":0,"BenchmarkMemory":5073736,"Limit":4895460,"time":2732508665,"name":"box2d.js","guid":"833773_140595955815176"}
+{"PhysicalMemory":8257536,"SizeOfObjects":5040620,"AllocatedExternalMemorySinceMarkCompact":0,"BenchmarkMemory":5040620,"Limit":5100320,"time":3232594775,"name":"box2d.js","guid":"833773_140595955815176"}
+{"PhysicalMemory":7999488,"SizeOfObjects":5065084,"AllocatedExternalMemorySinceMarkCompact":0,"BenchmarkMemory":5065084,"Limit":5060428,"time":3732688476,"name":"box2d.js","guid":"833773_140595955815176"}
+{"PhysicalMemory":7741440,"SizeOfObjects":5419696,"AllocatedExternalMemorySinceMarkCompact":0,"BenchmarkMemory":5419696,"Limit":4913984,"time":4232775414,"name":"box2d.js","guid":"833773_140595955815176"}
+{"PhysicalMemory":7483392,"SizeOfObjects":4895860,"AllocatedExternalMemorySinceMarkCompact":0,"BenchmarkMemory":4895860,"Limit":4949912,"time":4732864935,"name":"box2d.js","guid":"833773_140595955815176"}
+{"PhysicalMemory":6967296,"SizeOfObjects":5179148,"AllocatedExternalMemorySinceMarkCompact":0,"BenchmarkMemory":5179148,"Limit":4863088,"time":5232923299,"name":"box2d.js","guid":"833773_140595955815176"}
+{"PhysicalMemory":7483392,"SizeOfObjects":5055300,"AllocatedExternalMemorySinceMarkCompact":0,"BenchmarkMemory":5055300,"Limit":4876476,"time":5733010369,"name":"box2d.js","guid":"833773_140595955815176"}
+{"PhysicalMemory":7225344,"SizeOfObjects":5072424,"AllocatedExternalMemorySinceMarkCompact":0,"BenchmarkMemory":5072424,"Limit":4914800,"time":6233096174,"name":"box2d.js","guid":"833773_140595955815176"}
+{"PhysicalMemory":7999488,"SizeOfObjects":5056316,"AllocatedExternalMemorySinceMarkCompact":0,"BenchmarkMemory":5056316,"Limit":4877472,"time":6733181983,"name":"box2d.js","guid":"833773_140595955815176"}
+{"PhysicalMemory":7741440,"SizeOfObjects":5065880,"AllocatedExternalMemorySinceMarkCompact":0,"BenchmarkMemory":5065880,"Limit":4876444,"time":7233237975,"name":"box2d.js","guid":"833773_140595955815176"}
+{"PhysicalMemory":7225344,"SizeOfObjects":4787048,"AllocatedExternalMemorySinceMarkCompact":0,"BenchmarkMemory":4787048,"Limit":4908852,"time":7733325019,"name":"box2d.js","guid":"833773_140595955815176"}
+{"PhysicalMemory":7225344,"SizeOfObjects":5025576,"AllocatedExternalMemorySinceMarkCompact":0,"BenchmarkMemory":5025576,"Limit":5136812,"time":8233381065,"name":"box2d.js","guid":"833773_140595955815176"}

@@ -1,0 +1,1824 @@
+3
+acdc_1
+ACDC_benchmark acdc_1
+UPDATING YG SEMISPACE SIZE to 49283072
+gi_time or si_time is 0
+Changing yg limit from 524288 to: 78643200
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+1162912_139695623295752 start incremtal marking!
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+***Calling commented Grow()***
+gc, name: acdc_8_1 size: 44467808 duration: 6.944 speed: 6.40377e+06 garbage collected: 25566456 speed: 3.68181e+06 heap limit: 19238448 size before gc: 44467808 guid: 1162912_139695623295752
+Changing yg limit from 98566144 to: 78643200
+both spaces shrinked to 49283072
+1162912_139695623295752 start incremtal marking!
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+gc, name: acdc_8_1 size: 44724836 duration: 7.296 speed: 6.13005e+06 garbage collected: 25520324 speed: 3.49785e+06 heap limit: 19238448 size before gc: 44724836 guid: 1162912_139695623295752
+allocation_rate: 0.208625 gc_rate: 0.151074, g_bytes: 2.18899e+06, g_time: 1.04925e+07, s_bytes: 1.00688e+07, s_time: 6.6648e+07 yg_diff: 175636480
+Current Limit: 55.5745 New_limit: 113.227 L: 19.2045 Additional Memory: 94
+
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+***Calling commented Grow()***
+Changing yg limit from 98566144 to: 78643200
+both spaces shrinked to 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+***Calling commented Grow()***
+Changing yg limit from 98566144 to: 78643200
+both spaces shrinked to 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+1162912_139695623295752 start incremtal marking!
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+gc, name: acdc_8_1 size: 56438260 duration: 1.691 speed: 3.33757e+07 garbage collected: 55373416 speed: 3.2746e+07 heap limit: 55574528 size before gc: 56438260 guid: 1162912_139695623295752
+allocation_rate: 0.191009 gc_rate: 0.967474, g_bytes: 3.94123e+06, g_time: 2.06337e+07, s_bytes: 3.30581e+07, s_time: 3.41695e+07 yg_diff: 77594624
+Current Limit: 55.5745 New_limit: 9.43608 L: 1.06484 Additional Memory: 8
+
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+***Calling commented Grow()***
+Changing yg limit from 98566144 to: 78643200
+both spaces shrinked to 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+***Calling commented Grow()***
+1162912_139695623295752 start incremtal marking!
+Changing yg limit from 98566144 to: 78643200
+both spaces shrinked to 49283072
+gc, name: acdc_8_1 size: 83313124 duration: 11.154 speed: 7.46935e+06 garbage collected: 68621576 speed: 6.15219e+06 heap limit: 55574528 size before gc: 83313124 guid: 1162912_139695623295752
+allocation_rate: 0.271956 gc_rate: 1.0464, g_bytes: 7.85658e+06, g_time: 2.88891e+07, s_bytes: 4.93501e+07, s_time: 4.71618e+07 yg_diff: 77594624
+Current Limit: 55.5745 New_limit: 50.3673 L: 14.6915 Additional Memory: 35
+
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+allocation_rate: 0.262594 gc_rate: 1.0464, g_bytes: 7.46375e+06, g_time: 2.84231e+07, s_bytes: 4.93501e+07, s_time: 4.71618e+07 yg_diff: 29360128
+Current Limit: 55.5745 New_limit: 49.7479 L: 14.6915 Additional Memory: 35
+
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+***Calling commented Grow()***
+Changing yg limit from 98566144 to: 78643200
+both spaces shrinked to 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+***Calling commented Grow()***
+1162912_139695623295752 start incremtal marking!
+Changing yg limit from 98566144 to: 78643200
+both spaces shrinked to 49283072
+gc, name: acdc_8_1 size: 79648008 duration: 10.968 speed: 7.26185e+06 garbage collected: 65427640 speed: 5.96532e+06 heap limit: 55574528 size before gc: 79648008 guid: 1162912_139695623295752
+allocation_rate: 0.285759 gc_rate: 1.09331, g_bytes: 1.03384e+07, g_time: 3.61786e+07, s_bytes: 5.63763e+07, s_time: 5.15649e+07 yg_diff: 18874368
+Current Limit: 55.5745 New_limit: 49.4188 L: 14.2204 Additional Memory: 35
+
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+***Calling commented Grow()***
+Changing yg limit from 98566144 to: 78643200
+both spaces shrinked to 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+***Calling commented Grow()***
+1162912_139695623295752 start incremtal marking!
+Changing yg limit from 98566144 to: 78643200
+both spaces shrinked to 49283072
+gc, name: acdc_8_1 size: 78546388 duration: 10.233 speed: 7.67579e+06 garbage collected: 65623760 speed: 6.41295e+06 heap limit: 55574528 size before gc: 78546388 guid: 1162912_139695623295752
+allocation_rate: 0.299059 gc_rate: 1.13894, g_bytes: 1.30378e+07, g_time: 4.35959e+07, s_bytes: 5.96791e+07, s_time: 5.23989e+07 yg_diff: 48234496
+Current Limit: 55.5745 New_limit: 46.5539 L: 12.9226 Additional Memory: 33
+
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+***Calling commented Grow()***
+Changing yg limit from 98566144 to: 78643200
+both spaces shrinked to 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+allocation_rate: 0.28199 gc_rate: 1.13894, g_bytes: 1.35175e+07, g_time: 4.79361e+07, s_bytes: 5.96791e+07, s_time: 5.23989e+07 yg_diff: 68157440
+Current Limit: 55.5745 New_limit: 45.5801 L: 12.9226 Additional Memory: 32
+
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+allocation_rate: 0.182038 gc_rate: 1.13894, g_bytes: 1.28417e+07, g_time: 7.05438e+07, s_bytes: 5.96791e+07, s_time: 5.23989e+07 yg_diff: 440401920
+Current Limit: 55.5745 New_limit: 39.1616 L: 12.9226 Additional Memory: 26
+
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+allocation_rate: 0.132574 gc_rate: 1.13894, g_bytes: 1.21996e+07, g_time: 9.2021e+07, s_bytes: 5.96791e+07, s_time: 5.23989e+07 yg_diff: 499122176
+Current Limit: 55.5745 New_limit: 35.3147 L: 12.9226 Additional Memory: 22
+
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+allocation_rate: 0.103088 gc_rate: 1.13894, g_bytes: 1.15896e+07, g_time: 1.12424e+08, s_bytes: 5.96791e+07, s_time: 5.23989e+07 yg_diff: 469762048
+Current Limit: 55.5745 New_limit: 32.6682 L: 12.9226 Additional Memory: 19
+
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+allocation_rate: 0.083532 gc_rate: 1.13894, g_bytes: 1.10101e+07, g_time: 1.31808e+08, s_bytes: 5.96791e+07, s_time: 5.23989e+07 yg_diff: 469762048
+Current Limit: 55.5745 New_limit: 30.6969 L: 12.9226 Additional Memory: 17
+
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+allocation_rate: 0.0696289 gc_rate: 1.13894, g_bytes: 1.04597e+07, g_time: 1.5022e+08, s_bytes: 5.96791e+07, s_time: 5.23989e+07 yg_diff: 469762048
+Current Limit: 55.5745 New_limit: 29.1504 L: 12.9226 Additional Memory: 16
+
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+allocation_rate: 0.059248 gc_rate: 1.13894, g_bytes: 9.93668e+06, g_time: 1.67713e+08, s_bytes: 5.96791e+07, s_time: 5.23989e+07 yg_diff: 469762048
+Current Limit: 55.5745 New_limit: 27.8919 L: 12.9226 Additional Memory: 14
+
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+allocation_rate: 0.0512116 gc_rate: 1.13894, g_bytes: 9.43986e+06, g_time: 1.84331e+08, s_bytes: 5.96791e+07, s_time: 5.23989e+07 yg_diff: 469762048
+Current Limit: 55.5745 New_limit: 26.8397 L: 12.9226 Additional Memory: 13
+
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+***Calling commented Grow()***
+Changing yg limit from 98566144 to: 78643200
+both spaces shrinked to 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+allocation_rate: 0.0448129 gc_rate: 1.13894, g_bytes: 8.96788e+06, g_time: 2.00118e+08, s_bytes: 5.96791e+07, s_time: 5.23989e+07 yg_diff: 420478976
+Current Limit: 55.5745 New_limit: 25.9413 L: 12.9226 Additional Memory: 13
+
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+allocation_rate: 0.0396041 gc_rate: 1.13894, g_bytes: 8.5195e+06, g_time: 2.15117e+08, s_bytes: 5.96791e+07, s_time: 5.23989e+07 yg_diff: 469762048
+Current Limit: 55.5745 New_limit: 25.1613 L: 12.9226 Additional Memory: 12
+
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+allocation_rate: 0.0352866 gc_rate: 1.13894, g_bytes: 8.09354e+06, g_time: 2.29366e+08, s_bytes: 5.96791e+07, s_time: 5.23989e+07 yg_diff: 469762048
+Current Limit: 55.5745 New_limit: 24.475 L: 12.9226 Additional Memory: 11
+
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+allocation_rate: 0.0316542 gc_rate: 1.13894, g_bytes: 7.68887e+06, g_time: 2.42902e+08, s_bytes: 5.96791e+07, s_time: 5.23989e+07 yg_diff: 469762048
+Current Limit: 55.5745 New_limit: 23.8642 L: 12.9226 Additional Memory: 10
+
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+allocation_rate: 0.0285596 gc_rate: 1.13894, g_bytes: 7.30444e+06, g_time: 2.55761e+08, s_bytes: 5.96791e+07, s_time: 5.23989e+07 yg_diff: 469762048
+Current Limit: 55.5745 New_limit: 23.3156 L: 12.9226 Additional Memory: 10
+
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+allocation_rate: 0.0258948 gc_rate: 1.13894, g_bytes: 6.93923e+06, g_time: 2.67977e+08, s_bytes: 5.96791e+07, s_time: 5.23989e+07 yg_diff: 499122176
+Current Limit: 55.5745 New_limit: 22.8189 L: 12.9226 Additional Memory: 9
+
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+allocation_rate: 0.023579 gc_rate: 1.13894, g_bytes: 6.59229e+06, g_time: 2.79583e+08, s_bytes: 5.96791e+07, s_time: 5.23989e+07 yg_diff: 469762048
+Current Limit: 55.5745 New_limit: 22.366 L: 12.9226 Additional Memory: 9
+
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+allocation_rate: 0.0215503 gc_rate: 1.13894, g_bytes: 6.26268e+06, g_time: 2.90608e+08, s_bytes: 5.96791e+07, s_time: 5.23989e+07 yg_diff: 469762048
+Current Limit: 55.5745 New_limit: 21.9506 L: 12.9226 Additional Memory: 9
+
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+allocation_rate: 0.0197606 gc_rate: 1.13894, g_bytes: 5.94956e+06, g_time: 3.01082e+08, s_bytes: 5.96791e+07, s_time: 5.23989e+07 yg_diff: 469762048
+Current Limit: 55.5745 New_limit: 21.5676 L: 12.9226 Additional Memory: 8
+
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+allocation_rate: 0.018172 gc_rate: 1.13894, g_bytes: 5.6521e+06, g_time: 3.11032e+08, s_bytes: 5.96791e+07, s_time: 5.23989e+07 yg_diff: 469762048
+Current Limit: 55.5745 New_limit: 21.2129 L: 12.9226 Additional Memory: 8
+
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+allocation_rate: 0.0167543 gc_rate: 1.13894, g_bytes: 5.36951e+06, g_time: 3.20485e+08, s_bytes: 5.96791e+07, s_time: 5.23989e+07 yg_diff: 469762048
+Current Limit: 55.5745 New_limit: 20.8829 L: 12.9226 Additional Memory: 7
+
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+allocation_rate: 0.0154828 gc_rate: 1.13894, g_bytes: 5.10104e+06, g_time: 3.29466e+08, s_bytes: 5.96791e+07, s_time: 5.23989e+07 yg_diff: 469762048
+Current Limit: 55.5745 New_limit: 20.5749 L: 12.9226 Additional Memory: 7
+
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+allocation_rate: 0.0143374 gc_rate: 1.13894, g_bytes: 4.846e+06, g_time: 3.37997e+08, s_bytes: 5.96791e+07, s_time: 5.23989e+07 yg_diff: 499122176
+Current Limit: 55.5745 New_limit: 20.2864 L: 12.9226 Additional Memory: 7
+
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+allocation_rate: 0.0133017 gc_rate: 1.13894, g_bytes: 4.60372e+06, g_time: 3.46101e+08, s_bytes: 5.96791e+07, s_time: 5.23989e+07 yg_diff: 469762048
+Current Limit: 55.5745 New_limit: 20.0154 L: 12.9226 Additional Memory: 7
+
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+allocation_rate: 0.0123616 gc_rate: 1.13894, g_bytes: 4.37354e+06, g_time: 3.538e+08, s_bytes: 5.96791e+07, s_time: 5.23989e+07 yg_diff: 469762048
+Current Limit: 55.5745 New_limit: 19.7602 L: 12.9226 Additional Memory: 6
+
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+allocation_rate: 0.0115057 gc_rate: 1.13894, g_bytes: 4.15488e+06, g_time: 3.61115e+08, s_bytes: 5.96791e+07, s_time: 5.23989e+07 yg_diff: 469762048
+Current Limit: 55.5745 New_limit: 19.5192 L: 12.9226 Additional Memory: 6
+
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+***Calling commented Grow()***
+Changing yg limit from 98566144 to: 78643200
+both spaces shrinked to 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+allocation_rate: 0.0107241 gc_rate: 1.13894, g_bytes: 3.94715e+06, g_time: 3.68064e+08, s_bytes: 5.96791e+07, s_time: 5.23989e+07 yg_diff: 391118848
+Current Limit: 55.5745 New_limit: 19.2912 L: 12.9226 Additional Memory: 6
+
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+allocation_rate: 0.0100084 gc_rate: 1.13894, g_bytes: 3.7498e+06, g_time: 3.74665e+08, s_bytes: 5.96791e+07, s_time: 5.23989e+07 yg_diff: 469762048
+Current Limit: 55.5745 New_limit: 19.0751 L: 12.9226 Additional Memory: 6
+
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+allocation_rate: 0.00935149 gc_rate: 1.13894, g_bytes: 3.56233e+06, g_time: 3.80936e+08, s_bytes: 5.96791e+07, s_time: 5.23989e+07 yg_diff: 469762048
+Current Limit: 55.5745 New_limit: 18.8697 L: 12.9226 Additional Memory: 5
+
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+allocation_rate: 0.00874715 gc_rate: 1.13894, g_bytes: 3.38422e+06, g_time: 3.86894e+08, s_bytes: 5.96791e+07, s_time: 5.23989e+07 yg_diff: 469762048
+Current Limit: 55.5745 New_limit: 18.6744 L: 12.9226 Additional Memory: 5
+
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+allocation_rate: 0.00819 gc_rate: 1.13894, g_bytes: 3.21502e+06, g_time: 3.92555e+08, s_bytes: 5.96791e+07, s_time: 5.23989e+07 yg_diff: 469762048
+Current Limit: 55.5745 New_limit: 18.4882 L: 12.9226 Additional Memory: 5
+
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+allocation_rate: 0.0076754 gc_rate: 1.13894, g_bytes: 3.05429e+06, g_time: 3.97932e+08, s_bytes: 5.96791e+07, s_time: 5.23989e+07 yg_diff: 469762048
+Current Limit: 55.5745 New_limit: 18.3105 L: 12.9226 Additional Memory: 5
+
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+allocation_rate: 0.00719926 gc_rate: 1.13894, g_bytes: 2.90158e+06, g_time: 4.03039e+08, s_bytes: 5.96791e+07, s_time: 5.23989e+07 yg_diff: 499122176
+Current Limit: 55.5745 New_limit: 18.1407 L: 12.9226 Additional Memory: 5
+
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+allocation_rate: 0.00675797 gc_rate: 1.13894, g_bytes: 2.75652e+06, g_time: 4.07891e+08, s_bytes: 5.96791e+07, s_time: 5.23989e+07 yg_diff: 469762048
+Current Limit: 55.5745 New_limit: 17.9782 L: 12.9226 Additional Memory: 5
+
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+allocation_rate: 0.00634836 gc_rate: 1.13894, g_bytes: 2.61871e+06, g_time: 4.12501e+08, s_bytes: 5.96791e+07, s_time: 5.23989e+07 yg_diff: 469762048
+Current Limit: 55.5745 New_limit: 17.8226 L: 12.9226 Additional Memory: 4
+
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+allocation_rate: 0.00596762 gc_rate: 1.13894, g_bytes: 2.48778e+06, g_time: 4.1688e+08, s_bytes: 5.96791e+07, s_time: 5.23989e+07 yg_diff: 469762048
+Current Limit: 55.5745 New_limit: 17.6734 L: 12.9226 Additional Memory: 4
+
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+allocation_rate: 0.00561325 gc_rate: 1.13894, g_bytes: 2.36341e+06, g_time: 4.21041e+08, s_bytes: 5.96791e+07, s_time: 5.23989e+07 yg_diff: 469762048
+Current Limit: 55.5745 New_limit: 17.5302 L: 12.9226 Additional Memory: 4
+
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+allocation_rate: 0.00528302 gc_rate: 1.13894, g_bytes: 2.24525e+06, g_time: 4.24993e+08, s_bytes: 5.96791e+07, s_time: 5.23989e+07 yg_diff: 469762048
+Current Limit: 55.5745 New_limit: 17.3926 L: 12.9226 Additional Memory: 4
+
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+allocation_rate: 0.00497495 gc_rate: 1.13894, g_bytes: 2.133e+06, g_time: 4.28748e+08, s_bytes: 5.96791e+07, s_time: 5.23989e+07 yg_diff: 469762048
+Current Limit: 55.5745 New_limit: 17.2603 L: 12.9226 Additional Memory: 4
+
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+allocation_rate: 0.00468724 gc_rate: 1.13894, g_bytes: 2.02636e+06, g_time: 4.32315e+08, s_bytes: 5.96791e+07, s_time: 5.23989e+07 yg_diff: 469762048
+Current Limit: 55.5745 New_limit: 17.133 L: 12.9226 Additional Memory: 4
+
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+allocation_rate: 0.00441828 gc_rate: 1.13894, g_bytes: 1.92506e+06, g_time: 4.35703e+08, s_bytes: 5.96791e+07, s_time: 5.23989e+07 yg_diff: 469762048
+Current Limit: 55.5745 New_limit: 17.0104 L: 12.9226 Additional Memory: 4
+
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+allocation_rate: 0.0041666 gc_rate: 1.13894, g_bytes: 1.82882e+06, g_time: 4.38923e+08, s_bytes: 5.96791e+07, s_time: 5.23989e+07 yg_diff: 469762048
+Current Limit: 55.5745 New_limit: 16.8923 L: 12.9226 Additional Memory: 3
+
+***Calling commented Grow()***
+Changing yg limit from 98566144 to: 78643200
+both spaces shrinked to 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+allocation_rate: 0.00393091 gc_rate: 1.13894, g_bytes: 1.73739e+06, g_time: 4.41981e+08, s_bytes: 5.96791e+07, s_time: 5.23989e+07 yg_diff: 420478976
+Current Limit: 55.5745 New_limit: 16.7784 L: 12.9226 Additional Memory: 3
+
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+allocation_rate: 0.00371001 gc_rate: 1.13894, g_bytes: 1.65053e+06, g_time: 4.44886e+08, s_bytes: 5.96791e+07, s_time: 5.23989e+07 yg_diff: 469762048
+Current Limit: 55.5745 New_limit: 16.6685 L: 12.9226 Additional Memory: 3
+
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+allocation_rate: 0.0035028 gc_rate: 1.13894, g_bytes: 1.56802e+06, g_time: 4.47647e+08, s_bytes: 5.96791e+07, s_time: 5.23989e+07 yg_diff: 469762048
+Current Limit: 55.5745 New_limit: 16.5624 L: 12.9226 Additional Memory: 3
+
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+allocation_rate: 0.00330831 gc_rate: 1.13894, g_bytes: 1.48963e+06, g_time: 4.50269e+08, s_bytes: 5.96791e+07, s_time: 5.23989e+07 yg_diff: 469762048
+Current Limit: 55.5745 New_limit: 16.4599 L: 12.9226 Additional Memory: 3
+
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+allocation_rate: 0.00312563 gc_rate: 1.13894, g_bytes: 1.41516e+06, g_time: 4.5276e+08, s_bytes: 5.96791e+07, s_time: 5.23989e+07 yg_diff: 469762048
+Current Limit: 55.5745 New_limit: 16.3608 L: 12.9226 Additional Memory: 3
+
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+allocation_rate: 0.00295394 gc_rate: 1.13894, g_bytes: 1.34442e+06, g_time: 4.55126e+08, s_bytes: 5.96791e+07, s_time: 5.23989e+07 yg_diff: 469762048
+Current Limit: 55.5745 New_limit: 16.2651 L: 12.9226 Additional Memory: 3
+
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+allocation_rate: 0.00279248 gc_rate: 1.13894, g_bytes: 1.27721e+06, g_time: 4.57374e+08, s_bytes: 5.96791e+07, s_time: 5.23989e+07 yg_diff: 469762048
+Current Limit: 55.5745 New_limit: 16.1725 L: 12.9226 Additional Memory: 3
+
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+allocation_rate: 0.00264055 gc_rate: 1.13894, g_bytes: 1.21336e+06, g_time: 4.5951e+08, s_bytes: 5.96791e+07, s_time: 5.23989e+07 yg_diff: 469762048
+Current Limit: 55.5745 New_limit: 16.0828 L: 12.9226 Additional Memory: 3
+
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+allocation_rate: 0.00249751 gc_rate: 1.13894, g_bytes: 1.15269e+06, g_time: 4.61537e+08, s_bytes: 5.96791e+07, s_time: 5.23989e+07 yg_diff: 469762048
+Current Limit: 55.5745 New_limit: 15.996 L: 12.9226 Additional Memory: 3
+
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+Changing yg limit from 49283072 to: 78643200
+No change in yg_size. Total Capacity: 49283072
+try isolate->dispose!
+inside timer stop
+calling join
+inside timer stop
+calling join
+isolate->dispose ok!

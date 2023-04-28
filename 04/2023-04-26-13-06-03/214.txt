@@ -1,0 +1,102 @@
+5
+--benchmark=box2d.js
+--heap-size=10000000000
+--log-path=log/2023-04-25-00-36-17/2023-04-25-00-36-17/2023-04-25-00-36-17/2023-04-25-00-45-30/v8_log
+Running Benchmark: box2d.js
+UPDATING YG SEMISPACE SIZE to 53477376
+gi_time or si_time is 0
+Changing yg limit from 524288 to: 78643200
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+inside timer stop
+calling join

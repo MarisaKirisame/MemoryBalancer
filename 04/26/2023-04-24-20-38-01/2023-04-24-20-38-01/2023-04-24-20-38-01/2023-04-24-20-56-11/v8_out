@@ -1,0 +1,3021 @@
+5
+--benchmark=all
+--heap-size=10000000000
+--log-path=log/2023-04-24-20-38-01/2023-04-24-20-38-01/2023-04-24-20-38-01/2023-04-24-20-56-11/v8_log
+Running All Benchmark
+UPDATING YG SEMISPACE SIZE to 53477376
+UPDATING YG SEMISPACE SIZE to 53477376
+UPDATING YG SEMISPACE SIZE to 53477376
+gi_time or si_time is 0
+gi_time or si_time is 0
+Changing yg limit from 524288 to: 78643200
+***Calling commented Grow()***
+Changing yg limit from 524288 to: 78643200
+gi_time or si_time is 0
+***Calling commented Grow()***
+Changing yg limit from 524288 to: 78643200
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 93900457
+No change in yg_size. Total Capacity: 53477376
+gc, name: splay.js size: 117286436 duration: 10.826 speed: 1.08338e+07 garbage collected: 88667240 speed: 8.19021e+06 heap limit: 73725944 size before gc: 117286436 guid: 826345_139993989305096
+Changing yg limit from 53477376 to: 93897792
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 81177152 duration: 2.529 speed: 3.20985e+07 garbage collected: 52852604 speed: 2.08986e+07 heap limit: 73725944 size before gc: 81177152 guid: 826345_139993989305096
+allocation_rate: 0.185673 gc_rate: 0.384381, g_bytes: 3.98756e+06, g_time: 2.14762e+07, s_bytes: 3.93086e+07, s_time: 1.02265e+08 yg_diff: 335123177
+Current Limit: 95.8573 New_limit: 95.8573 L: 28.3245 Additional Memory: 67
+
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+826345_139993855087368 start incremtal marking!
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+gc, name: pdfjs.js size: 24480156 duration: 3.586 speed: 6.82659e+06 garbage collected: 15773356 speed: 4.39859e+06 heap limit: 25647704 size before gc: 24480156 guid: 826345_139993855087368
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 81322646
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 128080527
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 131423804 duration: 2.782 speed: 4.72408e+07 garbage collected: 102181304 speed: 3.67294e+07 heap limit: 95857299 size before gc: 131423804 guid: 826345_139993989305096
+allocation_rate: 0.293379 gc_rate: 0.812671, g_bytes: 8.94314e+06, g_time: 3.04832e+07, s_bytes: 8.3724e+07, s_time: 1.03023e+08 yg_diff: 177945893
+Current Limit: 88.5629 New_limit: 88.5629 L: 29.2425 Additional Memory: 59
+
+Changing yg limit from 53477376 to: 128077896
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 79146521
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 82174581
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 128943163
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+gc, name: splay.js size: 131889348 duration: 3.212 speed: 4.10614e+07 garbage collected: 103041200 speed: 3.20801e+07 heap limit: 88562905 size before gc: 131889348 guid: 826345_139993989305096
+allocation_rate: 0.356778 gc_rate: 0.992799, g_bytes: 1.36283e+07, g_time: 3.81983e+07, s_bytes: 1.06346e+08, s_time: 1.07118e+08 yg_diff: 229598481
+Current Limit: 87.6332 New_limit: 87.6332 L: 28.8481 Additional Memory: 58
+
+Changing yg limit from 53477376 to: 128940692
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.353583 gc_rate: 0.992799, g_bytes: 1.29534e+07, g_time: 3.66346e+07, s_bytes: 1.06346e+08, s_time: 1.07118e+08 yg_diff: 75463316
+Current Limit: 87.3694 New_limit: 87.3694 L: 28.8481 Additional Memory: 58
+
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78766019
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 81710842
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+826345_139993855087368 start incremtal marking!
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 128469307
+No change in yg_size. Total Capacity: 53477376
+gc, name: pdfjs.js size: 24872992 duration: 13.678 speed: 1.81847e+06 garbage collected: 12218940 speed: 893328 heap limit: 25647704 size before gc: 24872992 guid: 826345_139993855087368
+allocation_rate: 0.024729 gc_rate: 0.788046, g_bytes: 1.22188e+06, g_time: 4.94108e+07, s_bytes: 1.24819e+07, s_time: 1.5839e+07 yg_diff: 455606272
+Current Limit: 24.1589 New_limit: 24.1589 L: 12.6541 Additional Memory: 11
+
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 131348252 duration: 2.775 speed: 4.73327e+07 garbage collected: 102500652 speed: 3.69372e+07 heap limit: 87369351 size before gc: 131348252 guid: 826345_139993989305096
+allocation_rate: 0.391664 gc_rate: 1.10309, g_bytes: 1.74307e+07, g_time: 4.45042e+07, s_bytes: 1.1742e+08, s_time: 1.06446e+08 yg_diff: 153679864
+Current Limit: 87.279 New_limit: 87.279 L: 28.8476 Additional Memory: 58
+
+Changing yg limit from 53477376 to: 128466368
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.0255131 gc_rate: 0.788046, g_bytes: 1.27311e+06, g_time: 4.99003e+07, s_bytes: 1.24819e+07, s_time: 1.5839e+07 yg_diff: 25165824
+Current Limit: 24.3399 New_limit: 24.3399 L: 12.6541 Additional Memory: 11
+
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78706001
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 81679520
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 128437063
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+gc, name: splay.js size: 131228788 duration: 2.579 speed: 5.08836e+07 garbage collected: 102551648 speed: 3.97641e+07 heap limit: 87278987 size before gc: 131228788 guid: 826345_139993989305096
+allocation_rate: 0.420417 gc_rate: 1.1125, g_bytes: 2.16782e+07, g_time: 5.15636e+07, s_bytes: 1.22946e+08, s_time: 1.10513e+08 yg_diff: 228545272
+Current Limit: 88.7802 New_limit: 88.7802 L: 28.6771 Additional Memory: 60
+
+Changing yg limit from 53477376 to: 128434776
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+826345_139993855087368 start incremtal marking!
+gc, name: pdfjs.js size: 71301164 duration: 4.738 speed: 1.50488e+07 garbage collected: 55698708 speed: 1.17557e+07 heap limit: 24339905 size before gc: 71301164 guid: 826345_139993855087368
+allocation_rate: 0.066301 gc_rate: 0.986523, g_bytes: 4.14181e+06, g_time: 6.24699e+07, s_bytes: 1.85353e+07, s_time: 1.87885e+07 yg_diff: 100663296
+Current Limit: 34.2982 New_limit: 34.2982 L: 15.6025 Additional Memory: 18
+
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.419597 gc_rate: 1.1125, g_bytes: 2.31118e+07, g_time: 5.50811e+07, s_bytes: 1.22946e+08, s_time: 1.10513e+08 yg_diff: 125289048
+Current Limit: 88.7216 New_limit: 88.7216 L: 28.6771 Additional Memory: 60
+
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 81467436
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 128225290
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 130874616 duration: 2.647 speed: 4.94426e+07 garbage collected: 102325200 speed: 3.8657e+07 heap limit: 88721558 size before gc: 130874616 guid: 826345_139993989305096
+allocation_rate: 0.441336 gc_rate: 1.18959, g_bytes: 2.70661e+07, g_time: 6.13278e+07, s_bytes: 1.25597e+08, s_time: 1.0558e+08 yg_diff: 102737974
+Current Limit: 87.9681 New_limit: 87.9681 L: 28.5494 Additional Memory: 59
+
+Changing yg limit from 53477376 to: 128222852
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 81351252
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 128110103
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 130570360 duration: 2.806 speed: 4.65326e+07 garbage collected: 102156820 speed: 3.64066e+07 heap limit: 87968085 size before gc: 130570360 guid: 826345_139993989305096
+allocation_rate: 0.46068 gc_rate: 1.25992, g_bytes: 3.08139e+07, g_time: 6.68878e+07, s_bytes: 1.26865e+08, s_time: 1.00693e+08 yg_diff: 227583727
+Current Limit: 87.2614 New_limit: 87.2614 L: 28.4135 Additional Memory: 58
+
+Changing yg limit from 53477376 to: 128107724
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.0623812 gc_rate: 0.986523, g_bytes: 4.49166e+06, g_time: 7.20035e+07, s_bytes: 1.85353e+07, s_time: 1.87885e+07 yg_diff: 125829120
+Current Limit: 33.7371 New_limit: 33.7371 L: 15.6025 Additional Memory: 18
+
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+826345_139993855087368 start incremtal marking!
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: pdfjs.js size: 32720240 duration: 8.245 speed: 3.96849e+06 garbage collected: 13319180 speed: 1.61543e+06 heap limit: 33737105 size before gc: 32720240 guid: 826345_139993855087368
+allocation_rate: 0.0589575 gc_rate: 0.997687, g_bytes: 5.12297e+06, g_time: 8.68926e+07, s_bytes: 2.54577e+07, s_time: 2.55168e+07 yg_diff: 75497472
+Current Limit: 38.9501 New_limit: 38.9501 L: 19.4011 Additional Memory: 19
+
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 81088474
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 127849301
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 131820984 duration: 2.984 speed: 4.41759e+07 garbage collected: 101994000 speed: 3.41803e+07 heap limit: 87261411 size before gc: 131820984 guid: 826345_139993989305096
+allocation_rate: 0.475754 gc_rate: 1.22078, g_bytes: 3.44435e+07, g_time: 7.23977e+07, s_bytes: 1.27374e+08, s_time: 1.04338e+08 yg_diff: 226945019
+Current Limit: 92.0738 New_limit: 92.0738 L: 29.827 Additional Memory: 62
+
+Changing yg limit from 53477376 to: 127846936
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 79848319
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.482678 gc_rate: 1.22078, g_bytes: 3.52223e+07, g_time: 7.29728e+07, s_bytes: 1.27374e+08, s_time: 1.04338e+08 yg_diff: 125906327
+Current Limit: 92.525 New_limit: 92.525 L: 29.827 Additional Memory: 62
+
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 82607581
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 129360372
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+gc, name: splay.js size: 131978104 duration: 2.564 speed: 5.14735e+07 garbage collected: 103410480 speed: 4.03317e+07 heap limit: 92525024 size before gc: 131978104 guid: 826345_139993989305096
+allocation_rate: 0.496539 gc_rate: 1.22323, g_bytes: 3.85688e+07, g_time: 7.76752e+07, s_bytes: 1.2838e+08, s_time: 1.04951e+08 yg_diff: 105013201
+Current Limit: 90.7402 New_limit: 90.7402 L: 28.5676 Additional Memory: 62
+
+Changing yg limit from 53477376 to: 129358108
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 81232471
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.0562617 gc_rate: 0.997687, g_bytes: 5.69979e+06, g_time: 1.01308e+08, s_bytes: 2.54577e+07, s_time: 2.55168e+07 yg_diff: 201326592
+Current Limit: 38.4979 New_limit: 38.4979 L: 19.4011 Additional Memory: 19
+
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 127992139
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 130610848 duration: 2.583 speed: 5.05656e+07 garbage collected: 102045840 speed: 3.95067e+07 heap limit: 90740188 size before gc: 130610848 guid: 826345_139993989305096
+allocation_rate: 0.501613 gc_rate: 1.25357, g_bytes: 4.17425e+07, g_time: 8.32165e+07, s_bytes: 1.28199e+08, s_time: 1.02267e+08 yg_diff: 228482238
+Current Limit: 90.2909 New_limit: 90.2909 L: 28.565 Additional Memory: 61
+
+Changing yg limit from 53477376 to: 127989856
+No change in yg_size. Total Capacity: 53477376
+826345_139993855087368 start incremtal marking!
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+gc, name: pdfjs.js size: 38074028 duration: 24.334 speed: 1.56464e+06 garbage collected: 14403236 speed: 591898 heap limit: 38497901 size before gc: 38074028 guid: 826345_139993855087368
+allocation_rate: 0.0541665 gc_rate: 0.774332, g_bytes: 6.34845e+06, g_time: 1.17202e+08, s_bytes: 3.16898e+07, s_time: 4.09254e+07 yg_diff: 25165824
+Current Limit: 47.1643 New_limit: 47.1643 L: 23.6708 Additional Memory: 23
+
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 81162288
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 127921191
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 131770688 duration: 2.672 speed: 4.93154e+07 garbage collected: 102063304 speed: 3.81973e+07 heap limit: 90290890 size before gc: 131770688 guid: 826345_139993989305096
+allocation_rate: 0.5101 gc_rate: 1.22016, g_bytes: 4.48156e+07, g_time: 8.78566e+07, s_bytes: 1.2808e+08, s_time: 1.0497e+08 yg_diff: 226972855
+Current Limit: 94.0487 New_limit: 94.0487 L: 29.7074 Additional Memory: 64
+
+Changing yg limit from 53477376 to: 127918836
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.497162 gc_rate: 1.22016, g_bytes: 4.26033e+07, g_time: 8.56931e+07, s_bytes: 1.2808e+08, s_time: 1.0497e+08 yg_diff: 74441460
+Current Limit: 93.2275 New_limit: 93.2275 L: 29.7074 Additional Memory: 63
+
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 79451755
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 82211595
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 128971419
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 132677808 duration: 3.547 speed: 3.74056e+07 garbage collected: 103119660 speed: 2.90724e+07 heap limit: 93227483 size before gc: 132677808 guid: 826345_139993989305096
+allocation_rate: 0.507486 gc_rate: 1.23887, g_bytes: 4.56217e+07, g_time: 8.98975e+07, s_bytes: 1.28543e+08, s_time: 1.03758e+08 yg_diff: 155368465
+Current Limit: 93.0879 New_limit: 93.0879 L: 29.5581 Additional Memory: 63
+
+Changing yg limit from 53477376 to: 128969144
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 79284240
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.0535807 gc_rate: 0.774332, g_bytes: 7.12256e+06, g_time: 1.32931e+08, s_bytes: 3.16898e+07, s_time: 4.09254e+07 yg_diff: 226492416
+Current Limit: 47.0369 New_limit: 47.0369 L: 23.6708 Additional Memory: 23
+
+***Calling commented Grow()***
+***Calling commented Grow()***
+826345_139993855087368 start incremtal marking!
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 82113695
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 128872927
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+gc, name: pdfjs.js size: 51404288 duration: 5.254 speed: 9.78384e+06 garbage collected: 21357516 speed: 4.065e+06 heap limit: 47036887 size before gc: 51404288 guid: 826345_139993855087368
+allocation_rate: 0.0540859 gc_rate: 0.998452, g_bytes: 8.15311e+06, g_time: 1.50744e+08, s_bytes: 3.95284e+07, s_time: 3.95897e+07 yg_diff: 25165824
+Current Limit: 53.3393 New_limit: 53.3393 L: 30.0468 Additional Memory: 23
+
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 132055448 duration: 2.535 speed: 5.20929e+07 garbage collected: 102937732 speed: 4.06066e+07 heap limit: 93087921 size before gc: 132055448 guid: 826345_139993989305096
+allocation_rate: 0.510765 gc_rate: 1.21268, g_bytes: 4.84655e+07, g_time: 9.4888e+07, s_bytes: 1.28722e+08, s_time: 1.06147e+08 yg_diff: 230496326
+Current Limit: 93.0551 New_limit: 93.0551 L: 29.1177 Additional Memory: 63
+
+Changing yg limit from 53477376 to: 128870408
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78768343
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 81572094
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 128331385
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 131763184 duration: 2.448 speed: 5.38248e+07 garbage collected: 102521216 speed: 4.18796e+07 heap limit: 93055097 size before gc: 131763184 guid: 826345_139993989305096
+allocation_rate: 0.519807 gc_rate: 1.24438, g_bytes: 5.11745e+07, g_time: 9.8449e+07, s_bytes: 1.28541e+08, s_time: 1.03297e+08 yg_diff: 228798550
+Current Limit: 93.0518 New_limit: 93.0518 L: 29.242 Additional Memory: 63
+
+Changing yg limit from 53477376 to: 128329020
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.516961 gc_rate: 1.24438, g_bytes: 4.86221e+07, g_time: 9.40538e+07, s_bytes: 1.28541e+08, s_time: 1.03297e+08 yg_diff: 74851644
+Current Limit: 92.8769 New_limit: 92.8769 L: 29.242 Additional Memory: 63
+
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78961471
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 81480448
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 128240553
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 130695040 duration: 2.568 speed: 5.08937e+07 garbage collected: 102241656 speed: 3.98137e+07 heap limit: 92876887 size before gc: 130695040 guid: 826345_139993989305096
+allocation_rate: 0.523249 gc_rate: 1.27849, g_bytes: 5.12637e+07, g_time: 9.79719e+07, s_bytes: 1.28402e+08, s_time: 1.00433e+08 yg_diff: 153416168
+Current Limit: 90.7569 New_limit: 90.7569 L: 28.4534 Additional Memory: 62
+
+Changing yg limit from 53477376 to: 128238180
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.0524937 gc_rate: 0.998452, g_bytes: 8.66227e+06, g_time: 1.65015e+08, s_bytes: 3.95284e+07, s_time: 3.95897e+07 yg_diff: 201326592
+Current Limit: 52.9939 New_limit: 52.9939 L: 30.0468 Additional Memory: 22
+
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 80685722
+No change in yg_size. Total Capacity: 53477376
+826345_139993855087368 start incremtal marking!
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 127446112
+No change in yg_size. Total Capacity: 53477376
+gc, name: pdfjs.js size: 53949212 duration: 3.748 speed: 1.43941e+07 garbage collected: 20113944 speed: 5.36658e+06 heap limit: 52993893 size before gc: 53949212 guid: 826345_139993855087368
+allocation_rate: 0.0514525 gc_rate: 0.917216, g_bytes: 9.42428e+06, g_time: 1.83164e+08, s_bytes: 4.55571e+07, s_time: 4.96688e+07 yg_diff: 50331648
+Current Limit: 58.9884 New_limit: 58.9884 L: 33.8353 Additional Memory: 25
+
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 130660916 duration: 3.051 speed: 4.28256e+07 garbage collected: 101535412 speed: 3.32794e+07 heap limit: 90756880 size before gc: 130660916 guid: 826345_139993989305096
+allocation_rate: 0.529092 gc_rate: 1.12979, g_bytes: 5.38109e+07, g_time: 1.01704e+08, s_bytes: 1.2794e+08, s_time: 1.13242e+08 yg_diff: 226269534
+Current Limit: 96.5539 New_limit: 96.5539 L: 29.1255 Additional Memory: 67
+
+Changing yg limit from 53477376 to: 127443724
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78762983
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 81471413
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.509077 gc_rate: 1.12979, g_bytes: 5.32579e+07, g_time: 1.04617e+08, s_bytes: 1.2794e+08, s_time: 1.13242e+08 yg_diff: 152411816
+Current Limit: 95.2662 New_limit: 95.2662 L: 29.1255 Additional Memory: 66
+
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 128232091
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 130619940 duration: 2.331 speed: 5.6036e+07 garbage collected: 102295128 speed: 4.38847e+07 heap limit: 95266159 size before gc: 130619940 guid: 826345_139993989305096
+allocation_rate: 0.514842 gc_rate: 1.24022, g_bytes: 5.56697e+07, g_time: 1.0813e+08, s_bytes: 1.28098e+08, s_time: 1.03286e+08 yg_diff: 74754715
+Current Limit: 90.93 New_limit: 90.93 L: 28.3248 Additional Memory: 62
+
+Changing yg limit from 53477376 to: 128229800
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 80595934
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 127356860
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 130866720 duration: 2.776 speed: 4.71422e+07 garbage collected: 101488408 speed: 3.65592e+07 heap limit: 90929985 size before gc: 130866720 guid: 826345_139993989305096
+allocation_rate: 0.521361 gc_rate: 1.2459, g_bytes: 5.80134e+07, g_time: 1.11273e+08, s_bytes: 1.27743e+08, s_time: 1.02531e+08 yg_diff: 226082114
+Current Limit: 93.3932 New_limit: 93.3932 L: 29.3783 Additional Memory: 64
+
+Changing yg limit from 53477376 to: 127354340
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.0511409 gc_rate: 0.917216, g_bytes: 9.93638e+06, g_time: 1.94294e+08, s_bytes: 4.55571e+07, s_time: 4.96688e+07 yg_diff: 201326592
+Current Limit: 58.9121 New_limit: 58.9121 L: 33.8353 Additional Memory: 25
+
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78892398
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+826345_139993855087368 start incremtal marking!
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 81513338
+No change in yg_size. Total Capacity: 53477376
+gc, name: pdfjs.js size: 55896032 duration: 22.188 speed: 2.5192e+06 garbage collected: 19404640 speed: 874556 heap limit: 58912082 size before gc: 55896032 guid: 826345_139993855087368
+allocation_rate: 0.0505188 gc_rate: 0.763725, g_bytes: 1.05426e+07, g_time: 2.08687e+08, s_bytes: 5.11149e+07, s_time: 6.69284e+07 yg_diff: 50331648
+Current Limit: 64.857 New_limit: 64.857 L: 36.4914 Additional Memory: 28
+
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 128274436
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 130787644 duration: 2.608 speed: 5.01486e+07 garbage collected: 102335692 speed: 3.92391e+07 heap limit: 93393247 size before gc: 130787644 guid: 826345_139993989305096
+allocation_rate: 0.52689 gc_rate: 1.2604, g_bytes: 6.01832e+07, g_time: 1.14223e+08, s_bytes: 1.28018e+08, s_time: 1.0157e+08 yg_diff: 227290832
+Current Limit: 91.4173 New_limit: 91.4173 L: 28.452 Additional Memory: 62
+
+Changing yg limit from 53477376 to: 128271820
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+allocation_rate: 0.517329 gc_rate: 1.2604, g_bytes: 5.96589e+07, g_time: 1.15321e+08, s_bytes: 1.28018e+08, s_time: 1.0157e+08 yg_diff: 125126092
+Current Limit: 90.8434 New_limit: 90.8434 L: 28.452 Additional Memory: 62
+
+Changing yg limit from 53477376 to: 80652056
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 127412465
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 130064020 duration: 2.343 speed: 5.55117e+07 garbage collected: 101434868 speed: 4.32927e+07 heap limit: 90843398 size before gc: 130064020 guid: 826345_139993989305096
+allocation_rate: 0.519393 gc_rate: 1.25893, g_bytes: 6.17566e+07, g_time: 1.18901e+08, s_bytes: 1.27727e+08, s_time: 1.01456e+08 yg_diff: 101109769
+Current Limit: 91.3758 New_limit: 91.3758 L: 28.6292 Additional Memory: 62
+
+Changing yg limit from 53477376 to: 127410080
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 80787804
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 127548000
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+gc, name: splay.js size: 130376992 duration: 3.025 speed: 4.30998e+07 garbage collected: 101560152 speed: 3.35736e+07 heap limit: 91375814 size before gc: 130376992 guid: 826345_139993989305096
+allocation_rate: 0.52313 gc_rate: 1.21297, g_bytes: 6.37561e+07, g_time: 1.21874e+08, s_bytes: 1.27654e+08, s_time: 1.05241e+08 yg_diff: 225645404
+Current Limit: 93.1807 New_limit: 93.1807 L: 28.8168 Additional Memory: 64
+
+Changing yg limit from 53477376 to: 127545584
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.0497404 gc_rate: 0.763725, g_bytes: 1.08597e+07, g_time: 2.18327e+08, s_bytes: 5.11149e+07, s_time: 6.69284e+07 yg_diff: 201326592
+Current Limit: 64.6377 New_limit: 64.6377 L: 36.4914 Additional Memory: 28
+
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 80838554
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 127599811
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 130382480 duration: 2.759 speed: 4.72572e+07 garbage collected: 101612332 speed: 3.68294e+07 heap limit: 93180707 size before gc: 130382480 guid: 826345_139993989305096
+allocation_rate: 0.528733 gc_rate: 1.20414, g_bytes: 6.56466e+07, g_time: 1.24158e+08, s_bytes: 1.27638e+08, s_time: 1.06e+08 yg_diff: 225883469
+Current Limit: 93.662 New_limit: 93.662 L: 28.7701 Additional Memory: 64
+
+Changing yg limit from 53477376 to: 127597564
+No change in yg_size. Total Capacity: 53477376
+826345_139993855087368 start incremtal marking!
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+gc, name: pdfjs.js size: 61396292 duration: 22 speed: 2.79074e+06 garbage collected: 19173520 speed: 871524 heap limit: 64637656 size before gc: 61396292 guid: 826345_139993855087368
+allocation_rate: 0.048743 gc_rate: 0.674571, g_bytes: 1.15619e+07, g_time: 2.37202e+08, s_bytes: 5.69771e+07, s_time: 8.44642e+07 yg_diff: 100663296
+Current Limit: 74.1128 New_limit: 74.1128 L: 42.2228 Additional Memory: 31
+
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.528385 gc_rate: 1.20414, g_bytes: 6.48406e+07, g_time: 1.22715e+08, s_bytes: 1.27638e+08, s_time: 1.06e+08 yg_diff: 124451836
+Current Limit: 93.6406 New_limit: 93.6406 L: 28.7701 Additional Memory: 64
+
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 80722149
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 127483249
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 131100508 duration: 2.688 speed: 4.87725e+07 garbage collected: 101567996 speed: 3.77857e+07 heap limit: 93640644 size before gc: 131100508 guid: 826345_139993989305096
+allocation_rate: 0.530143 gc_rate: 1.23453, g_bytes: 6.67151e+07, g_time: 1.25843e+08, s_bytes: 1.27581e+08, s_time: 1.03344e+08 yg_diff: 101250646
+Current Limit: 94.5508 New_limit: 94.5508 L: 29.5325 Additional Memory: 65
+
+Changing yg limit from 53477376 to: 127480784
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 79033898
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 81653457
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.0484812 gc_rate: 0.674571, g_bytes: 1.16126e+07, g_time: 2.39528e+08, s_bytes: 5.69771e+07, s_time: 8.44642e+07 yg_diff: 150994944
+Current Limit: 74.0271 New_limit: 74.0271 L: 42.2228 Additional Memory: 31
+
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 128413603
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 130963772 duration: 2.401 speed: 5.45455e+07 garbage collected: 102475704 speed: 4.26804e+07 heap limit: 94550764 size before gc: 130963772 guid: 826345_139993989305096
+allocation_rate: 0.535064 gc_rate: 1.29469, g_bytes: 6.84509e+07, g_time: 1.2793e+08, s_bytes: 1.28009e+08, s_time: 9.88725e+07 yg_diff: 227838062
+Current Limit: 91.1338 New_limit: 91.1338 L: 28.4881 Additional Memory: 62
+
+Changing yg limit from 53477376 to: 128411244
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+826345_139993922196232 start incremtal marking!
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+gc, name: typescript.js size: 100710568 duration: 7.703 speed: 1.30742e+07 garbage collected: 70374452 speed: 9.13598e+06 heap limit: 71238988 size before gc: 100710568 guid: 826345_139993922196232
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 80588845
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 127349774
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 129809652 duration: 2.496 speed: 5.20071e+07 garbage collected: 101370564 speed: 4.06132e+07 heap limit: 91133799 size before gc: 129809652 guid: 826345_139993989305096
+allocation_rate: 0.537507 gc_rate: 1.28745, g_bytes: 7.00944e+07, g_time: 1.30406e+08, s_bytes: 1.27695e+08, s_time: 9.91842e+07 yg_diff: 226249383
+Current Limit: 91.3498 New_limit: 91.3498 L: 28.4391 Additional Memory: 62
+
+Changing yg limit from 53477376 to: 127347516
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.525532 gc_rate: 1.28745, g_bytes: 6.66154e+07, g_time: 1.26758e+08, s_bytes: 1.27695e+08, s_time: 9.91842e+07 yg_diff: 73870140
+Current Limit: 90.645 New_limit: 90.645 L: 28.4391 Additional Memory: 62
+
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 80419716
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 127181472
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+gc, name: splay.js size: 129665388 duration: 2.541 speed: 5.10293e+07 garbage collected: 101229680 speed: 3.98385e+07 heap limit: 90645034 size before gc: 129665388 guid: 826345_139993989305096
+allocation_rate: 0.530885 gc_rate: 1.27624, g_bytes: 6.8346e+07, g_time: 1.2874e+08, s_bytes: 1.27449e+08, s_time: 9.98626e+07 yg_diff: 150978084
+Current Limit: 91.2278 New_limit: 91.2278 L: 28.4357 Additional Memory: 62
+
+Changing yg limit from 53477376 to: 127179192
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+826345_139993855087368 start incremtal marking!
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+gc, name: pdfjs.js size: 71688988 duration: 34.427 speed: 2.08235e+06 garbage collected: 22298972 speed: 647718 heap limit: 74027069 size before gc: 71688988 guid: 826345_139993855087368
+allocation_rate: 0.0476765 gc_rate: 0.608084, g_bytes: 1.25053e+07, g_time: 2.62295e+08, s_bytes: 6.53359e+07, s_time: 1.07446e+08 yg_diff: 201326592
+Current Limit: 85.3177 New_limit: 85.3177 L: 49.39 Additional Memory: 35
+
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+allocation_rate: 0.0477866 gc_rate: 0.608084, g_bytes: 1.20377e+07, g_time: 2.51906e+08, s_bytes: 6.53359e+07, s_time: 1.07446e+08 yg_diff: 25165824
+Current Limit: 85.3592 New_limit: 85.3592 L: 49.39 Additional Memory: 35
+
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 80290216
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 127051376
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 129634944 duration: 2.532 speed: 5.11986e+07 garbage collected: 101069096 speed: 3.99167e+07 heap limit: 91227802 size before gc: 129634944 guid: 826345_139993989305096
+allocation_rate: 0.533179 gc_rate: 1.2638, g_bytes: 6.99886e+07, g_time: 1.31267e+08, s_bytes: 1.27262e+08, s_time: 1.00697e+08 yg_diff: 224420304
+Current Limit: 91.9469 New_limit: 91.9469 L: 28.5658 Additional Memory: 63
+
+Changing yg limit from 53477376 to: 127048996
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 80498401
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 127260081
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 130873992 duration: 2.366 speed: 5.53145e+07 garbage collected: 101373616 speed: 4.2846e+07 heap limit: 91946930 size before gc: 130873992 guid: 826345_139993989305096
+allocation_rate: 0.537689 gc_rate: 1.26606, g_bytes: 7.16046e+07, g_time: 1.33171e+08, s_bytes: 1.27279e+08, s_time: 1.00532e+08 yg_diff: 224706998
+Current Limit: 94.1241 New_limit: 94.1241 L: 29.5004 Additional Memory: 64
+
+Changing yg limit from 53477376 to: 127257816
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.530527 gc_rate: 1.26606, g_bytes: 6.8048e+07, g_time: 1.28265e+08, s_bytes: 1.27279e+08, s_time: 1.00532e+08 yg_diff: 73780440
+Current Limit: 93.6922 New_limit: 93.6922 L: 29.5004 Additional Memory: 64
+
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78831039
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 81248565
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 128003016
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 130587796 duration: 2.722 speed: 4.79749e+07 garbage collected: 102047424 speed: 3.74899e+07 heap limit: 93692224 size before gc: 130587796 guid: 826345_139993989305096
+allocation_rate: 0.53538 gc_rate: 1.2561, g_bytes: 6.97e+07, g_time: 1.30188e+08, s_bytes: 1.27653e+08, s_time: 1.01627e+08 yg_diff: 152816316
+Current Limit: 92.2182 New_limit: 92.2182 L: 28.5404 Additional Memory: 63
+
+Changing yg limit from 53477376 to: 128000616
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.0474281 gc_rate: 0.608084, g_bytes: 1.25359e+07, g_time: 2.64315e+08, s_bytes: 6.53359e+07, s_time: 1.07446e+08 yg_diff: 251658240
+Current Limit: 85.224 New_limit: 85.224 L: 49.39 Additional Memory: 35
+
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 80285758
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 127047752
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 129596152 duration: 2.184 speed: 5.93389e+07 garbage collected: 101124320 speed: 4.63023e+07 heap limit: 92218202 size before gc: 129596152 guid: 826345_139993989305096
+allocation_rate: 0.533929 gc_rate: 1.25596, g_bytes: 7.12677e+07, g_time: 1.33478e+08, s_bytes: 1.27361e+08, s_time: 1.01405e+08 yg_diff: 225233646
+Current Limit: 91.9905 New_limit: 91.9905 L: 28.4718 Additional Memory: 63
+
+Changing yg limit from 53477376 to: 127045472
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+826345_139993855087368 start incremtal marking!
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+gc, name: pdfjs.js size: 85437356 duration: 1.985 speed: 4.30415e+07 garbage collected: 26609980 speed: 1.34055e+07 heap limit: 85224000 size before gc: 85437356 guid: 826345_139993855087368
+allocation_rate: 0.0474466 gc_rate: 0.786186, g_bytes: 1.37115e+07, g_time: 2.88988e+08, s_bytes: 7.44639e+07, s_time: 9.47153e+07 yg_diff: 100663296
+Current Limit: 93.2282 New_limit: 93.2282 L: 58.8274 Additional Memory: 34
+
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 79989421
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.517274 gc_rate: 1.25596, g_bytes: 6.99243e+07, g_time: 1.35179e+08, s_bytes: 1.27361e+08, s_time: 1.01405e+08 yg_diff: 150411789
+Current Limit: 90.992 New_limit: 90.992 L: 28.4718 Additional Memory: 62
+
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 126752560
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 129372092 duration: 2.334 speed: 5.54293e+07 garbage collected: 100836736 speed: 4.32034e+07 heap limit: 90991972 size before gc: 129372092 guid: 826345_139993989305096
+allocation_rate: 0.518292 gc_rate: 1.25351, g_bytes: 7.14731e+07, g_time: 1.37901e+08, s_bytes: 1.27068e+08, s_time: 1.0137e+08 yg_diff: 73275184
+Current Limit: 91.2478 New_limit: 91.2478 L: 28.5354 Additional Memory: 62
+
+Changing yg limit from 53477376 to: 126750268
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 80283003
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 127045349
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 131551748 duration: 3.156 speed: 4.16831e+07 garbage collected: 101192028 speed: 3.20634e+07 heap limit: 91247819 size before gc: 131551748 guid: 826345_139993989305096
+allocation_rate: 0.52355 gc_rate: 1.1684, g_bytes: 7.30503e+07, g_time: 1.39529e+08, s_bytes: 1.27079e+08, s_time: 1.08763e+08 yg_diff: 223978140
+Current Limit: 97.6993 New_limit: 97.6993 L: 30.3597 Additional Memory: 67
+
+Changing yg limit from 53477376 to: 127042992
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.0471313 gc_rate: 0.786186, g_bytes: 1.36343e+07, g_time: 2.89283e+08, s_bytes: 7.44639e+07, s_time: 9.47153e+07 yg_diff: 150994944
+Current Limit: 93.1137 New_limit: 93.1137 L: 58.8274 Additional Memory: 34
+
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 79608045
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 81927758
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 128689428
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 131195216 duration: 2.341 speed: 5.60424e+07 garbage collected: 102834372 speed: 4.39275e+07 heap limit: 97699322 size before gc: 131195216 guid: 826345_139993989305096
+allocation_rate: 0.528417 gc_rate: 1.26564, g_bytes: 7.44396e+07, g_time: 1.40873e+08, s_bytes: 1.27895e+08, s_time: 1.01052e+08 yg_diff: 228524543
+Current Limit: 91.1858 New_limit: 91.1858 L: 28.3608 Additional Memory: 62
+
+Changing yg limit from 53477376 to: 128686956
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 78778017
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 79864381
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.521134 gc_rate: 1.26564, g_bytes: 7.32143e+07, g_time: 1.40491e+08, s_bytes: 1.27895e+08, s_time: 1.01052e+08 yg_diff: 151928233
+Current Limit: 90.7513 New_limit: 90.7513 L: 28.3608 Additional Memory: 62
+
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 126626877
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 129143384 duration: 2.597 speed: 4.97279e+07 garbage collected: 100656644 speed: 3.87588e+07 heap limit: 90751308 size before gc: 129143384 guid: 826345_139993989305096
+allocation_rate: 0.526635 gc_rate: 1.26231, g_bytes: 7.45927e+07, g_time: 1.4164e+08, s_bytes: 1.27272e+08, s_time: 1.00824e+08 yg_diff: 73149501
+Current Limit: 91.4275 New_limit: 91.4275 L: 28.4867 Additional Memory: 62
+
+Changing yg limit from 53477376 to: 126624608
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 80874931
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 82922458
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 85105667
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 79902966
+No change in yg_size. Total Capacity: 53477376
+826345_139993855087368 start incremtal marking!
+Changing yg limit from 53477376 to: 87325834
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 126658011
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 130466140 duration: 3.189 speed: 4.09113e+07 garbage collected: 100765772 speed: 3.15979e+07 heap limit: 91427522 size before gc: 130466140 guid: 826345_139993989305096
+allocation_rate: 0.529902 gc_rate: 1.08064, g_bytes: 7.59621e+07, g_time: 1.43351e+08, s_bytes: 1.26982e+08, s_time: 1.17507e+08 yg_diff: 223085105
+Current Limit: 99.3755 New_limit: 99.3755 L: 29.7004 Additional Memory: 69
+
+Changing yg limit from 53477376 to: 126655700
+No change in yg_size. Total Capacity: 53477376
+gc, name: pdfjs.js size: 91626972 duration: 35.292 speed: 2.59625e+06 garbage collected: 26387948 speed: 747703 heap limit: 93113723 size before gc: 91626972 guid: 826345_139993855087368
+allocation_rate: 0.0468145 gc_rate: 0.684001, g_bytes: 1.45926e+07, g_time: 3.11711e+08, s_bytes: 8.34506e+07, s_time: 1.22004e+08 yg_diff: 248283323
+Current Limit: 103.818 New_limit: 103.818 L: 65.239 Additional Memory: 38
+
+Changing yg limit from 53477376 to: 87325508
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.0468293 gc_rate: 0.684001, g_bytes: 1.39185e+07, g_time: 2.97217e+08, s_bytes: 8.34506e+07, s_time: 1.22004e+08 yg_diff: 33848132
+Current Limit: 103.824 New_limit: 103.824 L: 65.239 Additional Memory: 38
+
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 79021943
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 81212305
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 127974669
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 130631508 duration: 2.355 speed: 5.54699e+07 garbage collected: 101986748 speed: 4.33065e+07 heap limit: 99375545 size before gc: 130631508 guid: 826345_139993989305096
+allocation_rate: 0.532725 gc_rate: 1.17041, g_bytes: 7.72105e+07, g_time: 1.44935e+08, s_bytes: 1.27494e+08, s_time: 1.08931e+08 yg_diff: 226120937
+Current Limit: 94.5689 New_limit: 94.5689 L: 28.6448 Additional Memory: 65
+
+Changing yg limit from 53477376 to: 127972316
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.529419 gc_rate: 1.17041, g_bytes: 7.58276e+07, g_time: 1.43228e+08, s_bytes: 1.27494e+08, s_time: 1.08931e+08 yg_diff: 124826588
+Current Limit: 94.364 New_limit: 94.364 L: 28.6448 Additional Memory: 65
+
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 80094626
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 126857251
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 129412408 duration: 2.066 speed: 6.26391e+07 garbage collected: 100894824 speed: 4.88358e+07 heap limit: 94363983 size before gc: 129412408 guid: 826345_139993989305096
+allocation_rate: 0.532937 gc_rate: 1.21714, g_bytes: 7.70746e+07, g_time: 1.44622e+08, s_bytes: 1.27189e+08, s_time: 1.04498e+08 yg_diff: 99997125
+Current Limit: 93.033 New_limit: 93.033 L: 28.5176 Additional Memory: 64
+
+Changing yg limit from 53477376 to: 126854940
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 79468619
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 81611597
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 79774214
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 83865408
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 126537660
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 129883956 duration: 3.155 speed: 4.11677e+07 garbage collected: 100625664 speed: 3.1894e+07 heap limit: 93033003 size before gc: 129883956 guid: 826345_139993989305096
+allocation_rate: 0.536384 gc_rate: 1.15002, g_bytes: 7.82892e+07, g_time: 1.45957e+08, s_bytes: 1.26878e+08, s_time: 1.10327e+08 yg_diff: 223066334
+Current Limit: 96.7032 New_limit: 96.7032 L: 29.2583 Additional Memory: 67
+
+Changing yg limit from 53477376 to: 126535192
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.0467179 gc_rate: 0.684001, g_bytes: 1.43592e+07, g_time: 3.07361e+08, s_bytes: 8.34506e+07, s_time: 1.22004e+08 yg_diff: 235508440
+Current Limit: 103.779 New_limit: 103.779 L: 65.239 Additional Memory: 38
+
+Changing yg limit from 53477376 to: 86001960
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 88200593
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 90284218
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 80432848
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 127196736
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 130906432 duration: 2.566 speed: 5.10158e+07 garbage collected: 101311036 speed: 3.94821e+07 heap limit: 96703204 size before gc: 130906432 guid: 826345_139993989305096
+allocation_rate: 0.541076 gc_rate: 1.20492, g_bytes: 7.94571e+07, g_time: 1.4685e+08, s_bytes: 1.27055e+08, s_time: 1.05446e+08 yg_diff: 224064296
+Current Limit: 96.1535 New_limit: 96.1535 L: 29.5954 Additional Memory: 66
+
+Changing yg limit from 53477376 to: 127194480
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 92552001
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78663163
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 94661091
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.540013 gc_rate: 1.20492, g_bytes: 7.79502e+07, g_time: 1.44349e+08, s_bytes: 1.27055e+08, s_time: 1.05446e+08 yg_diff: 124068715
+Current Limit: 96.0881 New_limit: 96.0881 L: 29.5954 Additional Memory: 66
+
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 80872211
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 127635897
+No change in yg_size. Total Capacity: 53477376
+826345_139993855087368 start incremtal marking!
+Changing yg limit from 53477376 to: 96704021
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 130451416 duration: 4.136 speed: 3.15405e+07 garbage collected: 101679620 speed: 2.4584e+07 heap limit: 96088100 size before gc: 130451416 guid: 826345_139993989305096
+allocation_rate: 0.543909 gc_rate: 1.18153, g_bytes: 7.90955e+07, g_time: 1.4542e+08, s_bytes: 1.27358e+08, s_time: 1.07791e+08 yg_diff: 101553356
+Current Limit: 95.2171 New_limit: 95.2171 L: 28.7718 Additional Memory: 66
+
+Changing yg limit from 53477376 to: 127633624
+No change in yg_size. Total Capacity: 53477376
+gc, name: pdfjs.js size: 103497460 duration: 5.526 speed: 1.87292e+07 garbage collected: 29751128 speed: 5.38385e+06 heap limit: 103778544 size before gc: 103497460 guid: 826345_139993855087368
+allocation_rate: 0.0463906 gc_rate: 0.672457, g_bytes: 1.55542e+07, g_time: 3.35287e+08, s_bytes: 9.29771e+07, s_time: 1.38265e+08 yg_diff: 227539628
+Current Limit: 114.927 New_limit: 114.927 L: 73.7463 Additional Memory: 41
+
+Changing yg limit from 53477376 to: 96703820
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 79858483
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 126622844
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 129050520 duration: 3.224 speed: 4.00281e+07 garbage collected: 100657776 speed: 3.12214e+07 heap limit: 95217128 size before gc: 129050520 guid: 826345_139993989305096
+allocation_rate: 0.547781 gc_rate: 1.22702, g_bytes: 8.01547e+07, g_time: 1.46326e+08, s_bytes: 1.27006e+08, s_time: 1.03508e+08 yg_diff: 224014471
+Current Limit: 93.3938 New_limit: 93.3938 L: 28.3927 Additional Memory: 65
+
+Changing yg limit from 53477376 to: 126620576
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.045881 gc_rate: 0.672457, g_bytes: 1.49595e+07, g_time: 3.26051e+08, s_bytes: 9.29771e+07, s_time: 1.38265e+08 yg_diff: 68392268
+Current Limit: 114.7 New_limit: 114.7 L: 73.7463 Additional Memory: 40
+
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78754510
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 80959360
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 79377368
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 83113561
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 126142514
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 128834192 duration: 2.861 speed: 4.50312e+07 garbage collected: 100185072 speed: 3.50175e+07 heap limit: 93393763 size before gc: 128834192 guid: 826345_139993989305096
+allocation_rate: 0.550139 gc_rate: 1.23885, g_bytes: 8.1169e+07, g_time: 1.47543e+08, s_bytes: 1.26591e+08, s_time: 1.02184e+08 yg_diff: 222039978
+Current Limit: 93.7703 New_limit: 93.7703 L: 28.6491 Additional Memory: 65
+
+Changing yg limit from 53477376 to: 126140020
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 85323622
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 87463330
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.550609 gc_rate: 1.23885, g_bytes: 7.95639e+07, g_time: 1.44502e+08, s_bytes: 1.26591e+08, s_time: 1.02184e+08 yg_diff: 122994292
+Current Limit: 93.7981 New_limit: 93.7981 L: 28.6491 Additional Memory: 65
+
+Changing yg limit from 53477376 to: 89668250
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 79622112
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 126387485
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 91792541
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 129076624 duration: 2.434 speed: 5.30307e+07 garbage collected: 100430092 speed: 4.12613e+07 heap limit: 93798055 size before gc: 129076624 guid: 826345_139993989305096
+allocation_rate: 0.550443 gc_rate: 1.22451, g_bytes: 8.0607e+07, g_time: 1.4644e+08, s_bytes: 1.26503e+08, s_time: 1.03309e+08 yg_diff: 99054845
+Current Limit: 94.163 New_limit: 94.163 L: 28.6465 Additional Memory: 65
+
+Changing yg limit from 53477376 to: 126385108
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 93994546
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 96093293
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 79688516
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 98144506
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.0465516 gc_rate: 0.672457, g_bytes: 1.55832e+07, g_time: 3.34751e+08, s_bytes: 9.29771e+07, s_time: 1.38265e+08 yg_diff: 375699583
+Current Limit: 114.998 New_limit: 114.998 L: 73.7463 Additional Memory: 41
+
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 126452611
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 128902128 duration: 2.364 speed: 5.45271e+07 garbage collected: 100460056 speed: 4.24958e+07 heap limit: 94163047 size before gc: 128902128 guid: 826345_139993989305096
+allocation_rate: 0.55337 gc_rate: 1.27977, g_bytes: 8.15895e+07, g_time: 1.47441e+08, s_bytes: 1.26488e+08, s_time: 9.88366e+07 yg_diff: 222425755
+Current Limit: 92.4689 New_limit: 92.4689 L: 28.4421 Additional Memory: 64
+
+Changing yg limit from 53477376 to: 126450236
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 100328026
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 102390224
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 104560204
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 79416429
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 126180269
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 130017920 duration: 2.672 speed: 4.86594e+07 garbage collected: 100320468 speed: 3.75451e+07 heap limit: 92468937 size before gc: 130017920 guid: 826345_139993989305096
+allocation_rate: 0.555967 gc_rate: 1.22368, g_bytes: 8.25888e+07, g_time: 1.4855e+08, s_bytes: 1.2635e+08, s_time: 1.03254e+08 yg_diff: 221946454
+Current Limit: 96.7616 New_limit: 96.7616 L: 29.6975 Additional Memory: 67
+
+Changing yg limit from 53477376 to: 126177888
+No change in yg_size. Total Capacity: 53477376
+826345_139993855087368 start incremtal marking!
+Changing yg limit from 53477376 to: 106734117
+No change in yg_size. Total Capacity: 53477376
+gc, name: pdfjs.js size: 109294588 duration: 38.04 speed: 2.87315e+06 garbage collected: 29052088 speed: 763725 heap limit: 114998286 size before gc: 109294588 guid: 826345_139993855087368
+allocation_rate: 0.0459303 gc_rate: 0.733345, g_bytes: 1.65814e+07, g_time: 3.61013e+08, s_bytes: 1.0278e+08, s_time: 1.40152e+08 yg_diff: 200103067
+Current Limit: 121.172 New_limit: 121.172 L: 80.2425 Additional Memory: 40
+
+Changing yg limit from 53477376 to: 106733928
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.544594 gc_rate: 1.22368, g_bytes: 7.84871e+07, g_time: 1.4412e+08, s_bytes: 1.2635e+08, s_time: 1.03254e+08 yg_diff: 72700512
+Current Limit: 96.0721 New_limit: 96.0721 L: 29.6975 Additional Memory: 66
+
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78660801
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 80493233
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 81397108
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 127258714
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 129773816 duration: 2.25 speed: 5.76773e+07 garbage collected: 101315388 speed: 4.50291e+07 heap limit: 96072107 size before gc: 129773816 guid: 826345_139993989305096
+allocation_rate: 0.545222 gc_rate: 1.2907, g_bytes: 7.95665e+07, g_time: 1.45934e+08, s_bytes: 1.26814e+08, s_time: 9.82521e+07 yg_diff: 151146444
+Current Limit: 91.7605 New_limit: 91.7605 L: 28.4584 Additional Memory: 63
+
+Changing yg limit from 53477376 to: 127256208
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 85153340
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 87350177
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+allocation_rate: 0.045624 gc_rate: 0.733345, g_bytes: 1.62237e+07, g_time: 3.55597e+08, s_bytes: 1.0278e+08, s_time: 1.40152e+08 yg_diff: 146725049
+Current Limit: 121.035 New_limit: 121.035 L: 80.2425 Additional Memory: 40
+
+Changing yg limit from 53477376 to: 79267475
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 126031840
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 89465616
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 128814556 duration: 2.073 speed: 6.21392e+07 garbage collected: 100119424 speed: 4.82969e+07 heap limit: 91760533 size before gc: 128814556 guid: 826345_139993989305096
+allocation_rate: 0.548062 gc_rate: 1.23157, g_bytes: 8.0606e+07, g_time: 1.47075e+08, s_bytes: 1.26436e+08, s_time: 1.02663e+08 yg_diff: 222455043
+Current Limit: 93.9375 New_limit: 93.9375 L: 28.6951 Additional Memory: 65
+
+Changing yg limit from 53477376 to: 126029524
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 91662924
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 93757137
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 79597576
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 126361365
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 95798146
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 129046024 duration: 2.64 speed: 4.88811e+07 garbage collected: 100411416 speed: 3.80346e+07 heap limit: 93937457 size before gc: 129046024 guid: 826345_139993989305096
+allocation_rate: 0.551482 gc_rate: 1.24357, g_bytes: 8.15932e+07, g_time: 1.47953e+08, s_bytes: 1.2641e+08, s_time: 1.01651e+08 yg_diff: 221887985
+Current Limit: 93.6949 New_limit: 93.6949 L: 28.6346 Additional Memory: 65
+
+Changing yg limit from 53477376 to: 126359088
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.544032 gc_rate: 1.24357, g_bytes: 7.75358e+07, g_time: 1.42521e+08, s_bytes: 1.2641e+08, s_time: 1.01651e+08 yg_diff: 72881712
+Current Limit: 93.254 New_limit: 93.254 L: 28.6346 Additional Memory: 64
+
+Changing yg limit from 53477376 to: 97978423
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 100031537
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 79299945
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 126065592
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 102202050
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 128454952 duration: 2.35 speed: 5.46617e+07 garbage collected: 100123500 speed: 4.26057e+07 heap limit: 93253985 size before gc: 128454952 guid: 826345_139993989305096
+allocation_rate: 0.54181 gc_rate: 1.26248, g_bytes: 7.865e+07, g_time: 1.45162e+08, s_bytes: 1.26249e+08, s_time: 1.00001e+08 yg_diff: 148742433
+Current Limit: 91.9941 New_limit: 91.9941 L: 28.3315 Additional Memory: 63
+
+Changing yg limit from 53477376 to: 126063236
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 104326110
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.0448771 gc_rate: 0.733345, g_bytes: 1.62824e+07, g_time: 3.62821e+08, s_bytes: 1.0278e+08, s_time: 1.40152e+08 yg_diff: 347402935
+Current Limit: 120.7 New_limit: 120.7 L: 80.2425 Additional Memory: 40
+
+Changing yg limit from 53477376 to: 106536674
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 79104096
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 108675901
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 125853925
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 129467088 duration: 2.595 speed: 4.9891e+07 garbage collected: 99872476 speed: 3.84865e+07 heap limit: 91994115 size before gc: 129467088 guid: 826345_139993989305096
+allocation_rate: 0.545643 gc_rate: 1.25695, g_bytes: 7.97743e+07, g_time: 1.46202e+08, s_bytes: 1.26069e+08, s_time: 1.00298e+08 yg_diff: 220920777
+Current Limit: 95.0342 New_limit: 95.0342 L: 29.5946 Additional Memory: 65
+
+Changing yg limit from 53477376 to: 125851636
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 110873419
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+826345_139993855087368 start incremtal marking!
+Changing yg limit from 53477376 to: 112917784
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+gc, name: pdfjs.js size: 115291240 duration: 32.379 speed: 3.56068e+06 garbage collected: 27556188 speed: 851051 heap limit: 120700086 size before gc: 115291240 guid: 826345_139993855087368
+allocation_rate: 0.044144 gc_rate: 0.64192, g_bytes: 1.72207e+07, g_time: 3.90103e+08, s_bytes: 1.10581e+08, s_time: 1.72266e+08 yg_diff: 225094274
+Current Limit: 132.581 New_limit: 132.581 L: 87.7351 Additional Memory: 44
+
+Changing yg limit from 53477376 to: 112917584
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 80197768
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 126962757
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from allocation_rate: 53477376 to: 88729849
+0.513634 gc_rate: 1.25695, g_bytes: 7.57856e+07, g_time: 1.47548e+08, s_bytes: 1.26069e+08, s_time: 1.00298e+08 yg_diff: 222911681
+Current Limit: 93.0858 New_limit: 93.0858 L: 29.5946 Additional Memory: 63
+
+No change in yg_size. Total Capacity: 53477376
+gc, name: splay.js size: 129512056 duration: 2.745 speed: 4.71811e+07 garbage collected: 100991380 speed: 3.6791e+07 heap limit: 93085797 size before gc: 129512056 guid: 826345_139993989305096
+allocation_rate: 0.517705 gc_rate: 1.27136, g_bytes: 7.69922e+07, g_time: 1.48718e+08, s_bytes: 1.26527e+08, s_time: 9.95214e+07 yg_diff: 0
+Current Limit: 90.7402 New_limit: 90.7402 L: 28.5207 Additional Memory: 62
+
+Changing yg limit from 53477376 to: 126960324
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 90889047
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 93086245
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 79308230
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 126071668
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 128621008 duration: 2.667 speed: 4.82268e+07 garbage collected: 100102480 speed: 3.75337e+07 heap limit: 90740249 size before gc: 128621008 guid: 826345_139993989305096
+allocation_rate: 0.522907 gc_rate: 1.29424, g_bytes: 7.81476e+07, g_time: 1.49448e+08, s_bytes: 1.2631e+08, s_time: 9.75942e+07 yg_diff: 222239742
+Current Limit: 90.4923 New_limit: 90.4923 L: 28.5185 Additional Memory: 61
+
+Changing yg limit from 53477376 to: 126069392
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 95222356
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 97420420
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.0439718 gc_rate: 0.64192, g_bytes: 1.69817e+07, g_time: 3.86196e+08, s_bytes: 1.10581e+08, s_time: 1.72266e+08 yg_diff: 257401245
+Current Limit: 132.493 New_limit: 132.493 L: 87.7351 Additional Memory: 44
+
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 99492304
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 79155894
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 125921309
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 128345576 duration: 2.338 speed: 5.48955e+07 garbage collected: 99953132 speed: 4.27516e+07 heap limit: 90492299 size before gc: 128345576 guid: 826345_139993989305096
+allocation_rate: 0.52697 gc_rate: 1.32117, g_bytes: 7.92316e+07, g_time: 1.50353e+08, s_bytes: 1.26127e+08, s_time: 9.54661e+07 yg_diff: 221046115
+Current Limit: 89.833 New_limit: 89.833 L: 28.3924 Additional Memory: 61
+
+Changing yg limit from 53477376 to: 125919044
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 101737866
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 103837674
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 105894389
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 79309326
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 108082088
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 126073961
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.530767 gc_rate: 1.32117, g_bytes: 8.01545e+07, g_time: 1.51016e+08, s_bytes: 1.26127e+08, s_time: 9.54661e+07 yg_diff: 221201851
+Current Limit: 90.054 New_limit: 90.054 L: 28.3924 Additional Memory: 61
+
+***Calling commented Grow()***
+gc, name: splay.js size: 128589188 duration: 2.098 speed: 6.12913e+07 garbage collected: 100103148 speed: 4.77136e+07 heap limit: 90053972 size before gc: 128589188 guid: 826345_139993989305096
+allocation_rate: 0.533873 gc_rate: 1.34472, g_bytes: 8.11567e+07, g_time: 1.52015e+08, s_bytes: 1.2611e+08, s_time: 9.37821e+07 yg_diff: 0
+Current Limit: 89.8847 New_limit: 89.8847 L: 28.486 Additional Memory: 61
+
+Changing yg limit from 53477376 to: 126071576
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 110138619
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 112320812
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 79002594
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 114483367
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 125768915
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 128319000 duration: 2.606 speed: 4.92398e+07 garbage collected: 99703656 speed: 3.82593e+07 heap limit: 89884695 size before gc: 128319000 guid: 826345_139993989305096
+allocation_rate: 0.538032 gc_rate: 1.28924, g_bytes: 8.20905e+07, g_time: 1.52575e+08, s_bytes: 1.25951e+08, s_time: 9.7694e+07 yg_diff: 220742605
+Current Limit: 91.7077 New_limit: 91.7077 L: 28.6153 Additional Memory: 63
+
+Changing yg limit from 53477376 to: 125766520
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 116669617
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.0441048 gc_rate: 0.64192, g_bytes: 1.72842e+07, g_time: 3.91889e+08, s_bytes: 1.10581e+08, s_time: 1.72266e+08 yg_diff: 491360352
+Current Limit: 132.561 New_limit: 132.561 L: 87.7351 Additional Memory: 44
+
+Changing yg limit from 53477376 to: 118795984
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 121005054
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 79078183
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 125844242
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 128598492 duration: 2.473 speed: 5.2001e+07 garbage collected: 99855920 speed: 4.03785e+07 heap limit: 91707696 size before gc: 128598492 guid: 826345_139993989305096
+allocation_rate: 0.541192 gc_rate: 1.26439, g_bytes: 8.29851e+07, g_time: 1.53338e+08, s_bytes: 1.25912e+08, s_time: 9.95835e+07 yg_diff: 220588465
+Current Limit: 92.7805 New_limit: 92.7805 L: 28.7426 Additional Memory: 64
+
+Changing yg limit from 53477376 to: 125841780
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 123044184
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+826345_139993855087368 start incremtal marking!
+Changing yg limit from 53477376 to: 125256040
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+gc, name: pdfjs.js size: 132701244 duration: 2.132 speed: 6.22426e+07 garbage collected: 33056968 speed: 1.55051e+07 heap limit: 132560906 size before gc: 132701244 guid: 826345_139993855087368
+allocation_rate: 0.0441112 gc_rate: 0.657197, g_bytes: 1.86683e+07, g_time: 4.2321e+08, s_bytes: 1.21383e+08, s_time: 1.84699e+08 yg_diff: 274191758
+Current Limit: 146.861 New_limit: 146.861 L: 99.6443 Additional Memory: 47
+
+Changing yg limit from 53477376 to: 125255808
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 79251079
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.528214 gc_rate: 1.26439, g_bytes: 8.10244e+07, g_time: 1.53393e+08, s_bytes: 1.25912e+08, s_time: 9.95835e+07 yg_diff: 148469755
+Current Limit: 92.008 New_limit: 92.008 L: 28.7426 Additional Memory: 63
+
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 126017300
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 128502488 duration: 2.396 speed: 5.36321e+07 garbage collected: 99999968 speed: 4.17362e+07 heap limit: 92008020 size before gc: 128502488 guid: 826345_139993989305096
+allocation_rate: 0.530614 gc_rate: 1.30559, g_bytes: 8.19612e+07, g_time: 1.54465e+08, s_bytes: 1.25976e+08, s_time: 9.64898e+07 yg_diff: 72539924
+Current Limit: 90.6418 New_limit: 90.6418 L: 28.5025 Additional Memory: 62
+
+Changing yg limit from 53477376 to: 126015024
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 100199099
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 102416747
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 104545864
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 78820056
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 106724209
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 125585990
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 128169048 duration: 2.437 speed: 5.2593e+07 garbage collected: 99605876 speed: 4.08723e+07 heap limit: 90641821 size before gc: 128169048 guid: 826345_139993989305096
+allocation_rate: 0.53413 gc_rate: 1.27756, g_bytes: 8.28464e+07, g_time: 1.55105e+08, s_bytes: 1.25793e+08, s_time: 9.84634e+07 yg_diff: 220320590
+Current Limit: 91.6554 New_limit: 91.6554 L: 28.5632 Additional Memory: 63
+
+Changing yg limit from 53477376 to: 125583612
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 108854065
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.0440561 gc_rate: 0.657197, g_bytes: 1.83552e+07, g_time: 4.16633e+08, s_bytes: 1.21383e+08, s_time: 1.84699e+08 yg_diff: 327131536
+Current Limit: 146.831 New_limit: 146.831 L: 99.6443 Additional Memory: 47
+
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 111070489
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 113199724
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78959787
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 125725738
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 115403028
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 128322496 duration: 2.535 speed: 5.06203e+07 garbage collected: 99707780 speed: 3.93325e+07 heap limit: 91655377 size before gc: 128322496 guid: 826345_139993989305096
+allocation_rate: 0.535743 gc_rate: 1.25151, g_bytes: 8.36921e+07, g_time: 1.56217e+08, s_bytes: 1.25776e+08, s_time: 1.00499e+08 yg_diff: 220168657
+Current Limit: 92.5138 New_limit: 92.5138 L: 28.6147 Additional Memory: 63
+
+Changing yg limit from 53477376 to: 125723236
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 117446988
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 119649843
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.529513 gc_rate: 1.25151, g_bytes: 8.19637e+07, g_time: 1.54791e+08, s_bytes: 1.25776e+08, s_time: 1.00499e+08 yg_diff: 122577508
+Current Limit: 92.1412 New_limit: 92.1412 L: 28.6147 Additional Memory: 63
+
+***Calling commented Grow()***
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 121797525
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78922996
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 125689849
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 128175416 duration: 2.559 speed: 5.00881e+07 garbage collected: 99675180 speed: 3.89508e+07 heap limit: 92141182 size before gc: 128175416 guid: 826345_139993989305096
+allocation_rate: 0.531082 gc_rate: 1.29595, g_bytes: 8.28435e+07, g_time: 1.5599e+08, s_bytes: 1.25745e+08, s_time: 9.70291e+07 yg_diff: 97658093
+Current Limit: 90.8953 New_limit: 90.8953 L: 28.5002 Additional Memory: 62
+
+Changing yg limit from 53477376 to: 125687564
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 124000172
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 126122982
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 78810667
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 125577705
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 128341181
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 128165008 duration: 2.557 speed: 5.01232e+07 garbage collected: 99547332 speed: 3.89313e+07 heap limit: 90895339 size before gc: 128165008 guid: 826345_139993989305096
+allocation_rate: 0.535402 gc_rate: 1.26569, g_bytes: 8.36846e+07, g_time: 1.56302e+08, s_bytes: 1.25674e+08, s_time: 9.9293e+07 yg_diff: 219975456
+Current Limit: 92.141 New_limit: 92.141 L: 28.6177 Additional Memory: 63
+
+Changing yg limit from 53477376 to: 125575440
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.044199 gc_rate: 0.657197, g_bytes: 1.85992e+07, g_time: 4.20806e+08, s_bytes: 1.21383e+08, s_time: 1.84699e+08 yg_diff: 595735548
+Current Limit: 146.908 New_limit: 146.908 L: 99.6443 Additional Memory: 47
+
+Changing yg limit from 53477376 to: 130418344
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 132665681
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 134770508
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 78948222
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 125716022
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 136811091
+No change in yg_size. Total Capacity: 53477376
+gc, name: splay.js size: 128167128 duration: 2.882 speed: 4.44716e+07 garbage collected: 99728304 speed: 3.46039e+07 heap limit: 92141024 size before gc: 128167128 guid: 826345_139993989305096
+allocation_rate: 0.533439 gc_rate: 1.30147, g_bytes: 8.44778e+07, g_time: 1.58365e+08, s_bytes: 1.25706e+08, s_time: 9.65875e+07 yg_diff: 220139204
+Current Limit: 90.7721 New_limit: 90.7721 L: 28.4388 Additional Memory: 62
+
+Changing yg limit from 53477376 to: 125713740
+No change in yg_size. Total Capacity: 53477376
+826345_139993855087368 start incremtal marking!
+Changing yg limit from 53477376 to: 138963321
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.519418 gc_rate: 1.30147, g_bytes: 8.02539e+07, g_time: 1.54507e+08, s_bytes: 1.25706e+08, s_time: 9.65875e+07 yg_diff: 97402188
+Current Limit: 89.9475 New_limit: 89.9475 L: 28.4388 Additional Memory: 61
+
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+gc, name: pdfjs.js size: 141288524 duration: 46.653 speed: 3.0285e+06 garbage collected: 34419048 speed: 737767 heap limit: 146907605 size before gc: 141288524 guid: 826345_139993855087368
+allocation_rate: 0.043819 gc_rate: 0.609777, g_bytes: 1.97515e+07, g_time: 4.50751e+08, s_bytes: 1.33649e+08, s_time: 2.19176e+08 yg_diff: 406242065
+Current Limit: 157.465 New_limit: 157.465 L: 106.869 Additional Memory: 50
+
+Changing yg limit from 53477376 to: 138963108
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 125213094
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 107522224
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 129188280 duration: 2.752 speed: 4.69434e+07 garbage collected: 99315648 speed: 3.60885e+07 heap limit: 89947506 size before gc: 129188280 guid: 826345_139993989305096
+allocation_rate: 0.521766 gc_rate: 1.27169, g_bytes: 8.12787e+07, g_time: 1.55776e+08, s_bytes: 1.25477e+08, s_time: 9.86698e+07 yg_diff: 122067366
+Current Limit: 93.7908 New_limit: 93.7908 L: 29.8726 Additional Memory: 63
+
+Changing yg limit from 53477376 to: 125210776
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 109794504
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 111903823
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+allocation_rate: 0.0436545 gc_rate: 0.609777, g_bytes: 1.91855e+07, g_time: 4.39487e+08, s_bytes: 1.33649e+08, s_time: 2.19176e+08 yg_diff: 254274155
+Current Limit: 157.37 New_limit: 157.37 L: 106.869 Additional Memory: 50
+
+Changing yg limit from 53477376 to: 79775822
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 114075687
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 126544703
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 130190432 duration: 2.502 speed: 5.20345e+07 garbage collected: 100568784 speed: 4.01954e+07 heap limit: 93790784 size before gc: 130190432 guid: 826345_139993989305096
+allocation_rate: 0.523892 gc_rate: 1.25921, g_bytes: 8.22307e+07, g_time: 1.56961e+08, s_bytes: 1.26029e+08, s_time: 1.00086e+08 yg_diff: 221430821
+Current Limit: 93.7155 New_limit: 93.7155 L: 29.6216 Additional Memory: 64
+
+Changing yg limit from 53477376 to: 126542348
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 116199525
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 118409947
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 120434768
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 79607927
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 126375328
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 128761744 duration: 2.206 speed: 5.83689e+07 garbage collected: 100339988 speed: 4.5485e+07 heap limit: 93715476 size before gc: 128761744 guid: 826345_139993989305096
+allocation_rate: 0.527213 gc_rate: 1.29256, g_bytes: 8.30761e+07, g_time: 1.57576e+08, s_bytes: 1.26213e+08, s_time: 9.76459e+07 yg_diff: 222425123
+Current Limit: 90.5848 New_limit: 90.5848 L: 28.4218 Additional Memory: 62
+
+Changing yg limit from 53477376 to: 126373020
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 122632808
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.519509 gc_rate: 1.29256, g_bytes: 7.89431e+07, g_time: 1.51957e+08, s_bytes: 1.26213e+08, s_time: 9.76459e+07 yg_diff: 72895644
+Current Limit: 90.1289 New_limit: 90.1289 L: 28.4218 Additional Memory: 61
+
+Changing yg limit from 53477376 to: 124768360
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 126966374
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 129102444
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 124846812
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 128555792 duration: 2.653 speed: 4.84568e+07 garbage collected: 98911372 speed: 3.72828e+07 heap limit: 90128945 size before gc: 128555792 guid: 826345_139993989305096
+allocation_rate: 0.518816 gc_rate: 1.26624, g_bytes: 8.00027e+07, g_time: 1.54202e+08, s_bytes: 1.25547e+08, s_time: 9.91495e+07 yg_diff: 146866908
+Current Limit: 93.2741 New_limit: 93.2741 L: 29.6444 Additional Memory: 63
+
+Changing yg limit from 53477376 to: 124844316
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 131300510
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 133373297
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.0438355 gc_rate: 0.609777, g_bytes: 1.93979e+07, g_time: 4.42515e+08, s_bytes: 1.33649e+08, s_time: 2.19176e+08 yg_diff: 702489960
+Current Limit: 157.475 New_limit: 157.475 L: 106.869 Additional Memory: 50
+
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 135640227
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 79440024
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 126208197
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 128668572 duration: 3.039 speed: 4.23391e+07 garbage collected: 100167128 speed: 3.29606e+07 heap limit: 93274071 size before gc: 128668572 guid: 826345_139993989305096
+allocation_rate: 0.522758 gc_rate: 1.3033, g_bytes: 8.09537e+07, g_time: 1.54859e+08, s_bytes: 1.25892e+08, s_time: 9.65942e+07 yg_diff: 220392057
+Current Limit: 90.232 New_limit: 90.232 L: 28.5014 Additional Memory: 61
+
+Changing yg limit from 53477376 to: 126205832
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 137738796
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 139790825
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 141970871
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 144031159
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 125019318
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 128560228 duration: 2.405 speed: 5.34554e+07 garbage collected: 99041608 speed: 4.11815e+07 heap limit: 90231975 size before gc: 128560228 guid: 826345_139993989305096
+allocation_rate: 0.526007 gc_rate: 1.27381, g_bytes: 8.1909e+07, g_time: 1.55718e+08, s_bytes: 1.2547e+08, s_time: 9.84996e+07 yg_diff: 219767870
+Current Limit: 93.2613 New_limit: 93.2613 L: 29.5186 Additional Memory: 63
+
+Changing yg limit from 53477376 to: 125016832
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.525841 gc_rate: 1.27381, g_bytes: 7.7814e+07, g_time: 1.4798e+08, s_bytes: 1.2547e+08, s_time: 9.84996e+07 yg_diff: 71539456
+Current Limit: 93.2512 New_limit: 93.2512 L: 29.5186 Additional Memory: 63
+
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 146216443
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+826345_139993855087368 start incremtal marking!
+Changing yg limit from 53477376 to: 148378127
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: pdfjs.js size: 150778968 duration: 53.351 speed: 2.82617e+06 garbage collected: 33143644 speed: 621238 heap limit: 157474503 size before gc: 150778968 guid: 826345_139993855087368
+allocation_rate: 0.0435583 gc_rate: 0.686317, g_bytes: 2.06235e+07, g_time: 4.73469e+08, s_bytes: 1.4465e+08, s_time: 2.10763e+08 yg_diff: 619424816
+Current Limit: 167.522 New_limit: 167.522 L: 117.635 Additional Memory: 49
+
+Changing yg limit from 53477376 to: 148377932
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 79328763
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 126057966
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 129339500 duration: 2.429 speed: 5.3248e+07 garbage collected: 100084716 speed: 4.12041e+07 heap limit: 93251238 size before gc: 129339500 guid: 826345_139993989305096
+allocation_rate: 0.525617 gc_rate: 1.18701, g_bytes: 7.89144e+07, g_time: 1.50137e+08, s_bytes: 1.2578e+08, s_time: 1.05964e+08 yg_diff: 148763625
+Current Limit: 94.967 New_limit: 94.967 L: 29.2548 Additional Memory: 65
+
+Changing yg limit from 53477376 to: 126055444
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 118563539
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.0433277 gc_rate: 0.686317, g_bytes: 1.97283e+07, g_time: 4.55329e+08, s_bytes: 1.4465e+08, s_time: 2.10763e+08 yg_diff: 159986719
+Current Limit: 167.389 New_limit: 167.389 L: 117.635 Additional Memory: 49
+
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 122320681
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 124517461
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78973293
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 125741714
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 128257032 duration: 2.51 speed: 5.10984e+07 garbage collected: 99690448 speed: 3.97173e+07 heap limit: 94966967 size before gc: 128257032 guid: 826345_139993989305096
+allocation_rate: 0.529791 gc_rate: 1.21828, g_bytes: 7.99188e+07, g_time: 1.5085e+08, s_bytes: 1.25771e+08, s_time: 1.03237e+08 yg_diff: 220669971
+Current Limit: 92.9165 New_limit: 92.9165 L: 28.5666 Additional Memory: 64
+
+Changing yg limit from 53477376 to: 125739340
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 126642538
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 128882673
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 130976791
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+allocation_rate: 0.52106 gc_rate: 1.21828, g_bytes: 7.83332e+07, g_time: 1.50334e+08, s_bytes: 1.25771e+08, s_time: 1.03237e+08 yg_diff: 122593612
+Current Limit: 92.384 New_limit: 92.384 L: 28.5666 Additional Memory: 63
+
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 124941743
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 133024471
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 127627940 duration: 2.62 speed: 4.8713e+07 garbage collected: 98930856 speed: 3.77599e+07 heap limit: 92384043 size before gc: 127627940 guid: 826345_139993989305096
+allocation_rate: 0.522493 gc_rate: 1.21214, g_bytes: 7.93696e+07, g_time: 1.51906e+08, s_bytes: 1.2537e+08, s_time: 1.03429e+08 yg_diff: 96630191
+Current Limit: 92.9099 New_limit: 92.9099 L: 28.6971 Additional Memory: 64
+
+Changing yg limit from 53477376 to: 124939444
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 135172290
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 137321252
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 124965314
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 139491654
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 127880084 duration: 2.3 speed: 5.56e+07 garbage collected: 98992060 speed: 4.304e+07 heap limit: 92909875 size before gc: 127880084 guid: 826345_139993989305096
+allocation_rate: 0.526854 gc_rate: 1.15519, g_bytes: 8.03602e+07, g_time: 1.52529e+08, s_bytes: 1.25181e+08, s_time: 1.08364e+08 yg_diff: 218447478
+Current Limit: 95.1581 New_limit: 95.1581 L: 28.888 Additional Memory: 66
+
+Changing yg limit from 53477376 to: 124963036
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.0435449 gc_rate: 0.686317, g_bytes: 1.99246e+07, g_time: 4.57565e+08, s_bytes: 1.4465e+08, s_time: 2.10763e+08 yg_diff: 697053427
+Current Limit: 167.514 New_limit: 167.514 L: 117.635 Additional Memory: 49
+
+Changing yg limit from 53477376 to: 141615476
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 143831529
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 145961800
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 125122963
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 127737260 duration: 2.498 speed: 5.11358e+07 garbage collected: 99123772 speed: 3.96813e+07 heap limit: 95158052 size before gc: 127737260 guid: 826345_139993989305096
+allocation_rate: 0.530126 gc_rate: 1.19281, g_bytes: 8.12847e+07, g_time: 1.53331e+08, s_bytes: 1.25162e+08, s_time: 1.04931e+08 yg_diff: 218628719
+Current Limit: 93.7208 New_limit: 93.7208 L: 28.6135 Additional Memory: 65
+
+Changing yg limit from 53477376 to: 125120680
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 148144138
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 150279832
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 152489522
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.525146 gc_rate: 1.19281, g_bytes: 7.96072e+07, g_time: 1.51591e+08, s_bytes: 1.25162e+08, s_time: 1.04931e+08 yg_diff: 121974952
+Current Limit: 93.4142 New_limit: 93.4142 L: 28.6135 Additional Memory: 64
+
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 124660696
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 127344272 duration: 2.315 speed: 5.50083e+07 garbage collected: 98664244 speed: 4.26195e+07 heap limit: 93414236 size before gc: 127344272 guid: 826345_139993989305096
+allocation_rate: 0.528425 gc_rate: 1.23537, g_bytes: 8.05634e+07, g_time: 1.52459e+08, s_bytes: 1.24924e+08, s_time: 1.01123e+08 yg_diff: 96349144
+Current Limit: 92.6275 New_limit: 92.6275 L: 28.68 Additional Memory: 63
+
+Changing yg limit from 53477376 to: 124658288
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 154632858
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 156837593
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+826345_139993855087368 start incremtal marking!
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 158913033
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 124871825
+No change in yg_size. Total Capacity: 53477376
+gc, name: pdfjs.js size: 171679140 duration: 10.991 speed: 1.562e+07 garbage collected: 38599120 speed: 3.51188e+06 heap limit: 167513993 size before gc: 171679140 guid: 826345_139993855087368
+allocation_rate: 0.0442232 gc_rate: 0.589, g_bytes: 2.16306e+07, g_time: 4.89123e+08, s_bytes: 1.55424e+08, s_time: 2.63877e+08 yg_diff: 871409397
+Current Limit: 190.792 New_limit: 190.792 L: 133.08 Additional Memory: 57
+
+Changing yg limit from 53477376 to: 158912848
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+allocation_rate: 0.0442463 gc_rate: 0.589, g_bytes: 2.05844e+07, g_time: 4.65222e+08, s_bytes: 1.55424e+08, s_time: 2.63877e+08 yg_diff: 105435472
+Current Limit: 190.807 New_limit: 190.807 L: 133.08 Additional Memory: 57
+
+gc, name: splay.js size: 127851152 duration: 5.216 speed: 2.45113e+07 garbage collected: 98854444 speed: 1.89522e+07 heap limit: 92627455 size before gc: 127851152 guid: 826345_139993989305096
+allocation_rate: 0.52865 gc_rate: 1.14945, g_bytes: 8.14938e+07, g_time: 1.54155e+08, s_bytes: 1.24911e+08, s_time: 1.0867e+08 yg_diff: 218072833
+Current Limit: 95.67 New_limit: 95.67 L: 28.9967 Additional Memory: 66
+
+Changing yg limit from 53477376 to: 124868564
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 133446994
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 135711277
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 137851001
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 125056593
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 128832440 duration: 2.963 speed: 4.34804e+07 garbage collected: 99122908 speed: 3.34536e+07 heap limit: 95670036 size before gc: 128832440 guid: 826345_139993989305096
+allocation_rate: 0.530248 gc_rate: 1.19257, g_bytes: 8.24109e+07, g_time: 1.55419e+08, s_bytes: 1.25001e+08, s_time: 1.04816e+08 yg_diff: 218467877
+Current Limit: 96.0662 New_limit: 96.0662 L: 29.7095 Additional Memory: 66
+
+Changing yg limit from 53477376 to: 125054300
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 140057703
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.5174 gc_rate: 1.19257, g_bytes: 7.82903e+07, g_time: 1.51315e+08, s_bytes: 1.25001e+08, s_time: 1.04816e+08 yg_diff: 96742748
+Current Limit: 95.2573 New_limit: 95.2573 L: 29.7095 Additional Memory: 65
+
+Changing yg limit from 53477376 to: 142191796
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 144396326
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 79037048
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 125808168
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 129889284 duration: 2.569 speed: 5.05603e+07 garbage collected: 99889768 speed: 3.88827e+07 heap limit: 95257315 size before gc: 129889284 guid: 826345_139993989305096
+allocation_rate: 0.521957 gc_rate: 1.17558, g_bytes: 7.93848e+07, g_time: 1.52091e+08, s_bytes: 1.25426e+08, s_time: 1.06693e+08 yg_diff: 123056288
+Current Limit: 96.6323 New_limit: 96.6323 L: 29.9995 Additional Memory: 66
+
+Changing yg limit from 53477376 to: 125805880
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 146496011
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 148542846
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 150728020
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 79107439
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.0442372 gc_rate: 0.589, g_bytes: 2.06572e+07, g_time: 4.66965e+08, s_bytes: 1.55424e+08, s_time: 2.63877e+08 yg_diff: 798125590
+Current Limit: 190.801 New_limit: 190.801 L: 133.08 Additional Memory: 57
+
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 125882905
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 152786338
+No change in yg_size. Total Capacity: 53477376
+gc, name: splay.js size: 128529472 duration: 2.672 speed: 4.81023e+07 garbage collected: 99917188 speed: 3.73942e+07 heap limit: 96632256 size before gc: 128529472 guid: 826345_139993989305096
+allocation_rate: 0.525835 gc_rate: 1.2062, g_bytes: 8.03421e+07, g_time: 1.5279e+08, s_bytes: 1.25665e+08, s_time: 1.04182e+08 yg_diff: 220695744
+Current Limit: 93.0931 New_limit: 93.0931 L: 28.6123 Additional Memory: 64
+
+Changing yg limit from 53477376 to: 125880616
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 154961993
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 157130488
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 124529684
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 159307480
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 128407308 duration: 2.799 speed: 4.58761e+07 garbage collected: 98595180 speed: 3.52251e+07 heap limit: 93093127 size before gc: 128407308 guid: 826345_139993989305096
+allocation_rate: 0.530421 gc_rate: 1.17491, g_bytes: 8.13147e+07, g_time: 1.53302e+08, s_bytes: 1.25116e+08, s_time: 1.06491e+08 yg_diff: 218953020
+Current Limit: 96.7921 New_limit: 96.7921 L: 29.8121 Additional Memory: 66
+
+Changing yg limit from 53477376 to: 124527412
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 161435530
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.518106 gc_rate: 1.17491, g_bytes: 7.72533e+07, g_time: 1.49107e+08, s_bytes: 1.25116e+08, s_time: 1.06491e+08 yg_diff: 96215860
+Current Limit: 96.0099 New_limit: 96.0099 L: 29.8121 Additional Memory: 66
+
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 163641414
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 78981504
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 165833125
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 125752073
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 128132344 duration: 2.288 speed: 5.60019e+07 garbage collected: 99691804 speed: 4.35716e+07 heap limit: 96009925 size before gc: 128132344 guid: 826345_139993989305096
+allocation_rate: 0.520797 gc_rate: 1.23118, g_bytes: 7.83066e+07, g_time: 1.50359e+08, s_bytes: 1.25444e+08, s_time: 1.01889e+08 yg_diff: 122944649
+Current Limit: 91.7665 New_limit: 91.7665 L: 28.4405 Additional Memory: 63
+
+Changing yg limit from 53477376 to: 125749580
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 168038524
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 170183442
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 172384709
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.0444378 gc_rate: 0.589, g_bytes: 2.08244e+07, g_time: 4.68619e+08, s_bytes: 1.55424e+08, s_time: 2.63877e+08 yg_diff: 1090929283
+Current Limit: 190.932 New_limit: 190.932 L: 133.08 Additional Memory: 57
+
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 124567356
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 128170340 duration: 2.431 speed: 5.27233e+07 garbage collected: 98544916 speed: 4.05368e+07 heap limit: 91766529 size before gc: 128170340 guid: 826345_139993989305096
+allocation_rate: 0.525193 gc_rate: 1.22979, g_bytes: 7.93778e+07, g_time: 1.5114e+08, s_bytes: 1.2502e+08, s_time: 1.0166e+08 yg_diff: 218859656
+Current Limit: 94.5661 New_limit: 94.5661 L: 29.6254 Additional Memory: 64
+
+Changing yg limit from 53477376 to: 124564988
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 174506381
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 176709343
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 178823382
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78681308
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 125452959
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 128202732 duration: 2.731 speed: 4.69435e+07 garbage collected: 99310044 speed: 3.6364e+07 heap limit: 94566073 size before gc: 128202732 guid: 826345_139993989305096
+allocation_rate: 0.525894 gc_rate: 1.1739, g_bytes: 8.03378e+07, g_time: 1.52764e+08, s_bytes: 1.2525e+08, s_time: 1.06696e+08 yg_diff: 218598775
+Current Limit: 94.5779 New_limit: 94.5779 L: 28.8927 Additional Memory: 65
+
+Changing yg limit from 53477376 to: 125450684
+No change in yg_size. Total Capacity: 53477376
+826345_139993855087368 start incremtal marking!
+Changing yg limit from 53477376 to: 180869766
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.519218 gc_rate: 1.1739, g_bytes: 7.63456e+07, g_time: 1.47039e+08, s_bytes: 1.2525e+08, s_time: 1.06696e+08 yg_diff: 71973308
+Current Limit: 94.1596 New_limit: 94.1596 L: 28.8927 Additional Memory: 65
+
+gc, name: pdfjs.js size: 191716816 duration: 9.678 speed: 1.98095e+07 garbage collected: 47699992 speed: 4.9287e+06 heap limit: 190931513 size before gc: 191716816 guid: 826345_139993855087368
+allocation_rate: 0.0445022 gc_rate: 0.585857, g_bytes: 2.2715e+07, g_time: 5.10425e+08, s_bytes: 1.72698e+08, s_time: 2.94778e+08 yg_diff: 496999368
+Current Limit: 204.403 New_limit: 204.403 L: 144.017 Additional Memory: 60
+
+Changing yg limit from 53477376 to: 180869600
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 144385370
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 146825498
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 124651344
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 127005844 duration: 2.649 speed: 4.79448e+07 garbage collected: 98493764 speed: 3.71815e+07 heap limit: 94159643 size before gc: 127005844 guid: 826345_139993989305096
+allocation_rate: 0.515411 gc_rate: 1.24749, g_bytes: 7.74339e+07, g_time: 1.50237e+08, s_bytes: 1.24964e+08, s_time: 1.00172e+08 yg_diff: 146671440
+Current Limit: 91.1753 New_limit: 91.1753 L: 28.5121 Additional Memory: 62
+
+Changing yg limit from 53477376 to: 124649052
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 148882920
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.0444684 gc_rate: 0.585857, g_bytes: 2.20006e+07, g_time: 4.94747e+08, s_bytes: 1.72698e+08, s_time: 2.94778e+08 yg_diff: 407053884
+Current Limit: 204.38 New_limit: 204.38 L: 144.017 Additional Memory: 60
+
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 151063210
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 153189970
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 124395643
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 127937992 duration: 2.432 speed: 5.26061e+07 garbage collected: 98348120 speed: 4.04392e+07 heap limit: 91175287 size before gc: 127937992 guid: 826345_139993989305096
+allocation_rate: 0.518094 gc_rate: 1.2432, g_bytes: 7.85335e+07, g_time: 1.51582e+08, s_bytes: 1.24695e+08, s_time: 1.00302e+08 yg_diff: 217587415
+Current Limit: 93.7028 New_limit: 93.7028 L: 29.5899 Additional Memory: 64
+
+Changing yg limit from 53477376 to: 124393356
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 155407780
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 157534921
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 159738139
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+allocation_rate: 0.508931 gc_rate: 1.2432, g_bytes: 7.69812e+07, g_time: 1.51261e+08, s_bytes: 1.24695e+08, s_time: 1.00302e+08 yg_diff: 121247628
+Current Limit: 93.1333 New_limit: 93.1333 L: 29.5899 Additional Memory: 63
+
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 161783011
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 125001082
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 128973672 duration: 2.633 speed: 4.89835e+07 garbage collected: 98965852 speed: 3.75867e+07 heap limit: 93133263 size before gc: 128973672 guid: 826345_139993989305096
+allocation_rate: 0.509693 gc_rate: 1.19527, g_bytes: 7.81013e+07, g_time: 1.53232e+08, s_bytes: 1.24866e+08, s_time: 1.04468e+08 yg_diff: 96689530
+Current Limit: 95.3177 New_limit: 95.3177 L: 30.0078 Additional Memory: 65
+
+Changing yg limit from 53477376 to: 124998800
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 163985825
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 166128821
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 168332753
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 78789871
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 125562982
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 170453285
+No change in yg_size. Total Capacity: 53477376
+gc, name: splay.js size: 128177948 duration: 2.93 speed: 4.37467e+07 garbage collected: 99490636 speed: 3.39558e+07 heap limit: 95317663 size before gc: 128177948 guid: 826345_139993989305096
+allocation_rate: 0.513875 gc_rate: 1.23742, g_bytes: 7.91048e+07, g_time: 1.53938e+08, s_bytes: 1.25226e+08, s_time: 1.01199e+08 yg_diff: 219251173
+Current Limit: 91.7038 New_limit: 91.7038 L: 28.6873 Additional Memory: 63
+
+Changing yg limit from 53477376 to: 125560596
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.0446866 gc_rate: 0.585857, g_bytes: 2.21205e+07, g_time: 4.95014e+08, s_bytes: 1.72698e+08, s_time: 2.94778e+08 yg_diff: 1072843955
+Current Limit: 204.528 New_limit: 204.528 L: 144.017 Additional Memory: 60
+
+Changing yg limit from 53477376 to: 172655738
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 174756526
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 124089961
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 176801069
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 127961072 duration: 2.625 speed: 4.87471e+07 garbage collected: 98084772 speed: 3.73656e+07 heap limit: 91703777 size before gc: 127961072 guid: 826345_139993989305096
+allocation_rate: 0.518758 gc_rate: 1.18837, g_bytes: 8.01132e+07, g_time: 1.54433e+08, s_bytes: 1.24674e+08, s_time: 1.04912e+08 yg_diff: 218193277
+Current Limit: 95.8104 New_limit: 95.8104 L: 29.8763 Additional Memory: 65
+
+Changing yg limit from 53477376 to: 124087680
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 178988141
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 181049041
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+allocation_rate: 0.514816 gc_rate: 1.18837, g_bytes: 7.84929e+07, g_time: 1.52468e+08, s_bytes: 1.24674e+08, s_time: 1.04912e+08 yg_diff: 120941952
+Current Limit: 95.5594 New_limit: 95.5594 L: 29.8763 Additional Memory: 65
+
+Changing yg limit from 53477376 to: 78950162
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 125698087
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 183222165
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 128447172 duration: 2.338 speed: 5.49389e+07 garbage collected: 99620312 speed: 4.26092e+07 heap limit: 95559370 size before gc: 128447172 guid: 826345_139993989305096
+allocation_rate: 0.518871 gc_rate: 1.14729, g_bytes: 7.94968e+07, g_time: 1.53211e+08, s_bytes: 1.25198e+08, s_time: 1.09125e+08 yg_diff: 97693497
+Current Limit: 94.7489 New_limit: 94.7489 L: 28.8269 Additional Memory: 65
+
+Changing yg limit from 53477376 to: 125695720
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 185351136
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 187569161
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 189712227
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 124402260
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 127223412 duration: 2.22 speed: 5.73078e+07 garbage collected: 98285368 speed: 4.42727e+07 heap limit: 94748864 size before gc: 127223412 guid: 826345_139993989305096
+allocation_rate: 0.523034 gc_rate: 1.14852, g_bytes: 8.04417e+07, g_time: 1.53798e+08, s_bytes: 1.24813e+08, s_time: 1.08672e+08 yg_diff: 218640700
+Current Limit: 95.216 New_limit: 95.216 L: 28.938 Additional Memory: 66
+
+Changing yg limit from 53477376 to: 124399788
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.0447473 gc_rate: 0.585857, g_bytes: 2.21619e+07, g_time: 4.95268e+08, s_bytes: 1.72698e+08, s_time: 2.94778e+08 yg_diff: 1148808820
+Current Limit: 204.57 New_limit: 204.57 L: 144.017 Additional Memory: 60
+
+Changing yg limit from 53477376 to: 191811435
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+826345_139993855087368 start incremtal marking!
+Changing yg limit from 53477376 to: 194089430
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+gc, name: pdfjs.js size: 196598444 duration: 63.767 speed: 3.08308e+06 garbage collected: 44875752 speed: 703746 heap limit: 204569551 size before gc: 196598444 guid: 826345_139993855087368
+allocation_rate: 0.0443215 gc_rate: 0.555091, g_bytes: 2.36829e+07, g_time: 5.34343e+08, s_bytes: 1.87772e+08, s_time: 3.38272e+08 yg_diff: 278946113
+Current Limit: 215.269 New_limit: 215.269 L: 151.723 Additional Memory: 63
+
+Changing yg limit from 53477376 to: 194089232
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 124558403
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 128329816 duration: 2.62 speed: 4.89808e+07 garbage collected: 98572988 speed: 3.76233e+07 heap limit: 95215975 size before gc: 128329816 guid: 826345_139993989305096
+allocation_rate: 0.523468 gc_rate: 1.11195, g_bytes: 8.13892e+07, g_time: 1.55481e+08, s_bytes: 1.24701e+08, s_time: 1.12146e+08 yg_diff: 217500911
+Current Limit: 98.0905 New_limit: 98.0905 L: 29.7568 Additional Memory: 68
+
+Changing yg limit from 53477376 to: 124555940
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 152537841
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 154768693
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.52402 gc_rate: 1.11195, g_bytes: 7.97149e+07, g_time: 1.52122e+08, s_bytes: 1.24701e+08, s_time: 1.12146e+08 yg_diff: 121410212
+Current Limit: 98.1265 New_limit: 98.1265 L: 29.7568 Additional Memory: 68
+
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 156966795
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 125318594
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 127997396 duration: 2.235 speed: 5.72695e+07 garbage collected: 99232568 speed: 4.43994e+07 heap limit: 98126450 size before gc: 127997396 guid: 826345_139993989305096
+allocation_rate: 0.527508 gc_rate: 1.17733, g_bytes: 8.06412e+07, g_time: 1.52872e+08, s_bytes: 1.25022e+08, s_time: 1.06191e+08 yg_diff: 97007042
+Current Limit: 94.3092 New_limit: 94.3092 L: 28.7648 Additional Memory: 65
+
+Changing yg limit from 53477376 to: 125316280
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 159102849
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 161301093
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 163372834
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 124266796
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.0442853 gc_rate: 0.555091, g_bytes: 2.32699e+07, g_time: 5.25455e+08, s_bytes: 1.87772e+08, s_time: 3.38272e+08 yg_diff: 767797705
+Current Limit: 215.243 New_limit: 215.243 L: 151.723 Additional Memory: 63
+
+***Calling commented Grow()***
+gc, name: splay.js size: 126853052 duration: 2.525 speed: 5.02388e+07 garbage collected: 98211488 speed: 3.88956e+07 heap limit: 94309178 size before gc: 126853052 guid: 826345_139993989305096
+allocation_rate: 0.531117 gc_rate: 1.20604, g_bytes: 8.15136e+07, g_time: 1.53476e+08, s_bytes: 1.24654e+08, s_time: 1.03358e+08 yg_diff: 218125796
+Current Limit: 93.4828 New_limit: 93.4828 L: 28.6416 Additional Memory: 64
+
+Changing yg limit from 53477376 to: 124264516
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 165612557
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 167708604
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 169756011
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 124028303
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 171943463
+No change in yg_size. Total Capacity: 53477376
+gc, name: splay.js size: 126607800 duration: 2.429 speed: 5.21234e+07 garbage collected: 97904376 speed: 4.03065e+07 heap limit: 93482802 size before gc: 126607800 guid: 826345_139993989305096
+allocation_rate: 0.533978 gc_rate: 1.19691, g_bytes: 8.23362e+07, g_time: 1.54194e+08, s_bytes: 1.24351e+08, s_time: 1.03893e+08 yg_diff: 216835539
+Current Limit: 94.0372 New_limit: 94.0372 L: 28.7034 Additional Memory: 65
+
+Changing yg limit from 53477376 to: 124026032
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 174002747
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.53549 gc_rate: 1.19691, g_bytes: 8.06171e+07, g_time: 1.50548e+08, s_bytes: 1.24351e+08, s_time: 1.03893e+08 yg_diff: 120880304
+Current Limit: 94.1297 New_limit: 94.1297 L: 28.7034 Additional Memory: 65
+
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 176180348
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 124047304
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 127067928 duration: 2.353 speed: 5.40025e+07 garbage collected: 97938052 speed: 4.16226e+07 heap limit: 94129660 size before gc: 127067928 guid: 826345_139993989305096
+allocation_rate: 0.538752 gc_rate: 1.17047, g_bytes: 8.15045e+07, g_time: 1.51284e+08, s_bytes: 1.24214e+08, s_time: 1.06123e+08 yg_diff: 95735752
+Current Limit: 95.9831 New_limit: 95.9831 L: 29.1299 Additional Memory: 66
+
+Changing yg limit from 53477376 to: 124045016
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 178309183
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 180527116
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 182555607
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 124411925
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.0443617 gc_rate: 0.555091, g_bytes: 2.32537e+07, g_time: 5.24185e+08, s_bytes: 1.87772e+08, s_time: 3.38272e+08 yg_diff: 1085299252
+Current Limit: 215.298 New_limit: 215.298 L: 151.723 Additional Memory: 63
+
+***Calling commented Grow()***
+gc, name: splay.js size: 126929928 duration: 2.43 speed: 5.22345e+07 garbage collected: 98310984 speed: 4.04572e+07 heap limit: 95983078 size before gc: 126929928 guid: 826345_139993989305096
+allocation_rate: 0.542214 gc_rate: 1.2398, g_bytes: 8.23192e+07, g_time: 1.5182e+08, s_bytes: 1.24323e+08, s_time: 1.00277e+08 yg_diff: 216999661
+Current Limit: 93.2104 New_limit: 93.2104 L: 28.6189 Additional Memory: 64
+
+Changing yg limit from 53477376 to: 124409636
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 184759845
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 186900565
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 189104339
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 123837910
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 191245749
+No change in yg_size. Total Capacity: 53477376
+gc, name: splay.js size: 127792952 duration: 3.118 speed: 4.09856e+07 garbage collected: 97848500 speed: 3.13818e+07 heap limit: 93210404 size before gc: 127792952 guid: 826345_139993989305096
+allocation_rate: 0.545945 gc_rate: 1.18539, g_bytes: 8.3162e+07, g_time: 1.52327e+08, s_bytes: 1.24107e+08, s_time: 1.04697e+08 yg_diff: 216790266
+Current Limit: 97.7463 New_limit: 97.7463 L: 29.9445 Additional Memory: 67
+
+Changing yg limit from 53477376 to: 123835628
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 193455302
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.546526 gc_rate: 1.18539, g_bytes: 8.13895e+07, g_time: 1.48922e+08, s_bytes: 1.24107e+08, s_time: 1.04697e+08 yg_diff: 120689900
+Current Limit: 97.7823 New_limit: 97.7823 L: 29.9445 Additional Memory: 67
+
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 195530993
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 125114989
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 197780652
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 127633476 duration: 2.84 speed: 4.49414e+07 garbage collected: 99060260 speed: 3.48804e+07 heap limit: 97782330 size before gc: 127633476 guid: 826345_139993989305096
+allocation_rate: 0.54898 gc_rate: 1.22457, g_bytes: 8.22045e+07, g_time: 1.4974e+08, s_bytes: 1.24623e+08, s_time: 1.01769e+08 yg_diff: 96803437
+Current Limit: 93.9171 New_limit: 93.9171 L: 28.5732 Additional Memory: 65
+
+Changing yg limit from 53477376 to: 125112712
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 199878154
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 201925636
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+826345_139993855087368 start incremtal marking!
+Changing yg limit from 53477376 to: 204121551
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 123795726
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.0444391 gc_rate: 0.555091, g_bytes: 2.32407e+07, g_time: 5.22979e+08, s_bytes: 1.87772e+08, s_time: 3.38272e+08 yg_diff: 1409929026
+Current Limit: 215.353 New_limit: 215.353 L: 151.723 Additional Memory: 63
+
+***Calling commented Grow()***
+gc, name: splay.js size: 128335704 duration: 10.179 speed: 1.26079e+07 garbage collected: 97824828 speed: 9.61046e+06 heap limit: 93917094 size before gc: 128335704 guid: 826345_139993989305096
+allocation_rate: 0.549128 gc_rate: 1.01851, g_bytes: 8.30824e+07, g_time: 1.51299e+08, s_bytes: 1.24232e+08, s_time: 1.21974e+08 yg_diff: 217451158
+Current Limit: 104.56 New_limit: 104.56 L: 30.5109 Additional Memory: 74
+
+Changing yg limit from 53477376 to: 123793372
+No change in yg_size. Total Capacity: 53477376
+gc, name: pdfjs.js size: 206426140 duration: 59.956 speed: 3.44296e+06 garbage collected: 41626900 speed: 694291 heap limit: 215353130 size before gc: 206426140 guid: 826345_139993855087368
+allocation_rate: 0.0439796 gc_rate: 0.549163, g_bytes: 2.48138e+07, g_time: 5.64213e+08, s_bytes: 2.00507e+08, s_time: 3.65114e+08 yg_diff: 0
+Current Limit: 231.126 New_limit: 231.126 L: 164.799 Additional Memory: 66
+
+Changing yg limit from 53477376 to: 204121324
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 165786862
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 78952126
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 167985185
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 125728362
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 128310940 duration: 6.195 speed: 2.0712e+07 garbage collected: 99629816 speed: 1.60823e+07 heap limit: 104560057 size before gc: 128310940 guid: 826345_139993989305096
+allocation_rate: 0.549424 gc_rate: 1.10529, g_bytes: 8.38182e+07, g_time: 1.52557e+08, s_bytes: 1.24991e+08, s_time: 1.13084e+08 yg_diff: 218373380
+Current Limit: 97.6182 New_limit: 97.6182 L: 28.6811 Additional Memory: 68
+
+Changing yg limit from 53477376 to: 125725984
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 170109111
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.541698 gc_rate: 1.10529, g_bytes: 7.96552e+07, g_time: 1.47047e+08, s_bytes: 1.24991e+08, s_time: 1.13084e+08 yg_diff: 72248608
+Current Limit: 97.1318 New_limit: 97.1318 L: 28.6811 Additional Memory: 68
+
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 172319706
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 174344676
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 123763052
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 126150872 duration: 2.157 speed: 5.84844e+07 garbage collected: 97643020 speed: 4.5268e+07 heap limit: 97131755 size before gc: 126150872 guid: 826345_139993989305096
+allocation_rate: 0.545153 gc_rate: 1.18896, g_bytes: 8.05459e+07, g_time: 1.47749e+08, s_bytes: 1.2439e+08, s_time: 1.04621e+08 yg_diff: 145783148
+Current Limit: 94.5158 New_limit: 94.5158 L: 28.5079 Additional Memory: 66
+
+Changing yg limit from 53477376 to: 123760684
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 176542950
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 178678635
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+allocation_rate: 0.0438964 gc_rate: 0.549163, g_bytes: 2.45144e+07, g_time: 5.5846e+08, s_bytes: 2.00507e+08, s_time: 3.65114e+08 yg_diff: 982069441
+Current Limit: 231.064 New_limit: 231.064 L: 164.799 Additional Memory: 66
+
+Changing yg limit from 53477376 to: 180876764
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 123646509
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 126431312 duration: 2.565 speed: 4.9291e+07 garbage collected: 97601056 speed: 3.80511e+07 heap limit: 94515836 size before gc: 126431312 guid: 826345_139993989305096
+allocation_rate: 0.547092 gc_rate: 1.20898, g_bytes: 8.14148e+07, g_time: 1.48814e+08, s_bytes: 1.24032e+08, s_time: 1.02593e+08 yg_diff: 215949913
+Current Limit: 94.7757 New_limit: 94.7757 L: 28.8303 Additional Memory: 65
+
+Changing yg limit from 53477376 to: 123644024
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 183013016
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 185211161
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 187283156
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 123774432
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 189523037
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 127578980 duration: 2.401 speed: 5.31358e+07 garbage collected: 97731788 speed: 4.07046e+07 heap limit: 94775700 size before gc: 127578980 guid: 826345_139993989305096
+allocation_rate: 0.547338 gc_rate: 1.15816, g_bytes: 8.22815e+07, g_time: 1.5033e+08, s_bytes: 1.23919e+08, s_time: 1.06997e+08 yg_diff: 215961176
+Current Limit: 98.4174 New_limit: 98.4174 L: 29.8472 Additional Memory: 68
+
+Changing yg limit from 53477376 to: 123772076
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.542494 gc_rate: 1.15816, g_bytes: 7.81837e+07, g_time: 1.44119e+08, s_bytes: 1.23919e+08, s_time: 1.06997e+08 yg_diff: 70294700
+Current Limit: 98.1133 New_limit: 98.1133 L: 29.8472 Additional Memory: 68
+
+Changing yg limit from 53477376 to: 191617320
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 193658240
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 195838477
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 124944366
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 127393568 duration: 2.611 speed: 4.87911e+07 garbage collected: 98835288 speed: 3.78534e+07 heap limit: 98113314 size before gc: 127393568 guid: 826345_139993989305096
+allocation_rate: 0.5453 gc_rate: 1.23449, g_bytes: 7.91519e+07, g_time: 1.45153e+08, s_bytes: 1.24442e+08, s_time: 1.00804e+08 yg_diff: 146964462
+Current Limit: 93.4037 New_limit: 93.4037 L: 28.5583 Additional Memory: 64
+
+Changing yg limit from 53477376 to: 124942076
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 197891584
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 200061811
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.0440931 gc_rate: 0.549163, g_bytes: 2.44954e+07, g_time: 5.5554e+08, s_bytes: 2.00507e+08, s_time: 3.65114e+08 yg_diff: 1370200806
+Current Limit: 231.212 New_limit: 231.212 L: 164.799 Additional Memory: 66
+
+inside timer stop
+calling join
+***Calling commented Grow()***
+Changing yg limit from 53477376 to: 202185835
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+826345_139993989305096 start incremtal marking!
+Changing yg limit from 53477376 to: 123306867
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: splay.js size: 126714564 duration: 2.476 speed: 5.11771e+07 garbage collected: 97257440 speed: 3.92801e+07 heap limit: 93403653 size before gc: 126714564 guid: 826345_139993989305096
+allocation_rate: 0.547703 gc_rate: 1.27535, g_bytes: 8.01021e+07, g_time: 1.46251e+08, s_bytes: 1.23888e+08, s_time: 9.714e+07 yg_diff: 216791663
+Current Limit: 94.394 New_limit: 94.394 L: 29.4571 Additional Memory: 64
+
+Changing yg limit from 53477376 to: 123304488
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 204396320
+No change in yg_size. Total Capacity: 53477376
+Segmentation fault (core dumped)

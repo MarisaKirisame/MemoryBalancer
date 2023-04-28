@@ -1,0 +1,1870 @@
+3
+acdc_1
+ACDC_benchmark acdc_1
+UPDATING YG SEMISPACE SIZE to 53477376
+gi_time or si_time is 0
+Changing yg limit from 524288 to: 78643200
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+1159803_139820177347336 start incremtal marking!
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+gc, name: acdc_8_1 size: 47917504 duration: 7.421 speed: 6.45701e+06 garbage collected: 25913020 speed: 3.49185e+06 heap limit: 19325176 size before gc: 47917504 guid: 1159803_139820177347336
+Changing yg limit from 104857600 to: 78643200
+both spaces shrinked to 53477376
+1159803_139820177347336 start incremtal marking!
+gc, name: acdc_8_1 size: 23863028 duration: 4.029 speed: 5.92282e+06 garbage collected: 1212148 speed: 300856 heap limit: 19325176 size before gc: 23863028 guid: 1159803_139820177347336
+allocation_rate: 0.126074 gc_rate: 0.146438, g_bytes: 1.13814e+06, g_time: 9.02755e+06, s_bytes: 1.11314e+07, s_time: 7.60145e+07 yg_diff: 127401984
+Current Limit: 1.84467e+13 New_limit: 103.275 L: 22.6509 Additional Memory: 80
+
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 104857600 to: 78643200
+both spaces shrinked to 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.0512736 gc_rate: 0.146438, g_bytes: 1.65191e+06, g_time: 3.22176e+07, s_bytes: 1.11314e+07, s_time: 7.60145e+07 yg_diff: 275775488
+Current Limit: 1.84467e+13 New_limit: 74.0673 L: 22.6509 Additional Memory: 51
+
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 104857600 to: 78643200
+both spaces shrinked to 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.0484015 gc_rate: 0.146438, g_bytes: 2.69167e+06, g_time: 5.56112e+07, s_bytes: 1.11314e+07, s_time: 7.60145e+07 yg_diff: 300941312
+Current Limit: 1.84467e+13 New_limit: 72.6065 L: 22.6509 Additional Memory: 49
+
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 104857600 to: 78643200
+both spaces shrinked to 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78643200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78927821
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78927680
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78927696
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 78927712
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.0472524 gc_rate: 0.146438, g_bytes: 3.6779e+06, g_time: 7.78351e+07, s_bytes: 1.11314e+07, s_time: 7.60145e+07 yg_diff: 302079421
+Current Limit: 1.84467e+13 New_limit: 72.0099 L: 22.6509 Additional Memory: 49
+
+Changing yg limit from 53477376 to: 79063352
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 104857600 to: 82865070
+both spaces shrinked to 53477376
+Changing yg limit from 53477376 to: 88431127
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 90132151
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 90132020
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 90132036
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 90132052
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 90267693
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 94096409
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 99627944
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 104857600 to: 101343190
+both spaces shrinked to 53477376
+Changing yg limit from 53477376 to: 101342960
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 101342976
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 101342992
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.0466384 gc_rate: 0.146438, g_bytes: 4.61477e+06, g_time: 9.89478e+07, s_bytes: 1.11314e+07, s_time: 7.60145e+07 yg_diff: 448808260
+Current Limit: 1.84467e+13 New_limit: 71.6882 L: 22.6509 Additional Memory: 49
+
+Changing yg limit from 53477376 to: 101478633
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 105311754
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 110861614
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 112546868
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 112546704
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 112546720
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 112546736
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 112682377
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 104857600 to: 116519606
+both spaces shrinked to 53477376
+Changing yg limit from 53477376 to: 122051956
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 123743513
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 123743388
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 123743404
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 123743420
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.0461558 gc_rate: 0.146438, g_bytes: 5.49276e+06, g_time: 1.19005e+08, s_bytes: 1.11314e+07, s_time: 7.60145e+07 yg_diff: 814003205
+Current Limit: 1.84467e+13 New_limit: 71.4338 L: 22.6509 Additional Memory: 48
+
+Changing yg limit from 53477376 to: 123879061
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 127705767
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 133236230
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 104857600 to: 134952527
+both spaces shrinked to 53477376
+Changing yg limit from 53477376 to: 134952296
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 134952312
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 134952328
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 135087970
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 138904729
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 144451839
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 146162481
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 146162352
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 146162368
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 146162384
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 146298026
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.0460466 gc_rate: 0.146438, g_bytes: 6.35714e+06, g_time: 1.38059e+08, s_bytes: 1.11314e+07, s_time: 7.60145e+07 yg_diff: 1220481806
+Current Limit: 1.84467e+13 New_limit: 71.376 L: 22.6509 Additional Memory: 48
+
+***Calling commented Grow()***
+Changing yg limit from 104857600 to: 150116542
+both spaces shrinked to 53477376
+Changing yg limit from 53477376 to: 155655175
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 157374947
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 157374808
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 157374824
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 157374840
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 157510479
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 161308715
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 166880000
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 104857600 to: 168579287
+both spaces shrinked to 53477376
+Changing yg limit from 53477376 to: 168579056
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 168579072
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 168579088
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.0458061 gc_rate: 0.146438, g_bytes: 7.15304e+06, g_time: 1.56159e+08, s_bytes: 1.11314e+07, s_time: 7.60145e+07 yg_diff: 1297320497
+Current Limit: 1.84467e+13 New_limit: 71.2486 L: 22.6509 Additional Memory: 48
+
+Changing yg limit from 53477376 to: 168714722
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 172534751
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 178077590
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 179785837
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 179785664
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 179785680
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 179785696
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 179921337
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 104857600 to: 183756356
+both spaces shrinked to 53477376
+Changing yg limit from 53477376 to: 189297863
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 190986873
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 190986740
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 190986756
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 190986772
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 191122414
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.0457028 gc_rate: 0.146438, g_bytes: 7.92285e+06, g_time: 1.73356e+08, s_bytes: 1.11314e+07, s_time: 7.60145e+07 yg_diff: 1892974187
+Current Limit: 1.84467e+13 New_limit: 71.1938 L: 22.6509 Additional Memory: 48
+
+Changing yg limit from 53477376 to: 194956698
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 200522831
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 104857600 to: 202198179
+both spaces shrinked to 53477376
+Changing yg limit from 53477376 to: 202197956
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 202197972
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 202197988
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 202333624
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 206155555
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 211685573
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 213403577
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 213403432
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 213403448
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 213403464
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 213539107
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.0455873 gc_rate: 0.146438, g_bytes: 8.64754e+06, g_time: 1.89692e+08, s_bytes: 1.11314e+07, s_time: 7.60145e+07 yg_diff: 2091535916
+Current Limit: 1.84467e+13 New_limit: 71.1324 L: 22.6509 Additional Memory: 48
+
+***Calling commented Grow()***
+Changing yg limit from 104857600 to: 217372149
+both spaces shrinked to 53477376
+Changing yg limit from 53477376 to: 222884965
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 224609055
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 224608896
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 224608912
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 224608928
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 224744567
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 228545410
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 234108260
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 104857600 to: 235818220
+both spaces shrinked to 53477376
+Changing yg limit from 53477376 to: 235818004
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 235818020
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 235818036
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 235953677
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.0454939 gc_rate: 0.146438, g_bytes: 9.33589e+06, g_time: 2.05212e+08, s_bytes: 1.11314e+07, s_time: 7.60145e+07 yg_diff: 2353873387
+Current Limit: 1.84467e+13 New_limit: 71.0828 L: 22.6509 Additional Memory: 48
+
+Changing yg limit from 53477376 to: 239786175
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 245368966
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 247024534
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 247024376
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 247024392
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 247024408
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 247160049
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 104857600 to: 250998625
+both spaces shrinked to 53477376
+Changing yg limit from 53477376 to: 256550116
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 258236473
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 258236316
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 258236332
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 258236348
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 258371990
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.0454183 gc_rate: 0.146438, g_bytes: 9.99001e+06, g_time: 2.19956e+08, s_bytes: 1.11314e+07, s_time: 7.60145e+07 yg_diff: 2719215612
+Current Limit: 1.84467e+13 New_limit: 71.0425 L: 22.6509 Additional Memory: 48
+
+Changing yg limit from 53477376 to: 262197783
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 267776340
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 104857600 to: 269442440
+both spaces shrinked to 53477376
+Changing yg limit from 53477376 to: 269442212
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 269442228
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 269442244
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 269577879
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 273364775
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 278939498
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 280656205
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 280656044
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 280656060
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 280656076
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 280791716
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.0453556 gc_rate: 0.146438, g_bytes: 1.06115e+07, g_time: 2.33962e+08, s_bytes: 1.11314e+07, s_time: 7.60145e+07 yg_diff: 3032978012
+Current Limit: 1.84467e+13 New_limit: 71.0091 L: 22.6509 Additional Memory: 48
+
+***Calling commented Grow()***
+Changing yg limit from 104857600 to: 284600934
+both spaces shrinked to 53477376
+Changing yg limit from 53477376 to: 290170754
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 291862066
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 291861928
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 291861944
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 291861960
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 291997602
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 295833297
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 301401615
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 104857600 to: 303068629
+both spaces shrinked to 53477376
+Changing yg limit from 53477376 to: 303068416
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 303068432
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 303068448
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 303204088
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.0453011 gc_rate: 0.146438, g_bytes: 1.12015e+07, g_time: 2.47269e+08, s_bytes: 1.11314e+07, s_time: 7.60145e+07 yg_diff: 3295486401
+Current Limit: 1.84467e+13 New_limit: 70.98 L: 22.6509 Additional Memory: 48
+
+Changing yg limit from 53477376 to: 307013821
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 312590963
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 314275264
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 314275120
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 314275136
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 314275152
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 314410792
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 104857600 to: 318238656
+both spaces shrinked to 53477376
+Changing yg limit from 53477376 to: 323769158
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 325477957
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 325477824
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 325477840
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 325477856
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 325613498
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.0452539 gc_rate: 0.146438, g_bytes: 1.17619e+07, g_time: 2.5991e+08, s_bytes: 1.11314e+07, s_time: 7.60145e+07 yg_diff: 3660585549
+Current Limit: 1.84467e+13 New_limit: 70.9548 L: 22.6509 Additional Memory: 48
+
+Changing yg limit from 53477376 to: 329410396
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 334980523
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 104857600 to: 336686408
+both spaces shrinked to 53477376
+Changing yg limit from 53477376 to: 336686188
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 336686204
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 336686220
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 336821860
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 340644235
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 346196435
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 347897119
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 347896952
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 347896968
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 347896984
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 348032627
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.0452149 gc_rate: 0.146438, g_bytes: 1.22948e+07, g_time: 2.71919e+08, s_bytes: 1.11314e+07, s_time: 7.60145e+07 yg_diff: 3974355631
+Current Limit: 1.84467e+13 New_limit: 70.934 L: 22.6509 Additional Memory: 48
+
+***Calling commented Grow()***
+Changing yg limit from 104857600 to: 351842622
+both spaces shrinked to 53477376
+Changing yg limit from 53477376 to: 357379849
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 359103695
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 359103532
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 359103548
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 359103564
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 359239207
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 363048658
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 368626189
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 104857600 to: 370309260
+both spaces shrinked to 53477376
+Changing yg limit from 53477376 to: 370309048
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 370309064
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 370309080
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 370444723
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.0451798 gc_rate: 0.146438, g_bytes: 1.28007e+07, g_time: 2.83327e+08, s_bytes: 1.11314e+07, s_time: 7.60145e+07 yg_diff: 4236788327
+Current Limit: 1.84467e+13 New_limit: 70.9153 L: 22.6509 Additional Memory: 48
+
+Changing yg limit from 53477376 to: 374246178
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 379800353
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 381517911
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 381517772
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 381517788
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 381517804
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 381653447
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 104857600 to: 385500524
+both spaces shrinked to 53477376
+Changing yg limit from 53477376 to: 391057656
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 392720382
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 392720224
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 392720240
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 392720256
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 392855898
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.0451487 gc_rate: 0.146438, g_bytes: 1.32812e+07, g_time: 2.94165e+08, s_bytes: 1.11314e+07, s_time: 7.60145e+07 yg_diff: 4602002945
+Current Limit: 1.84467e+13 New_limit: 70.8987 L: 22.6509 Additional Memory: 48
+
+Changing yg limit from 53477376 to: 396682064
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 402224903
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 104857600 to: 403930765
+both spaces shrinked to 53477376
+Changing yg limit from 53477376 to: 403930536
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 403930552
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 403930568
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 404066210
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 407888127
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 413415112
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 415135920
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 415135744
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 415135760
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 415135776
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 415271419
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.045122 gc_rate: 0.146438, g_bytes: 1.37379e+07, g_time: 3.04461e+08, s_bytes: 1.11314e+07, s_time: 7.60145e+07 yg_diff: 4915749968
+Current Limit: 1.84467e+13 New_limit: 70.8844 L: 22.6509 Additional Memory: 48
+
+***Calling commented Grow()***
+Changing yg limit from 104857600 to: 419070566
+both spaces shrinked to 53477376
+Changing yg limit from 53477376 to: 424636217
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 426343029
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 426342860
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 426342876
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 426342892
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 426478529
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 430311945
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 435844704
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 104857600 to: 437550997
+both spaces shrinked to 53477376
+Changing yg limit from 53477376 to: 437550764
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 437550780
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 437550796
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 437686439
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.0450981 gc_rate: 0.146438, g_bytes: 1.41718e+07, g_time: 3.14243e+08, s_bytes: 1.11314e+07, s_time: 7.60145e+07 yg_diff: 5178159682
+Current Limit: 1.84467e+13 New_limit: 70.8716 L: 22.6509 Additional Memory: 48
+
+Changing yg limit from 53477376 to: 441492009
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 447039690
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 448760369
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 448760220
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 448760236
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 448760252
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 448895895
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 104857600 to: 452713573
+both spaces shrinked to 53477376
+Changing yg limit from 53477376 to: 458277078
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 459972353
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 459972220
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 459972236
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 459972252
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 460107896
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.0450778 gc_rate: 0.146438, g_bytes: 1.45842e+07, g_time: 3.23535e+08, s_bytes: 1.11314e+07, s_time: 7.60145e+07 yg_diff: 5543392791
+Current Limit: 1.84467e+13 New_limit: 70.8607 L: 22.6509 Additional Memory: 48
+
+Changing yg limit from 53477376 to: 463934859
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 469465595
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 104857600 to: 471166844
+both spaces shrinked to 53477376
+Changing yg limit from 53477376 to: 471166624
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 471166640
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 471166656
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 471302293
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 475127198
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 480694116
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 482372386
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 482372240
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 482372256
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 482372272
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 482507914
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+allocation_rate: 0.0450563 gc_rate: 0.146438, g_bytes: 1.4975e+07, g_time: 3.32363e+08, s_bytes: 1.11314e+07, s_time: 7.60145e+07 yg_diff: 5857124405
+Current Limit: 1.84467e+13 New_limit: 70.8492 L: 22.6509 Additional Memory: 48
+
+Changing yg limit from 104857600 to: 486335795
+both spaces shrinked to 53477376
+Changing yg limit from 53477376 to: 491876719
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 493578931
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 493578784
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 493578800
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 493578816
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 493714458
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 497539203
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 503102424
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 104857600 to: 504789448
+both spaces shrinked to 53477376
+Changing yg limit from 53477376 to: 504789220
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 504789236
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 504789252
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 504924895
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.0450394 gc_rate: 0.146438, g_bytes: 1.53471e+07, g_time: 3.40749e+08, s_bytes: 1.11314e+07, s_time: 7.60145e+07 yg_diff: 6119522269
+Current Limit: 1.84467e+13 New_limit: 70.8402 L: 22.6509 Additional Memory: 48
+
+Changing yg limit from 53477376 to: 508753010
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 514314841
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 515995316
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 515995184
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 515995200
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 515995216
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 516130859
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 104857600 to: 519965861
+both spaces shrinked to 53477376
+Changing yg limit from 53477376 to: 525533125
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 527205766
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 527205632
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 527205648
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 527205664
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 527341302
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.045024 gc_rate: 0.146438, g_bytes: 1.57006e+07, g_time: 3.48716e+08, s_bytes: 1.11314e+07, s_time: 7.60145e+07 yg_diff: 6484779136
+Current Limit: 1.84467e+13 New_limit: 70.832 L: 22.6509 Additional Memory: 48
+
+Changing yg limit from 53477376 to: 531171634
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 536732968
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 104857600 to: 538412653
+both spaces shrinked to 53477376
+Changing yg limit from 53477376 to: 538412432
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 538412448
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 538412464
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 538548106
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 542357526
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 547912986
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 549623330
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 549623180
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 549623196
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 549623212
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 549758857
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+allocation_rate: 0.0449826 gc_rate: 0.146438, g_bytes: 1.60266e+07, g_time: 3.56285e+08, s_bytes: 1.11314e+07, s_time: 7.60145e+07 yg_diff: 6798561504
+Current Limit: 1.84467e+13 New_limit: 70.8098 L: 22.6509 Additional Memory: 48
+
+Changing yg limit from 104857600 to: 553574369
+both spaces shrinked to 53477376
+Changing yg limit from 53477376 to: 559121673
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 560831413
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 560831268
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 560831284
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 560831300
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 560966942
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 564792956
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 570328267
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 104857600 to: 572045575
+both spaces shrinked to 53477376
+Changing yg limit from 53477376 to: 572045348
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 572045364
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 572045380
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 572181023
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.0449996 gc_rate: 0.146438, g_bytes: 1.63562e+07, g_time: 3.63475e+08, s_bytes: 1.11314e+07, s_time: 7.60145e+07 yg_diff: 7061028450
+Current Limit: 1.84467e+13 New_limit: 70.8189 L: 22.6509 Additional Memory: 48
+
+Changing yg limit from 53477376 to: 575989592
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 581515822
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 583249677
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 583249508
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 583249524
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 583249540
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 583385183
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 104857600 to: 587200022
+both spaces shrinked to 53477376
+Changing yg limit from 53477376 to: 592779949
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 594455153
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 594455004
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 594455020
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 594455036
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 594590680
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.0449869 gc_rate: 0.146438, g_bytes: 1.66589e+07, g_time: 3.70306e+08, s_bytes: 1.11314e+07, s_time: 7.60145e+07 yg_diff: 7426216222
+Current Limit: 1.84467e+13 New_limit: 70.8121 L: 22.6509 Additional Memory: 48
+
+Changing yg limit from 53477376 to: 598402527
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 603969899
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 104857600 to: 605663363
+both spaces shrinked to 53477376
+Changing yg limit from 53477376 to: 605663128
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 605663144
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 605663160
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 605798805
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 609620497
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 615177321
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 616865319
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 616865176
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 616865192
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 616865208
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 617000851
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.0449753 gc_rate: 0.146438, g_bytes: 1.69465e+07, g_time: 3.76795e+08, s_bytes: 1.11314e+07, s_time: 7.60145e+07 yg_diff: 7740020102
+Current Limit: 1.84467e+13 New_limit: 70.8059 L: 22.6509 Additional Memory: 48
+
+***Calling commented Grow()***
+Changing yg limit from 104857600 to: 620793264
+both spaces shrinked to 53477376
+Changing yg limit from 53477376 to: 626355114
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 628071029
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 628070888
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 628070904
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 628070920
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 628206563
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 632008044
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 637553264
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 104857600 to: 639276261
+both spaces shrinked to 53477376
+Changing yg limit from 53477376 to: 639276040
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 639276056
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 639276072
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 639411710
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.0449647 gc_rate: 0.146438, g_bytes: 1.72197e+07, g_time: 3.8296e+08, s_bytes: 1.11314e+07, s_time: 7.60145e+07 yg_diff: 8002272417
+Current Limit: 1.84467e+13 New_limit: 70.8002 L: 22.6509 Additional Memory: 48
+
+Changing yg limit from 53477376 to: 643237842
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 648799970
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 650478440
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 650478268
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 650478284
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 650478300
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 650613943
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 104857600 to: 654415329
+both spaces shrinked to 53477376
+Changing yg limit from 53477376 to: 659966024
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 661680699
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 661680516
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 661680532
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 661680548
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 661816191
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.0449542 gc_rate: 0.146438, g_bytes: 1.74789e+07, g_time: 3.88816e+08, s_bytes: 1.11314e+07, s_time: 7.60145e+07 yg_diff: 8367421398
+Current Limit: 1.84467e+13 New_limit: 70.7946 L: 22.6509 Additional Memory: 48
+
+Changing yg limit from 53477376 to: 665624979
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 671188486
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 104857600 to: 672890608
+both spaces shrinked to 53477376
+Changing yg limit from 53477376 to: 672890392
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 672890408
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 672890424
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 673026065
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 676854815
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 682403272
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 684099805
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 684099624
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 684099640
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 684099656
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 684235299
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+allocation_rate: 0.0448329 gc_rate: 0.146438, g_bytes: 1.76811e+07, g_time: 3.94378e+08, s_bytes: 1.11314e+07, s_time: 7.60145e+07 yg_diff: 8681229985
+Current Limit: 1.84467e+13 New_limit: 70.7296 L: 22.6509 Additional Memory: 48
+
+Changing yg limit from 104857600 to: 688053896
+both spaces shrinked to 53477376
+Changing yg limit from 53477376 to: 693598074
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 695303873
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 695303724
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 695303740
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 695303756
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 695439400
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 699269730
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 704816276
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 104857600 to: 706514929
+both spaces shrinked to 53477376
+Changing yg limit from 53477376 to: 706514700
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 706514716
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 706514732
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 706650376
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.0449443 gc_rate: 0.146438, g_bytes: 1.79626e+07, g_time: 3.99664e+08, s_bytes: 1.11314e+07, s_time: 7.60145e+07 yg_diff: 8943658210
+Current Limit: 1.84467e+13 New_limit: 70.7893 L: 22.6509 Additional Memory: 48
+
+Changing yg limit from 53477376 to: 710447094
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 715991434
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 717721642
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 717721480
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 717721496
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 717721512
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 717857157
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 104857600 to: 721675226
+both spaces shrinked to 53477376
+Changing yg limit from 53477376 to: 727208724
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 728925798
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 728925644
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 728925660
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 728925676
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 728925692
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.0448899 gc_rate: 0.146438, g_bytes: 1.81663e+07, g_time: 4.04685e+08, s_bytes: 1.11314e+07, s_time: 7.60145e+07 yg_diff: 9308630747
+Current Limit: 1.84467e+13 New_limit: 70.7602 L: 22.6509 Additional Memory: 48
+
+Changing yg limit from 53477376 to: 729061336
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 732899037
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 738427173
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 104857600 to: 740131486
+both spaces shrinked to 53477376
+Changing yg limit from 53477376 to: 740131260
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 740131276
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 740131292
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 740266936
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 744094769
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 749617728
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 751345270
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 751345104
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 751345120
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 751345136
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 751480780
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.0449321 gc_rate: 0.146438, g_bytes: 1.83977e+07, g_time: 4.09455e+08, s_bytes: 1.11314e+07, s_time: 7.60145e+07 yg_diff: 10298212839
+Current Limit: 1.84467e+13 New_limit: 70.7828 L: 22.6509 Additional Memory: 48
+
+***Calling commented Grow()***
+Changing yg limit from 104857600 to: 755290272
+both spaces shrinked to 53477376
+Changing yg limit from 53477376 to: 760820285
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 762559723
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 762559548
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 762559564
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 762559580
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 762695224
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 766517768
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 772063931
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 104857600 to: 773760139
+both spaces shrinked to 53477376
+Changing yg limit from 53477376 to: 773759928
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 773759944
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 773759960
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.0449091 gc_rate: 0.146438, g_bytes: 1.85918e+07, g_time: 4.13987e+08, s_bytes: 1.11314e+07, s_time: 7.60145e+07 yg_diff: 9164699530
+Current Limit: 1.84467e+13 New_limit: 70.7704 L: 22.6509 Additional Memory: 48
+
+Changing yg limit from 53477376 to: 773895604
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 777688638
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 783225299
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 784966357
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 784966176
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 784966192
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 784966208
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 785101848
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 104857600 to: 788895924
+both spaces shrinked to 53477376
+Changing yg limit from 53477376 to: 794485325
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 796174257
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 796174112
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 796174128
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 796174144
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 796309788
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.04492 gc_rate: 0.146438, g_bytes: 1.87897e+07, g_time: 4.18292e+08, s_bytes: 1.11314e+07, s_time: 7.60145e+07 yg_diff: 10970623136
+Current Limit: 1.84467e+13 New_limit: 70.7763 L: 22.6509 Additional Memory: 48
+
+Changing yg limit from 53477376 to: 800125888
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 805673543
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 104857600 to: 807381866
+both spaces shrinked to 53477376
+Changing yg limit from 53477376 to: 807381640
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 807381656
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 807381672
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 807517316
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 811361627
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 816880335
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 818590703
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 818590524
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 818590540
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 818590556
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 818726199
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.0449144 gc_rate: 0.146438, g_bytes: 1.8971e+07, g_time: 4.22382e+08, s_bytes: 1.11314e+07, s_time: 7.60145e+07 yg_diff: 10564110577
+Current Limit: 1.84467e+13 New_limit: 70.7733 L: 22.6509 Additional Memory: 48
+
+***Calling commented Grow()***
+Changing yg limit from 104857600 to: 822524873
+both spaces shrinked to 53477376
+Changing yg limit from 53477376 to: 828101106
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 829793092
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 829792952
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 829792968
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 829792984
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 829928627
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 833742587
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 839274882
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 104857600 to: 841001458
+both spaces shrinked to 53477376
+Changing yg limit from 53477376 to: 841001228
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 841001244
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 841001260
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.0448926 gc_rate: 0.146438, g_bytes: 1.91362e+07, g_time: 4.26266e+08, s_bytes: 1.11314e+07, s_time: 7.60145e+07 yg_diff: 10038782925
+Current Limit: 1.84467e+13 New_limit: 70.7616 L: 22.6509 Additional Memory: 48
+
+Changing yg limit from 53477376 to: 841136904
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 844962018
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 850513658
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 852212275
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 852212132
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 852212148
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 852212164
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 852347810
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 104857600 to: 856180762
+both spaces shrinked to 53477376
+Changing yg limit from 53477376 to: 861704190
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 863411481
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 863411336
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 863411352
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 863411368
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.044888 gc_rate: 0.146438, g_bytes: 1.92999e+07, g_time: 4.29957e+08, s_bytes: 1.11314e+07, s_time: 7.60145e+07 yg_diff: 11169276110
+Current Limit: 1.84467e+13 New_limit: 70.7591 L: 22.6509 Additional Memory: 48
+
+Changing yg limit from 53477376 to: 863547012
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 867354340
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 872899671
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 104857600 to: 874618282
+both spaces shrinked to 53477376
+Changing yg limit from 53477376 to: 874618052
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 874618068
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 874618084
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 874753729
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 878560829
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 884109934
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 885831044
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 885830876
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 885830892
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 885830908
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.0448847 gc_rate: 0.146438, g_bytes: 1.94559e+07, g_time: 4.33464e+08, s_bytes: 1.11314e+07, s_time: 7.60145e+07 yg_diff: 11482958233
+Current Limit: 1.84467e+13 New_limit: 70.7574 L: 22.6509 Additional Memory: 48
+
+Changing yg limit from 53477376 to: 885966552
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 104857600 to: 889781278
+both spaces shrinked to 53477376
+Changing yg limit from 53477376 to: 895332967
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 897037464
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 897037304
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 897037320
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 897037336
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 897172980
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 900995720
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 906572919
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 104857600 to: 908245701
+both spaces shrinked to 53477376
+Changing yg limit from 53477376 to: 908245464
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 908245480
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 908245496
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.044881 gc_rate: 0.146438, g_bytes: 1.96038e+07, g_time: 4.36795e+08, s_bytes: 1.11314e+07, s_time: 7.60145e+07 yg_diff: 11745510269
+Current Limit: 1.84467e+13 New_limit: 70.7554 L: 22.6509 Additional Memory: 48
+
+Changing yg limit from 53477376 to: 908381142
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 912207148
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 917752893
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 919451443
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 919451264
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 919451280
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 919451296
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 919586935
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 104857600 to: 923412625
+both spaces shrinked to 53477376
+Changing yg limit from 53477376 to: 928958707
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 930657277
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 930657100
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 930657116
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 930657132
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.0448773 gc_rate: 0.146438, g_bytes: 1.97442e+07, g_time: 4.3996e+08, s_bytes: 1.11314e+07, s_time: 7.60145e+07 yg_diff: 12110669870
+Current Limit: 1.84467e+13 New_limit: 70.7534 L: 22.6509 Additional Memory: 48
+
+Changing yg limit from 53477376 to: 930792776
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 934615239
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 940131011
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 104857600 to: 941869917
+both spaces shrinked to 53477376
+Changing yg limit from 53477376 to: 941869676
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 941869692
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 941869708
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 942005353
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 945822680
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 951378996
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 953076774
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 953076624
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 953076640
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 953076656
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.0448747 gc_rate: 0.146438, g_bytes: 1.9878e+07, g_time: 4.42966e+08, s_bytes: 1.11314e+07, s_time: 7.60145e+07 yg_diff: 12424468254
+Current Limit: 1.84467e+13 New_limit: 70.752 L: 22.6509 Additional Memory: 48
+
+Changing yg limit from 53477376 to: 953212297
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 104857600 to: 957038647
+both spaces shrinked to 53477376
+Changing yg limit from 53477376 to: 962586852
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 964276292
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 964276132
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 964276148
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 964276164
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 964411808
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 968223690
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 973788582
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 104857600 to: 975481460
+both spaces shrinked to 53477376
+Changing yg limit from 53477376 to: 975481216
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 975481232
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.0448706 gc_rate: 0.146438, g_bytes: 2.00043e+07, g_time: 4.45822e+08, s_bytes: 1.11314e+07, s_time: 7.60145e+07 yg_diff: 11764844184
+Current Limit: 1.84467e+13 New_limit: 70.7498 L: 22.6509 Additional Memory: 48
+
+Changing yg limit from 53477376 to: 975481248
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 975616889
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 979440669
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 984974321
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 986688585
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 986688440
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 986688456
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 986688472
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 986824118
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 104857600 to: 990639713
+both spaces shrinked to 53477376
+Changing yg limit from 53477376 to: 996188125
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 997896934
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 997896784
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 997896800
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 997896816
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.044868 gc_rate: 0.146438, g_bytes: 2.01249e+07, g_time: 4.48536e+08, s_bytes: 1.11314e+07, s_time: 7.60145e+07 yg_diff: 13973965506
+Current Limit: 1.84467e+13 New_limit: 70.7484 L: 22.6509 Additional Memory: 48
+
+Changing yg limit from 53477376 to: 998032456
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1001845242
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1007409870
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 104857600 to: 1009107347
+both spaces shrinked to 53477376
+Changing yg limit from 53477376 to: 1009107124
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1009107140
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1009107156
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1009242800
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1013062729
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1018611785
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1020321108
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1020320944
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1020320960
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1020320976
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.0448664 gc_rate: 0.146438, g_bytes: 2.02398e+07, g_time: 4.51113e+08, s_bytes: 1.11314e+07, s_time: 7.60145e+07 yg_diff: 13365854149
+Current Limit: 1.84467e+13 New_limit: 70.7476 L: 22.6509 Additional Memory: 48
+
+Changing yg limit from 53477376 to: 1020456618
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 104857600 to: 1024261841
+both spaces shrinked to 53477376
+Changing yg limit from 53477376 to: 1029804624
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1031529258
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1031529080
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1031529096
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1031529112
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1031664749
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1035485348
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1041046651
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 104857600 to: 1042740086
+both spaces shrinked to 53477376
+Changing yg limit from 53477376 to: 1042739864
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1042739880
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.0448644 gc_rate: 0.146438, g_bytes: 2.03488e+07, g_time: 4.53562e+08, s_bytes: 1.11314e+07, s_time: 7.60145e+07 yg_diff: 12639089871
+Current Limit: 1.84467e+13 New_limit: 70.7465 L: 22.6509 Additional Memory: 48
+
+Changing yg limit from 53477376 to: 1042739896
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1042875541
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1046674047
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1052262387
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1053948044
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1053947904
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1053947920
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1053947936
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1054083575
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 104857600 to: 1057906865
+both spaces shrinked to 53477376
+Changing yg limit from 53477376 to: 1063452672
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1065150305
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1065150128
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1065150144
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.0448617 gc_rate: 0.146438, g_bytes: 2.04519e+07, g_time: 4.55887e+08, s_bytes: 1.11314e+07, s_time: 7.60145e+07 yg_diff: 13971173876
+Current Limit: 1.84467e+13 New_limit: 70.745 L: 22.6509 Additional Memory: 48
+
+Changing yg limit from 53477376 to: 1065150160
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1065285803
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1069102068
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1074667310
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 104857600 to: 1076357518
+both spaces shrinked to 53477376
+Changing yg limit from 53477376 to: 1076357304
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1076357320
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1076357336
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1076492976
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1080296433
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1085846389
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1087564479
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1087564312
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1087564328
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.0448595 gc_rate: 0.146438, g_bytes: 2.055e+07, g_time: 4.58096e+08, s_bytes: 1.11314e+07, s_time: 7.60145e+07 yg_diff: 14284900248
+Current Limit: 1.84467e+13 New_limit: 70.7439 L: 22.6509 Additional Memory: 48
+
+Changing yg limit from 53477376 to: 1087564344
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1087699990
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 104857600 to: 1091508198
+both spaces shrinked to 53477376
+Changing yg limit from 53477376 to: 1097040400
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1098778004
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1098777856
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1098777872
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1098777888
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1098913532
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1102732704
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1108301608
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 104857600 to: 1109990962
+both spaces shrinked to 53477376
+Changing yg limit from 53477376 to: 1109990736
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.0448587 gc_rate: 0.146438, g_bytes: 2.06438e+07, g_time: 4.60196e+08, s_bytes: 1.11314e+07, s_time: 7.60145e+07 yg_diff: 13490887758
+Current Limit: 1.84467e+13 New_limit: 70.7434 L: 22.6509 Additional Memory: 48
+
+Changing yg limit from 53477376 to: 1109990752
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1109990768
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1110126414
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1113952676
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1119509241
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1121200228
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1121200052
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1121200068
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1121200084
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1121335730
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 104857600 to: 1125160795
+both spaces shrinked to 53477376
+Changing yg limit from 53477376 to: 1130715930
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1132406412
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1132406244
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1132406260
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.0448569 gc_rate: 0.146438, g_bytes: 2.07324e+07, g_time: 4.62189e+08, s_bytes: 1.11314e+07, s_time: 7.60145e+07 yg_diff: 15969260790
+Current Limit: 1.84467e+13 New_limit: 70.7425 L: 22.6509 Additional Memory: 48
+
+Changing yg limit from 53477376 to: 1132406276
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1132541921
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1136325413
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1141914739
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 104857600 to: 1143611068
+both spaces shrinked to 53477376
+Changing yg limit from 53477376 to: 1143610848
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1143610864
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1143610880
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1143746522
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1147568075
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1153102980
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1154811889
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1154811708
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1154811724
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.0448542 gc_rate: 0.146438, g_bytes: 2.0816e+07, g_time: 4.64082e+08, s_bytes: 1.11314e+07, s_time: 7.60145e+07 yg_diff: 15226421419
+Current Limit: 1.84467e+13 New_limit: 70.741 L: 22.6509 Additional Memory: 48
+
+Changing yg limit from 53477376 to: 1154811740
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1154947383
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 104857600 to: 1158786798
+both spaces shrinked to 53477376
+Changing yg limit from 53477376 to: 1164334179
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1166019470
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1166019320
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1166019336
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1166019352
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1166154999
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1169964586
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1175520659
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 104857600 to: 1177227417
+both spaces shrinked to 53477376
+Changing yg limit from 53477376 to: 1177227188
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.0448525 gc_rate: 0.146438, g_bytes: 2.0896e+07, g_time: 4.65883e+08, s_bytes: 1.11314e+07, s_time: 7.60145e+07 yg_diff: 14365086091
+Current Limit: 1.84467e+13 New_limit: 70.7401 L: 22.6509 Additional Memory: 48
+
+Changing yg limit from 53477376 to: 1177227204
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1177227220
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1177362859
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1181181828
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1186740566
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1188428399
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1188428228
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1188428244
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1188428260
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1188563907
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 104857600 to: 1192396047
+both spaces shrinked to 53477376
+Changing yg limit from 53477376 to: 1197947565
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1199636253
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1199636080
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.0448502 gc_rate: 0.146438, g_bytes: 2.09717e+07, g_time: 4.67594e+08, s_bytes: 1.11314e+07, s_time: 7.60145e+07 yg_diff: 15831569172
+Current Limit: 1.84467e+13 New_limit: 70.7389 L: 22.6509 Additional Memory: 48
+
+Changing yg limit from 53477376 to: 1199636096
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1199636112
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1199771759
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1203597958
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1209135634
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 104857600 to: 1210842990
+both spaces shrinked to 53477376
+Changing yg limit from 53477376 to: 1210842760
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1210842776
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1210842792
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1210978430
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1214769601
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1220344390
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1222047344
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1222047164
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.0448483 gc_rate: 0.146438, g_bytes: 2.10436e+07, g_time: 4.69218e+08, s_bytes: 1.11314e+07, s_time: 7.60145e+07 yg_diff: 16145272318
+Current Limit: 1.84467e+13 New_limit: 70.7378 L: 22.6509 Additional Memory: 48
+
+Changing yg limit from 53477376 to: 1222047180
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1222047196
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1222182842
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 104857600 to: 1226002883
+both spaces shrinked to 53477376
+Changing yg limit from 53477376 to: 1231560459
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1233252053
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1233251908
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1233251924
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1233251940
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1233387586
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1237208100
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1242766679
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 104857600 to: 1244461752
+both spaces shrinked to 53477376
+Changing yg limit from 53477376 to: 1244461528
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.0448468 gc_rate: 0.146438, g_bytes: 2.11122e+07, g_time: 4.70762e+08, s_bytes: 1.11314e+07, s_time: 7.60145e+07 yg_diff: 16407690318
+Current Limit: 1.84467e+13 New_limit: 70.7371 L: 22.6509 Additional Memory: 48
+
+Changing yg limit from 53477376 to: 1244461544
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1244461560
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1244597205
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1248428196
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1253980597
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1255668201
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1255668032
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1255668048
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1255668064
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1255803710
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 104857600 to: 1259645622
+both spaces shrinked to 53477376
+Changing yg limit from 53477376 to: 1265203113
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1266875112
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1266874932
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.0448453 gc_rate: 0.146438, g_bytes: 2.11772e+07, g_time: 4.72228e+08, s_bytes: 1.11314e+07, s_time: 7.60145e+07 yg_diff: 16772940448
+Current Limit: 1.84467e+13 New_limit: 70.7363 L: 22.6509 Additional Memory: 48
+
+Changing yg limit from 53477376 to: 1266874948
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1266874964
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1267010610
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1270857508
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1276388381
+No change in yg_size. Total Capacity: 53477376
+***Calling commented Grow()***
+Changing yg limit from 104857600 to: 1278076138
+both spaces shrinked to 53477376
+Changing yg limit from 53477376 to: 1278075900
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1278075916
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1278075932
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1278211578
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1282038965
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1287571639
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1289284623
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1289284476
+No change in yg_size. Total Capacity: 53477376
+allocation_rate: 0.0448435 gc_rate: 0.146438, g_bytes: 2.12388e+07, g_time: 4.73621e+08, s_bytes: 1.11314e+07, s_time: 7.60145e+07 yg_diff: 17086638090
+Current Limit: 1.84467e+13 New_limit: 70.7353 L: 22.6509 Additional Memory: 48
+
+Changing yg limit from 53477376 to: 1289284492
+No change in yg_size. Total Capacity: 53477376
+Changing yg limit from 53477376 to: 1289284508
+No change in yg_size. Total Capacity: 53477376
+try isolate->dispose!
+inside timer stop
+calling join
+inside timer stop
+calling join
+isolate->dispose ok!

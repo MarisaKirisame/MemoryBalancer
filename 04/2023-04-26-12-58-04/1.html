@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>splay.js</title>
+  </head>
+  <body>
+    <img src="0.png">
+    <table>
+      <tr>
+        <th>memory</th>
+        <th>time</th>
+        <th>GC_RATE_D</th>
+        <th>link</th>
+      </tr>
+      <tr>
+        <td>40.61</td>
+        <td>99.54</td>
+        <td>ignore</td>
+        <td>
+          <a href="2.html">{'BALANCE_STRATEGY': 'ignore', 'RESIZE_CFG': {'RESIZE_STRATEGY': 'ignore'}, 'BALANCE_FREQUENCY': 0}</a>
+        </td>
+      </tr>
+      <tr>
+        <td>40.1</td>
+        <td>106.2</td>
+        <td>-3e-08</td>
+        <td>
+          <a href="3.html">{'BALANCE_STRATEGY': 'classic', 'RESIZE_CFG': {'RESIZE_STRATEGY': 'gradient', 'GC_RATE_D': -3e-08}, 'BALANCE_FREQUENCY': 0}</a>
+        </td>
+      </tr>
+      <tr>
+        <td>44.52</td>
+        <td>83.43</td>
+        <td>-1e-08</td>
+        <td>
+          <a href="4.html">{'BALANCE_STRATEGY': 'classic', 'RESIZE_CFG': {'RESIZE_STRATEGY': 'gradient', 'GC_RATE_D': -1e-08}, 'BALANCE_FREQUENCY': 0}</a>
+        </td>
+      </tr>
+      <tr>
+        <td>71.69</td>
+        <td>30.59</td>
+        <td>-3e-09</td>
+        <td>
+          <a href="5.html">{'BALANCE_STRATEGY': 'YG_BALANCER', 'RESIZE_CFG': {'RESIZE_STRATEGY': 'gradient', 'GC_RATE_D': -3e-09}, 'BALANCE_FREQUENCY': 0, 'YG_SEMISPACE_SIZE': 45}</a>
+        </td>
+      </tr>
+      <tr>
+        <td>54.15</td>
+        <td>66.98</td>
+        <td>-3e-09</td>
+        <td>
+          <a href="6.html">{'BALANCE_STRATEGY': 'YG_BALANCER', 'RESIZE_CFG': {'RESIZE_STRATEGY': 'gradient', 'GC_RATE_D': -3e-09}, 'BALANCE_FREQUENCY': 0, 'YG_SEMISPACE_SIZE': 1}</a>
+        </td>
+      </tr>
+      <tr>
+        <td>67.05</td>
+        <td>34.65</td>
+        <td>-3e-09</td>
+        <td>
+          <a href="7.html">{'BALANCE_STRATEGY': 'YG_BALANCER', 'RESIZE_CFG': {'RESIZE_STRATEGY': 'gradient', 'GC_RATE_D': -3e-09}, 'BALANCE_FREQUENCY': 0, 'YG_SEMISPACE_SIZE': 7}</a>
+        </td>
+      </tr>
+      <tr>
+        <td>65.66</td>
+        <td>33.13</td>
+        <td>-3e-09</td>
+        <td>
+          <a href="8.html">{'BALANCE_STRATEGY': 'YG_BALANCER', 'RESIZE_CFG': {'RESIZE_STRATEGY': 'gradient', 'GC_RATE_D': -3e-09}, 'BALANCE_FREQUENCY': 0, 'YG_SEMISPACE_SIZE': 13}</a>
+        </td>
+      </tr>
+      <tr>
+        <td>75.04</td>
+        <td>32.66</td>
+        <td>-3e-09</td>
+        <td>
+          <a href="9.html">{'BALANCE_STRATEGY': 'YG_BALANCER', 'RESIZE_CFG': {'RESIZE_STRATEGY': 'gradient', 'GC_RATE_D': -3e-09}, 'BALANCE_FREQUENCY': 0, 'YG_SEMISPACE_SIZE': 19}</a>
+        </td>
+      </tr>
+      <tr>
+        <td>70.92</td>
+        <td>32.33</td>
+        <td>-3e-09</td>
+        <td>
+          <a href="10.html">{'BALANCE_STRATEGY': 'YG_BALANCER', 'RESIZE_CFG': {'RESIZE_STRATEGY': 'gradient', 'GC_RATE_D': -3e-09}, 'BALANCE_FREQUENCY': 0, 'YG_SEMISPACE_SIZE': 17}</a>
+        </td>
+      </tr>
+      <tr>
+        <td>68.29</td>
+        <td>26.73</td>
+        <td>-3e-09</td>
+        <td>
+          <a href="11.html">{'BALANCE_STRATEGY': 'YG_BALANCER', 'RESIZE_CFG': {'RESIZE_STRATEGY': 'gradient', 'GC_RATE_D': -3e-09}, 'BALANCE_FREQUENCY': 0, 'YG_SEMISPACE_SIZE': 57}</a>
+        </td>
+      </tr>
+      <tr>
+        <td>80.45</td>
+        <td>27.12</td>
+        <td>-3e-09</td>
+        <td>
+          <a href="12.html">{'BALANCE_STRATEGY': 'YG_BALANCER', 'RESIZE_CFG': {'RESIZE_STRATEGY': 'gradient', 'GC_RATE_D': -3e-09}, 'BALANCE_FREQUENCY': 0, 'YG_SEMISPACE_SIZE': 55}</a>
+        </td>
+      </tr>
+      <tr>
+        <td>73.69</td>
+        <td>31.58</td>
+        <td>-3e-09</td>
+        <td>
+          <a href="13.html">{'BALANCE_STRATEGY': 'YG_BALANCER', 'RESIZE_CFG': {'RESIZE_STRATEGY': 'gradient', 'GC_RATE_D': -3e-09}, 'BALANCE_FREQUENCY': 0, 'YG_SEMISPACE_SIZE': 39}</a>
+        </td>
+      </tr>
+      <tr>
+        <td>72.54</td>
+        <td>32.69</td>
+        <td>-3e-09</td>
+        <td>
+          <a href="14.html">{'BALANCE_STRATEGY': 'YG_BALANCER', 'RESIZE_CFG': {'RESIZE_STRATEGY': 'gradient', 'GC_RATE_D': -3e-09}, 'BALANCE_FREQUENCY': 0, 'YG_SEMISPACE_SIZE': 15}</a>
+        </td>
+      </tr>
+      <tr>
+        <td>67.41</td>
+        <td>33.52</td>
+        <td>-3e-09</td>
+        <td>
+          <a href="15.html">{'BALANCE_STRATEGY': 'YG_BALANCER', 'RESIZE_CFG': {'RESIZE_STRATEGY': 'gradient', 'GC_RATE_D': -3e-09}, 'BALANCE_FREQUENCY': 0, 'YG_SEMISPACE_SIZE': 11}</a>
+        </td>
+      </tr>
+      <tr>
+        <td>69.21</td>
+        <td>29.51</td>
+        <td>-3e-09</td>
+        <td>
+          <a href="16.html">{'BALANCE_STRATEGY': 'YG_BALANCER', 'RESIZE_CFG': {'RESIZE_STRATEGY': 'gradient', 'GC_RATE_D': -3e-09}, 'BALANCE_FREQUENCY': 0, 'YG_SEMISPACE_SIZE': 33}</a>
+        </td>
+      </tr>
+      <tr>
+        <td>67.58</td>
+        <td>37.81</td>
+        <td>-3e-09</td>
+        <td>
+          <a href="17.html">{'BALANCE_STRATEGY': 'YG_BALANCER', 'RESIZE_CFG': {'RESIZE_STRATEGY': 'gradient', 'GC_RATE_D': -3e-09}, 'BALANCE_FREQUENCY': 0, 'YG_SEMISPACE_SIZE': 5}</a>
+        </td>
+      </tr>
+      <tr>
+        <td>77.0</td>
+        <td>28.62</td>
+        <td>-3e-09</td>
+        <td>
+          <a href="18.html">{'BALANCE_STRATEGY': 'YG_BALANCER', 'RESIZE_CFG': {'RESIZE_STRATEGY': 'gradient', 'GC_RATE_D': -3e-09}, 'BALANCE_FREQUENCY': 0, 'YG_SEMISPACE_SIZE': 51}</a>
+        </td>
+      </tr>
+      <tr>
+        <td>75.96</td>
+        <td>30.02</td>
+        <td>-3e-09</td>
+        <td>
+          <a href="19.html">{'BALANCE_STRATEGY': 'YG_BALANCER', 'RESIZE_CFG': {'RESIZE_STRATEGY': 'gradient', 'GC_RATE_D': -3e-09}, 'BALANCE_FREQUENCY': 0, 'YG_SEMISPACE_SIZE': 47}</a>
+        </td>
+      </tr>
+      <tr>
+        <td>67.78</td>
+        <td>30.2</td>
+        <td>-3e-09</td>
+        <td>
+          <a href="20.html">{'BALANCE_STRATEGY': 'YG_BALANCER', 'RESIZE_CFG': {'RESIZE_STRATEGY': 'gradient', 'GC_RATE_D': -3e-09}, 'BALANCE_FREQUENCY': 0, 'YG_SEMISPACE_SIZE': 31}</a>
+        </td>
+      </tr>
+      <tr>
+        <td>74.63</td>
+        <td>30.62</td>
+        <td>-3e-09</td>
+        <td>
+          <a href="21.html">{'BALANCE_STRATEGY': 'YG_BALANCER', 'RESIZE_CFG': {'RESIZE_STRATEGY': 'gradient', 'GC_RATE_D': -3e-09}, 'BALANCE_FREQUENCY': 0, 'YG_SEMISPACE_SIZE': 37}</a>
+        </td>
+      </tr>
+      <tr>
+        <td>72.65</td>
+        <td>30.73</td>
+        <td>-3e-09</td>
+        <td>
+          <a href="22.html">{'BALANCE_STRATEGY': 'YG_BALANCER', 'RESIZE_CFG': {'RESIZE_STRATEGY': 'gradient', 'GC_RATE_D': -3e-09}, 'BALANCE_FREQUENCY': 0, 'YG_SEMISPACE_SIZE': 23}</a>
+        </td>
+      </tr>
+      <tr>
+        <td>55.47</td>
+        <td>66.87</td>
+        <td>-3e-09</td>
+        <td>
+          <a href="23.html">{'BALANCE_STRATEGY': 'classic', 'RESIZE_CFG': {'RESIZE_STRATEGY': 'gradient', 'GC_RATE_D': -3e-09}, 'BALANCE_FREQUENCY': 0}</a>
+        </td>
+      </tr>
+      <tr>
+        <td>62.95</td>
+        <td>44.57</td>
+        <td>-3e-09</td>
+        <td>
+          <a href="24.html">{'BALANCE_STRATEGY': 'YG_BALANCER', 'RESIZE_CFG': {'RESIZE_STRATEGY': 'gradient', 'GC_RATE_D': -3e-09}, 'BALANCE_FREQUENCY': 0, 'YG_SEMISPACE_SIZE': 3}</a>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>

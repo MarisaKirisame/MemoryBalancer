@@ -65,6 +65,94 @@ def plot_promotion_rate_for(input_dir, strategy):
         benchmark = cfg["CFG"]["BENCH"]
     return (x_yg_promotion_rate, y_yg_semispace_size, benchmark)
 
+
+def plot_total_promoted_bytes(input_dir, strategy):
+    all_dirs = get_dirs(input_dir)
+    x_yg_promotion_rate = []
+    y_yg_semispace_size = []
+    benchmark = ""
+    for dir in all_dirs:
+        cfg = read_json(dir+"/cfg")[0]
+        tmp_strategy = cfg["CFG"]["BALANCER_CFG"]["BALANCE_STRATEGY"]
+        if strategy != tmp_strategy:
+            continue
+        files = glob.glob(dir+"*.yg.log")
+        total_promoted_byte = 0
+        total_allocated_bytes = 1
+        yg_semispace_size = 0
+        for file in files:
+            total_promoted_byte += get_all_value_for_key(file, "total_promoted_bytes")[-1]
+            total_allocated_bytes += sum(get_all_value_for_key(file, "allocated_bytes"))
+            yg_semispace_size = statistics.mean(get_all_value_for_key(file, "yg_semispace_limit"))
+        promoted_bytes = total_promoted_byte
+        x_yg_promotion_rate.append(yg_semispace_size)
+        y_yg_semispace_size.append(promoted_bytes)
+        benchmark = cfg["CFG"]["BENCH"]
+    return (x_yg_promotion_rate, y_yg_semispace_size, benchmark)
+
+def plot_promoted_bytes(input_dir, output_dir):
+    
+    strategy = ["YG_BALANCER", "classic", "ignore"]
+    color = ["red", "blue", "black"]
+    plt.figure()
+    plt.xlabel("YG semispace size")
+    plt.ylabel("Promoted bytes")
+    
+    for idx, tmp in enumerate(strategy):
+        x, y, bm = plot_total_promoted_bytes(input_dir, tmp)
+        plt.title(bm)
+        plt.scatter(x, y, label=strategy[idx], color=color[idx])
+    plt.legend(bbox_to_anchor=(.75, 1.05), loc="center left")
+    plt.savefig(output_dir+"/promoted_bytes")    
+    plt.close()  
+
+###
+
+def plot_total_survived_bytes(input_dir, strategy):
+    all_dirs = get_dirs(input_dir)
+    x_yg_promotion_rate = []
+    y_yg_semispace_size = []
+    benchmark = ""
+    for dir in all_dirs:
+        cfg = read_json(dir+"/cfg")[0]
+        tmp_strategy = cfg["CFG"]["BALANCER_CFG"]["BALANCE_STRATEGY"]
+        if strategy != tmp_strategy:
+            continue
+        files = glob.glob(dir+"*.yg.log")
+        total_promoted_byte = 0
+        total_copied_bytes = 0
+        total_allocated_bytes = 1
+        yg_semispace_size = 0
+        for file in files:
+            total_promoted_byte += get_all_value_for_key(file, "total_promoted_bytes")[-1]
+            total_copied_bytes += get_all_value_for_key(file, "total_copied_bytes")[-1]
+            total_allocated_bytes += sum(get_all_value_for_key(file, "allocated_bytes"))
+            yg_semispace_size = statistics.mean(get_all_value_for_key(file, "yg_semispace_limit"))
+        survived_bytes = total_promoted_byte + total_copied_bytes
+        x_yg_promotion_rate.append(yg_semispace_size)
+        y_yg_semispace_size.append(survived_bytes)
+        benchmark = cfg["CFG"]["BENCH"]
+    return (x_yg_promotion_rate, y_yg_semispace_size, benchmark)
+
+def plot_survived_bytes(input_dir, output_dir):
+    
+    strategy = ["YG_BALANCER", "classic", "ignore"]
+    color = ["red", "blue", "black"]
+    plt.figure()
+    plt.xlabel("YG semispace size")
+    plt.ylabel("Promoted bytes")
+    
+    for idx, tmp in enumerate(strategy):
+        x, y, bm = plot_total_survived_bytes(input_dir, tmp)
+        plt.title(bm)
+        plt.scatter(x, y, label=strategy[idx], color=color[idx])
+    plt.legend(bbox_to_anchor=(.75, 1.05), loc="center left")
+    plt.savefig(output_dir+"/survived_bytes")    
+    plt.close()
+###
+
+
+
 def plot_promotion_rate(input_dir, output_dir):
     
     strategy = ["YG_BALANCER", "classic", "ignore"]
@@ -80,6 +168,14 @@ def plot_promotion_rate(input_dir, output_dir):
     plt.legend(bbox_to_anchor=(.75, 1.05), loc="center left")
     plt.savefig(output_dir+"/promotion_rate")    
     plt.close()  
+    plot_promoted_bytes(input_dir, output_dir)
+    plot_survived_bytes(input_dir, output_dir)
+
+
+
+
+
+
 # plot_promotion_rate(arg_dir)
 
 

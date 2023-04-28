@@ -29,7 +29,7 @@ yg_semispace_sizes = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
 yg_semispace_sizes = [ 60, 55, 53, 50, 47, 45, 40, 30, 25, 20, 10, 5 ]
 yg_semispace_sizes = [ 60, 55, 50, 45, 40, 20, 10 ]
 yg_semispace_sizes = [ 50 ]
-yg_semispace_sizes = [x for x in range(1, 60, 2)]
+yg_semispace_sizes = [x for x in range(1, 70, 5)]
 
 #for testing
 # js_c_range = [3, 10, 30]
@@ -58,7 +58,7 @@ def get_cfg(balance_strategy, c_range):
 
 def BALANCER_CFG(c_range, baseline_time=1):
     
-    yg_balancer_cfg = get_cfg("YG_BALANCER", js_c_val)
+    yg_balancer_cfg = get_cfg("YG_BALANCER", c_range)
     yg_balancer_cfg["YG_SEMISPACE_SIZE"] = NONDET(*[x for x in yg_semispace_sizes])
     # yg_balancer_cfg["YG_SEMISPACE_SIZE"] = yg_semispace_size
     # yg_balancer_only = BASELINE.copy()
@@ -66,7 +66,7 @@ def BALANCER_CFG(c_range, baseline_time=1):
     # yg_balancer_only["YG_SEMISPACE_SIZE"] = NONDET(*[x for x in yg_semispace_sizes])
 
     # return QUOTE(NONDET(*[yg_balancer_cfg]))
-    return QUOTE(NONDET(*[get_cfg("classic", js_c_range)] + baseline_time * [BASELINE] + [yg_balancer_cfg]))
+    return QUOTE(NONDET(*[get_cfg("classic", c_range)] + baseline_time * [BASELINE] + [yg_balancer_cfg]))
 
 cfg_browseri = {
     "LIMIT_MEMORY": True,
@@ -144,7 +144,7 @@ cfg_acdc = {
     "TYPE": "acdc",
     "MEMORY_LIMIT": 10000,
     "BENCH": benchmark,
-    "BALANCER_CFG": BALANCER_CFG(js_c_val)
+    "BALANCER_CFG": BALANCER_CFG(acdc_c_range)
 }
 
 eval_acdc = {

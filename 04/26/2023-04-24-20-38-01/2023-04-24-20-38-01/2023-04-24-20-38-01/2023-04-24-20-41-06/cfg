@@ -1,0 +1,1 @@
+{'Description': 'Jetstream2 experiment', 'NAME': 'jetstream', 'CFG': {'LIMIT_MEMORY': True, 'DEBUG': True, 'TYPE': 'jetstream', 'MEMORY_LIMIT': 10000, 'BENCH': 'all', 'BALANCER_CFG': {'BALANCE_STRATEGY': 'ignore', 'RESIZE_CFG': {'RESIZE_STRATEGY': 'ignore'}, 'BALANCE_FREQUENCY': 0}}}

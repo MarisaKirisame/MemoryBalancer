@@ -1,0 +1,1 @@
+{'Description': 'Jetstream2 experiment', 'NAME': 'jetstream', 'CFG': {'LIMIT_MEMORY': True, 'DEBUG': True, 'TYPE': 'jetstream', 'MEMORY_LIMIT': 10000, 'BENCH': 'splay.js', 'BALANCER_CFG': {'BALANCE_STRATEGY': 'YG_BALANCER', 'RESIZE_CFG': {'RESIZE_STRATEGY': 'gradient', 'GC_RATE_D': -3e-09}, 'BALANCE_FREQUENCY': 0, 'YG_SEMISPACE_SIZE': 9}}}
